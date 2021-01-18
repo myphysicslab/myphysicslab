@@ -29,8 +29,8 @@ class CornerCornerCollision extends RigidBodyCollision {
 * @param {!Vertex} normalVertex
 */
 constructor(vertex, normalVertex) {
-  var v_edge = vertex.getEdge1();
-  var nv_edge = normalVertex.getEdge1();
+  const v_edge = vertex.getEdge1();
+  const nv_edge = normalVertex.getEdge1();
   if (v_edge == null || nv_edge == null) {
     throw "CornerCornerCollision: null edge; vertex="+vertex
       +"; normalVertex="+normalVertex;
@@ -88,15 +88,15 @@ similarTo(c) {
 /** @override */
 updateCollision(time) {
   asserts.assert( this.normalVertex != null );
-  var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
-  var pnb = this.normalBody.worldToBody(pbw);
+  const pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
+  const pnb = this.normalBody.worldToBody(pbw);
   this.impact1 = this.normalBody.bodyToWorld(this.normalVertex.locBody());
   this.distance = this.normalVertex.locBody().distanceTo(pnb);
   if (!isFinite(this.distance)) {
     throw '';
   }
   // nw = normal in world coords
-  var nv = pnb.subtract(this.normalVertex.locBody()).normalize();
+  const nv = pnb.subtract(this.normalVertex.locBody()).normalize();
   if (nv == null) {
     throw '';
   }

@@ -62,10 +62,10 @@ position of the object.
 @return {!Vector} the point in world coordinates
 */
 bodyToWorld(p_body) {
-  var rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
-  var ry = p_body.getY() - this.cm_body_.getY();
-  var vx = this.loc_world_.getX() + (rx*this.cosAngle_ - ry*this.sinAngle_);
-  var vy = this.loc_world_.getY() + (rx*this.sinAngle_ + ry*this.cosAngle_);
+  const rx = p_body.getX() - this.cm_body_.getX();  // vector from cm to p_body
+  const ry = p_body.getY() - this.cm_body_.getY();
+  const vx = this.loc_world_.getX() + (rx*this.cosAngle_ - ry*this.sinAngle_);
+  const vy = this.loc_world_.getY() + (rx*this.sinAngle_ + ry*this.cosAngle_);
   return new Vector(vx, vy);
 };
 
@@ -89,13 +89,13 @@ position of the object.
 */
 worldToBody(p_world) {
   // get the vector from cm (which is at x_world,y_world) to p_world
-  var rx = p_world.getX() - this.loc_world_.getX();
-  var ry = p_world.getY() - this.loc_world_.getY();
-  var sin = -this.sinAngle_;
-  var cos = this.cosAngle_;
+  const rx = p_world.getX() - this.loc_world_.getX();
+  const ry = p_world.getY() - this.loc_world_.getY();
+  const sin = -this.sinAngle_;
+  const cos = this.cosAngle_;
   // add the reverse-rotated vector to the cm location (in body-coords)
-  var vx = this.cm_body_.getX() + (rx*cos - ry*sin);
-  var vy = this.cm_body_.getY() + (rx*sin + ry*cos);
+  const vx = this.cm_body_.getX() + (rx*cos - ry*sin);
+  const vy = this.cm_body_.getY() + (rx*sin + ry*cos);
   return new Vector(vx, vy);
 };
 

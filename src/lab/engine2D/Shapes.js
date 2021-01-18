@@ -41,7 +41,7 @@ constructor() {
 * @return {!Polygon} a circular Polygon
 */
 static makeBall(radius, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   // Bug Note:  if this starting vertex is instead at (radius, 0) then some
   // tests fail.  See notes in the Java version of this file.
   p.startPath(new ConcreteVertex(new Vector(-radius, 0)));
@@ -63,9 +63,9 @@ is at the origin, and width is along the x-axis, height along the y-axis.
 * @return {!Polygon} a rectangular Polygon
 */
 static makeBlock(width, height, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
-  var w = width/2;
-  var h = height/2;
+  const p = new Polygon(opt_name, opt_localName);
+  const w = width/2;
+  const h = height/2;
   p.startPath(new ConcreteVertex(new Vector(-w, -h)));
   p.addStraightEdge(new Vector(w, -h), /*outsideIsUp=*/false);
   p.addStraightEdge(new Vector(w, h), /*outsideIsUp=*/true);
@@ -87,7 +87,7 @@ the origin is at the bottom left corner.
 * @return {!Polygon} a rectangular Polygon
 */
 static makeBlock2(width, height, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(0, 0)));
   p.addStraightEdge(new Vector(width, 0), /*outsideIsUp=*/false);
   p.addStraightEdge(new Vector(width, height), /*outsideIsUp=*/true);
@@ -114,12 +114,12 @@ that angled straight lines are tested.
 static makeDiamond(width, height, angle, opt_name, opt_localName) {
   if (angle < -Math.PI/2 || angle > Math.PI/2)
     throw 'angle must be within +/- pi/2';
-  var p = new Polygon(opt_name, opt_localName);
-  var w = width/2;
-  var h = height/2;
-  var cos = Math.cos(angle);
-  var sin = Math.sin(angle);
-  var v = (new Vector(-w, -h)).rotate(cos, sin);
+  const p = new Polygon(opt_name, opt_localName);
+  const w = width/2;
+  const h = height/2;
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  let v = (new Vector(-w, -h)).rotate(cos, sin);
   p.startPath(new ConcreteVertex(new Vector(v.getX(), v.getY())));
   // bottom edge
   v = (new Vector(w, -h)).rotate(cos, sin);
@@ -149,10 +149,10 @@ static makeDiamond(width, height, angle, opt_name, opt_localName) {
 * @return {!Polygon}
 */
 static makeFrame(width, height, thickness, opt_name, opt_localName) {
-  var w = width/2;
-  var h = height/2;
-  var t = thickness/2;
-  var p = new Polygon(opt_name, opt_localName);
+  const w = width/2;
+  const h = height/2;
+  const t = thickness/2;
+  const p = new Polygon(opt_name, opt_localName);
   // See 'The Nonzero Winding Rule' in JavaScript: The Definitive Guide by Flanagan
   // 6th edition, page 635, section 21.4.1 'Drawing Lines and Filling Polygons'.
   // To get this to draw correctly need to have one path going clockwise and the
@@ -183,9 +183,9 @@ static makeFrame(width, height, thickness, opt_name, opt_localName) {
 @return {!Polygon} a regular hexagon
 */
 static makeHexagon(size, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
-  var a = Math.sin(Math.PI/3);
-  var b = Math.cos(Math.PI/3);
+  const p = new Polygon(opt_name, opt_localName);
+  const a = Math.sin(Math.PI/3);
+  const b = Math.cos(Math.PI/3);
   p.startPath(new ConcreteVertex(new Vector(size*(1-b), 0)));
   p.addStraightEdge(new Vector(size*(1+b), 0), /*outsideIsUp=*/false);
   p.addStraightEdge(new Vector(size*2, size*a), /*outsideIsUp=*/false);
@@ -195,7 +195,7 @@ static makeHexagon(size, opt_name, opt_localName) {
   p.addStraightEdge(new Vector(size*(1-b), 0), /*outsideIsUp=*/false);
   p.finish();
   // approximation: circle with radius sqrt(3)/2
-  var r = Math.sqrt(3)/2;
+  const r = Math.sqrt(3)/2;
   p.setMomentAboutCM(r*r/2);
   p.setElasticity(0.8);
   return p;
@@ -213,7 +213,7 @@ is straight above.
 @return {!Polygon} a pendulum-shaped Polygon
 */
 static makePendulum(width, length, radius, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(width, radius)));
   p.addStraightEdge(new Vector(width, length+width), /*outsideIsUp=*/true);
   p.addStraightEdge(new Vector(-width, length+width), /*outsideIsUp=*/true);
@@ -225,7 +225,7 @@ static makePendulum(width, length, radius, opt_name, opt_localName) {
   p.setCenterOfMass(0, 0);
   p.setDragPoints([Vector.ORIGIN]);
   // is this right?  should it instead be moment of circle plus moment of stick?
-  var r = Math.sqrt(width*width + radius*radius);
+  const r = Math.sqrt(width*width + radius*radius);
   p.setMomentAboutCM(r*r/2);
   p.setElasticity(0.8);
   return p;
@@ -244,14 +244,11 @@ static makePolygon(points, outIsUp, moment, opt_name, opt_localName) {
   if (points.length < 3 || points.length != outIsUp.length) {
     throw '';
   }
-  var p = new Polygon(opt_name, opt_localName);
-  var v0 = points[0];
-  var v1 = v0;
-  p.startPath(new ConcreteVertex(v1));
-  for (var i=1; i<points.length; i++) {
-    var v2 = points[i];
-    p.addStraightEdge(v2, outIsUp[i-1]);
-    v1 = v2;
+  const p = new Polygon(opt_name, opt_localName);
+  const v0 = points[0];
+  p.startPath(new ConcreteVertex(v0));
+  for (let i=1; i<points.length; i++) {
+    p.addStraightEdge(points[i], outIsUp[i-1]);
   }
   p.addStraightEdge(v0, /*outsideIsUp=*/outIsUp[points.length-1]);
   p.finish();
@@ -278,29 +275,29 @@ static makeRandomPolygon(sides, radius, minAngle, maxAngle, opt_name, opt_localN
   if (maxAngle === undefined) {
     maxAngle = 3*Math.PI/sides;
   }
-  var angles = [0];
-  var sum = 0;
-  for (var i=0; i<sides-1; i++) {
+  const angles = [0];
+  let sum = 0;
+  for (let i=0; i<sides-1; i++) {
     // get a random number for each side
-    var angle = (0.5 + Shapes.RANDOM.nextFloat())*(2*Math.PI - sum)/(sides-i);
+    let angle = (0.5 + Shapes.RANDOM.nextFloat())*(2*Math.PI - sum)/(sides-i);
     // leave room for the sides yet to be chosen
-    var remain = 2*Math.PI - sum;
-    var max = Math.min(maxAngle, remain - minAngle*(sides-1 - i));
+    const remain = 2*Math.PI - sum;
+    const max = Math.min(maxAngle, remain - minAngle*(sides-1 - i));
     angle = Math.min(max, Math.max(minAngle, angle));
     angle = Math.min(2*Math.PI, sum+angle);
     angles.push(angle);
     sum = angle;
   }
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   // start point corresponds to zero angle.
-  var v0 = new Vector(radius, 0);
-  var v1 = v0;
+  const v0 = new Vector(radius, 0);
+  let v1 = v0;
   p.startPath(new ConcreteVertex(v1));
-  for (i=1; i<sides; i++) {
-    var v2 = new Vector(radius*Math.cos(angles[i]), radius*Math.sin(angles[i]));
+  for (let i=1; i<sides; i++) {
+    const v2 = new Vector(radius*Math.cos(angles[i]), radius*Math.sin(angles[i]));
     // points are added counter-clockwise. outsideIsUp is true until reaching most
     // 'westerly' point, then it is false.
-    var outsideIsUp = v2.getX() < v1.getX();
+    const outsideIsUp = v2.getX() < v1.getX();
     p.addStraightEdge(v2, outsideIsUp);
     v1 = v2;
   }
@@ -324,9 +321,9 @@ static makeRoundBlock(width, height, opt_name, opt_localName) {
   if (height < width) {
     throw 'Height must be greater than width.';
   }
-  var p = new Polygon(opt_name, opt_localName);
-  var w = width/2;
-  var h = height/2;
+  const p = new Polygon(opt_name, opt_localName);
+  const w = width/2;
+  const h = height/2;
   p.startPath(new ConcreteVertex(new Vector(-w, -h+w)));
   p.addCircularEdge(/*end-point=*/new Vector(w, -h+w), /*center=*/new Vector(0, -h+w),
     /*clockwise=*/false, /*outsideIsOut=*/true);
@@ -351,13 +348,13 @@ is at the origin, and width is along the x-axis, height along the y-axis.
 @return {!Polygon} a block with round corners
 */
 static makeRoundCornerBlock(width, height, radius, opt_name, opt_localName) {
-  var w = width/2;
-  var h = height/2;
-  var r = radius;
+  const w = width/2;
+  const h = height/2;
+  const r = radius;
   if (r > w || r > h) {
     throw 'radius must be less than half of width or height';
   }
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   p.startPath(new ConcreteVertex(new Vector(-w+r, -h)));
   p.addStraightEdge(new Vector(w-r, -h), /*outsideIsUp=*/false);
   p.addCircularEdge(/*end-point=*/new Vector(w, -h+r), /*center=*/new Vector(w-r, -h+r),
@@ -395,8 +392,8 @@ See {@link Polygon#getSpecialNormalWorld}.
 static makeWall(width, height, edgeIndex, opt_name, opt_localName) {
   if (edgeIndex < 0 || edgeIndex > 3)
     throw '';
-  var w = Shapes.makeBlock(width, height, opt_name, opt_localName);
-  var r;
+  const w = Shapes.makeBlock(width, height, opt_name, opt_localName);
+  let r;
   if (edgeIndex == Shapes.BOTTOM_EDGE || edgeIndex == Shapes.TOP_EDGE) {
     r = w.getHeight()/2;
   } else {

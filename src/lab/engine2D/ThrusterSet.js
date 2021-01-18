@@ -94,7 +94,7 @@ toStringShort() {
 * @return {boolean} true if any thrusters in the ThrusterSet are firing
 */
 anyActive() {
-  for (var i=0; i<this.active_.length; i++) {
+  for (let i=0; i<this.active_.length; i++) {
     if (this.active_[i])
       return true;
   }
@@ -103,12 +103,12 @@ anyActive() {
 
 /** @override */
 calculateForces() {
-  var forces = [];
-  for (var k=0; k<this.active_.length; k++) {  // for each thruster
+  const forces = [];
+  for (let k=0; k<this.active_.length; k++) {  // for each thruster
     if (this.active_[k]) {
-      var v_world = this.rigidBody_.rotateBodyToWorld(this.getDirectionBody(k));
-      var p_world = this.rigidBody_.bodyToWorld(this.getLocationBody(k));
-      var f = new Force('thruster'+k, this.rigidBody_,
+      const v_world = this.rigidBody_.rotateBodyToWorld(this.getDirectionBody(k));
+      const p_world = this.rigidBody_.bodyToWorld(this.getLocationBody(k));
+      const f = new Force('thruster'+k, this.rigidBody_,
           /*location=*/p_world, CoordType.WORLD,
           /*direction=*/v_world, CoordType.WORLD);
       forces.push(f);

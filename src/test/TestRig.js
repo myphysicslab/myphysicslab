@@ -55,8 +55,7 @@ static getMachineName() {
     }
   }
   if (Util.DEBUG) {
-    console.log('TestRig.getMachineName: not defined '
-        +TestRig.machineName);
+    console.log('TestRig.getMachineName: not defined '+TestRig.machineName);
   }
   return 'UNKNOWN_MACHINE';
 };

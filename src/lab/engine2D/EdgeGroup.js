@@ -56,7 +56,7 @@ add(edgeRange) {
 
 /** @override */
 contains(edge) {
-  for (var i=0, len=this.ranges_.length; i<len; i++) {
+  for (let i=0, len=this.ranges_.length; i<len; i++) {
     if (this.ranges_[i].contains(edge)) {
       return true;
     }

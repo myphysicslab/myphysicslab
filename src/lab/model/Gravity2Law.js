@@ -147,7 +147,7 @@ calculateForces() {
         continue;  // go to next body2
       const vector = body1cm.subtract(body2.getPosition());
       const r = vector.length();
-      const direction = vector.normalize();
+      let direction = vector.normalize();
       if (direction != null) {
         direction = direction.multiply(this.gravity_ * m1 * m2 / (r * r));
         forces.push(new Force('gravity', body1,

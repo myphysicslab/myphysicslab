@@ -51,15 +51,14 @@ are named according to the constants {@link #WALL_BOTTOM}, {@link #WALL_TOP},
 @return {number} suggested zero potential energy level -- the top of the bottom wall.
 */
 static make(sim, width, height, opt_thickness, opt_center) {
-  var center = opt_center || Vector.ORIGIN;
-  var thickness = opt_thickness || 1;
-  var i, j;
-  var zel = 0;
+  const center = opt_center || Vector.ORIGIN;
+  const thickness = opt_thickness || 1;
+  let zel = 0;
   /** @type {!Array<!Polygon>} */
-  var walls = [];
-  for (i=0; i<4; i++) {
+  const walls = [];
+  for (let i=0; i<4; i++) {
     /** @type {?Polygon} */
-    var bodyi = null;
+    let bodyi = null;
     switch (i) {
       case 0:
         bodyi = Shapes.makeWall(width+2*thickness, thickness, Shapes.TOP_EDGE,
@@ -95,7 +94,7 @@ static make(sim, width, height, opt_thickness, opt_center) {
     }
   }
   // set each wall to not collide with any other wall
-  for (i=0; i<walls.length; i++) {
+  for (let i=0; i<walls.length; i++) {
     walls[i].addNonCollide(walls);
   }
   return zel;

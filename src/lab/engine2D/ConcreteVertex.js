@@ -104,18 +104,18 @@ locBodyY() {
 /** @override */
 highlight() {
   if (this.edge_ != null && UtilEngine.debugEngine2D != null) {
-    var w1 = this.edge_.getBody().bodyToWorld(this.loc_body_);
+    const w1 = this.edge_.getBody().bodyToWorld(this.loc_body_);
     UtilEngine.debugEngine2D.debugCircle('dot', w1, 0.06);
   }
 };
 
 /** @override */
 getCurvature() {
-  var r = Util.POSITIVE_INFINITY;
+  let r = Util.POSITIVE_INFINITY;
   if (this.edge_ != null) {
     r = this.edge_.getCurvature(this.loc_body_);
     if (this.edge2_ != null) {
-      var r2 = this.edge2_.getCurvature(this.loc_body_);
+      const r2 = this.edge2_.getCurvature(this.loc_body_);
       if (Math.abs(r2) < Math.abs(r)) {
         r = r2;
       }

@@ -40,12 +40,12 @@ constructor() {
 * @param {!CircularEdge} normalCircle
 */
 static improveAccuracy(rbc, other, normalCircle) {
-  var otherBody = other.getBody();
-  var normalBody = normalCircle.getBody();
+  const otherBody = other.getBody();
+  const normalBody = normalCircle.getBody();
   asserts.assert( rbc.getPrimaryBody() == otherBody);
   asserts.assert( rbc.getNormalBody() == normalBody);
-  var oldX = rbc.impact1.getX();
-  var oldY = rbc.impact1.getY();
+  const oldX = rbc.impact1.getX();
+  const oldY = rbc.impact1.getY();
   if (0 == 1 && Util.DEBUG) console.log('before improveAccuracy '+rbc);
   // The scenario is:  collision between two circles happened, it was detected
   // from one (or more?) vertex of the other circle crossing the normalCircle edge.
@@ -58,14 +58,14 @@ static improveAccuracy(rbc, other, normalCircle) {
   }
   // ??? does this work when one is concave???
   // cnw = center of normalCircle in world coords
-  var cnw = normalBody.bodyToWorld(normalCircle.getCenterBody());
+  const cnw = normalBody.bodyToWorld(normalCircle.getCenterBody());
   // cow = center of other in world coords
-  var cow = otherBody.bodyToWorld(other.getCenterBody());
+  const cow = otherBody.bodyToWorld(other.getCenterBody());
   // cob = center of other in normalCircle's body coords
-  var cob = normalBody.worldToBody(cow);
+  const cob = normalBody.worldToBody(cow);
   // coe = center of other in normalCircle's edge coords
-  var coe = normalCircle.bodyToEdge(cob);
-  var len = coe.length();
+  const coe = normalCircle.bodyToEdge(cob);
+  const len = coe.length();
   // if distance between the center of self circle and center of the other circle is
   // less than sum of the radiuses, then collision.
   // distance between edges.  Negative implies penetration.
@@ -91,9 +91,9 @@ static improveAccuracy(rbc, other, normalCircle) {
     throw Util.DEBUG ? ('distance should be negative '+rbc) : '';
   }
   // ne = normal in normalCircle's edge coords
-  var ne = coe.multiply(1/len);
+  let ne = coe.multiply(1/len);
   // pw = point of impact in world coords
-  var pw = normalCircle.edgeToWorld(ne.multiply(normalCircle.getRadius()));
+  const pw = normalCircle.edgeToWorld(ne.multiply(normalCircle.getRadius()));
   rbc.impact1 = pw;
   // fix normal for concave
   if (!normalCircle.outsideIsOut()) {
@@ -135,7 +135,6 @@ Edge/Edge calculation.
 * @param {number} time current simulation time
 */
 static testCollision(collisions, self, other, time) {
-  var distance, len;
   if (UtilityCollision.DISABLE_EDGE_EDGE)
     return;
   if (!self.outsideIsOut() && !other.outsideIsOut()) {
@@ -143,25 +142,25 @@ static testCollision(collisions, self, other, time) {
     return;
   } else if (self.outsideIsOut() && other.outsideIsOut()) { // both edges are convex
     // csw = center of self in world coords
-    var csw = self.getBody().bodyToWorld(self.getCenterBody());
+    const csw = self.getBody().bodyToWorld(self.getCenterBody());
     // the center of other arc must be within self arc, and vice versa
     if (!other.isWithinArc2(csw))
       return;
     // cow = center of other in world coords
-    var cow = other.getBody().bodyToWorld(other.getCenterBody());
+    const cow = other.getBody().bodyToWorld(other.getCenterBody());
     // cob = center of other in self's body coords
-    var cob = self.getBody().worldToBody(cow);
+    const cob = self.getBody().worldToBody(cow);
     // coe = center of other in self's edge coords
-    var coe = self.bodyToEdge(cob);
+    const coe = self.bodyToEdge(cob);
     if (!self.isWithinArc(coe))
       return;
-    len = coe.length();
-    var r1 = other.getRadius();
-    var r2 = self.getRadius();
+    const len = coe.length();
+    const r1 = other.getRadius();
+    const r2 = self.getRadius();
     // if distance between the center of self circle and center of the other circle is
     // less than sum of the radiuses, then collision.
     // distance between edges.  Negative implies penetration.
-    distance = len - (r1 + r2);
+    const distance = len - (r1 + r2);
     if (distance > self.getBody().getDistanceTol())
       return;
     if (distance > 0) {
@@ -169,7 +168,7 @@ static testCollision(collisions, self, other, time) {
         distance, len, coe, time);
       return;
     }
-    var maxDepth = other.depthOfArc() > self.depthOfArc() ?
+    const maxDepth = other.depthOfArc() > self.depthOfArc() ?
         other.depthOfArc() : self.depthOfArc();
     // ASSUMPTION:  circular concave edges that are interpenetrating more than
     // maxDepth are not really colliding.  Note that this can be wrong for
@@ -181,8 +180,8 @@ static testCollision(collisions, self, other, time) {
       distance, len, coe, time);
   } else {  // one edge is concave, other edge is convex
     asserts.assert( self.outsideIsOut() != other.outsideIsOut() );
-    var convex = self.outsideIsOut() ? self : other;
-    var concave = self.outsideIsOut() ? other : self;
+    const convex = self.outsideIsOut() ? self : other;
+    const concave = self.outsideIsOut() ? other : self;
     // must have concave radius > convex radius
     if (convex.getRadius() > concave.getRadius()) {
       return;
@@ -190,23 +189,23 @@ static testCollision(collisions, self, other, time) {
     // u = concave, n = convex
     // (analogy to convex/convex:  self = concave = u;  other = convex = n)
     // cuw = center of concave in world coords
-    var cuw = concave.getBody().bodyToWorld(concave.getCenterBody());
+    const cuw = concave.getBody().bodyToWorld(concave.getCenterBody());
     // the center of concave must be within reflected arc of convex
     if (!convex.isWithinReflectedArc2(cuw))
       return;
     // cnw = center of convex in world coords
-    var cnw = convex.getBody().bodyToWorld(convex.getCenterBody());
+    const cnw = convex.getBody().bodyToWorld(convex.getCenterBody());
     // cnb = center of convex in concave body coords
-    var cnb = concave.getBody().worldToBody(cnw);
+    const cnb = concave.getBody().worldToBody(cnw);
     // cne = center of convex in concave edge coords
-    var cne = concave.bodyToEdge(cnb);
+    const cne = concave.bodyToEdge(cnb);
     // the center of convex must be within arc of concave
     if (!concave.isWithinArc(cne))
       return;
-    len = cne.length();
+    const len = cne.length();
     // Find distance between curved edges.
     // distance between edges.  Negative implies penetration.
-    distance = concave.getRadius() - convex.getRadius() - len;
+    const distance = concave.getRadius() - convex.getRadius() - len;
     if (distance > self.getBody().getDistanceTol())
       return;
     if (distance > 0) {
@@ -234,15 +233,15 @@ static testCollision(collisions, self, other, time) {
 * @private
 */
 static addCollision(contact, collisions, self, other, distance, len, coe, time) {
-  var rbc = new EdgeEdgeCollision(other, self);
+  const rbc = new EdgeEdgeCollision(other, self);
   rbc.distance = distance;
   rbc.ballNormal = true;
   rbc.ballObject = true;
   rbc.creator = Util.DEBUG ? 'CircleCircle' : '';
   // ne = normal in self's edge coords
-  var ne = coe.multiply(1/len);
+  let ne = coe.multiply(1/len);
   // pw = point of impact in world coords
-  var pw = self.edgeToWorld(ne.multiply(self.getRadius()));
+  const pw = self.edgeToWorld(ne.multiply(self.getRadius()));
   rbc.impact1 = pw;
   if (!self.outsideIsOut()) {
     ne = ne.multiply(-1);

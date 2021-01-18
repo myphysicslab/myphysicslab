@@ -47,36 +47,36 @@ positions and velocities of the RigidBodys.
 * @param {!StraightEdge} straight
 */
 static improveAccuracy(rbc, circle, straight) {
-  var circleBody = circle.getBody();
-  var straightBody = straight.getBody();
+  const circleBody = circle.getBody();
+  const straightBody = straight.getBody();
   asserts.assert( rbc.getPrimaryBody() == circleBody);
   asserts.assert( rbc.getNormalBody() == straightBody);
-  var oldX = rbc.impact1.getX();
-  var oldY = rbc.impact1.getY();
+  const oldX = rbc.impact1.getX();
+  const oldY = rbc.impact1.getY();
   // The scenario is:  collision between a circle and straight happened,
   // it was detected from one (or more) vertex of the circle edge crossing
   // the straight line.
   // Now we want to find the closest point on the circle edge, instead of the vertex.
   // Find nearest point on circle to edge, and the normal to the straight edge.
   // cw = center in world coords
-  var cw = circleBody.bodyToWorld(circle.getCenterBody());
+  const cw = circleBody.bodyToWorld(circle.getCenterBody());
   // cb = center in straight body coords
-  var cb = straightBody.worldToBody(cw);
+  const cb = straightBody.worldToBody(cw);
   // confusing:  two different ways of calculating the point of impact
-  var pb2 = straight.pointOffset(cb, -circle.getRadius());
+  const pb2 = straight.pointOffset(cb, -circle.getRadius());
   // pb = point of impact in straight body coords
   // Calculate impact point same as testCollision (different for contact)
-  var pb;
+  let pb;
   if (rbc.contact())
     pb = straight.projectionOntoLine(cb);
   else
     pb = pb2;
   // pw = point of impact in world coords
-  var pw = straightBody.bodyToWorld(pb);
+  const pw = straightBody.bodyToWorld(pb);
   // nb = normal in body coords
-  var nb = straight.getNormalBody(pb);
+  const nb = straight.getNormalBody(pb);
   // nw = normal in world coords
-  var nw = straightBody.rotateBodyToWorld(nb);
+  const nw = straightBody.rotateBodyToWorld(nb);
   //console.log('improveAccuracy '+Util.hypot(rbc.impact1.getX() - pw[0],
   //   rbc.impact1.getY() - pw[1]));
   // always use pb2 here; even for contact, otherwise get zero distance
@@ -110,23 +110,23 @@ static testCollision(collisions, straight, circle, time) {
   }
   // (Only looking for edge/edge collisions here, not corner collisions.)
   // cw = center of circle in world coords
-  var cw = circle.getBody().bodyToWorld(circle.getCenterBody());
+  const cw = circle.getBody().bodyToWorld(circle.getCenterBody());
   // cb = center in straight body coords
-  var cb = straight.getBody().worldToBody(cw);
+  const cb = straight.getBody().worldToBody(cw);
   // pb = point of impact on circle in straight body coords
   // if not penetrating, pb = point on circle closest to straight edge
   // if penetrating, pb = point on circle furthest penetrating
-  var pb = straight.pointOffset(cb, -circle.getRadius());
+  const pb = straight.pointOffset(cb, -circle.getRadius());
   // pw = point of impact in world coords
-  var pw = straight.getBody().bodyToWorld(pb);
-  var dist = straight.distanceToLine(pb);
+  const pw = straight.getBody().bodyToWorld(pb);
+  const dist = straight.distanceToLine(pb);
   // negative distance means:  the CircularEdge is currently penetrating StraightEdge
   if (dist > 0) {
     if (dist > straight.getBody().getDistanceTol()) {
       return;
     }
     // possible contact.  Is the point 'next to' the straight edge, or past it?
-    var dist2 = straight.distanceToPoint(pb);
+    const dist2 = straight.distanceToPoint(pb);
     if (dist2 == Util.POSITIVE_INFINITY) { // center is not 'next to' the edge
       return;
     }
@@ -140,20 +140,20 @@ static testCollision(collisions, straight, circle, time) {
     // Find the impact point on the straight edge.
     // For some reason, this results in stable circle/edge contact,
     // whereas using point on circle is not as stable.
-    pb = straight.projectionOntoLine(cb);
-    pw = straight.getBody().bodyToWorld(pb);
+    const pb2 = straight.projectionOntoLine(cb);
+    const pw2 = straight.getBody().bodyToWorld(pb2);
     CircleStraight.addCollision(/*contact=*/true, collisions, straight, circle,
-        dist, pw, pb, time);
+        dist, pw2, pb2, time);
     return;
   }
 
   // pb0 = previous (old) impact point, in straight body coords
-  var pb0;
+  let pb0;
   {
-    var circleBody = circle.getBody();
-    var straightBody = straight.getBody();
-    var circleOldCoords = circleBody.getOldCoords();
-    var straightOldCoords = straightBody.getOldCoords();
+    const circleBody = circle.getBody();
+    const straightBody = straight.getBody();
+    const circleOldCoords = circleBody.getOldCoords();
+    const straightOldCoords = straightBody.getOldCoords();
     // either both should be null or both should be non-null
     if (circleOldCoords == null || straightOldCoords == null) {
       if (straightOldCoords != null || circleOldCoords != null) {
@@ -163,9 +163,9 @@ static testCollision(collisions, straight, circle, time) {
     }
     // find the equivalent point on the old body
     // cw0 = previous (old) ball's center in world coords;
-    var cw0 = circleOldCoords.bodyToWorld(circle.getCenterBody());
+    const cw0 = circleOldCoords.bodyToWorld(circle.getCenterBody());
     // cb0 = previous (old) ball's center in old straight body coords
-    var cb0 = straightOldCoords.worldToBody(cw0);
+    const cb0 = straightOldCoords.worldToBody(cw0);
     // BUG?  not totally sure about this:
     // use current normal to offset pb0, should use old normal?
     // Probably OK, because the Edge does NOT change in body coords, only the
@@ -179,9 +179,9 @@ static testCollision(collisions, straight, circle, time) {
     // This next section checks the endpoints of the arc.
     // (?? seems like an excessive amount of work)
     // pw0 = previous (old) impact point in world coords
-    var pw0 = straightOldCoords.bodyToWorld(pb0);
+    let pw0 = straightOldCoords.bodyToWorld(pb0);
     // pcb0 = previous (old) impact point in circle body old coords
-    var pcb0 = circleOldCoords.worldToBody(pw0);
+    let pcb0 = circleOldCoords.worldToBody(pw0);
     // if pb0 is not within the arc (on body_old), change pb0 to be the
     // nearest corner of body_old circle.
     // ???  OR JUST REJECT THIS COLLISION IF PCB0 IS NOT IN ARC OF CIRCLE?
@@ -194,7 +194,7 @@ static testCollision(collisions, straight, circle, time) {
   // distance should have been positive in the old position, relative to straight edge
   // if distance was negative, then it started out on wrong side of straight edge,
   // so no collision
-  var dist0 = straight.distanceToLine(pb0);
+  const dist0 = straight.distanceToLine(pb0);
   if (dist0 < 0) {
     return;
   }
@@ -205,13 +205,13 @@ static testCollision(collisions, straight, circle, time) {
     return;
   }
   // This is an approximation of the intersection point!  Assumes straight line motion.
-  var r = straight.intersection(pb, pb0);
+  const r = straight.intersection(pb, pb0);
   if (r == null) {
     return;
   }
   if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     // add a visible dot
-    var t = straight.getBody().bodyToWorld(r[0]);
+    const t = straight.getBody().bodyToWorld(r[0]);
     UtilEngine.debugEngine2D.debugCircle('dot', t, 0.08);
   }
   CircleStraight.addCollision(/*contact=*/false, collisions, straight, circle, dist,
@@ -230,7 +230,7 @@ static testCollision(collisions, straight, circle, time) {
 * @private
 */
 static addCollision(contact, collisions, straight, circle, dist, pw, pb, time) {
-  var rbc = new EdgeEdgeCollision(circle, straight);
+  const rbc = new EdgeEdgeCollision(circle, straight);
   asserts.assert( circle.outsideIsOut() );
   rbc.ballNormal = false;
   rbc.ballObject = true;

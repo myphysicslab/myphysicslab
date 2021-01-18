@@ -194,7 +194,7 @@ getClassName() {
 
 /** @override */
 addCollision(collisions, time, accuracy) {
-  var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/true);
+  const c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
   if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
@@ -263,7 +263,7 @@ getNormal() {
 
 /** @override */
 getNormalDistance() {
-  var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
+  const collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
   return collisions[0].getDistance();
 };
@@ -303,16 +303,16 @@ updateCollision(c) {
     throw '';
   if (c.getConnector() != this)
     throw '';
-  var impact_world = this.body1_.bodyToWorld(this.attach1_body_);
+  const impact_world = this.body1_.bodyToWorld(this.attach1_body_);
   c.impact1 = impact_world;
   c.normalFixed = this.normalType_ == CoordType.WORLD;
-  var normal_world = this.getNormalWorld();
+  const normal_world = this.getNormalWorld();
   asserts.assert( Math.abs(normal_world.lengthSquared() - 1.0) < 1E-10 );
   c.impact2 = this.body2_.bodyToWorld(this.attach2_body_);
   c.normal = normal_world;
   // offset = how far apart the joint is, ideally zero
   asserts.assert(c.impact2 != null );
-  var offset = c.impact1.subtract(c.impact2);
+  const offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'Joint';
 };

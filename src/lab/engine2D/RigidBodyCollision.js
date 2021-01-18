@@ -249,7 +249,7 @@ constructor(body, normalBody, joint) {
   * @private
   */
   this.targetGap_ = joint ? 0 : this.distanceTol_/2;
-  var acc = Math.max(body.getAccuracy(), normalBody.getAccuracy());
+  const acc = Math.max(body.getAccuracy(), normalBody.getAccuracy());
   if (acc <= 0 || acc > 1) {
     throw 'accuracy must be between 0 and 1, is '+acc;
   }
@@ -548,7 +548,7 @@ getImpulse() {
 getLateralVelocity() {
   // the perpendicular vector to normal is:  (-normal.getY(), normal.getX())
   // or (normal.getY(), -normal.getX())
-  var perp = new Vector(-this.normal.getY(), this.normal.getX());
+  const perp = new Vector(-this.normal.getY(), this.normal.getX());
   return perp.dotProduct(this.getRelativeVelocity());
 };
 
@@ -592,7 +592,7 @@ getR1() {
 * in world coords
 */
 getR2() {
-  var impact = this.impact2 ? this.impact2 : this.impact1;
+  const impact = this.impact2 ? this.impact2 : this.impact1;
   return impact.subtract(this.normalBody.getPosition());
 };
 
@@ -626,27 +626,27 @@ distance at all.
 * @package
 */
 getRelativeVelocity() {
-  var vax = 0;
-  var vay = 0;
-  var vbx = 0;
-  var vby = 0;
+  let vax = 0;
+  let vay = 0;
+  let vbx = 0;
+  let vby = 0;
   if (isFinite(this.primaryBody.getMass())) {
-    var r1 = this.getU1();
-    var rax = r1.getX();
-    var ray = r1.getY();
+    const r1 = this.getU1();
+    const rax = r1.getX();
+    const ray = r1.getY();
     asserts.assert(isFinite(rax) && isFinite(ray), 'not a number: rax, ray');
-    var va = this.primaryBody.getVelocity();
-    var wa = this.primaryBody.getAngularVelocity();
+    const va = this.primaryBody.getVelocity();
+    const wa = this.primaryBody.getAngularVelocity();
     vax = va.getX() - wa*ray;
     vay = va.getY() + wa*rax;
   }
   if (isFinite(this.normalBody.getMass())) {
-    var r2 = this.getU2();
-    var rbx = r2.getX();
-    var rby = r2.getY();
+    const r2 = this.getU2();
+    const rbx = r2.getX();
+    const rby = r2.getY();
     asserts.assert(isFinite(rbx) && isFinite(rby), 'not a number: rbx, rby');
-    var vb = this.normalBody.getVelocity();
-    var wb = this.normalBody.getAngularVelocity();
+    const vb = this.normalBody.getVelocity();
+    const wb = this.normalBody.getAngularVelocity();
     vbx = vb.getX() - wb*rby;
     vby = vb.getY() + wb*rbx;
   }
@@ -752,7 +752,7 @@ setDetectedTime(time) {
   }
   this.detectedTime_ = time;
   this.detectedDistance_ = this.distance;
-  var nv = this.getNormalVelocity();
+  const nv = this.getNormalVelocity();
   this.detectedVelocity_ = nv;
   this.estimate_ = Util.NaN;
   if (!this.joint) {
@@ -851,12 +851,12 @@ updateCollision(time) {
 * @private
 */
 updateEstimatedTime(time, doUpdate) {
-  var t1 = time;
-  var t2 = this.detectedTime_;
-  var d1 = this.distance;
-  var v1 = this.getNormalVelocity();
-  var v2 = this.detectedVelocity_;
-  var h = t2 - t1;
+  const t1 = time;
+  const t2 = this.detectedTime_;
+  const d1 = this.distance;
+  const v1 = this.getNormalVelocity();
+  const v2 = this.detectedVelocity_;
+  const h = t2 - t1;
   if (h <= 1E-12) {
     if (0 == 1)
       console.log(Util.NF7(time)+' CANNOT UPDATE ESTIMATE '
@@ -864,19 +864,19 @@ updateEstimatedTime(time, doUpdate) {
         +' '+this.toString());
     return;
   }
-  var a = (v2 - v1)/h;
+  const a = (v2 - v1)/h;
   // if acceleration is too small, then stick with existing estimate
   if (Math.abs(a) < 1E-12) {
     return;
   }
   // e1 and e2 combine both pre and post backup estimates
   // there are 2 estimates because they are solutions of a quadratic equation.
-  var det = Math.sqrt(v1*v1 - 2*a*(d1 - this.targetGap_));
-  var e1 = t1 + (-v1 + det)/a;
-  var e2 = t1 + (-v1 - det)/a;
+  const det = Math.sqrt(v1*v1 - 2*a*(d1 - this.targetGap_));
+  const e1 = t1 + (-v1 + det)/a;
+  const e2 = t1 + (-v1 - det)/a;
   if (doUpdate) {
-    var didUpdate = false;
-    var oldEstimate = this.estimate_;
+    let didUpdate = false;
+    const oldEstimate = this.estimate_;
     // only use one of the estimates if between t1 and t2.  Use earlier of e1, e2.
     if (e1 > t1 && e1 < t2) {
       this.estimate_ = e1;

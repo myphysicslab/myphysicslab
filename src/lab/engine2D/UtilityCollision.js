@@ -88,9 +88,9 @@ static addCollision(collisions, c2) {
   if (c2==null) {
     throw '';
   }
-  var removeMe = new Array();
-  var better = null; // it is a RigidBodyCollision
-  var shouldAdd = true;
+  const removeMe = new Array();
+  let better = null; // it is a RigidBodyCollision
+  let shouldAdd = true;
   if (!c2.joint) {
     if (!isFinite(c2.distance)) {
       throw 'distance is NaN '+c2;
@@ -105,8 +105,8 @@ static addCollision(collisions, c2) {
       // A typical case is to have a penetrating collision, and then after
       // backup we find similar collision 'statically' before penetration.
       // The first one has better estimate of velocity, so prefer that one.
-      var time1 = c1.getDetectedTime();
-      var time2 = c2.getDetectedTime();
+      const time1 = c1.getDetectedTime();
+      const time2 = c2.getDetectedTime();
       asserts.assert(isFinite(time1));
       asserts.assert(isFinite(time2));
       if (time1 > time2 + 1e-14) {
@@ -161,8 +161,8 @@ static addCollision(collisions, c2) {
 */
 static checkVertexes(collisions, body1, body2, time) {
   // get centroid of body1 in body coords of body2.
-  var c = body2.worldToBody(body1.getCentroidWorld());
-  var specialNormal = body1.getSpecialNormalWorld();
+  const c = body2.worldToBody(body1.getCentroidWorld());
+  let specialNormal = body1.getSpecialNormalWorld();
   if (specialNormal != null) {
     specialNormal = body2.rotateWorldToBody(specialNormal);
     if (Util.DEBUG)
@@ -174,11 +174,11 @@ static checkVertexes(collisions, body1, body2, time) {
       return;
     }
     // get position of Vertex v2 in body1 coords
-    var nowVertex = body1.worldToBody(body2.bodyToWorld(v2.locBody()));
-    var oldVertex = nowVertex;
-    var travelDistSqr = 0;
-    var bodyOld1 = body1.getOldCoords();
-    var bodyOld2 = body2.getOldCoords();
+    const nowVertex = body1.worldToBody(body2.bodyToWorld(v2.locBody()));
+    let oldVertex = nowVertex;
+    let travelDistSqr = 0;
+    const bodyOld1 = body1.getOldCoords();
+    const bodyOld2 = body2.getOldCoords();
     // either both should be null or both should be non-null
     if (bodyOld1 != null && bodyOld2 != null) {
       // get old position of Vertex v2 in old-body1 coords
@@ -193,7 +193,7 @@ static checkVertexes(collisions, body1, body2, time) {
     // so we can avoid computationally expensive sqrt()
     // by substituting 0.1 for travel distance in that case.
     // @todo use a parameter here instead of 0.1, because 'small' depends on sim.
-    var travelDist = travelDistSqr > 0.01 ? Math.sqrt(travelDistSqr) : 0.1;
+    const travelDist = travelDistSqr > 0.01 ? Math.sqrt(travelDistSqr) : 0.1;
     // Set travelDist = 0 here to turn off the proximity test below; this is
     // useful for devising tests where an object passes thru another object
     // in a single time step; see for example SpeedTest.
@@ -205,8 +205,8 @@ static checkVertexes(collisions, body1, body2, time) {
       // ? to do? seems like don't need special max radius, just need a negative
       // normal distance (or less than distance tol) and then you have a collision;
       // for positive normal distance (more than distance tol) can't have collision!
-      var dist = v2.locBody().subtract(c).dotProduct(specialNormal);
-      var dist2 = body1.getCentroidRadius() + body1.getDistanceTol();
+      const dist = v2.locBody().subtract(c).dotProduct(specialNormal);
+      const dist2 = body1.getCentroidRadius() + body1.getDistanceTol();
       if (dist > dist2)
         return;
     } else {
@@ -216,9 +216,9 @@ static checkVertexes(collisions, body1, body2, time) {
       // If the vertex collided with the a point on periphery of body1,
       // the furthest the vertex can be from the centroid is:
       //    maxRadius + travelDist
-      var maxRadius = body1.getCentroidRadius() + body1.getDistanceTol() +  travelDist;
-      var maxRadiusSqr = maxRadius * maxRadius;
-      var dist = v2.locBody().subtract(c).lengthSquared();
+      const maxRadius = body1.getCentroidRadius() + body1.getDistanceTol() +  travelDist;
+      const maxRadiusSqr = maxRadius * maxRadius;
+      const dist = v2.locBody().subtract(c).lengthSquared();
       if (dist > maxRadiusSqr) {
         //console.log('not proximate '+dist+' '+maxRadiusSqr+' '+travelDist);
         return;
@@ -254,10 +254,10 @@ static intersectionPossible(body1, body2, swellage) {
     return UtilityCollision.intersectionPossibleSpecial(body2, body1, swellage);
   } else {
     // regular proximity test
-    var dist = body2.getCentroidWorld()
+    const dist = body2.getCentroidWorld()
                   .subtract(body1.getCentroidWorld())
                   .lengthSquared();
-    var a = body2.getCentroidRadius() + body1.getCentroidRadius() + swellage;
+    const a = body2.getCentroidRadius() + body1.getCentroidRadius() + swellage;
     return dist < a*a;
   }
 }
@@ -273,13 +273,13 @@ distance that is normal to the edge.
 @package
 */
 static intersectionPossibleSpecial(poly1, poly2, swellage) {
-  var specialNormal = poly1.getSpecialNormalWorld();
+  const specialNormal = poly1.getSpecialNormalWorld();
   if (specialNormal == null)
     throw '';
-  var dist1 = poly2.getCentroidWorld().subtract(poly1.getCentroidWorld())
+  const dist1 = poly2.getCentroidWorld().subtract(poly1.getCentroidWorld())
                 .dotProduct(specialNormal);
   // use the special maximum radius for this test
-  var dist2 = poly2.getCentroidRadius() + poly1.getCentroidRadius() + swellage;
+  const dist2 = poly2.getCentroidRadius() + poly1.getCentroidRadius() + swellage;
   if (Util.DEBUG) {
     UtilityCollision.specialNormalRotate++;
   }
@@ -296,13 +296,13 @@ static intersectionPossibleSpecial(poly1, poly2, swellage) {
 @private
 */
 static makeCollision(collisions, edge, vertex, e_body, p_body, time) {
-  var c = new CornerEdgeCollision(vertex, edge);
-  var v_edge = vertex.getEdge1();
+  const c = new CornerEdgeCollision(vertex, edge);
+  const v_edge = vertex.getEdge1();
   if (v_edge == null) {
     throw '';
   }
-  var primaryBody = v_edge.getBody();
-  var normalBody = edge.getBody();
+  const primaryBody = v_edge.getBody();
+  const normalBody = edge.getBody();
   c.distance = edge.distanceToLine(p_body);
   // How this can happen:  if body2 is a circle, it could be that the old and new
   // corner points are within the square bounding box, but outside of the circle.
@@ -317,10 +317,10 @@ static makeCollision(collisions, edge, vertex, e_body, p_body, time) {
     return;
   // ERN Feb 15 2011:  use the intersection point on the edge instead of the corner
   // e_world = edge intersection point in world coords
-  var e_world = normalBody.bodyToWorld(e_body);
+  const e_world = normalBody.bodyToWorld(e_body);
   c.impact1 = e_world;
   // n_world = normal in world coords
-  var n_world = normalBody.rotateBodyToWorld(edge.getNormalBody(e_body));
+  const n_world = normalBody.rotateBodyToWorld(edge.getNormalBody(e_body));
   c.normal = n_world;
   c.radius2 = edge.getCurvature(e_body);
   c.ballNormal = isFinite(c.radius2);
@@ -336,7 +336,7 @@ occurred.
 * @return {undefined}
 */
 static printCollisionStatistics() {
-  var s = '';
+  let s = '';
   if (UtilityCollision.vertexBodyCollisionTests > 0)
     s += 'vertex/body collisions: ' + UtilityCollision.vertexBodyCollisionTests;
   if (UtilityCollision.edgeEdgeCollisionTests > 0)
@@ -367,17 +367,16 @@ collision via neighboring connected collisions.
 @package
 */
 static subsetCollisions1(superset) {
-  var i, len;
   /** @type {!RigidBodyCollision} */
-  var c;
+  let c;
   /** @type {!Array<!RigidBodyCollision>} */
-  var subset = [];
+  const subset = [];
   if (superset.length == 0)
     return subset;
   subset.push(superset[0]);
   // subsetBods = the moveable bodies in the subset of collisions
   /** @type {!Array<!RigidBody>} */
-  var subsetBods = [];
+  const subsetBods = [];
   {
     c = subset[0];
     if (isFinite(c.primaryBody.getMass()))
@@ -386,10 +385,10 @@ static subsetCollisions1(superset) {
       subsetBods.push(c.normalBody);
   }
   /** @type {number} */
-  var n;
+  let n;
   do {
     n = subset.length;
-    for (i=0, len=superset.length; i<len; i++) {
+    for (let i=0, len=superset.length; i<len; i++) {
       c = superset[i];
       if (subset.includes(c)) {
         // This collision already in the subset
@@ -400,7 +399,7 @@ static subsetCollisions1(superset) {
         // and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
-        var moveableNormalBody = isFinite(c.normalBody.getMass());
+        const moveableNormalBody = isFinite(c.normalBody.getMass());
         if (moveableNormalBody && !subsetBods.includes(c.normalBody))
             subsetBods.push(c.normalBody);
         continue;
@@ -410,7 +409,7 @@ static subsetCollisions1(superset) {
         // and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
-        var moveableBody = isFinite(c.primaryBody.getMass());
+        const moveableBody = isFinite(c.primaryBody.getMass());
         if (moveableBody && !subsetBods.includes(c.primaryBody))
           subsetBods.push(c.primaryBody);
         continue;
@@ -420,7 +419,7 @@ static subsetCollisions1(superset) {
   if (0 == 1 && Util.DEBUG) {
     console.log('subsetCollisions1:  super='+superset.length
       +' sub='+subset.length+' bods='+subsetBods.length);
-    for (i=0, len=subset.length; i<len; i++) {
+    for (let i=0, len=subset.length; i<len; i++) {
       console.log('in subset: '+subset[i]);
     }
   }
@@ -445,26 +444,25 @@ collision via neighboring connected collisions.
 @package
 */
 static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
-  var i, len;
   /** @type {!RigidBodyCollision} */
-  var c;
+  let c;
   if (superset.length == 0)
     return [];
   asserts.assert(superset.includes(startC));
   /** @type {!Array<!RigidBodyCollision>} */
-  var subset = [];
+  const subset = [];
   subset.push(startC);
   // subsetBods = the moveable bodies in the subset of collisions
   /** @type {!Array<!RigidBody>} */
-  var subsetBods = [];
+  const subsetBods = [];
   if (isFinite(startC.primaryBody.getMass()))
     subsetBods.push(startC.primaryBody);
   if (isFinite(startC.normalBody.getMass()))
     subsetBods.push(startC.normalBody);
-  var n;
+  let n;
   if (hybrid) {
     // Add all non-joint non-contact collisions involving either body of startC.
-    for (i=0, len=superset.length; i<len; i++) {
+    for (let i=0, len=superset.length; i<len; i++) {
       c = superset[i];
       if (subset.includes(c)) {
         // This collision already in the subset
@@ -489,7 +487,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
   // via other joints.
   do {
     n = subset.length;
-    for (i=0, len=superset.length; i<len; i++) {
+    for (let i=0, len=superset.length; i<len; i++) {
       c = superset[i];
       if (subset.includes(c)) {
         // This collision already in the subset
@@ -500,7 +498,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
         // so add it to the subset and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
-        var moveableNormalBody = isFinite(c.normalBody.getMass());
+        const moveableNormalBody = isFinite(c.normalBody.getMass());
         if (moveableNormalBody && !subsetBods.includes(c.normalBody))
             subsetBods.push(c.normalBody);
         continue;
@@ -510,7 +508,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
         // so add it to the subset and add its other body to subsetBods.
         subset.push(c);
         /** @type {boolean} */
-        var moveableBody = isFinite(c.primaryBody.getMass());
+        const moveableBody = isFinite(c.primaryBody.getMass());
         if (moveableBody && !subsetBods.includes(c.primaryBody))
           subsetBods.push(c.primaryBody);
         continue;
@@ -520,7 +518,7 @@ static subsetCollisions2(superset, startC, hybrid, v, minVelocity) {
   if (0 == 1 && Util.DEBUG) {
     console.log('subsetCollisions2:  super='+superset.length
       +' sub='+subset.length+' bods='+subsetBods.length);
-    for (i=0, len=subset.length; i<len; i++) {
+    for (let i=0, len=subset.length; i<len; i++) {
       console.log('subset '+subset[i]);
     }
   }
@@ -550,13 +548,13 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
   if (Util.DEBUG) {
     UtilityCollision.vertexBodyCollisionTests++;
   }
-  var edge2 = vertex2.getEdge1();
+  const edge2 = vertex2.getEdge1();
   if (edge2 == null) {
     throw Util.DEBUG ? 'vertex2 has no edge: '+vertex2 : '';
   }
   // type needed for NTI?
   /** @type {!Polygon} */
-  var body2 = edge2.getBody();
+  const body2 = edge2.getBody();
   asserts.assertObject(body2);
   // v_body = point of impact in body1's body coords
   // v_body_old = old location of point of impact, at time before the current time
@@ -566,7 +564,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
   // there should have been a collision. This can result in interpenetration of
   // objects, with edges crossing, but corners all outside of the other's object.
   // Proximity check:  both new and old corner out of body1 bounding box, on same side
-  var distTol = body1.getDistanceTol();
+  const distTol = body1.getDistanceTol();
   if (v_body.getX() < body1.getLeftBody() - distTol
         && v_body_old.getX() < body1.getLeftBody()
     || v_body.getX() > body1.getRightBody()+ distTol
@@ -588,7 +586,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
     // no possible collision
     return;
   }
-  var debugPenetration = false;
+  let debugPenetration = false;
   // This loop is to turn on lots of debugging code during a second pass
   // in the rare case that the bodies are intersecting but we found no collision.
   while (true)   {
@@ -596,7 +594,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       console.log('*****  PROBABLY POINT INSIDE v_body='+v_body);
       // show what Vertexes are being tested
       // type cast needed for NTI?
-      var p = /** @type {!Polygon} */(body2);
+      const p = /** @type {!Polygon} */(body2);
       p.printAll();
       console.log('testCollisionVertex '+body1.getName()+' '+p.getName()
           +' v: '+vertex2.getID());
@@ -606,12 +604,12 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       console.log('travelDist='+travelDist);
     }
     // edge1 = edge on body1 where we found a collision with vertex2
-    var edge1 = /** @type {?Edge} */(null);
+    let edge1 = /** @type {?Edge} */(null);
     // e1_body = intersection point on edge1 in body1 coords
-    var e1_body = /** @type {?Vector} */(null);
+    let e1_body = /** @type {?Vector} */(null);
     // distance from starting corner position to the edge intersection
     // distance from old corner to intersection pt
-    var distance_old = Util.POSITIVE_INFINITY;
+    let distance_old = Util.POSITIVE_INFINITY;
     // A corner might pass through multiple edges of an object;
     // we look for the first edge that it passes through.
     body1.getEdges_().forEach(e1 => {
@@ -629,8 +627,8 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       //    maxRadius + travelDist
       // NOTE:  it is unclear if this is really a win; if it is only avoiding the
       // StraightEdge intersection test, then maybe not a win.
-      var maxRadius = e1.getCentroidRadius() + distTol + travelDist;
-      var maxRadiusSqr = maxRadius * maxRadius;
+      const maxRadius = e1.getCentroidRadius() + distTol + travelDist;
+      const maxRadiusSqr = maxRadius * maxRadius;
       if (e1.getCentroidBody().distanceSquaredTo(v_body) > maxRadiusSqr) {
         if (Util.DEBUG && debugPenetration) {
           console.log('not in range '+body2.getName()+' vertex2='+vertex2.getID()
@@ -655,7 +653,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       if (Util.DEBUG && debugPenetration) {
         console.log('v_body='+v_body+' e1='+e1);
       }
-      var r1_array = e1.intersection(v_body, v_body_old);
+      const r1_array = e1.intersection(v_body, v_body_old);
       if (r1_array == null) {
         if (Util.DEBUG && debugPenetration) {
           console.log('!!!!! no intersection found  !!!!!');
@@ -670,7 +668,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
         // the edge/edge contact will deal with this contact.
         if (UtilityCollision.DISABLE_MIDPOINT_VERTEX_CONTACT && !vertex2.isEndPoint())
           return;  // continue to next edge
-        var c = e1.findVertexContact(vertex2, v_body, distTol);
+        const c = e1.findVertexContact(vertex2, v_body, distTol);
         if (Util.DEBUG && debugPenetration) {
           console.log('findVertexContact '+c);
         }
@@ -695,11 +693,11 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
       r1_array.forEach(r1b => {
         // r1b = intersection point on edge, in body1 coords
         if (Util.DEBUG && debugPenetration && UtilEngine.debugEngine2D != null) {
-          var t = body1.bodyToWorld(r1b);
+          const t = body1.bodyToWorld(r1b);
           UtilEngine.debugEngine2D.debugCircle('dot', t, 0.1);
         }
         // @todo  use distance squared instead -- its faster!
-        var d = v_body_old.subtract(r1b).length();
+        const d = v_body_old.subtract(r1b).length();
         if (Util.DEBUG && debugPenetration) {
           console.log('distance_old='+distance_old+' d='+d);
         }
@@ -739,7 +737,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
 
         // both bodies must be Polygon's, because Scrim doesn't collide with anything
         // asserts.assert(body1 instanceof Polygon);
-        var noSpecialEdge = body1.getSpecialNormalWorld() == null;
+        const noSpecialEdge = body1.getSpecialNormalWorld() == null;
 
         // note May 9 2016: If you make an EdgeRange or EdgeGroup such that two
         // polygons cannot collide, this Error will still occur when the polygons
@@ -748,7 +746,7 @@ static testCollisionVertex(collisions, body1, vertex2, v_body, v_body_old, trave
         // with an option setting on ImpulseSim).
 
         // Check whether the point is inside the polygon.
-        var probablyInside = noSpecialEdge && body1.probablyPointInside(v_body);
+        const probablyInside = noSpecialEdge && body1.probablyPointInside(v_body);
         // If no penetration, then not finding an intersection is OK, so done.
         if (!probablyInside) {
           break;

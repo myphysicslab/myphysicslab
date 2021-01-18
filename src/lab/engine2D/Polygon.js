@@ -192,9 +192,9 @@ class Polygon extends AbstractMassObject {
 * @param {string=} opt_localName localized name of this Polygon, for display to user
 */
 constructor(opt_name, opt_localName) {
-  var name, localName;
+  let name, localName;
   if (opt_name === undefined || opt_name == '') {
-    var id = Polygon.ID++;
+    const id = Polygon.ID++;
     name = Polygon.en.POLYGON+id;
     localName = Polygon.i18n.POLYGON+id;
   } else {
@@ -360,7 +360,7 @@ moving clockwise or counter-clockwise from the start Vertex. See
 */
 addCircularEdge(p_body, center_body, clockwise,
     outsideIsOut) {
-  var edge = new CircularEdge(this, this.lastOpenVertex(),
+  const edge = new CircularEdge(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), center_body, clockwise,
       outsideIsOut);
   this.addEdge(edge);
@@ -396,7 +396,7 @@ line.
 @throws {!Error} if Polygon does not have an open path to add Edges to
 */
 addCircularEdge2(p_body, radius, aboveRight, clockwise, outsideIsOut) {
-  var edge = CircularEdge.make(this, this.lastOpenVertex(),
+  const edge = CircularEdge.make(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), radius, aboveRight, clockwise,
       outsideIsOut);
   this.addEdge(edge);
@@ -451,7 +451,7 @@ Vertex and ending at the given point. See {@link #lastOpenVertex} and
 */
 addStraightEdge(p_body, outsideIsUp) {
   // the StraightEdge adds itself to the Polygon's list of Edges & Vertexes
-  var edge = new StraightEdge(this, this.lastOpenVertex(),
+  const edge = new StraightEdge(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), outsideIsUp);
   this.addEdge(edge);
   return edge;
@@ -462,10 +462,10 @@ addStraightEdge(p_body, outsideIsUp) {
 * @private
 */
 calculateSize() {
-  var xmin = Util.POSITIVE_INFINITY;
-  var xmax = Util.NEGATIVE_INFINITY;
-  var ymin = Util.POSITIVE_INFINITY;
-  var ymax = Util.NEGATIVE_INFINITY;
+  let xmin = Util.POSITIVE_INFINITY;
+  let xmax = Util.NEGATIVE_INFINITY;
+  let ymin = Util.POSITIVE_INFINITY;
+  let ymax = Util.NEGATIVE_INFINITY;
   this.edges_.forEach(e => {
     if (e.getLeftBody() < xmin)
       xmin = e.getLeftBody();
@@ -535,10 +535,10 @@ checkConsistent() {
   }
   // v0 = starting Vertex of the current path being examined
   this.paths_.forEach(v0 => {
-    var v = v0; // v = current Vertex being examined
+    let v = v0; // v = current Vertex being examined
     do {
       // find the next Edge
-      var e = v.getEdge2();
+      const e = v.getEdge2();
       if (e == null) {
         throw '';
       }
@@ -565,7 +565,7 @@ closePath() {
   if (this.startVertex_ == null) {
     return false;
   }
-  var lastEdge = this.lastOpenEdge();
+  const lastEdge = this.lastOpenEdge();
   if (lastEdge == null) {
     return false;
   }
@@ -607,7 +607,7 @@ closePath_(v1, v2) {
   if (v1.locBody().distanceTo(v2.locBody()) > 1E-8) {
     throw Util.DEBUG ? ('Vertexes must be at same location '+v1+' '+v2) : '';
   }
-  var v2_edge1 = v2.getEdge1();
+  const v2_edge1 = v2.getEdge1();
   if (v2_edge1 == null) {
     throw 'v2.edge1 is null; v2='+v2+'; this='+this;
   }
@@ -624,10 +624,10 @@ createCanvasPath(context) {
   this.paths_.forEach(v0 => {
     context.moveTo(v0.locBodyX(), v0.locBodyY());
     /** @type {!Vertex} */
-    var v = v0; // v = current Vertex being examined
+    let v = v0; // v = current Vertex being examined
     do { // for each Edge of the current sub-path
       // find the next Edge
-      var e = v.getEdge2();
+      const e = v.getEdge2();
       if (e == null) {
         throw '';
       }
@@ -671,17 +671,16 @@ minimizes the distance to all Vertexes.
     coordinates.
 */
 findCentroid() {
-  var NEARNESS_TOLERANCE = 1e-6;
+  const NEARNESS_TOLERANCE = 1e-6;
   // this should probably also calculate the centroidRadius_ as a by-product;
-  var info = new Array(2);
-  var delta = 0.1 * Math.max(this.getWidth(), this.getHeight());
-  var s = new Array(3); // starting points
+  const info = new Array(2);
+  const delta = 0.1 * Math.max(this.getWidth(), this.getHeight());
+  const s = new Array(3); // starting points
   s[0] = new MutableVector(this.cm_body_.getX()+delta, this.cm_body_.getY());
   s[1] = new MutableVector(this.cm_body_.getX(), this.cm_body_.getY()+delta);
   s[2] = new MutableVector(this.cm_body_.getX()-delta, this.cm_body_.getY()-delta);
-  var thisPolygon = this;
-  var centroid = UtilEngine.findMinimumSimplex(s,
-    p_body => thisPolygon.maxRadiusSquared(Vector.clone(p_body)),
+  const centroid = UtilEngine.findMinimumSimplex(s,
+    p_body => this.maxRadiusSquared(Vector.clone(p_body)),
     NEARNESS_TOLERANCE, info);
   if (info[1] != 0) {
     throw Util.DEBUG ? ('could not find centroid, iterations='+info[0]) : '';
@@ -721,12 +720,12 @@ finish() {
         ]);
   }
   // default for moment is to assume rectangular shape
-  var w = this.getWidth();
-  var h = this.getHeight();
+  const w = this.getWidth();
+  const h = this.getHeight();
   this.setMomentAboutCM((w*w + h*h)/12);
   this.specialNormalWorld_ = null;
   // force the centroid to be calculated
-  var centroid_body = this.getCentroidBody();
+  const centroid_body = this.getCentroidBody();
   if (Polygon.PRINT_POLYGON_STRUCTURE && Util.DEBUG) {
     this.printAll();
   }
@@ -793,10 +792,10 @@ getMinHeight() {
   //when the center of mass is not on one of the axes of the circle/ellipse.
   //BUG WARNING:  Should be recalculated if the center of mass changes.
   if (isNaN(this.minHeight_)) {
-    var dist = Util.POSITIVE_INFINITY;
+    let dist = Util.POSITIVE_INFINITY;
     // find minimum distance to an Edge.
     this.edges_.forEach(e => {
-      var d = e.distanceToPoint(this.cm_body_);
+      let d = e.distanceToPoint(this.cm_body_);
       if (1 == 0 && Util.DEBUG)
         console.log('d='+Util.NF(d)+' cm='+this.cm_body_+' '+e);
       // Distance of infinity means the point is 'beyond' the Edge, ie.
@@ -833,9 +832,9 @@ getMinHeight() {
 */
 getMinHeight2() {
   if (isNaN(this.minHeight_)) {
-    var dist = Util.POSITIVE_INFINITY;
-    var d;
-    for (var i = 0; i <= 3; i++) {
+    let dist = Util.POSITIVE_INFINITY;
+    let d;
+    for (let i = 0; i <= 3; i++) {
       switch (i) {
         case 0:
           d = this.cm_body_.getY() - this.getBottomBody();
@@ -884,10 +883,10 @@ See {@link #setSpecialEdge}.
 coordinates, or null when there is no special edge
 */
 getSpecialNormalWorld() {
-  var e = this.specialEdge_;
+  const e = this.specialEdge_;
   if (e == null)
     return null;
-  var v = this.specialNormalWorld_;
+  let v = this.specialNormalWorld_;
   if (v == null) {
     if (Util.DEBUG) UtilityCollision.specialNormalMisses++;
     v = this.rotateBodyToWorld(e.getNormalBody(Vector.ORIGIN));
@@ -919,7 +918,7 @@ getTopBody() {
 @return {string} the name of the specified variable for this particular body
 */
 getVarName(index, localized) {
-  var s = this.getName(localized)+' ';
+  let s = this.getName(localized)+' ';
   switch (index) {
     case 0: s += 'X '+(localized ? Polygon.i18n.POSITION : Polygon.en.POSITION);
       break;
@@ -972,12 +971,12 @@ lastOpenEdge() {
   if (this.startVertex_ == null) {
     throw '';
   }
-  var edge = this.startVertex_.safeGetEdge2();
+  let edge = this.startVertex_.safeGetEdge2();
   if (edge == null)
     return null;
   while (true) {
-    var v = edge.getVertex2();
-    var e = v.safeGetEdge2();
+    const v = edge.getVertex2();
+    const e = v.safeGetEdge2();
     if (e == null) {
       break;
     }
@@ -1000,7 +999,7 @@ lastOpenVertex() {
   if (this.startVertex_ == null) {
     throw Polygon.OPEN_PATH_ERROR;
   }
-  var lastEdge = this.lastOpenEdge();
+  const lastEdge = this.lastOpenEdge();
   if (lastEdge == null) {
     return this.startVertex_;
   } else {
@@ -1016,18 +1015,18 @@ any Vertex of this Polygon.
 * @private
 */
 maxRadiusSquared(p_body) {
-  var maxR = 0;
+  let maxR = 0;
   this.vertices_.forEach(v => {
-    var d = p_body.distanceTo(v.locBody());
+    const d = p_body.distanceTo(v.locBody());
     if (d > maxR)
       maxR = d;
   });
   // maximum chord error is the most that distance from p_body to a curved Edge
   // can be in error by, because we are only looking at the 'decorated Vertexes'
   // on the curved Edge.
-  var mce = 0;  // maximum chord error
+  let mce = 0;  // maximum chord error
   this.edges_.forEach(e => {
-    var ce = e.chordError();
+    const ce = e.chordError();
     if (ce > mce)
       mce = ce;
   });
@@ -1060,9 +1059,9 @@ printAll() {
   if (Util.DEBUG) {
     console.log(this.toString());
     /** @type {!Vertex} */
-    var vLast = this.vertices_[this.vertices_.length - 1];
+    let vLast = this.vertices_[this.vertices_.length - 1];
     this.vertices_.forEach((v, k) => {
-      var d = v.locBody().distanceTo(vLast.locBody());
+      const d = v.locBody().distanceTo(vLast.locBody());
       console.log('('+(k)+') '+v+' dist to prev vertex = '+Util.NF(d));
       vLast = v;
     });
@@ -1080,7 +1079,7 @@ WARNING:  For debugging only.  Does not work for complex (non-convex) shapes.
 probablyPointInside(p_body) {
   // look for an Edge with positive distance to the point,
   // which means the point is outside the body.
-  var edge = array.find(this.edges_,
+  const edge = array.find(this.edges_,
     function(e, index, array) {
       return e.distanceToLine(p_body) > 0;
     }
@@ -1128,8 +1127,8 @@ setCentroid(centroid_body) {
   // than necessary).
   if (Util.DEBUG) {
     // NOTE: there is a performance difference from doing this test!
-    var ctrd = this.findCentroid();
-    var c_dist = centroid_body.distanceTo(ctrd);
+    const ctrd = this.findCentroid();
+    const c_dist = centroid_body.distanceTo(ctrd);
     asserts.assert(c_dist < 0.01, 'dist='+Util.NF(c_dist)+' ctrd='+ctrd
         +' centroid_body='+centroid_body);
     if (0 == 1) {
@@ -1188,7 +1187,7 @@ setPosition(loc_world, angle) {
     this.specialNormalWorld_ = null;
   }
   // invalidate the cache of centroids in world coordinates
-  for (var i=0, len=this.edges_.length; i<len; i++) {
+  for (let i=0, len=this.edges_.length; i<len; i++) {
     this.edges_[i].forgetPosition();
   }
 };
@@ -1255,11 +1254,11 @@ startPath(vertexOrEdge) {
     throw 'there is already an open path';
   }
   if (vertexOrEdge instanceof ConcreteVertex) {
-    var vertex = /** @type {!Vertex}*/(vertexOrEdge);
+    const vertex = /** @type {!Vertex}*/(vertexOrEdge);
     this.startVertex_ = vertex;
     this.vertices_.push(this.startVertex_);
   } else {
-    var edge = /** @type {!Edge}*/(vertexOrEdge);
+    const edge = /** @type {!Edge}*/(vertexOrEdge);
     this.startVertex_ = edge.getVertex1();
     this.vertices_.push(this.startVertex_);
     this.edges_.push(edge);

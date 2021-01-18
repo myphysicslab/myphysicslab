@@ -88,10 +88,10 @@ getU1() {
     return this.u1_; // cached value to speed up performance
   }
   if (this.ballObject) {
-    var primaryCircle =
+    const primaryCircle =
         /** @type {!CircularEdge} */(this.primaryEdge);
     asserts.assert(this.primaryBody == primaryCircle.getBody());
-    var cw = this.primaryBody.bodyToWorld(primaryCircle.getCenterBody());
+    const cw = this.primaryBody.bodyToWorld(primaryCircle.getCenterBody());
     this.u1_ = cw.subtract(this.primaryBody.getPosition());
     return this.u1_; // cached value to speed up performance
   }
@@ -106,10 +106,10 @@ getU2() {
   if (this.ballNormal) {
     // maybe I should have a CircleCircleCollision and StraightCircleCollision etc.
     // Otherwise I have to do some ugly type casting here
-    var normalCircle =
+    const normalCircle =
         /** @type {!CircularEdge} */(this.normalEdge);
     asserts.assert(this.normalBody == normalCircle.getBody());
-    var cnw = this.normalBody.bodyToWorld(normalCircle.getCenterBody());
+    const cnw = this.normalBody.bodyToWorld(normalCircle.getCenterBody());
     this.u2_ = cnw.subtract(this.normalBody.getPosition());
     return this.u2_; // cached value to speed up performance
   }
@@ -139,17 +139,17 @@ similarTo(c) {
   // both collisions involve same bodies and same edges
   // Next see if these collisions (which are between the same edges)
   // are close in distance and have similar normals.
-  var nearness = UtilEngine.nearness(this.radius1, this.radius2, this.distanceTol_);
+  const nearness = UtilEngine.nearness(this.radius1, this.radius2, this.distanceTol_);
   // find distance between the collisions
   // @todo  consider impact2 here???
-  var d = this.impact1.subtract(c.impact1);
-  var distSqr = d.lengthSquared();
+  const d = this.impact1.subtract(c.impact1);
+  const distSqr = d.lengthSquared();
   // if the two collisions are close together in space
   if (distSqr > nearness*nearness) {
     return false;
   }
   // if the normals are similar; look at dot product of normals
-  var normality = Math.abs(this.normal.dotProduct(c.normal));
+  const normality = Math.abs(this.normal.dotProduct(c.normal));
   if (normality < 0.9) {
     return false;
   }

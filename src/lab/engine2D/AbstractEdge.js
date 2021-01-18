@@ -227,10 +227,10 @@ intersection(p1_body, p2_body) {};
 
 /** @override */
 intersectionPossible(edge, swellage) {
-  var c1 = this.getCentroidWorld();
-  var c2 = edge.getCentroidWorld();
-  var dist = c1.subtract(c2).lengthSquared();
-  var dist2 = UtilEngine.square(edge.getCentroidRadius() + this.getCentroidRadius() + swellage);
+  const c1 = this.getCentroidWorld();
+  const c2 = edge.getCentroidWorld();
+  const dist = c1.subtract(c2).lengthSquared();
+  const dist2 = UtilEngine.square(edge.getCentroidRadius() + this.getCentroidRadius() + swellage);
   return dist < dist2;
 };
 
@@ -239,7 +239,7 @@ maxDistanceTo(p_body) {};
 
 /** @override */
 pointOffset(p_body, length) {
-  var n = this.getNormalBody(p_body);
+  const n = this.getNormalBody(p_body);
   return p_body.add(n.multiply(length));
 };
 

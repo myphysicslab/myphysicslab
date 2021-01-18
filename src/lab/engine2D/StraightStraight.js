@@ -43,12 +43,12 @@ constructor() {
 * @private
 */
 static intersect(edge1, edge2) {
-  var body1 = edge1.getBody();
-  var body2 = edge2.getBody();
-  var e1v1 = edge1.getVertex1();
-  var e1v2 = edge1.getVertex2();
-  var e2v1 = edge2.getVertex1();
-  var e2v2 = edge2.getVertex2();
+  const body1 = edge1.getBody();
+  const body2 = edge2.getBody();
+  const e1v1 = edge1.getVertex1();
+  const e1v2 = edge1.getVertex2();
+  const e2v1 = edge2.getVertex1();
+  const e2v2 = edge2.getVertex2();
   return UtilEngine.linesIntersect(body1.bodyToWorld(e1v1.locBody()),
       body1.bodyToWorld(e1v2.locBody()),
       body2.bodyToWorld(e2v1.locBody()),
@@ -62,13 +62,13 @@ positions and velocities of the RigidBodys.
 * @param {!myphysicslab.lab.engine2D.StraightEdge} edge2
 */
 static improveAccuracy(rbc, edge1, edge2) {
-  var edge1Body = edge1.getBody();
-  var edge2Body = edge2.getBody();
+  const edge1Body = edge1.getBody();
+  const edge2Body = edge2.getBody();
   asserts.assert( rbc.getPrimaryBody() == edge1Body);
   asserts.assert( rbc.getNormalBody() == edge2Body);
   // The scenario is:  collision between a edge1 and edge2 happened,
   // it was detected by the two lines intersecting.
-  var pt = StraightStraight.intersect(edge1, edge2);
+  let pt = StraightStraight.intersect(edge1, edge2);
   if (pt != null) {
     // If the lines are still intersecting, then use the current point of intersection.
     rbc.impact1 = pt;
@@ -76,15 +76,15 @@ static improveAccuracy(rbc, edge1, edge2) {
   } else {
     // If lines are not intersecting, then use endpoint that is closest to other line.
     // This will be the endpoint with smallest positive distance.
-    var dist = Util.POSITIVE_INFINITY;
-    var body1 = edge1.getBody();
-    var body2 = edge2.getBody();
-    var e1v1 = body1.bodyToWorld(edge1.getVertex1().locBody());
-    var e1v2 = body1.bodyToWorld(edge1.getVertex2().locBody());
-    var e2v1 = body2.bodyToWorld(edge2.getVertex1().locBody());
-    var e2v2 = body2.bodyToWorld(edge2.getVertex2().locBody());
-    var e = null;
-    var d = edge1.distanceToLine(e2v1);
+    let dist = Util.POSITIVE_INFINITY;
+    const body1 = edge1.getBody();
+    const body2 = edge2.getBody();
+    const e1v1 = body1.bodyToWorld(edge1.getVertex1().locBody());
+    const e1v2 = body1.bodyToWorld(edge1.getVertex2().locBody());
+    const e2v1 = body2.bodyToWorld(edge2.getVertex1().locBody());
+    const e2v2 = body2.bodyToWorld(edge2.getVertex2().locBody());
+    let e = null;
+    let d = edge1.distanceToLine(e2v1);
     if (d > 0 && d < dist) {
       e = edge1;
       pt = e2v1;
@@ -129,7 +129,7 @@ static improveAccuracy(rbc, edge1, edge2) {
 static testCollision(collisions, edge1, edge2, time) {
   if (UtilityCollision.DISABLE_EDGE_EDGE)
     return;
-  var pt = StraightStraight.intersect(edge1, edge2);
+  const pt = StraightStraight.intersect(edge1, edge2);
   if (pt != null) {
     StraightStraight.addCollision(collisions, edge1, edge2, pt, time);
   }
@@ -144,7 +144,7 @@ static testCollision(collisions, edge1, edge2, time) {
 * @private
 */
 static addCollision(collisions, edge1, edge2, pt, time) {
-  var rbc = new EdgeEdgeCollision(edge1, edge2);
+  const rbc = new EdgeEdgeCollision(edge1, edge2);
   rbc.ballNormal = false;
   rbc.ballObject = false;
   rbc.radius1 = Util.POSITIVE_INFINITY;

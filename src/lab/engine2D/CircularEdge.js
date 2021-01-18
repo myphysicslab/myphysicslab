@@ -148,7 +148,7 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
   * @private
   */
   this.radius_ = center_body.distanceTo(vertex1.locBody());
-  var r2 = vertex2.locBody().distanceTo(center_body);
+  const r2 = vertex2.locBody().distanceTo(center_body);
   if (Math.abs(this.radius_ - r2 > CircularEdge.TINY_POSITIVE)) {
     throw 'center is not equidistant from the two end points';
   }
@@ -175,7 +175,7 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
     // assume a full circle is desired when vertex1 == vertex2
     this.finishAngle_ = this.startAngle_ + 2*Math.PI;
   }
-  var lowHigh = CircularEdge.findAngleLowHigh(this.startAngle_, this.finishAngle_,
+  const lowHigh = CircularEdge.findAngleLowHigh(this.startAngle_, this.finishAngle_,
       this.clockwise_);
   /** Any point on the arc falls between angle_low and angle_high,
   * where angle_low < angle_high.
@@ -204,12 +204,12 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
       this.radius_);
   // find number of Vertexes to add along the edge (for collision checking)
   // min = minimum number of Vertexes = one for every 45 degrees.
-  var min = Math.ceil((this.angle_high_ - this.angle_low_)/(Math.PI/4));
+  const min = Math.ceil((this.angle_high_ - this.angle_low_)/(Math.PI/4));
   // spacing = distance between Vertexes
-  var spacing = (opt_spacing === undefined) ? 0.3 : opt_spacing;
-  var n = Math.max(min,
+  const spacing = (opt_spacing === undefined) ? 0.3 : opt_spacing;
+  const n = Math.max(min,
       Math.ceil((this.angle_high_ - this.angle_low_)*this.radius_/spacing));
-  var delta = (this.angle_high_ - this.angle_low_)/n;
+  const delta = (this.angle_high_ - this.angle_low_)/n;
   /** the angle between decorated Vertexes
   * @type {number}
   * @private
@@ -221,12 +221,12 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
   */
   this.decoratedVertexes_ = [];
   // add Vertexes along the edge (for collision checking)
-  for (var i=1; i<n; i++) {
-    var angle = this.clockwise_ ?
+  for (let i=1; i<n; i++) {
+    const angle = this.clockwise_ ?
         this.angle_high_ - i*delta : this.angle_low_ + i*delta;
-    var p = new Vector(this.center_body_.getX() + this.radius_*Math.cos(angle),
+    const p = new Vector(this.center_body_.getX() + this.radius_*Math.cos(angle),
                        this.center_body_.getY() + this.radius_*Math.sin(angle));
-    var v = new ConcreteVertex(p, false, this);
+    const v = new ConcreteVertex(p, false, this);
     this.decoratedVertexes_.push(v);
   }
   // add this edge and vertex2 to list of Vertexes and edges
@@ -300,18 +300,18 @@ left of the line.
 */
 static make(body, vertex1, vertex2, radius, aboveRight, clockwise, outsideIsOut) {
   // find center
-  var cx, cy;
+  let cx, cy;
   // find midpoint of line between vertex1 and vertex2
-  var mx = (vertex1.locBodyX() + vertex2.locBodyX())/2;
-  var my = (vertex1.locBodyY() + vertex2.locBodyY())/2;
+  const mx = (vertex1.locBodyX() + vertex2.locBodyX())/2;
+  const my = (vertex1.locBodyY() + vertex2.locBodyY())/2;
   // distance from vertex1 to midpoint
-  var a = Util.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
-  var d = radius*radius - a*a;
+  const a = Util.hypot(vertex1.locBodyX() - mx, vertex1.locBodyY() - my);
+  const d = radius*radius - a*a;
   if (d < CircularEdge.TINY_POSITIVE) {
     throw 'radius '+radius+' is too small, must be >= '+a;
   }
   // distance from midpoint to center
-  var b = Math.sqrt(d);
+  const b = Math.sqrt(d);
   // if Vertexes are on a vertical line
   if (Math.abs(vertex2.locBodyX() - vertex1.locBodyX()) < CircularEdge.TINY_POSITIVE) {
     // if aboveRight, then center is to right of line segment (for vertical line)
@@ -325,7 +325,7 @@ static make(body, vertex1, vertex2, radius, aboveRight, clockwise, outsideIsOut)
     }
   } else {
     // slope of line from vertex1 to vertex2
-    var k = (vertex2.locBodyY() - vertex1.locBodyY())/
+    const k = (vertex2.locBodyY() - vertex1.locBodyY())/
             (vertex2.locBodyX() - vertex1.locBodyX());
     /* location of center
       center is on the line from midpoint, perpendicular to line from vertex1 to vertex2
@@ -345,7 +345,7 @@ static make(body, vertex1, vertex2, radius, aboveRight, clockwise, outsideIsOut)
       our convention is:  if aboveRight==true, center is 'above' the line segment.
       bk2 > 0, so the first solution is for aboveRight
     */
-    var bk2 = b/Math.sqrt(1 + k*k);
+    const bk2 = b/Math.sqrt(1 + k*k);
     if (aboveRight) {
       cx = -k*bk2 + mx;
       cy = bk2 + my;
@@ -413,22 +413,22 @@ depthOfArc() {
 /** @override */
 distanceToEdge(edge) {
   if (edge instanceof StraightEdge) {
-    var cw = this.body_.bodyToWorld(this.center_body_);  // Center World coords
-    var cb = edge.getBody().worldToBody(cw);  // Center Body coords
-    var d = edge.distanceToLine(cb);
+    const cw = this.body_.bodyToWorld(this.center_body_);  // Center World coords
+    const cb = edge.getBody().worldToBody(cw);  // Center Body coords
+    let d = edge.distanceToLine(cb);
     d -= this.radius_;
     return d;
   } else if (edge instanceof CircularEdge) {
-    var cw = edge.getBody().bodyToWorld(edge.center_body_);
-    var cb = this.body_.worldToBody(cw);
-    var p_edge = this.bodyToEdge(cb);
+    const cw = edge.getBody().bodyToWorld(edge.center_body_);
+    const cb = this.body_.worldToBody(cw);
+    const p_edge = this.bodyToEdge(cb);
     if (!this.isWithinArc(p_edge)) {
       return Util.NaN;
     }
-    var len = p_edge.length();
-    var r1 = (edge.outsideIsOut_ ? 1 : -1)*edge.radius_;
-    var r2 = (this.outsideIsOut_ ? 1 : -1)*this.radius_;
-    var concave = !edge.outsideIsOut_ || !this.outsideIsOut_;
+    const len = p_edge.length();
+    const r1 = (edge.outsideIsOut_ ? 1 : -1)*edge.radius_;
+    const r2 = (this.outsideIsOut_ ? 1 : -1)*this.radius_;
+    const concave = !edge.outsideIsOut_ || !this.outsideIsOut_;
     return concave ? Math.abs(r1 + r2) - len : len - (r1 + r2);
   } else {
     throw '';
@@ -438,13 +438,13 @@ distanceToEdge(edge) {
 /** @override */
 distanceToLine(p_body) {
   //The extended line is taken to be the full circle for this Circular Edge.
-  var p_edge = this.bodyToEdge(p_body);
+  const p_edge = this.bodyToEdge(p_body);
   return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
 };
 
 /** @override */
 distanceToPoint(p_body) {
-  var p_edge = this.bodyToEdge(p_body);
+  const p_edge = this.bodyToEdge(p_body);
   if (this.isWithinArc(p_edge)) {
     return (this.outsideIsOut_ ? 1 : -1)*(p_edge.length() - this.radius_);
   } else {
@@ -478,7 +478,7 @@ the arc is within that pair of angles.
 * @private
 */
 static findAngleLowHigh(startAngle, finishAngle, clockwise) {
-  var angle_low, angle_high;
+  let angle_low, angle_high;
     // for future convenience, find angle_low, angle_high
   if (Math.abs(startAngle - finishAngle) < CircularEdge.TINY_POSITIVE) {
     // this is a full circle
@@ -528,29 +528,29 @@ arc ends.
 * @private
 */
 static findDepth(angle, radius) {
-  var d1 = Math.sin(angle/2) - Math.sin(angle)/2;
-  var d2 = Math.cos(angle/2) - (1 + Math.cos(angle))/2;
+  const d1 = Math.sin(angle/2) - Math.sin(angle)/2;
+  const d2 = Math.cos(angle/2) - (1 + Math.cos(angle))/2;
   return radius * Math.sqrt(d1*d1 + d2*d2);
 };
 
 /** @override */
 findVertexContact(v, p_body, distTol) {
   // p_edge = point in edge coords
-  var p_edge = this.bodyToEdge(p_body);
+  const p_edge = this.bodyToEdge(p_body);
   // is p_edge is beyond endpoints of this edge segment?
   if (!this.isWithinArc(p_edge))
     return null;
-  var h = p_edge.length();
-  var dist = (this.outsideIsOut_ ? 1 : -1)*(h - this.radius_);
+  const h = p_edge.length();
+  const dist = (this.outsideIsOut_ ? 1 : -1)*(h - this.radius_);
   // is the point near enough?
   if (dist < 0 || dist > distTol)
     return null;
-  var rbc = new CornerEdgeCollision(v, this);
+  const rbc = new CornerEdgeCollision(v, this);
   rbc.distance = dist;
   if (h < CircularEdge.TINY_POSITIVE)
     throw 'cannot get normal for point at center of circle';
   // ne = normal in edge coords (concave has reversed normal)
-  var ne = p_edge.multiply((this.outsideIsOut_ ? 1 : -1) * (1/h));
+  const ne = p_edge.multiply((this.outsideIsOut_ ? 1 : -1) * (1/h));
   // note: because bodyToEdge does not rotate, the normal is same in edge or body coords
   // nw = normal in world coords
   rbc.normal = this.body_.rotateBodyToWorld(ne);
@@ -561,7 +561,7 @@ findVertexContact(v, p_body, distTol) {
   // force calculation (improves stability of contact distance).
   rbc.radius2 += dist;
   // rw = near point on circle in world coords
-  var rw = this.body_.bodyToWorld(this.edgeToBody(ne.multiply(rbc.radius2)));
+  const rw = this.body_.bodyToWorld(this.edgeToBody(ne.multiply(rbc.radius2)));
   // Alternative idea: set impact to the vertex and impact2 to point on circle edge,
   // then use impact2 to calculate R2.
   rbc.impact1 = rw;
@@ -574,7 +574,7 @@ findVertexContact(v, p_body, distTol) {
 
 /** @override */
 getBottomBody() {
-  var angle = -Math.PI/2;
+  let angle = -Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getY() - this.radius_;
@@ -615,7 +615,7 @@ getDecoratedVertexes() {
 
 /** @override */
 getLeftBody() {
-  var angle = Math.PI;
+  let angle = Math.PI;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getX() - this.radius_;
@@ -627,8 +627,8 @@ getLeftBody() {
 
 /** @override */
 getNormalBody(p_body) {
-  var p_edge = this.bodyToEdge(p_body);
-  var h = p_edge.length();
+  const p_edge = this.bodyToEdge(p_body);
+  const h = p_edge.length();
   if (h < CircularEdge.TINY_POSITIVE) {
     throw Util.DEBUG ? ('cannot get normal at point '+p_body) : '';
   }
@@ -638,9 +638,9 @@ getNormalBody(p_body) {
 
 /** @override */
 getPointOnEdge(p_body) {
-  var n = this.getNormalBody(p_body);
-  var r = (this.outsideIsOut_ ? 1 : -1)* this.radius_;
-  var p = this.edgeToBody(n.multiply(r));
+  const n = this.getNormalBody(p_body);
+  const r = (this.outsideIsOut_ ? 1 : -1)* this.radius_;
+  const p = this.edgeToBody(n.multiply(r));
   return [p, n];
 };
 
@@ -654,7 +654,7 @@ getRadius() {
 
 /** @override */
 getRightBody() {
-  var angle = 0;
+  let angle = 0;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getX() + this.radius_;
@@ -666,7 +666,7 @@ getRightBody() {
 
 /** @override */
 getTopBody() {
-  var angle = Math.PI/2;
+  let angle = Math.PI/2;
   angle += angle < this.angle_low_ ? 2*Math.PI : 0;
   if (this.angle_low_ <= angle && angle <= this.angle_high_) {
     return this.center_body_.getY() + this.radius_;
@@ -700,21 +700,21 @@ intersection(p1_body, p2_body) {
     return null;
   }
   // pe1, pe2 = points in edge coords
-  var pe1 = this.bodyToEdge(p1_body);
-  var pe2 = this.bodyToEdge(p2_body);
+  const pe1 = this.bodyToEdge(p1_body);
+  const pe2 = this.bodyToEdge(p2_body);
   // qe1, qe2 = intersection points on oval in edge coords
-  var qe1 = null;
-  var qe2 = null;
+  let qe1 = null;
+  let qe2 = null;
   // find the point of intersection on the complete circle
   if (Math.abs(pe2.getX() - pe1.getX())<CircularEdge.TINY_POSITIVE) {
     // vertical line is special case
-    var x = (pe1.getX() + pe2.getX())/2;  // average x coordinate, just in case
+    const x = (pe1.getX() + pe2.getX())/2;  // average x coordinate, just in case
     if (Math.abs(x) > this.radius_) {
       return null;
     }
-    var y = Math.sqrt(this.radius_*this.radius_ - x*x);
-    var ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
-    var yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
+    const y = Math.sqrt(this.radius_*this.radius_ - x*x);
+    const ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
+    const yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
     if (ylow <= y && y <= yhigh)
       qe1 = new Vector(x, y);
     if (ylow <= -y && -y <= yhigh)
@@ -751,22 +751,22 @@ intersection(p1_body, p2_body) {
                                            2
                                       1 + k
     */
-    var k = (pe2.getY() - pe1.getY())/(pe2.getX() - pe1.getX());
-    var k12 = 1 + k*k;
-    var d = pe1.getY() - k*pe1.getX();
-    var e = k12*this.radius_*this.radius_ - d*d;
+    const k = (pe2.getY() - pe1.getY())/(pe2.getX() - pe1.getX());
+    const k12 = 1 + k*k;
+    const d = pe1.getY() - k*pe1.getX();
+    let e = k12*this.radius_*this.radius_ - d*d;
     if (e < 0) {
       return null;
     }
     e = Math.sqrt(e);
-    var x1 = -(k*d + e)/k12;
-    var x2 = (k*(-d) + e)/k12;
-    var y1 = (d - k*e)/k12;
-    var y2 = (d + k*e)/k12;
-    var xlow = pe1.getX() < pe2.getX() ? pe1.getX() : pe2.getX();
-    var xhigh = pe1.getX() > pe2.getX() ? pe1.getX() : pe2.getX();
-    var ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
-    var yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
+    const x1 = -(k*d + e)/k12;
+    const x2 = (k*(-d) + e)/k12;
+    const y1 = (d - k*e)/k12;
+    const y2 = (d + k*e)/k12;
+    const xlow = pe1.getX() < pe2.getX() ? pe1.getX() : pe2.getX();
+    const xhigh = pe1.getX() > pe2.getX() ? pe1.getX() : pe2.getX();
+    const ylow = pe1.getY() < pe2.getY() ? pe1.getY() : pe2.getY();
+    const yhigh = pe1.getY() > pe2.getY() ? pe1.getY() : pe2.getY();
     if (xlow <= x1 && x1 <= xhigh && ylow <= y1 && y1 <= yhigh) {
       qe1 = new Vector(x1, y1);
     }
@@ -775,8 +775,8 @@ intersection(p1_body, p2_body) {
     }
   }
   // qb1, qb2 = intersection points in body coords
-  var qb1 = null;
-  var qb2 = null;
+  let qb1 = null;
+  let qb2 = null;
   // are the points we found on the circle within the arc of this edge?
   if (qe1 != null && this.isWithinArc(qe1)) {
     qb1 = this.edgeToBody(qe1);
@@ -809,7 +809,7 @@ coordinates.
 static isWithinArc(p_edge, angleLow, angleHigh) {
   asserts.assert(!isNaN(p_edge.getX()));
   asserts.assert(!isNaN(p_edge.getY()));
-  var angle = p_edge.getAngle();
+  let angle = p_edge.getAngle();
   if (angle < angleLow) {
     angle += 2*Math.PI;
   }
@@ -839,7 +839,7 @@ isWithinArc2(p_world) {
   if (this.completeCircle_) {
     return true;
   }
-  var p_edge = this.bodyToEdge(this.body_.worldToBody(p_world));
+  const p_edge = this.bodyToEdge(this.body_.worldToBody(p_world));
   return CircularEdge.isWithinArc(p_edge, this.angle_low_, this.angle_high_);
 };
 
@@ -860,7 +860,7 @@ isWithinReflectedArc(p_edge) {
   if (p_edge==null) {
     return false;
   }
-  var angle = p_edge.getAngle();
+  let angle = p_edge.getAngle();
   while (angle < this.angle_low_ + Math.PI) {
     angle += 2*Math.PI;
   }
@@ -896,18 +896,18 @@ maxDistanceTo(p_body) {
     given point, in body coordinates
 */
 nearestPointByAngle(p_body) {
-  var angle = this.bodyToEdge(p_body).getAngle();
-  var angle2 = angle + (angle < this.angle_low_ ? 2*Math.PI : 0);
+  const angle = this.bodyToEdge(p_body).getAngle();
+  const angle2 = angle + (angle < this.angle_low_ ? 2*Math.PI : 0);
   if (this.angle_low_ <= angle2 && angle2 <= this.angle_high_) {
     return p_body;
   } else {
     // angle is outside of arc;  find which corner is the point closest to
-    var d1 = angle < this.angle_low_ ?
+    const d1 = angle < this.angle_low_ ?
         this.angle_low_ - angle : this.angle_low_ - (angle - 2*Math.PI);
-    var d2 = angle > this.angle_high_ ?
+    const d2 = angle > this.angle_high_ ?
         angle - this.angle_high_ : (2*Math.PI + angle) - this.angle_high_;
-    var angle_new = d1 < d2 ? this.angle_low_ : this.angle_high_;
-    var qb2 = this.angleToBody(angle_new);
+    const angle_new = d1 < d2 ? this.angle_low_ : this.angle_high_;
+    const qb2 = this.angleToBody(angle_new);
     if (0 == 1 && Util.DEBUG) {
       console.log('nearestOldPointTo angle '+Util.NF5(angle)+' became '
           +Util.NF5(angle_new)+' body '+p_body+' became '+qb2);

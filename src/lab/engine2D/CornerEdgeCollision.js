@@ -33,7 +33,7 @@ class CornerEdgeCollision extends RigidBodyCollision {
 *     vector for the collision.
 */
 constructor(vertex, normalEdge) {
-  var v_edge = vertex.getEdge1();
+  const v_edge = vertex.getEdge1();
   if (v_edge == null) {
     throw 'CornerEdgeCollision: null edge; vertex='+vertex;
   }
@@ -114,12 +114,12 @@ getU2() {
     return this.u2_; // cached value to speed up performance
   }
   if (this.ballNormal) {
-    var impact = this.impact2 ? this.impact2 : this.impact1;
-    var impact_body = this.normalBody.worldToBody(impact);
-    var center2_body = this.normalEdge.getCenterOfCurvature(impact_body);
+    const impact = this.impact2 ? this.impact2 : this.impact1;
+    const impact_body = this.normalBody.worldToBody(impact);
+    const center2_body = this.normalEdge.getCenterOfCurvature(impact_body);
     if (center2_body != null) {
       // U2 = vector from CM to normal body's circle center (in world coords)
-      var center2_world = this.normalBody.bodyToWorld(center2_body);
+      const center2_world = this.normalBody.bodyToWorld(center2_body);
       this.u2_ = center2_world.subtract(this.normalBody.getPosition());
       return this.u2_; // cached value to speed up performance
     }
@@ -154,7 +154,7 @@ similarTo(c) {
   if (!c.hasEdge(this.normalEdge)) {
     return false;
   }
-  var e1 = null;
+  let e1 = null;
   if (c.hasEdge(this.primaryEdge)) {
     e1 = this.primaryEdge;
   } else if (c.hasEdge(this.primaryEdge2)) {
@@ -164,17 +164,17 @@ similarTo(c) {
   }
   // both collisions involve same bodies and same vertex/edge
   // Next see if these collisions are close in distance and have similar normals.
-  var nearness = UtilEngine.nearness(this.radius1, this.radius2, this.distanceTol_);
+  const nearness = UtilEngine.nearness(this.radius1, this.radius2, this.distanceTol_);
   // find distance between the collisions
   // @todo  consider impact2 here???
-  var d = this.impact1.subtract(c.impact1);
-  var distSqr = d.lengthSquared();
+  const d = this.impact1.subtract(c.impact1);
+  const distSqr = d.lengthSquared();
   // if the two collisions are close together in space
   if (distSqr > nearness*nearness) {
     return false;
   }
   // if the normals are similar; look at dot product of normals
-  var normality = Math.abs(this.normal.dotProduct(c.normal));
+  const normality = Math.abs(this.normal.dotProduct(c.normal));
   if (normality < 0.9) {
     return false;
   }
@@ -185,9 +185,9 @@ similarTo(c) {
 updateCollision(time) {
   this.u2_ = null; // invalidate cached value
   // vertex/edge collision
-  var pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
-  var pnb = this.normalBody.worldToBody(pbw);
-  var pn = this.normalEdge.getPointOnEdge(pnb);
+  const pbw = this.primaryBody.bodyToWorld(this.vertex.locBody());
+  const pnb = this.normalBody.worldToBody(pbw);
+  const pn = this.normalEdge.getPointOnEdge(pnb);
   if (pn == null) {
     // objects have moved so that we can't update
     // For example, a vertex moves so it is outside of an oval arc.

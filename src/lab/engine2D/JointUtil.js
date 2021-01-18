@@ -64,7 +64,7 @@ with the first body, see {@link #align}.
 @return {!Joint} the Joint that is created
 */
 static addSingleJoint(sim, body1, attach1_body, body2, attach2_body, normalType, normal) {
-  var j1 = new Joint(
+  const j1 = new Joint(
       body1, attach1_body,
       body2, attach2_body,
       normalType, normal);

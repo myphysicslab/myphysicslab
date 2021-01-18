@@ -278,7 +278,7 @@ momentAboutCM() {
 
 /** @override */
 momentum() {
-  var r = new Array(3);
+  const r = new Array(3);
   r[0] = r[1] = r[2] = Util.POSITIVE_INFINITY;
   return r;
 };

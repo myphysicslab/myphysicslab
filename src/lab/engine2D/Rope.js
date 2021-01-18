@@ -135,7 +135,7 @@ getClassName() {
 
 /** @override */
 addCollision(collisions, time, accuracy) {
-  var c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/this.rod_);
+  const c = new ConnectorCollision(this.body1_, this.body2_, this, /*joint=*/this.rod_);
   this.updateCollision(c);
   c.setDetectedTime(time);
   if (this.rod_) {
@@ -149,20 +149,19 @@ addCollision(collisions, time, accuracy) {
 align() {
   // Find the angle between the attachment points, then set the distance
   // between the two attachment points to be rest-length apart.
-  var angle = -Math.PI/2;  // where 0 = 3 o'clock.
-  var p1, p2, d, d2, len, len2;
-  p1 = this.body1_.bodyToWorld(this.attach1_body_);
-  p2 = this.body2_.bodyToWorld(this.attach2_body_);
-  d = p2.subtract(p1);
-  len = d.length();
-  len2 = this.rod_ ? this.restLength_ :
-      this.restLength_ - this.distTol_/2;
-  if (!this.rod_ && len < len2)
+  let angle = -Math.PI/2;  // where 0 = 3 o'clock.
+  const p1 = this.body1_.bodyToWorld(this.attach1_body_);
+  const p2 = this.body2_.bodyToWorld(this.attach2_body_);
+  const d = p2.subtract(p1);
+  const len = d.length();
+  const len2 = this.rod_ ? this.restLength_ : this.restLength_ - this.distTol_/2;
+  if (!this.rod_ && len < len2) {
     return;
+  }
   if (len > 0.01) {
     angle = Math.atan2(d.getY(), d.getX());
   }
-  d2 = p1.add(new Vector(len2*Math.cos(angle), len2*Math.sin(angle)));
+  const d2 = p1.add(new Vector(len2*Math.cos(angle), len2*Math.sin(angle)));
   this.body2_.alignTo(/*p_body=*/this.attach2_body_, /*p_world=*/d2);
 };
 
@@ -249,7 +248,7 @@ updateCollision(c) {
     throw '';
   // stretch = length - restLength
   c.distance = -this.getStretch();
-  var normal = this.getVector().normalize();
+  const normal = this.getVector().normalize();
   if (normal != null) {
     c.normal = normal;
   } else {

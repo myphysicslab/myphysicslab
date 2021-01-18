@@ -114,8 +114,8 @@ const CollisionHandling = {
 * @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.choiceToEnum = value => {
-  var choices = CollisionHandling.getChoices();
-  for (var i=0, len=choices.length; i<len; i++) {
+  const choices = CollisionHandling.getChoices();
+  for (let i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
       return CollisionHandling.getValues()[i];
     }
@@ -129,8 +129,8 @@ CollisionHandling.choiceToEnum = value => {
 * @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.enumToChoice = value => {
-  var vals = CollisionHandling.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = CollisionHandling.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return CollisionHandling.getChoices()[i];
     }
@@ -160,8 +160,8 @@ CollisionHandling.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 CollisionHandling.stringToEnum = value => {
-  var vals = CollisionHandling.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = CollisionHandling.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {
       return vals[i];
     }

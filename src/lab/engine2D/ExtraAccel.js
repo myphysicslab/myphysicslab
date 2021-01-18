@@ -119,8 +119,8 @@ ExtraAccel.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.stringToEnum = value => {
-  var vals = ExtraAccel.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = ExtraAccel.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return vals[i];
     }

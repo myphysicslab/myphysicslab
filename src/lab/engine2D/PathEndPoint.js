@@ -96,7 +96,7 @@ constructor(name, path, body, attach_body, limit, upperLimit) {
   this.location_ = path.map_p_to_vector(limit);
   // NOTE: important to search over entire curve for closest point here
   // later we will use findNearestLocal which is a local not global minimum.
-  var point = this.body_.bodyToWorld(this.attach_body_);
+  const point = this.body_.bodyToWorld(this.attach_body_);
   /** current position along the path
   * @type {!PathPoint}
   * @private
@@ -128,20 +128,20 @@ getClassName() {
 
 /** @override */
 addCollision(collisions, time, accuracy) {
-  var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/false);
+  const c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/false);
   this.updateCollision(c);
   c.setDetectedTime(time);
   if (c.distance < 0) {
     // We only report a collision when distance went from positive to negative.
     // Find the old body distance, was it positive?
-    var body_old = this.body_.getOldCoords();
+    const body_old = this.body_.getOldCoords();
     if (body_old == null) {
       return;
     }
-    var point_old = body_old.bodyToWorld(this.attach_body_);
+    const point_old = body_old.bodyToWorld(this.attach_body_);
     this.path_.findNearestLocal(point_old, this.ppt_old_);
     this.path_.map_p_to_slope(this.ppt_old_);
-    var distance_old = this.upperLimit_ ? this.limit_ - this.ppt_old_.p :
+    const distance_old = this.upperLimit_ ? this.limit_ - this.ppt_old_.p :
         this.ppt_old_.p - this.limit_;
     if (distance_old < 0) {
       return;  // it did not cross from positive to negative, so no collision
@@ -188,7 +188,7 @@ getBoundsWorld() {
 
 /** @override */
 getNormalDistance() {
-  var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
+  const collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
   return collisions[0].getDistance();
 };
@@ -219,7 +219,7 @@ updateCollision(c) {
   if (c.getConnector() != this) {
     throw '';
   }
-  var point = this.body_.bodyToWorld(this.attach_body_);
+  const point = this.body_.bodyToWorld(this.attach_body_);
   c.impact1 = point;
   this.path_.findNearestLocal(point, this.ppt_);
   this.path_.map_p_to_slope(this.ppt_);

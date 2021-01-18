@@ -37,7 +37,7 @@ constructor(body, beginIdx, endIdx) {
   if (endIdx < beginIdx) {
     throw '';
   }
-  var n = body.getEdges().length;
+  const n = body.getEdges().length;
   if (beginIdx < 0 || beginIdx >= n) {
     throw '';
   }
@@ -85,11 +85,11 @@ Assumption: Edges in set are contiguous in the Polygon's list of Edges.
 *     the starting Edge
 */
 static fromEdge(edge) {
-  var beginIdx = edge.getIndex();
+  let beginIdx = edge.getIndex();
   while (true) {
     // Find Edge in the set with the smallest index.
-    var prevEdge = edge.getVertex1().getEdge1();
-    var prevIdx = prevEdge.getIndex();
+    const prevEdge = edge.getVertex1().getEdge1();
+    const prevIdx = prevEdge.getIndex();
     if (prevIdx < beginIdx) {
       beginIdx = prevIdx;
       edge = prevEdge;
@@ -97,7 +97,7 @@ static fromEdge(edge) {
       break;
     }
   }
-  var endIdx = edge.getVertex1().getEdge1().getIndex();
+  const endIdx = edge.getVertex1().getEdge1().getIndex();
   return new EdgeRange(edge.getBody(), beginIdx, endIdx);
 };
 
@@ -114,7 +114,7 @@ contains(edge) {
   if (edge.getBody() != this.body_) {
     return false;
   }
-  var idx = edge.getIndex();
+  const idx = edge.getIndex();
   return idx >= this.beginIdx_ && idx <= this.endIdx_;
 };
 

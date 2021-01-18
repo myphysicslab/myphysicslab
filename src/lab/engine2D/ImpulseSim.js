@@ -341,7 +341,7 @@ getCollisionHandling() {
 *    method to use, from {@link CollisionHandling}.
 */
 setCollisionHandling(value) {
-  var a = CollisionHandling.stringToEnum(value);
+  const a = CollisionHandling.stringToEnum(value);
   asserts.assert(a == value);
   if (this.collisionHandling_ != a) {
     this.collisionHandling_ = a;
@@ -459,12 +459,12 @@ cleanSlate() {
 */
 checkInfiniteMassVelocity(vars) {
   this.bods_.forEach(b => {
-    var idx = b.getVarsIndex();
+    const idx = b.getVarsIndex();
     asserts.assert(idx >= 0);
     if (b.getMass() == Util.POSITIVE_INFINITY) {
-      var vx = vars[idx + RigidBodySim.VX_];
-      var vy = vars[idx + RigidBodySim.VY_];
-      var vw = vars[idx + RigidBodySim.VW_];
+      const vx = vars[idx + RigidBodySim.VX_];
+      const vy = vars[idx + RigidBodySim.VY_];
+      const vw = vars[idx + RigidBodySim.VW_];
       if (vx != 0 || vy != 0 || vw != 0) {
         console.log(this.formatVars());
         throw Util.DEBUG ? ('infinite mass object must remain at rest '
@@ -481,15 +481,14 @@ findCollisions(collisions, vars, stepSize) {
   if (ImpulseSim.COLLISIONS_DISABLED) {
     return;
   }
-  var time = vars[this.varsList_.timeIndex()];
+  const time = vars[this.varsList_.timeIndex()];
   // NOTE: assumes that bodies have been moved to current positions
-  var i, j, k, len, len2;
-  for (i=0, len=this.bods_.length; i<len; i++) {
-    var bod1 = this.bods_[i];
+  for (let i =0, len=this.bods_.length; i<len; i++) {
+    const bod1 = this.bods_[i];
     // check bod1 against all bodies after it in the list
     loop2:
-    for (j = i+1; j < len; j++) {
-      var bod2 = this.bods_[j];
+    for (let j = i+1; j < len; j++) {
+      const bod2 = this.bods_[j];
       if (bod1.doesNotCollide(bod2) || bod2.doesNotCollide(bod1)) {
         continue loop2;
       }
@@ -504,8 +503,8 @@ findCollisions(collisions, vars, stepSize) {
       // Let h = time step; m1, m2 = minimum width of body 1, 2
       // v = combined velocity of 1 & 2
       // must have:  h*v < m1+m2, so v < (m1+m2)/h
-      var speeding; // bodies are exceeding speed limit for proximity test
-      var speed_limit;
+      let speeding; // bodies are exceeding speed limit for proximity test
+      let speed_limit;
       if (DebugEngine2D.PROXIMITY_TEST) {
         // assumes the minimum width is twice the minHeight.
         speed_limit = 2*(bod1.getMinHeight() + bod2.getMinHeight())/stepSize;
@@ -533,23 +532,23 @@ findCollisions(collisions, vars, stepSize) {
               +' step='+Util.NF5(stepSize));
         }
       }
-      var rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
+      const rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
       bod1.checkCollision(rbcs, bod2, time);
     }
   }
   /*  for catching situation where an object escapes past the walls
   Polygon oval = this.bods_[4];
-  var outside = oval.getPosition().getX() < -6 || oval.getPosition().getX() > 6
+  const outside = oval.getPosition().getX() < -6 || oval.getPosition().getX() > 6
              || oval.getPosition().getY() < -6 || oval.getPosition().getY() > 6;
   if (outside && collisions.length==0) {
-    for (i=4; i<this.bods_.length; i++) {
+    for (let i =4; i<this.bods_.length; i++) {
       if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'] '+bod1);
       if (1 == 0 && Util.DEBUG) this.myPrint('bods['+i+'].body_old '+bod1.body_old);
     }
     throw Util.DEBUG ? 'point is outside but no collision detected' : '';
   }
   */
-  //var time = this.getTime() + stepSize;  // alternative way to get time
+  //const time = this.getTime() + stepSize;  // alternative way to get time
   if (1 == 0 && Util.DEBUG && collisions.length > 0) {
     console.log(Util.NF7(time)+' findCollisions stepSize='
             +Util.NF7(stepSize)+' collisions '+collisions.length);
@@ -647,8 +646,8 @@ influence(ci, cj, body) {
     return 0;
   // The body must be involved in collision ci to have any effect.
   // Find the R vector, from cm of body to impact point ci.
-  var r1, r2;
-  var rix, riy;
+  let r1, r2;
+  let rix, riy;
   if (ci.primaryBody==body) {
     r1 = ci.getR1();
     rix = r1.getX();
@@ -660,7 +659,7 @@ influence(ci, cj, body) {
   } else {
     return 0;
   }
-  var rjx, rjy, factor;
+  let rjx, rjy, factor;
   if (cj.primaryBody==body) {
     r1 = cj.getR1();
     rjx = r1.getX();
@@ -699,15 +698,15 @@ use just one of these (duplicate code currently).  March 2012.
 * @protected
 */
 makeCollisionMatrix(collisions) {
-  var n = collisions.length;
-  var A = new Array(n);
-  for (var k = 0; k<n; k++) {
+  const n = collisions.length;
+  const A = new Array(n);
+  for (let k = 0; k<n; k++) {
     A[k] = new Float64Array(n); //Util.newNumberArray(n);
   }
-  for (var i=0; i<n; i++) {
-    var ci = collisions[i];
-    for (k=0; k<n; k++) {
-      var cj = collisions[k];
+  for (let i =0; i<n; i++) {
+    const ci = collisions[i];
+    for (let k =0; k<n; k++) {
+      const cj = collisions[k];
       A[i][k] += this.influence(ci, cj, ci.primaryBody);
       A[i][k] -= this.influence(ci, cj, ci.normalBody);
     }
@@ -717,8 +716,8 @@ makeCollisionMatrix(collisions) {
 
 /** @override */
 handleCollisions(collisions, opt_totals) {
-  var rbcs = /** @type !Array<!RigidBodyCollision>*/(collisions);
-  var energy = 0;  // for debugging
+  const rbcs = /** @type !Array<!RigidBodyCollision>*/(collisions);
+  let energy = 0;  // for debugging
   if (collisions.length==0) {
     throw 'empty array passed to handleCollisions';
   }
@@ -727,7 +726,7 @@ handleCollisions(collisions, opt_totals) {
   }
   if (1 == 0 && Util.DEBUG)
     energy = this.getEnergyInfo().getTotalEnergy();
-  var impulse = true;
+  let impulse = true;
   switch (this.collisionHandling_) {
     case CollisionHandling.SIMULTANEOUS:
       impulse = this.handleCollisionsSimultaneous(rbcs, opt_totals);
@@ -755,7 +754,7 @@ handleCollisions(collisions, opt_totals) {
       throw Util.DEBUG ? ('unknown collision handler '+this.collisionHandling_) : '';
   }
   if (0 == 1 && Util.DEBUG) {
-    var energy2 = this.getEnergyInfo().getTotalEnergy();
+    const energy2 = this.getEnergyInfo().getTotalEnergy();
     this.myPrint('handleCollisions energy change '+ Util.NFE(energy2 - energy)
           +' total energy '+Util.NF9(energy2));
   }
@@ -773,14 +772,14 @@ handleCollisions(collisions, opt_totals) {
 * @private
 */
 handleCollisionsSimultaneous(collisions, opt_totals) {
-  var n = collisions.length;
-  var b = Util.newNumberArray(n);
-  var j = Util.newNumberArray(n);
-  var e = Util.newNumberArray(n);  // keep track of elasticity for debugging
-  var joint = Util.newBooleanArray(n);  // joint is array of boolean
-  var nonJoint = false; // whether there is a non-joint
-  for (var k=0; k<n; k++) {
-    var ck = collisions[k];
+  const n = collisions.length;
+  const b = Util.newNumberArray(n);
+  const j = Util.newNumberArray(n);
+  const e = Util.newNumberArray(n);  // keep track of elasticity for debugging
+  const joint = Util.newBooleanArray(n);  // joint is array of boolean
+  let nonJoint = false; // whether there is a non-joint
+  for (let k =0; k<n; k++) {
+    const ck = collisions[k];
     b[k] = ck.getNormalVelocity();
     if (0 == 1 && Util.DEBUG)
       this.myPrint('handle collision['+k+']='+Util.NF5(b[k])+' '+ck);
@@ -794,15 +793,15 @@ handleCollisionsSimultaneous(collisions, opt_totals) {
 
   // Find the A matrix of how much impact at each collision point
   // affects other collision point gaps.
-  var A = this.makeCollisionMatrix(collisions);
+  const A = this.makeCollisionMatrix(collisions);
 
-  var error = this.computeImpacts_.compute_forces(A, j, b, joint, false,
+  const error = this.computeImpacts_.compute_forces(A, j, b, joint, false,
       this.getTime());
   if (Util.DEBUG && error != -1) {
     // check on how bad the solution is.
-    var accel = UtilEngine.matrixMultiply(A, j);
+    let accel = UtilEngine.matrixMultiply(A, j);
     accel = UtilEngine.vectorAdd(accel, b);
-    var tol = 1E-4;
+    const tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j, accel, joint)) {
       throw Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
@@ -813,10 +812,9 @@ handleCollisionsSimultaneous(collisions, opt_totals) {
     }
   }
 
-  var impulse = false; // true when a large impulse applied
-  var i;
-  for (i=0; i<n; i++) {
-    var c = collisions[i];
+  let impulse = false; // true when a large impulse applied
+  for (let i =0; i<n; i++) {
+    const c = collisions[i];
     if (j[i] > ImpulseSim.TINY_IMPULSE) {
       impulse = true;
     }
@@ -951,34 +949,25 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
   lastPass = lastPass !== undefined ? lastPass : true;
   small_velocity = small_velocity || 0.00001;
   doPanic = doPanic !== undefined ? doPanic : true;
-  var n = collisions.length;
-  var i;
-  var loopCtr = 0; // number of times doing the handle collisions loop below
-  /**
-  * @type {number}
-  * @const
-  */
-  var LOOP_LIMIT = 100000;
-  /**
-  * @type {number}
-  * @const
-  */
-  var PANIC_LIMIT = 20*n;
-  var loopPanic = PANIC_LIMIT;
-  var focus = -1; // index of the collision to handle, or -1 when done
+  const n = collisions.length;
+  let loopCtr = 0; // number of times doing the handle collisions loop below
+  const LOOP_LIMIT = 100000;
+  const PANIC_LIMIT = 20*n;
+  let loopPanic = PANIC_LIMIT;
+  let focus = -1; // index of the collision to handle, or -1 when done
   // debugHCS = print debug messages for handleCollisionsSerial
-  var debugHCS = false; //this.getTime() > 1.175;
-  var e = Util.newNumberArray(n);  // elasticity at each collision
-  var b = Util.newNumberArray(n);  // normal velocity at each collision
-  var j2 = Util.newNumberArray(n);  // cumulative impulse (calculated)
-  var nv = Util.newNumberArray(n);  // initial normal velocities (debug only)
-  var joint = Util.newBooleanArray(n); // which collisions are joints
-  var nonJoint = false; // whether there is a non-joint
+  let debugHCS = false; //this.getTime() > 1.175;
+  const e = Util.newNumberArray(n);  // elasticity at each collision
+  const b = Util.newNumberArray(n);  // normal velocity at each collision
+  const j2 = Util.newNumberArray(n);  // cumulative impulse (calculated)
+  const nv = Util.newNumberArray(n);  // initial normal velocities (debug only)
+  const joint = Util.newBooleanArray(n); // which collisions are joints
+  let nonJoint = false; // whether there is a non-joint
   if (Util.DEBUG && debugHCS) {
     console.log('handleCollisionSerial start n = '+n);
   }
-  for (i=0; i<n; i++) {
-    var ck = collisions[i];
+  for (let i =0; i<n; i++) {
+    const ck = collisions[i];
     if (Util.DEBUG && debugHCS)
       console.log('collision['+i+']='+ck);
     joint[i] = ck.joint;
@@ -994,7 +983,7 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
     nonJoint = nonJoint || !ck.joint;
   }
   // A = the matrix that says how collisions affect each other
-  var A = this.makeCollisionMatrix(collisions);
+  const A = this.makeCollisionMatrix(collisions);
   // Repeat until there all collisions are 'small'.
   // Here 'small' means: b[i] > -small_velocity for non-joints
   //                  or Math.abs(b[i]) < small_velocity for joints
@@ -1045,16 +1034,16 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
       +' max b='+Util.NF7E(ImpulseSim.largestVelocity(joint, b)));
   }
   if (Util.DEBUG && debugHCS) {
-    for (i=0; i<n; i++) {
-      var ck = collisions[i];
+    for (let i =0; i<n; i++) {
+      const ck = collisions[i];
       console.log('collision['+i+'] '+ck);
     }
     UtilEngine.printMatrix2('A ',A);
   }
 
   if (Util.DEBUG && debugHCS) {
-    for (i=0; i<n; i++) {
-      var c = collisions[i];
+    for (let i =0; i<n; i++) {
+      const c = collisions[i];
       // print velocity before the impulses are applied
       if (j2[i] > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('before impulse '
@@ -1066,9 +1055,9 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
   }
 
   // impulse == true when a large impulse has been applied
-  var impulse = false;
-  for (i=0; i<n; i++) {
-    var c = collisions[i];
+  let impulse = false;
+  for (let i =0; i<n; i++) {
+    const c = collisions[i];
     if (j2[i] > ImpulseSim.TINY_IMPULSE) {
       impulse = true;
     }
@@ -1086,8 +1075,8 @@ handleCollisionsSerial(collisions, hybrid, opt_totals,
 
   if (Util.DEBUG && debugHCS) {
     // print the impulses that were calculated and new normal velocity
-    for (i=0; i<n; i++) {
-      var c = collisions[i];
+    for (let i =0; i<n; i++) {
+      const c = collisions[i];
       if (j2[i]  > ImpulseSim.TINY_IMPULSE || c.joint) {
         console.log('after impulse '
             +' j['+i+']='+Util.NF9(j2[i])
@@ -1122,11 +1111,10 @@ means either:
 @private
 */
 static largestVelocity(joint, b) {
-  var max = 0;
+  let max = 0;
   if (Util.DEBUG) {
-    var i;
-    var n = b.length;
-    for (i=0; i<n; i++) {
+    const n = b.length;
+    for (let i =0; i<n; i++) {
       if (joint[i]) {
         if (Math.abs(b[i]) > max) {
           max = Math.abs(b[i]);
@@ -1155,13 +1143,12 @@ Part of the `handleCollisionsSerial` process.
 */
 hcs_focus(debugHCS, small_velocity, loopCtr,
     joint, b) {
-  var i, j, k;
-  var n = b.length;
-  var focus = -1;
+  const n = b.length;
+  let focus = -1;
   // pick first collision with significant collision velocity from random list
-  var indices = this.simRNG_.randomInts(n);
-  for (k=0; k<n; k++) {
-    j = indices[k];
+  const indices = this.simRNG_.randomInts(n);
+  for (let k =0; k<n; k++) {
+    const j = indices[k];
     if (!joint[j] && b[j] < -small_velocity
         || joint[j] && Math.abs(b[j]) > small_velocity) {
       focus = j;
@@ -1191,30 +1178,29 @@ velocity and impulse for that focus collision, and also adjusts connected collis
 */
 hcs_handle(hybrid, grouped, debugHCS,
     small_velocity, loopCtr, focus, joint, e, b, j2, collisions, A) {
-  var i, j, k;
-  var n = b.length;
+  const n = b.length;
   if (Util.DEBUG && debugHCS) {
     console.log('focus='+focus+' loopCtr='+loopCtr);
     UtilEngine.printArray('b ',b, Util.nf7);
     UtilEngine.printArray('e ',e, Util.nf7);
   }
 
-  var set = Util.newBooleanArray(n);
+  const set = Util.newBooleanArray(n);
   if (focus == -1) {
     // during 'final pass' handle all collisions with elasticity = 0
-    for (k=0; k<n; k++) {
+    for (let k =0; k<n; k++) {
       set[k] = true;
     }
   } else if (hybrid || grouped) {
     // Find all collisions interconnected by joints to the focus collision.
     // Also for hybrid method, add collisions on either body of focus collision.
-    var subset = UtilityCollision.subsetCollisions2(collisions, collisions[focus],
+    const subset = UtilityCollision.subsetCollisions2(collisions, collisions[focus],
         hybrid, b, -small_velocity);
-    var len = subset.length;
-    for (i=0; i<len; i++) {
-      var c = subset[i];
+    const len = subset.length;
+    for (let i =0; i<len; i++) {
+      const c = subset[i];
       // find loc such that collisions[loc] == c
-      var loc = array.findIndex(collisions,
+      const loc = array.findIndex(collisions,
         function(element, index, array) {
           return element == c;
         });
@@ -1222,21 +1208,21 @@ hcs_handle(hybrid, grouped, debugHCS,
     }
   } else {
     // only one thing in set: the single focus collison
-    for (k=0; k<n; k++)
+    for (let k =0; k<n; k++)
       set[k] = k == focus;
   }
   // make a subset of A matrix and b vector for those in the chosen set
   // example:   set = (F, T, F, F, T, T, F, T)
   //            idx = (-1, 0, -1, -1, 1, 2, -1, 3)
   //            idx2 = (1, 4, 5, 7)
-  var n1 = 0;  // n1 = number in subset
-  var idx = Util.newNumberArray(n);  // idx = index from big set to subset
-  for (k=0; k<n; k++) {
+  let n1 = 0;  // n1 = number in subset
+  const idx = Util.newNumberArray(n);  // idx = index from big set to subset
+  for (let k =0; k<n; k++) {
     idx[k] = set[k] ? n1 : -1;
     n1 += set[k] ? 1 : 0;
   }
-  var idx2 = Util.newNumberArray(n1);  // idx2 = index from subset to big set
-  for (k=0; k<n; k++) {
+  const idx2 = Util.newNumberArray(n1);  // idx2 = index from subset to big set
+  for (let k =0; k<n; k++) {
     if (set[k])
       idx2[idx[k]] = k;
   }
@@ -1244,10 +1230,10 @@ hcs_handle(hybrid, grouped, debugHCS,
     UtilEngine.printArray('idx ', idx);
     UtilEngine.printArray('idx2', idx2);
   }
-  var A1;  // A matrix for the subset
-  var b1 = null;  // b vector for subset
-  var joint1;  // joint flags for subset
-  var j1 = Util.newNumberArray(n1);  // impulses for subset
+  let A1;  // A matrix for the subset
+  let b1 = null;  // b vector for subset
+  let joint1;  // joint flags for subset
+  const j1 = Util.newNumberArray(n1);  // impulses for subset
   if (1 == 0 && n1 == n) {
     // DON'T DO THIS  (at least always copy b)
     // this could lead to amplification bugs when we do b *= 1+elasticity
@@ -1257,16 +1243,16 @@ hcs_handle(hybrid, grouped, debugHCS,
   } else {
     // A1 is n1 x n1 matrix of numbers
     A1 = new Array(n1);
-    for (k = 0; k<n1; k++) {
+    for (let k = 0; k<n1; k++) {
       A1[k] = new Float64Array(n1); //Util.newNumberArray(n1);
     }
     b1 = Util.newNumberArray(n1);
     joint1 = Util.newBooleanArray(n1);  // joint1 is array of booleans
-    for (i=0; i<n; i++) {
+    for (let i =0; i<n; i++) {
       if (set[i]) {
         b1[idx[i]] = b[i];
         joint1[idx[i]] = joint[i];
-        for (j=0; j<n; j++) {
+        for (let j =0; j<n; j++) {
           if (set[j])
             A1[idx[i]][idx[j]] = A[i][j];
         }
@@ -1275,7 +1261,7 @@ hcs_handle(hybrid, grouped, debugHCS,
   }
   // Solve for impulses j1 using v_f = -e v_i at each colliding contact
   // (and v_f = 0 at joints where elasticity = 0)
-  for (k=0; k<n1; k++) {
+  for (let k =0; k<n1; k++) {
     // When focus == -1 we want elasticity=0, which means leave b1 as is
     // (equivalent to: multiply b1 by 1+elasticity = 1+0 = 1)
     if (focus != -1) {
@@ -1283,8 +1269,8 @@ hcs_handle(hybrid, grouped, debugHCS,
     }
     j1[k] = 0;
   }
-  var pileDebug = false; //Math.abs(this.getTime() - 16.00) < 1E-4;
-  var error = this.computeImpacts_.compute_forces(A1, j1, b1, joint1, pileDebug,
+  const pileDebug = false; //Math.abs(this.getTime() - 16.00) < 1E-4;
+  const error = this.computeImpacts_.compute_forces(A1, j1, b1, joint1, pileDebug,
       this.getTime());
   if (1 == 0 && Util.DEBUG) {
     // Print the A matrix and b vector for further analysis.
@@ -1296,9 +1282,9 @@ hcs_handle(hybrid, grouped, debugHCS,
   }
   if (error != -1) {
     // check on how bad the solution is.
-    var accel = UtilEngine.matrixMultiply(A1, j1);
+    let accel = UtilEngine.matrixMultiply(A1, j1);
     accel = UtilEngine.vectorAdd(accel, b1);
-    var tol = 1E-4;
+    const tol = 1E-4;
     if (!ComputeForces.checkForceAccel(tol, j1, accel, joint1)) {
       throw Util.DEBUG ? (Util.NF7(this.getTime())
           +' compute_impulses failed error='+error
@@ -1312,12 +1298,12 @@ hcs_handle(hybrid, grouped, debugHCS,
     console.log(' max impulse '+Util.NFE(UtilEngine.maxSize(j1))  );
   }
   // update the cumulative impulse j2
-  for (i=0; i<n1; i++) {
+  for (let i =0; i<n1; i++) {
     j2[idx2[i]] += j1[i];
   }
   // update the contact velocities, b
-  for (i=0; i<n; i++) {
-    for (j=0; j<n; j++) {
+  for (let i =0; i<n; i++) {
+    for (let j =0; j<n; j++) {
       if (set[j])
         b[i] += A[i][j]*j1[idx[j]];
     }
@@ -1329,13 +1315,13 @@ hcs_handle(hybrid, grouped, debugHCS,
     UtilEngine.printArray('b ',b, Util.nf7);
   }
   // showVelo = show collision velocities visually (not currently working)
-  var showVelo = false;
+  const showVelo = false;
   if (Util.DEBUG && showVelo && loopCtr > 5) {
-    for (k=0; k<n;k++) {
+    for (let k =0; k<n;k++) {
       // Show visually the velocity at contact points
       // with logarithmic scaling.  red = colliding, green = separating.
-      var c = collisions[k];
-      var mag = 0;
+      const c = collisions[k];
+      let mag = 0;
       if (Math.abs(b[k]) < 1E-6) {
         mag = 0.05;
       } else {
@@ -1377,7 +1363,7 @@ applyCollisionImpulse(cd, j) {
   // Avoid showing second impulse in a pair of opposing impulses;
   // the name indicates if first or second force of pair.
   this.applyImpulse(new Impulse('IMPULSE1', cd.primaryBody, j, cd.impact1, cd.normal, cd.getR1()));
-  var i2 = cd.impact2 != null ? cd.impact2 : cd.impact1;
+  const i2 = cd.impact2 != null ? cd.impact2 : cd.impact1;
   this.applyImpulse(new Impulse('IMPULSE2', cd.normalBody, -j, i2, cd.normal, cd.getR2()));
   if (0 == 1 && Util.DEBUG) {
     // this is for looking at small impulses
@@ -1395,22 +1381,22 @@ applyCollisionImpulse(cd, j) {
 * @private
 */
 applyImpulse(impulse) {
-  var b = impulse.getBody();
-  var body = /** @type {!RigidBody} */(b);
-  var m = body.getMass();
+  const b = impulse.getBody();
+  const body = /** @type {!RigidBody} */(b);
+  const m = body.getMass();
   if (isFinite(m)) {
-    var j = impulse.getMagnitude();
+    const j = impulse.getMagnitude();
     // Regard small impulse as still being a continuous change to the variable.
     // This is a kludge, needed because of the do_small_impacts step in
     // CollisionAdvance (it does collision handling on joints at every time step).
-    var continuous = Math.abs(j) < ImpulseSim.SMALL_IMPULSE;
-    var va = this.getVarsList();
-    var I = body.momentAboutCM();
-    var offset = body.getVarsIndex();
-    var normal = impulse.getVector();
-    var r1 = impulse.getOffset();
+    const continuous = Math.abs(j) < ImpulseSim.SMALL_IMPULSE;
+    const va = this.getVarsList();
+    const I = body.momentAboutCM();
+    const offset = body.getVarsIndex();
+    const normal = impulse.getVector();
+    const r1 = impulse.getOffset();
     if (offset > -1) {
-      var idx = RigidBodySim.VX_+offset;
+      let idx = RigidBodySim.VX_+offset;
       va.setValue(idx, va.getValue(idx) + normal.getX()*j/m, continuous);
       idx = RigidBodySim.VY_+offset;
       va.setValue(idx, va.getValue(idx) + normal.getY()*j/m, continuous);

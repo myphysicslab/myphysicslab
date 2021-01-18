@@ -101,7 +101,7 @@ getClassName() {
 
 /** @override */
 addCollision(collisions, time, accuracy) {
-  var c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/true);
+  const c = new ConnectorCollision(this.body_, Scrim.getScrim(), this, /*joint=*/true);
   this.updateCollision(c);
   c.setDetectedTime(time);
   if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
@@ -121,7 +121,7 @@ addCollision(collisions, time, accuracy) {
 align() {
   // Move the body so the attach point is on the path.
   // Find current world position of attachment point.
-  var attach_world = this.body_.bodyToWorld(this.attach_body_);
+  const attach_world = this.body_.bodyToWorld(this.attach_body_);
   // find nearest point on path to current position of attachment point
   this.ppt_ = this.path_.findNearestGlobal(attach_world);
   this.path_.map_p_to_slope(this.ppt_);
@@ -153,7 +153,7 @@ getBoundsWorld() {
 
 /** @override */
 getNormalDistance() {
-  var collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
+  const collisions = /** @type {!Array<!RigidBodyCollision>} */([]);
   this.addCollision(collisions, /*time=*/NaN, /*accuracy=*/NaN);
   return collisions[0].getDistance();
 };
@@ -193,7 +193,7 @@ updateCollision(c) {
   if (c.getConnector() != this) {
     throw '';
   }
-  var impact_world = this.body_.bodyToWorld(this.attach_body_);
+  const impact_world = this.body_.bodyToWorld(this.attach_body_);
   c.impact1 = impact_world;
   // find slope at nearest point on path to current position of attachment point
   this.path_.findNearestLocal(impact_world, this.ppt_);
@@ -203,7 +203,7 @@ updateCollision(c) {
   if (!this.path_.isClosedLoop()) {
     // If on the path, then the normal at the point on curve should intersect
     // the impact point, and so the distance to the normal line should be zero.
-    var d = this.ppt_.distanceToNormalLine(impact_world);
+    const d = this.ppt_.distanceToNormalLine(impact_world);
     if (d > 1E-4) {
       // Probably off end of path, so set normal derivative to zero.
       // This makes it so that the path effectively extends in a straight
@@ -212,16 +212,16 @@ updateCollision(c) {
       this.ppt_.normalYdp = 0;
     }
   }
-  var normal_world = this.ppt_.getNormal();
+  const normal_world = this.ppt_.getNormal();
   // Find the current velocity in direction of the slope
-  var attachVelocity = this.body_.getVelocity(this.attach_body_);
+  const attachVelocity = this.body_.getVelocity(this.attach_body_);
   // slope vector is a unit vector tangent at point, in direction of increasing p
-  var slopeVector = new Vector(this.ppt_.slopeX, this.ppt_.slopeY);
+  const slopeVector = new Vector(this.ppt_.slopeX, this.ppt_.slopeY);
   asserts.assert( Math.abs(slopeVector.lengthSquared() - 1.0) < 1E-10);
-  var pathVelocity = attachVelocity.dotProduct(slopeVector);
+  const pathVelocity = attachVelocity.dotProduct(slopeVector);
   if (0 == 1 && Util.DEBUG && UtilEngine.debugEngine2D != null) {
     // show visually the velocity vector of the attachment point
-    var pv = slopeVector.multiply(pathVelocity);
+    const pv = slopeVector.multiply(pathVelocity);
     UtilEngine.debugEngine2D.debugLine(this.getName(), c.impact1, c.impact1.add(pv));
   }
   c.normal_dt = new Vector(this.ppt_.normalXdp * pathVelocity,
@@ -235,7 +235,7 @@ updateCollision(c) {
   c.impact2 = this.ppt_.getPosition();
   c.normal = normal_world;
   // offset = how far apart the joint is, ideally zero
-  var offset = c.impact1.subtract(c.impact2);
+  const offset = c.impact1.subtract(c.impact2);
   c.distance = normal_world.dotProduct(offset);
   c.creator = 'PathJoint';
 };

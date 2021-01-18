@@ -107,7 +107,7 @@ addPath(context) {
 * @private
 */
 checkVertexVertex(v, p_body, distTol) {
-  var dist = this.v1_.locBody().distanceTo(p_body);
+  let dist = this.v1_.locBody().distanceTo(p_body);
   // The distance between the vertexes must be large enough to be a valid normal
   // vector. When they are very close together then the normal direction is random.
   // We use 0.6*distTol to avoid making an unwanted collision in DoNothingGrinder;
@@ -141,13 +141,13 @@ distanceToEdge(edge) {
 
 /** @override */
 distanceToLine(p_body) {
-  var r;
-  var pbx = p_body.getX();
-  var pby = p_body.getY();
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  let r;
+  const pbx = p_body.getX();
+  const pby = p_body.getY();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {
     // vertical edge
     r = this.outsideIsUp_ ? pbx - x1 : x1 - pbx;
@@ -155,12 +155,12 @@ distanceToLine(p_body) {
     // horizontal edge
     r = this.outsideIsUp_ ? pby - y1 : y1 - pby;
   } else {
-    var k = (y2 - y1)/(x2 - x1);  // slope of the edge
-    var qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
-    var qy = y1 + k * (qx - x1);
-    var dx = pbx-qx;
-    var dy = pby-qy;
-    var d = Math.sqrt(dx*dx + dy*dy);
+    const k = (y2 - y1)/(x2 - x1);  // slope of the edge
+    const qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
+    const qy = y1 + k * (qx - x1);
+    const dx = pbx-qx;
+    const dy = pby-qy;
+    let d = Math.sqrt(dx*dx + dy*dy);
     if (pby < qy) {
       d = -d;
     }
@@ -174,12 +174,12 @@ distanceToLine(p_body) {
 
 /** @override */
 distanceToPoint(p_body) {
-  var pbx = p_body.getX();
-  var pby = p_body.getY();
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const pbx = p_body.getX();
+  const pby = p_body.getY();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {
     // vertical edge
     // if p is beyond endpoints of this edge segment, return infinite distance
@@ -203,18 +203,18 @@ distanceToPoint(p_body) {
   } else {
     // edge is neither horizontal or vertical
     // k = slope of the edge
-    var k = (y2 - y1)/(x2 - x1);
-    var qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
-    var qy = y1 + k * (qx - x1);
+    const k = (y2 - y1)/(x2 - x1);
+    const qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
+    const qy = y1 + k * (qx - x1);
     if (x1 < x2 && (qx < x1 || qx > x2)) {
       return Util.POSITIVE_INFINITY;
     }
     if (x2 < x1 && (qx < x2 || qx > x1)) {
       return Util.POSITIVE_INFINITY;
     }
-    var dx = pbx-qx;
-    var dy = pby-qy;
-    var d = Math.sqrt(dx*dx + dy*dy);
+    const dx = pbx-qx;
+    const dy = pby-qy;
+    let d = Math.sqrt(dx*dx + dy*dy);
     if (pby < qy) {
       d = -d;
     }
@@ -225,14 +225,14 @@ distanceToPoint(p_body) {
 /** @override */
 findVertexContact(v, p_body, distTol) {
   // p_body = point in body coords
-  var pbx = p_body.getX();
-  var pby = p_body.getY();
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const pbx = p_body.getX();
+  const pby = p_body.getY();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {  // vertical edge
-    var vx = (x1 + x2)/2;  // average in case slightly different
+    const vx = (x1 + x2)/2;  // average in case slightly different
     // is p is beyond endpoints of this edge segment?
     if (y1 > y2 && (pby > y1 || pby < y2)) {
       return this.checkVertexVertex(v, p_body, distTol);
@@ -240,17 +240,17 @@ findVertexContact(v, p_body, distTol) {
     if (y2 > y1 && (pby > y2 || pby < y1)) {
       return this.checkVertexVertex(v, p_body, distTol);
     }
-    var dist = this.outsideIsUp_ ? pbx - vx : vx - pbx;
+    const dist = this.outsideIsUp_ ? pbx - vx : vx - pbx;
     if (dist < 0 || dist > distTol) {
       return null;
     }
-    var rbc = new CornerEdgeCollision(v, this);
+    const rbc = new CornerEdgeCollision(v, this);
     rbc.distance = dist;
     // rw = near point in world coords
-    var rw = this.body_.bodyToWorld(new Vector(vx, pby));
+    const rw = this.body_.bodyToWorld(new Vector(vx, pby));
     rbc.impact1 = rw;
     // nw = normal in world coords
-    var nw = this.body_.rotateBodyToWorld(new Vector(this.outsideIsUp_ ? 1 : -1, 0));
+    const nw = this.body_.rotateBodyToWorld(new Vector(this.outsideIsUp_ ? 1 : -1, 0));
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = Util.POSITIVE_INFINITY;
@@ -258,7 +258,7 @@ findVertexContact(v, p_body, distTol) {
     return rbc;
   }
   if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {  // horizontal edge
-    var vy = (y1 + y2)/2;  // average in case slightly different
+    const vy = (y1 + y2)/2;  // average in case slightly different
     // is p is beyond endpoints of this edge segment?
     if (x1 > x2 && (pbx > x1 || pbx < x2)) {
       return this.checkVertexVertex(v, p_body, distTol);
@@ -266,27 +266,27 @@ findVertexContact(v, p_body, distTol) {
     if (x2 > x1 && (pbx > x2 || pbx < x1)) {
       return this.checkVertexVertex(v, p_body, distTol);
     }
-    var dist = this.outsideIsUp_ ? pby - vy : vy - pby;
+    const dist = this.outsideIsUp_ ? pby - vy : vy - pby;
     if (dist < 0 || dist > distTol) {
       return null;
     }
-    var rbc = new CornerEdgeCollision(v, this);
+    const rbc = new CornerEdgeCollision(v, this);
     rbc.distance = dist;
     // rw = near point in world coords
-    var rw = this.body_.bodyToWorld(new Vector(pbx, vy));
+    const rw = this.body_.bodyToWorld(new Vector(pbx, vy));
     rbc.impact1 = rw;
     // nw = normal in world coords
-    var nw = this.body_.rotateBodyToWorld(new Vector(0, this.outsideIsUp_ ? 1 : -1));
+    const nw = this.body_.rotateBodyToWorld(new Vector(0, this.outsideIsUp_ ? 1 : -1));
     rbc.normal = nw;
     rbc.ballNormal = false;
     rbc.radius2 = Util.POSITIVE_INFINITY;
     rbc.creator = Util.DEBUG ? 'StraightEdge.findVertexContactHoriz' : '';
     return rbc;
   }
-  var k = (y2 - y1)/(x2 - x1);  // slope of the edge
+  const k = (y2 - y1)/(x2 - x1);  // slope of the edge
   // rb = near point in body coords
-  var rbx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
-  var rby = y1 + k * (rbx - x1);
+  const rbx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
+  const rby = y1 + k * (rbx - x1);
   // is rb is beyond endpoints of this edge segment?
   if (x1 < x2 && (rbx < x1 || rbx > x2)) {
     return this.checkVertexVertex(v, p_body, distTol);
@@ -294,9 +294,9 @@ findVertexContact(v, p_body, distTol) {
   if (x2 < x1 && (rbx < x2 || rbx > x1)) {
     return this.checkVertexVertex(v, p_body, distTol);
   }
-  var dx = pbx-rbx;
-  var dy = pby-rby;
-  var dist = Math.sqrt(dx*dx + dy*dy);
+  const dx = pbx-rbx;
+  const dy = pby-rby;
+  let dist = Math.sqrt(dx*dx + dy*dy);
   if (pby < rby) {
     dist = -dist;
   }
@@ -304,14 +304,14 @@ findVertexContact(v, p_body, distTol) {
   if (dist < 0 || dist > distTol) {
     return null;
   }
-  var rbc = new CornerEdgeCollision(v, this);
+  const rbc = new CornerEdgeCollision(v, this);
   rbc.distance = dist;
   // rw = near point in world coords
-  var rw = this.body_.bodyToWorld(new Vector(rbx, rby));
+  const rw = this.body_.bodyToWorld(new Vector(rbx, rby));
   rbc.impact1 = rw;
-  var len = Math.sqrt(1 + k*k);
+  const len = Math.sqrt(1 + k*k);
   // nw = normal in world coords
-  var nw = this.body_.rotateBodyToWorld(new Vector(-k/len, 1/len));
+  let nw = this.body_.rotateBodyToWorld(new Vector(-k/len, 1/len));
   if (!this.outsideIsUp_) {
     nw = nw.multiply(-1);
   }
@@ -324,8 +324,8 @@ findVertexContact(v, p_body, distTol) {
 
 /** @override */
 getBottomBody() {
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   return y1 < y2 ? y1 : y2;
 };
 
@@ -346,18 +346,18 @@ getCurvature(p_body) {
 
 /** @override */
 getLeftBody() {
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
   return x1 < x2 ? x1 : x2;
 };
 
 /** @override */
 getNormalBody(p_body) {
   // (we ignore p_body, because normal is same at any point on a straight line)
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {  // vertical edge
     // for vertical lines, outsideIsUp means normal points right
     return new Vector(this.outsideIsUp_ ? 1 : -1, 0);
@@ -366,10 +366,10 @@ getNormalBody(p_body) {
     // for horizontal lines, outsideIsUp means normal points up
     return new Vector(0, this.outsideIsUp_ ? 1 : -1);
   }
-  var k = (y2 - y1)/(x2 - x1);  // slope of the edge
-  var d = Math.sqrt(1 + k*k);
-  var nx = -k/d;
-  var ny = 1/d;
+  const k = (y2 - y1)/(x2 - x1);  // slope of the edge
+  const d = Math.sqrt(1 + k*k);
+  let nx = -k/d;
+  let ny = 1/d;
   if (!this.outsideIsUp_) {
     nx = -nx;
     ny = -ny;
@@ -379,30 +379,30 @@ getNormalBody(p_body) {
 
 /** @override */
 getPointOnEdge(p_body) {
-  var p = this.projectionOntoLine(p_body);
-  var n = this.getNormalBody(p_body);
+  const p = this.projectionOntoLine(p_body);
+  const n = this.getNormalBody(p_body);
   return [p, n];
 };
 
 /** @override */
 getRightBody() {
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
   return x1 > x2 ? x1 : x2;
 };
 
 /** @override */
 getTopBody() {
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   return y1 > y2 ? y1 : y2;
 };
 
 /** @override */
 highlight() {
   if (UtilEngine.debugEngine2D != null) {
-    var p1 = this.body_.bodyToWorld(this.v1_.locBody());
-    var p2 = this.body_.bodyToWorld(this.v2_.locBody());
+    const p1 = this.body_.bodyToWorld(this.v1_.locBody());
+    const p2 = this.body_.bodyToWorld(this.v2_.locBody());
     UtilEngine.debugEngine2D.debugLine('edge', p1, p2);
   }
 };
@@ -426,9 +426,9 @@ intersection(p1_body, p2_body) {
   if (p1_body == p2_body) {
     return null;
   }
-  var v1 = this.v1_.locBody();
-  var v2 = this.v2_.locBody();
-  var q = UtilEngine.linesIntersect(v1, v2, p1_body, p2_body);
+  const v1 = this.v1_.locBody();
+  const v2 = this.v2_.locBody();
+  const q = UtilEngine.linesIntersect(v1, v2, p1_body, p2_body);
   return q == null ? null : [q];
 };
 
@@ -457,20 +457,20 @@ intersectionPossible(edge, swellage) {
 */
 makeVertexVertex(myV, otherV, p_body, dist) {
   asserts.assert( myV.getEdge1() == this || myV.getEdge2() == this );
-  var rbc = new CornerCornerCollision(otherV, myV);
+  const rbc = new CornerCornerCollision(otherV, myV);
   rbc.distance = dist;
   // rw = near point in world coords
-  var rw = this.body_.bodyToWorld(myV.locBody());
+  const rw = this.body_.bodyToWorld(myV.locBody());
   rbc.impact1 = rw;
   // nb = normal in body coords
-  var nb = p_body.subtract(myV.locBody()).normalize();
+  const nb = p_body.subtract(myV.locBody()).normalize();
   if (nb == null) {
     // the vector between the other vertex and my vertex is zero,
     // we can't figure out a normal, so give up.
     return null;
   }
   // nw = normal in world coords
-  var nw = this.body_.rotateBodyToWorld(nb);
+  const nw = this.body_.rotateBodyToWorld(nb);
   rbc.normal = nw;
   asserts.assert(this.body_ == rbc.normalBody);
   // problem with this is that the radius is small and can change quickly
@@ -486,8 +486,8 @@ makeVertexVertex(myV, otherV, p_body, dist) {
 
 /** @override */
 maxDistanceTo(p_body) {
-  var dist1 = this.v1_.locBody().distanceTo(p_body);
-  var dist2 = this.v2_.locBody().distanceTo(p_body);
+  const dist1 = this.v1_.locBody().distanceTo(p_body);
+  const dist2 = this.v2_.locBody().distanceTo(p_body);
   return dist1 > dist2 ? dist1 : dist2;
 };
 
@@ -507,21 +507,21 @@ This is the point on this line where a perpendicular would cross the given point
 *    extended line of this Edge
 */
 projectionOntoLine(p_body) {
-  var pbx = p_body.getX();
-  var pby = p_body.getY();
-  var x1 = this.v1_.locBodyX();
-  var x2 = this.v2_.locBodyX();
-  var y1 = this.v1_.locBodyY();
-  var y2 = this.v2_.locBodyY();
+  const pbx = p_body.getX();
+  const pby = p_body.getY();
+  const x1 = this.v1_.locBodyX();
+  const x2 = this.v2_.locBodyX();
+  const y1 = this.v1_.locBodyY();
+  const y2 = this.v2_.locBodyY();
   if (Math.abs(x2 - x1) < AbstractEdge.TINY_POSITIVE) {  // vertical edge
     return new Vector(x1, pby);
   }
   if (Math.abs(y2 - y1) < AbstractEdge.TINY_POSITIVE) {  // horizontal edge
     return new Vector(pbx, y1);
   }
-  var k = (y2 - y1)/(x2 - x1);  // slope of the edge
-  var qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
-  var qy = y1 + k * (qx - x1);
+  const k = (y2 - y1)/(x2 - x1);  // slope of the edge
+  const qx = (-y1 + pby + pbx/k + k*x1) / (1/k + k);
+  const qy = y1 + k * (qx - x1);
   return new Vector(qx, qy);
 };
 

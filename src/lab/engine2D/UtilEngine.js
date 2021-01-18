@@ -56,15 +56,14 @@ static square(x) {
 *     with column b appended.
 */
 static addColumnToMatrix(A, b) {
-  var i, j;
-  var n = A.length;
+  const n = A.length;
   if (b.length != n)
     throw '';
-  var M = UtilEngine.newEmptyMatrix(n, n+1);
-  for (i=0; i<n; i++)
-    for (j=0; j<n; j++)
+  const M = UtilEngine.newEmptyMatrix(n, n+1);
+  for (let i=0; i<n; i++)
+    for (let j=0; j<n; j++)
       M[i][j] = A[i][j];
-  for (i=0; i<n; i++)
+  for (let i=0; i<n; i++)
     M[i][n] = b[i];
   return M;
 };
@@ -74,8 +73,8 @@ static addColumnToMatrix(A, b) {
 */
 static checkArrayNaN(x) {
   if (Util.DEBUG) {
-    var isOK = true;
-    for (var i=0, len=x.length; i<len; i++)
+    let isOK = true;
+    for (let i=0, len=x.length; i<len; i++)
       isOK = isOK && !isNaN(x[i]);
     if (!isOK) {
       UtilEngine.printArray('fail NaN ', x);
@@ -92,8 +91,8 @@ static checkArrayNaN(x) {
 static colinearity(p) {
   asserts.assert(p.length == 3);
   // find dot product of two lines
-  var v1 = Vector.clone(p[1]).subtract(p[0]).normalize();
-  var v2 = Vector.clone(p[2]).subtract(p[0]).normalize();
+  const v1 = Vector.clone(p[1]).subtract(p[0]).normalize();
+  const v2 = Vector.clone(p[2]).subtract(p[0]).normalize();
   if (v1 == null || v2 == null)
     return 0;
   else
@@ -106,8 +105,8 @@ static colinearity(p) {
 * @return {number}
 */
 static countBoolean(set, n) {
-  var c = 0;  // number of elements in set
-  for (var i=0; i < n; i++)
+  let c = 0;  // number of elements in set
+  for (let i=0; i < n; i++)
     if (set[i]) c++;
   return c;
 };
@@ -127,17 +126,17 @@ qy = p1y + k (qx - p1x)
 *    at point `p1`
 */
 static distanceToLine(p1, n, p2) {
-  var r;
+  let r;
   if (Math.abs(n.getX()) < Vector.TINY_POSITIVE) { // vertical line
     r = Math.abs(p2.getX() - p1.getX());
   } else if (Math.abs(n.getY()) < Vector.TINY_POSITIVE) { // horizontal line
     r = Math.abs(p2.getY() - p1.getY());
   } else {
-    var k = n.getY()/n.getX(); // slope of line
-    var qx = (-p1.getY() + p2.getY() + k*p1.getX() + p2.getX()/k) / (1/k + k);
-    var qy = p1.getY() + k * (qx - p1.getX());
-    var dx = p2.getX()-qx;
-    var dy = p2.getY()-qy;
+    const k = n.getY()/n.getX(); // slope of line
+    const qx = (-p1.getY() + p2.getY() + k*p1.getX() + p2.getX()/k) / (1/k + k);
+    const qy = p1.getY() + k * (qx - p1.getX());
+    const dx = p2.getX()-qx;
+    const dy = p2.getY()-qy;
     r = Math.sqrt(dx*dx + dy*dy);
   }
   return r;
@@ -204,14 +203,13 @@ distance between points becoming small.
 @return {!Vector} the two values where the minimum was found
 */
 static findMinimumSimplex(p, f, tolerance, info) {
-  var i;
   if (info.length < 2)
     throw Util.DEBUG ? 'info array length < 2' : '';
   if (p.length != 3)
     throw Util.DEBUG ? 'must pass 3 points' : '';
   /** @type {!Array<number>} */
-  var v = new Array(3); // values of the three points
-  for (i=0; i<3; i++) {
+  const v = new Array(3); // values of the three points
+  for (let i=0; i<3; i++) {
     v[i] = f(p[i]);
   }
   // sort the points so that v[0] <= v[1] <= v[2]
@@ -224,15 +222,15 @@ static findMinimumSimplex(p, f, tolerance, info) {
   // From this point on, we keep the points sorted:
   // p[0] = B = best;   p[1] = G = good;  p[2] = W = worst
   // Allocate these arrays outside of the loop for a slight efficiency gain.
-  var m = new MutableVector(0, 0); // mid-point of the good side
-  var r = new MutableVector(0, 0); // reflected point
-  var e = new MutableVector(0, 0); // expansion point
-  var c1 = new MutableVector(0, 0); // contracted point
-  var c2 = new MutableVector(0, 0); // contracted point
-  var t = new MutableVector(0, 0); // temporary intermediate result
-  var counter = 0; // count number of iterations
+  const m = new MutableVector(0, 0); // mid-point of the good side
+  const r = new MutableVector(0, 0); // reflected point
+  const e = new MutableVector(0, 0); // expansion point
+  const c1 = new MutableVector(0, 0); // contracted point
+  const c2 = new MutableVector(0, 0); // contracted point
+  const t = new MutableVector(0, 0); // temporary intermediate result
+  let counter = 0; // count number of iterations
   // begin Nelder-Mead Downhill Simplex algorithm
-  var md;
+  let md;
   while ((md = UtilEngine.maxDistance(p)) > tolerance) {
     asserts.assert(v[0] <= v[1]);
     asserts.assert(v[1] <= v[2]);
@@ -240,12 +238,12 @@ static findMinimumSimplex(p, f, tolerance, info) {
     if (UtilEngine.debugSimplex_) {
       console.log('iteration '+counter+' max dist '+Util.NF5(md));
       // this shows the progress of the algorithm:  values and point locations
-      for (i= 0; i<3; i++)
+      for (let i= 0; i<3; i++)
         console.log(i+'. '+Util.NF5(v[i])+' at '+p[i]);
     }
     if (counter > 10000) {
       if (UtilEngine.debugSimplex_) {
-        var c = UtilEngine.colinearity(p);
+        const c = UtilEngine.colinearity(p);
         console.log('FAILURE colinearity = '+Util.NF5(c)+
           ' value='+Util.NF5(v[0]));
       }
@@ -261,7 +259,7 @@ static findMinimumSimplex(p, f, tolerance, info) {
     // Find the reflected point, R.  It is the reflection of W along the line B G,
     // R can be found as R = M + (M - W) = 2 M - W
     r.setToVector(m).multiply(2).subtract(p[2]);
-    var vr = f(r);  // vr = f(R) = value of function at R
+    const vr = f(r);  // vr = f(R) = value of function at R
     if (UtilEngine.debugSimplex_)
       console.log('Reflection '+Util.NF5(vr)+' at '+r);
     if (vr < v[1]) {
@@ -279,7 +277,7 @@ static findMinimumSimplex(p, f, tolerance, info) {
       // So try going even further in this direction, find the expansion point E.
       // E = R + (R - M) = 2 R - M
       e.setToVector(r).multiply(2).subtract(m);
-      var ve = f(e); // er = f(E) = value of function at E
+      const ve = f(e); // er = f(E) = value of function at E
       if (UtilEngine.debugSimplex_)
         console.log('Expansion '+Util.NF5(ve)+' at '+e);
       if (ve < vr) {
@@ -303,14 +301,14 @@ static findMinimumSimplex(p, f, tolerance, info) {
     // Contraction
     // Find the contracted point at C = W + (M - W)/2 = (W + M)/2
     c1.setToVector(p[2]).add(m).divide(2);
-    var vc1 = f(c1);
+    const vc1 = f(c1);
     if (UtilEngine.debugSimplex_)
       console.log('Contraction1 '+Util.NF5(vc1)+' at '+c1);
     // Find other (reflected) contracted point at C = M + (M - W)/2 = (3/2) M - W/2
     // (This second contraction point seems to reduce iterations by 5 or so.)
     t.setToVector(p[2].divide(2)); // = W/2
     c2.setToVector(m).multiply(1.5).subtract(t);  // = 1.5*M - W/2
-    var vc2 = f(c2);
+    const vc2 = f(c2);
     if (UtilEngine.debugSimplex_)
       console.log('Contraction2 '+Util.NF5(vc2)+' at '+c2);
     // if the contracted point is better than W, then use it
@@ -374,15 +372,15 @@ static findMinimumSimplex(p, f, tolerance, info) {
 * @return {string} the array formatted as a string
 */
 static formatArray(r, opt_start, opt_n, opt_nf) {
-  var nf = opt_nf || Util.NF5E;
-  var start = opt_start || 0;
+  const nf = opt_nf || Util.NF5E;
+  const start = opt_start || 0;
   if (start >= r.length) {
     throw '';
   }
-  var n = opt_n || r.length - start;
-  var end = start + n;
-  var s = '';
-  for (var i=start; i<end; i++) {
+  const n = opt_n || r.length - start;
+  const end = start + n;
+  let s = '';
+  for (let i=start; i<end; i++) {
     s += '['+i+']' + nf(r[i]) + ', ';
   }
   return s;
@@ -410,21 +408,21 @@ See {@link myphysicslab.test.StraightStraightTest#acute_corners_setup}.
     segments do not intersect
 */
 static linesIntersect(p1, p2, p3, p4) {
-  var xi, yi, k1, k2;
-  var x1 = p1.getX();
-  var y1 = p1.getY();
-  var x2 = p2.getX();
-  var y2 = p2.getY();
-  var x3 = p3.getX();
-  var y3 = p3.getY();
-  var x4 = p4.getX();
-  var y4 = p4.getY();
-  var parallel_tol = 1E-16; // tolerance for whether lines are parallel
+  let xi, yi, k1, k2;
+  let x1 = p1.getX();
+  let y1 = p1.getY();
+  let x2 = p2.getX();
+  let y2 = p2.getY();
+  let x3 = p3.getX();
+  let y3 = p3.getY();
+  let x4 = p4.getX();
+  let y4 = p4.getY();
+  const parallel_tol = 1E-16; // tolerance for whether lines are parallel
   // tol = tolerance at end points: this makes the edges slightly longer
   // and increases chance of finding intersection at endpoints.
-  var tol = 1E-14;
+  const tol = 1E-14;
   // quick test whether intersection is possible
-  var d = x1 > x2 ? x1 : x2;
+  let d = x1 > x2 ? x1 : x2;
   if (x3 > d && x4 > d) {
     return null;
   }
@@ -532,8 +530,8 @@ static linesIntersect(p1, p2, p3, p4) {
 */
 static maxDistance(p) {
   asserts.assert(p.length == 3);
-  var dist = p[0].distanceSquaredTo(p[1]);
-  var d = p[0].distanceSquaredTo(p[2]);
+  let dist = p[0].distanceSquaredTo(p[1]);
+  let d = p[0].distanceSquaredTo(p[2]);
   if (d > dist) {
     dist = d;
   }
@@ -567,9 +565,9 @@ static maxSize(r, n) {
 * @return {number} the minimum value of the vector
 */
 static minValue(r, n) {
-  var min = Util.POSITIVE_INFINITY;
+  let min = Util.POSITIVE_INFINITY;
   n = n || r.length;
-  for (var i=0; i<n; i++) {
+  for (let i=0; i<n; i++) {
     if (r[i] < min) {
       min = r[i];
     }
@@ -587,7 +585,7 @@ static printArray(s, r, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
-    for (var i=0; i<opt_n; i++) {
+    for (let i=0; i<opt_n; i++) {
       s += ' ['+i+']='+nf(r[i]);
     }
     console.log(s);
@@ -605,7 +603,7 @@ static printArray2(s, r, nf, opt_n) {
     nf = nf || Util.NF7E;
     opt_n = opt_n || r.length;
     s += ' ';
-    for (var i=0; i<opt_n; i++) {
+    for (let i=0; i<opt_n; i++) {
       s += nf(r[i]) + ', ';
     }
     console.log(s);
@@ -619,11 +617,11 @@ static printArray2(s, r, nf, opt_n) {
 */
 static printArray3(s, r, delim) {
   if (Util.DEBUG) {
-    for (var i=0, len=r.length; i<len; i++) {
+    for (let i=0, len=r.length; i<len; i++) {
       /** @type {string} */
-      var ns;
+      let ns;
       /** @type {number} */
-      var num = r[i];
+      const num = r[i];
       if (num !== undefined) {
         ns = num.toFixed(2);
         if (ns === '0.00') {
@@ -646,7 +644,7 @@ static printArray3(s, r, delim) {
 static printArrayIndices(s, r, n) {
   if (Util.DEBUG) {
     s += ' [';
-    for (var i=0; i<n; i++) {
+    for (let i=0; i<n; i++) {
       if (r[i]) {
         s += i+', ';
       }
@@ -667,7 +665,7 @@ static printArrayPermutation(s, r, ncol, nf, opt_n) {
   if (Util.DEBUG) {
     nf = nf || Util.NF7;
     opt_n = opt_n || r.length;
-    for (var i=0; i<opt_n; i++) {
+    for (let i=0; i<opt_n; i++) {
       s += nf(r[ncol[i]]) + ', ';
     }
     console.log(s);
@@ -681,7 +679,7 @@ static printArrayPermutation(s, r, ncol, nf, opt_n) {
 static printList(s, list) {
   if (Util.DEBUG) {
     s += ' [';
-    for (var i=0, len=list.length; i<len; i++) {
+    for (let i=0, len=list.length; i<len; i++) {
       s += list[i].toString()+', ';
     }
     s += ']';
@@ -700,7 +698,7 @@ static printMatrix2(s, m, nf, n) {
     nf = nf || Util.NF7E;
     n = n || m.length;
     console.log(s);
-    for (var i=0; i<n; i++)
+    for (let i=0; i<n; i++)
       UtilEngine.printArray2('', m[i], nf, n);
   }
 }
@@ -715,7 +713,7 @@ static printMatrix2(s, m, nf, n) {
 static printMatrix3(s, m, nrow) {
   if (Util.DEBUG) {
     console.log(s);
-    for (var i=0, len=m.length; i<len; i++) {
+    for (let i=0, len=m.length; i<len; i++) {
       UtilEngine.printArray3('', m[nrow[i]], ',');
     }
   }
@@ -733,7 +731,7 @@ static printMatrixPermutation(s, m, nrow, ncol, nf, n) {
   if (Util.DEBUG) {
     console.log(s);
     n = n || m.length;
-    for (var i=0; i<n; i++) {
+    for (let i=0; i<n; i++) {
       UtilEngine.printArrayPermutation('', m[nrow[i]], ncol, nf, n+1);
     }
   }
@@ -747,15 +745,15 @@ static printMatrixPermutation(s, m, nrow, ncol, nf, n) {
 * @return {!Array<number>} result is A . x - b
 */
 static matrixMultiply(A, x, opt_b) {
-  var n = x.length;
+  const n = x.length;
   asserts.assert(A.length >= n);
   asserts.assert(A[0].length >= n);
   asserts.assert(!opt_b || opt_b.length >= n);
   /** @type {!Array<number>}*/
-  var r = new Array(n);
-  for (var i=0; i<n; i++) {
+  const r = new Array(n);
+  for (let i=0; i<n; i++) {
     r[i] = 0;
-    for (var j=0; j<n; j++) {
+    for (let j=0; j<n; j++) {
       r[i] += A[i][j] * x[j];
     }
     if (opt_b) {
@@ -772,7 +770,7 @@ static matrixMultiply(A, x, opt_b) {
 @return {number} the maximum value of |A . x - b|
 */
 static matrixSolveError(A, x, b) {
-  var r = UtilEngine.matrixMultiply(A, x, b);
+  const r = UtilEngine.matrixMultiply(A, x, b);
   return r[UtilEngine.maxIndex(r)];
 };
 
@@ -786,9 +784,9 @@ static matrixSolveError(A, x, b) {
 */
 static matrixSolve4(A, x, b, zero_tol) {
   zero_tol = (zero_tol === undefined) ? UtilEngine.MATRIX_SOLVE_ZERO_TOL : zero_tol;
-  var M = UtilEngine.addColumnToMatrix(A, b);
+  const M = UtilEngine.addColumnToMatrix(A, b);
   /** @type {!Array<number>}*/
-  var nrow = new Array(x.length);
+  const nrow = new Array(x.length);
   return UtilEngine.matrixSolve3(M, x, zero_tol, nrow);
 };
 
@@ -997,7 +995,7 @@ static matrixSolve3(A, x, zero_tol, nrow) {
     // Because we've solved already for x[j] with j > c, and
     // because this row has A[r][j] == 0 for j < c
     // we can find x[c] in terms of the x[j] already solved for.
-    var sum = 0;
+    let sum = 0;
     for (let j=c+1; j<n; j++) {
       sum += A[nrow[r]][ncol[j]]*x[ncol[j]];
     }
@@ -1033,18 +1031,18 @@ and `L` has all 1's on its diagonal.
 @return {boolean} true if the given upper triangular matrix is singular
 */
 static matrixIsSingular(Acc, n, nrow, tolerance) {
-  var min = Util.POSITIVE_INFINITY;
-  var max = 0;
-  for (var i=0; i<n; i++) {
-    var diag = Math.abs(Acc[nrow[i]][i]);
+  let min = Util.POSITIVE_INFINITY;
+  let max = 0;
+  for (let i=0; i<n; i++) {
+    const diag = Math.abs(Acc[nrow[i]][i]);
     if (diag < min)
       min = diag;
     if (diag > max)
       max = diag;
   }
   //double condition = min > 1E-3 ? max/min : Double.MAX_VALUE;
-  var condition = max/min;
-  var r = Math.abs(min) < tolerance;
+  const condition = max/min;
+  const r = Math.abs(min) < tolerance;
   if (0 == 1 && (r || Math.abs(min) < 1.0) && Util.DEBUG)
     console.log('diagonal min='+Util.NFE(min)+' max='+Util.NF5(max)
          +' condition='+Util.NFE(condition)+' singular='+r);
@@ -1056,9 +1054,9 @@ static matrixIsSingular(Acc, n, nrow, tolerance) {
 @return {number} the index of the largest entry in the vector
 */
 static maxIndex(r) {
-  var max = 0;
-  var j = -1;
-  for (var i=0, len=r.length; i<len; i++) {
+  let max = 0;
+  let j = -1;
+  for (let i=0, len=r.length; i<len; i++) {
     if (Math.abs(r[i]) > max) {
       max = Math.abs(r[i]);
       j = i;
@@ -1128,7 +1126,7 @@ used for detecting when a point is in contact.
 static nearness(r1, r2, distTol) {
   if (r1 == Util.NaN || r2 == Util.NaN)
     throw '';
-  var r = -1;
+  let r = -1;
   if (r1 == Util.POSITIVE_INFINITY) {
     // r1 is a straight edge
     // if r2 is concave, then treat same as straight/straight case
@@ -1164,10 +1162,10 @@ static nearness(r1, r2, distTol) {
 static newEmptyMatrix(n, m) {
   m = m || n;
   /** @type {!Array<!Float64Array>}*/
-  var a = new Array(n);
-  for (var i=0; i<n; i++) {
+  const a = new Array(n);
+  for (let i=0; i<n; i++) {
     a[i] = new Float64Array(m);
-    /*for (var j=0; j<m; j++) {
+    /*for (let j=0; j<m; j++) {
       a[i][j] = 0;
     }*/
   }
@@ -1184,16 +1182,16 @@ static newEmptyMatrix(n, m) {
 static newMatrixFromArray(n, a) {
   if (a.length < n*n)
     throw '';
-  var M = UtilEngine.newEmptyMatrix(n);
-  var k=0;
-  for (var i = 0; i<n; i++) {
-    for (var j=0; j<n; j++) {
+  const M = UtilEngine.newEmptyMatrix(n);
+  let k=0;
+  for (let i = 0; i<n; i++) {
+    for (let j=0; j<n; j++) {
       if (j<n)
         M[i][j] = a[k];
       k++;
     }
   }
-  /*for (var i = 0; i<a.length; i++) {
+  /*for (let i = 0; i<a.length; i++) {
     M[Math.floor(i/n)][i%n] = a[i];
   }*/
   return M;
@@ -1210,10 +1208,10 @@ static newMatrixFromArray(n, a) {
 static newMatrixFromArray2(n, a) {
   if (a.length < n*(n+1))
     throw 'a.length='+a.length+' n='+n;
-  var M = UtilEngine.newEmptyMatrix(n);
-  var k=0;
-  for (var i = 0; i<n; i++) {
-    for (var j=0; j<n+1; j++) {
+  const M = UtilEngine.newEmptyMatrix(n);
+  let k=0;
+  for (let i = 0; i<n; i++) {
+    for (let j=0; j<n+1; j++) {
       if (j<n)
         M[i][j] = a[k];
       k++;
@@ -1230,10 +1228,10 @@ static newMatrixFromArray2(n, a) {
 * @private
 */
 static swapPointValue(v, p, i, j) {
-  var d = v[i];
+  const d = v[i];
   v[i] = v[j];
   v[j] = d;
-  var q = p[i];
+  const q = p[i];
   p[i] = p[j];
   p[j] = q;
 };
@@ -1244,10 +1242,10 @@ static swapPointValue(v, p, i, j) {
 * @return {!Array<number>}  new vector containing sum: v + u
 */
 static vectorAdd(v, u) {
-  var n = v.length;
+  const n = v.length;
   asserts.assert(u.length == n);
-  var r = new Array(n);
-  for (var i=0; i<n; i++) {
+  const r = new Array(n);
+  for (let i=0; i<n; i++) {
     r[i] = v[i] + u[i];
   }
   return r;
@@ -1258,9 +1256,10 @@ static vectorAdd(v, u) {
 * @return {number} the length of the vector
 */
 static vectorLength(p) {
-  var sum = 0;
-  for (var i=0, len=p.length; i<len; i++)
+  let sum = 0;
+  for (let i=0, len=p.length; i<len; i++) {
     sum += p[i]*p[i];
+  }
   return Math.sqrt(sum);
 };
 

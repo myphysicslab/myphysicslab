@@ -109,7 +109,7 @@ find a particular variable, add the appropriate offset: `RigidBodySim.X_,
 RigidBodySim.VX_, RigidBodySim.Y_, RigidBodySim.VY_, RigidBodySim.W_, RigidBodySim.VW_`.
 For example, to find the angular velocity of a RigidBody:
 
-    var idx = body.getVarsIndex();
+    const idx = body.getVarsIndex();
     return vars[idx + RigidBodySim.VW_];
 
 Variables at the beginning of the VariablesList:
@@ -166,13 +166,13 @@ constructor(opt_name) {
   * @protected
   */
   this.simList_ = new SimList();
-  var var_names = [
+  const var_names = [
       VarsList.en.TIME,
       EnergySystem.en.KINETIC_ENERGY,
       EnergySystem.en.POTENTIAL_ENERGY,
       EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
       VarsList.i18n.TIME,
       EnergySystem.i18n.KINETIC_ENERGY,
       EnergySystem.i18n.POTENTIAL_ENERGY,
@@ -320,8 +320,8 @@ setSimRect(rect) {
 @return {string} string showing current variables of each RigidBody, for debugging.
 */
 formatVars() {
-  var v = this.varsList_.getValues(/*computed=*/true);
-  var s = array.reduce(this.bods_,
+  const v = this.varsList_.getValues(/*computed=*/true);
+  const s = array.reduce(this.bods_,
     function(str, b) {
       return str + (str != '' ? '\n' : '') +
         UtilEngine.formatArray(v, b.getVarsIndex(), 6);
@@ -366,12 +366,12 @@ cleanSlate() {
   // observing the current VarsList.  Instead, resize it for zero bodies.
   // Note this will delete any Variables that have been added to the end
   // of the VarsList.
-  var nv = this.varsList_.numVariables();
+  const nv = this.varsList_.numVariables();
   if (nv > 4) {
     // delete all variables except: 0 = time, 1 = KE, 2 = PE, 3 = TE
     this.varsList_.deleteVariables(4, nv - 4);
   }
-  for (var i=0, n=this.bods_.length; i<n; i++) {
+  for (let i=0, n=this.bods_.length; i<n; i++) {
     // For safety, erase any varsIndex info in the bodies that are being removed,
     // even though those bodies are about to be deleted.
     this.bods_[i].setVarsIndex(-1);
@@ -404,15 +404,15 @@ addBody(body) {
     return;
   if (!this.bods_.includes(body)) {
     // create 6 variables in vars array for this body
-    var names = [];
-    for (var k = 0; k<6; k++) {
+    const names = [];
+    for (let k = 0; k<6; k++) {
       names.push(body.getVarName(k, /*localized=*/false));
     }
-    var localNames = [];
-    for (var k = 0; k<6; k++) {
+    const localNames = [];
+    for (let k = 0; k<6; k++) {
       localNames.push(body.getVarName(k, /*localized=*/true));
     }
-    var idx = this.varsList_.addVariables(names, localNames);
+    const idx = this.varsList_.addVariables(names, localNames);
     body.setVarsIndex(idx);
     // add body to end of list of bodies
     this.bods_.push(body);
@@ -455,15 +455,15 @@ getBodies() {
 */
 getBody(numOrName) {
   /** @type {Polygon} */
-  var bod = null;
+  let bod = null;
   if (typeof numOrName === 'string') {
-    var bodName = Util.toName(numOrName);
+    const bodName = Util.toName(numOrName);
     bod = array.find(this.bods_,
       function(body, index, array) {
         return body.getName() == bodName;
       });
   } else {
-    var bodNum = numOrName;
+    const bodNum = numOrName;
     if (bodNum < this.bods_.length && bodNum >= 0) {
       bod = this.bods_[bodNum];
     }
@@ -481,11 +481,11 @@ getBody(numOrName) {
 */
 initializeFromBody(body) {
   body.eraseOldCoords();
-  var idx = body.getVarsIndex();
+  const idx = body.getVarsIndex();
   if (idx < 0) {
     throw "unknown body "+body;
   }
-  var va = this.varsList_;
+  const va = this.varsList_;
   va.setValue(RigidBodySim.X_ + idx, body.getPosition().getX());
   va.setValue(RigidBodySim.Y_ + idx, body.getPosition().getY());
   va.setValue(RigidBodySim.W_ + idx, body.getAngle());
@@ -498,11 +498,11 @@ initializeFromBody(body) {
 
 /** @override */
 modifyObjects() {
-  var va = this.varsList_;
-  var vars = va.getValues();
+  const va = this.varsList_;
+  const vars = va.getValues();
   this.moveObjects(vars);
   // update the variables that track energy
-  var einfo = this.getEnergyInfo_(vars);
+  const einfo = this.getEnergyInfo_(vars);
   va.setValue(1, einfo.getTranslational() + einfo.getRotational(), true);
   va.setValue(2, einfo.getPotential(), true);
   va.setValue(3, einfo.getTotalEnergy(), true);
@@ -517,7 +517,7 @@ addForceLaw(forceLaw) {
   // When you don't realize you did it, you then get twice the amount of damping
   // or gravity, and it can be difficult to understand why.  Therefore we
   // throw an error when we detect this case.
-  var sameLaw = array.find(this.forceLaws_, function(f, index, array) {
+  const sameLaw = array.find(this.forceLaws_, function(f, index, array) {
     if (forceLaw instanceof DampingLaw) {
       return f instanceof DampingLaw;
     } else if (forceLaw instanceof GravityLaw) {
@@ -566,7 +566,7 @@ getForceLaws() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -578,12 +578,9 @@ getEnergyInfo() {
 */
 getEnergyInfo_(vars) {
   // assumes bodies match current vars
-  /** @type {number} */
-  var pe = 0;
-  /** @type {number} */
-  var re = 0;
-  /** @type {number} */
-  var te = 0;
+  let pe = 0;
+  let re = 0;
+  let te = 0;
   this.bods_.forEach(b => {
     if (isFinite(b.getMass())) {
       re += b.rotationalEnergy();
@@ -614,7 +611,7 @@ setPEOffset(value) {
 */
 moveObjects(vars) {
   this.bods_.forEach(b => {
-    var idx = b.getVarsIndex();
+    const idx = b.getVarsIndex();
     if (idx < 0)
       return;
     b.setPosition(new Vector(vars[idx +RigidBodySim.X_], vars[idx +RigidBodySim.Y_]),
@@ -631,13 +628,14 @@ moveObjects(vars) {
 evaluate(vars, change, timeStep) {
   this.moveObjects(vars);  // so that rigid body objects know their current state.
   this.bods_.forEach(body => {
-    var idx = body.getVarsIndex();
+    const idx = body.getVarsIndex();
     if (idx < 0)
       return;
-    var mass = body.getMass();
+    const mass = body.getMass();
     if (mass == Util.POSITIVE_INFINITY) {
-      for (var k=0; k<6; k++)
+      for (let k=0; k<6; k++) {
         change[idx + k] = 0;  // infinite mass objects don't move
+      }
     } else {
       change[idx + RigidBodySim.X_] = vars[idx + RigidBodySim.VX_];
       change[idx + RigidBodySim.Y_] = vars[idx + RigidBodySim.VY_];
@@ -648,7 +646,7 @@ evaluate(vars, change, timeStep) {
     }
   });
   this.forceLaws_.forEach(fl => {
-    var forces = fl.calculateForces();
+    const forces = fl.calculateForces();
     forces.forEach(f => this.applyForce(change, f));
   });
   change[this.varsList_.timeIndex()] = 1; // time variable
@@ -664,26 +662,26 @@ evaluate(vars, change, timeStep) {
 * @protected
 */
 applyForce(change, force) {
-  var obj = force.getBody();
+  const obj = force.getBody();
   if (!array.contains(this.bods_, obj)) {
     return;
   }
-  var body = /** @type {!RigidBody} */(obj);
-  var idx = body.getVarsIndex();
+  const body = /** @type {!RigidBody} */(obj);
+  const idx = body.getVarsIndex();
   if (idx < 0) {
     return;
   }
-  var forceDir = force.getVector();
-  var forceLoc = force.getStartPoint();
-  var mass = body.getMass();
+  const forceDir = force.getVector();
+  const forceLoc = force.getStartPoint();
+  const mass = body.getMass();
   change[idx + RigidBodySim.VX_] += forceDir.getX() / mass;
   change[idx + RigidBodySim.VY_] += forceDir.getY() / mass;
   // w'' = R x F / I
-  var rx = forceLoc.getX() - body.getPosition().getX();
-  var ry = forceLoc.getY() - body.getPosition().getY();
+  const rx = forceLoc.getX() - body.getPosition().getX();
+  const ry = forceLoc.getY() - body.getPosition().getY();
   change[idx + RigidBodySim.VW_] += (rx * forceDir.getY() - ry * forceDir.getX())/
       body.momentAboutCM();
-  var torque = force.getTorque();
+  const torque = force.getTorque();
   if (torque != 0) {
     change[idx + RigidBodySim.VW_] += torque/body.momentAboutCM();
   }
@@ -698,7 +696,7 @@ debugLine(name, pa, pb, expireTime) {
   if (expireTime === undefined) {
     expireTime = this.getTime();
   }
-  var v = new ConcreteLine(name, pa, pb);
+  const v = new ConcreteLine(name, pa, pb);
   v.setExpireTime(expireTime);
   this.getSimList().add(v);
 };
@@ -710,8 +708,8 @@ debugCircle(name, center, radius, expireTime) {
     // disappear after each step.
     expireTime = this.getTime() + 0.05;
   }
-  var width = Math.max(0.02, Math.abs(2*radius));
-  var m = PointMass.makeCircle(width, name).setMass(0);
+  const width = Math.max(0.02, Math.abs(2*radius));
+  const m = PointMass.makeCircle(width, name).setMass(0);
   m.setPosition(center);
   m.setExpireTime(expireTime);
   this.getSimList().add(m);
@@ -720,7 +718,7 @@ debugCircle(name, center, radius, expireTime) {
 /** @override */
 myPrint(message, colors) {
   if (Util.DEBUG) {
-    var args = array.slice(arguments, 1);
+    const args = array.slice(arguments, 1);
     args.unshift('%c'+Util.NF7(this.getTime())+'%c '+message, 'color:green', 'color:black');
     console.log.apply(console, args);
   }

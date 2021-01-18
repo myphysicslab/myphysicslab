@@ -358,7 +358,7 @@ getExtraAccel() {
 *     calculating extra acceleration, from {@link ExtraAccel}
 */
 setExtraAccel(value) {
-  var a = ExtraAccel.stringToEnum(value);
+  const a = ExtraAccel.stringToEnum(value);
   asserts.assert(a == value);
   if (this.extra_accel_ != a) {
     this.extra_accel_ = a;
@@ -392,7 +392,7 @@ cleanSlate() {
 /** @override */
 reset() {
   // prevent the Simulation.RESET message being broadcast by sub-class
-  var saveBroadcast = this.setBroadcast(false);
+  const saveBroadcast = this.setBroadcast(false);
   super.reset();
   this.setBroadcast(saveBroadcast);
   // ensure that joints are properly connected.
@@ -430,18 +430,18 @@ addConnector(connector, follow) {
     // avoid adding a Connector twice
     return;
   }
-  var b = connector.getBody1();
-  if (!(array.contains(this.bods_, b) || b instanceof Scrim)) {
-    throw 'body not found '+b;
+  const b1 = connector.getBody1();
+  if (!(array.contains(this.bods_, b1) || b1 instanceof Scrim)) {
+    throw 'body not found '+b1;
   }
-  b = connector.getBody2();
-  if (!(array.contains(this.bods_, b) || b instanceof Scrim)) {
-    throw 'body not found '+b;
+  const b2 = connector.getBody2();
+  if (!(array.contains(this.bods_, b2) || b2 instanceof Scrim)) {
+    throw 'body not found '+b2;
   }
   if (follow === null) {
     this.connectors_.unshift(connector);
   } else if (follow != null) {
-    var idx = this.connectors_.indexOf(follow);
+    const idx = this.connectors_.indexOf(follow);
     if (idx < 0) {
       throw 'connector not found '+follow;
     }
@@ -458,7 +458,7 @@ important because the Connectors are aligned in list order.
 * to add
 */
 addConnectors(connectors) {
-  for (var i=0,len=connectors.length; i<len; i++) {
+  for (let i=0,len=connectors.length; i<len; i++) {
     this.addConnector(connectors[i]);
   }
 };
@@ -489,11 +489,11 @@ list of Connectors is significant because the Connectors are aligned in list ord
 * @return {undefined}
 */
 alignConnectors() {
-  for (var i=0, len=this.connectors_.length; i<len; i++) {
-    var connector = this.connectors_[i];
+  for (let i=0, len=this.connectors_.length; i<len; i++) {
+    const connector = this.connectors_[i];
     connector.align();
   }
-  for (var j=0, blen=this.bods_.length; j<blen; j++) {
+  for (let j=0, blen=this.bods_.length; j<blen; j++) {
     // update the vars[] array using current body position & velocity
     this.initializeFromBody(this.bods_[j]);
   }
@@ -510,7 +510,7 @@ getNumContacts() {
 
 /** @override */
 evaluate(vars, change, timeStep) {
-  var maxContacts = 0;
+  let maxContacts = 0;
   // ===================== get external forces =====================
   // Let superclass figure out the effects of forces like thruster,
   // rubber-band, damping, gravity.  Also, superclass will move objects
@@ -519,17 +519,17 @@ evaluate(vars, change, timeStep) {
   super.evaluate(vars, change, timeStep);
   // Note that findCollisions does not look at vars[], only at object positions.
   /** @type {!Array<!RigidBodyCollision>} */
-  var contactsFound = [];
+  const contactsFound = [];
   this.findCollisions(contactsFound, vars, timeStep);
   // If there are penetrating collisions, these must be handled before
   // doing contact calculations.
-  var ccount = array.count(contactsFound, c => c.illegalState());
+  const ccount = array.count(contactsFound, c => c.illegalState());
   if (ccount > 0) {
     return contactsFound;
   }
   this.removeNonContacts(contactsFound);
-  var startN = contactsFound.length;  // starting number of contacts
-  var loopCtr = 0;
+  const startN = contactsFound.length;  // starting number of contacts
+  let loopCtr = 0;
   while (contactsFound.length > 0) {
     if (Util.DEBUG && loopCtr++ > 2*startN)
       this.myPrint('ContactSim.evaluate loopCtr='+loopCtr);
@@ -540,7 +540,7 @@ evaluate(vars, change, timeStep) {
     // ensures that if there are redundant contacts, then you only
     // remove a contact that is connected.
     /** @type {!Array<!RigidBodyCollision>} */
-    var subset = ContactSim.SUBSET_COLLISIONS ?
+    const subset = ContactSim.SUBSET_COLLISIONS ?
           UtilityCollision.subsetCollisions1(contactsFound) : contactsFound;
     if (subset.length > maxContacts)
       maxContacts = subset.length;
@@ -551,7 +551,7 @@ evaluate(vars, change, timeStep) {
     } else {
       // remove all of subset from contactsFound, continue with remaining that
       // are left in contactsFound.
-      for (var i=0, len=subset.length; i<len; i++) {
+      for (let i=0, len=subset.length; i<len; i++) {
         array.remove(contactsFound, subset[i]);
       }
     }
@@ -572,30 +572,30 @@ calcContactForces(vars, change, subset) {
   if (0 == 1 && Util.DEBUG)
     UtilEngine.printList('subset size='+subset.length, subset);
   /** @type {boolean} */
-  var pileDebug = false; //Math.abs(getTime() - 52.2250000) < 2e-7;
+  const pileDebug = false; //Math.abs(getTime() - 52.2250000) < 2e-7;
   // ===================== calculate A matrix & b vector =====================
   /** @type {!Array<!Float64Array>} */
-  var A = ContactSim.calculate_a_matrix(subset);
+  const A = ContactSim.calculate_a_matrix(subset);
   if (0 == 1 && Util.DEBUG) {
     // demonstrates that we have duplicate code for finding the A matrix
     /** @type {!Array<!Float64Array>} */
-    var A2 = this.makeCollisionMatrix(subset);
+    const A2 = this.makeCollisionMatrix(subset);
     this.myPrint('diff='+Util.NFE(ContactSim.matrixDiff(A, A2)));
   }
   /** @type {!Array<number>} */
-  var b = this.calculate_b_vector(subset, change, vars);
+  const b = this.calculate_b_vector(subset, change, vars);
   /** @type {!Array<boolean>} */
-  var joint = subset.map(c => c.joint);
+  const joint = subset.map(c => c.joint);
   /** @type {!Array<number>} */
-  var f = Util.newNumberArray(b.length);
+  const f = Util.newNumberArray(b.length);
   if (Util.DEBUG && pileDebug) {
     this.printContactInfo(subset, b, vars);
   }
   // ===================== compute forces =====================
-  var time = vars[this.varsList_.timeIndex()];
+  const time = vars[this.varsList_.timeIndex()];
   const tol = 1e-4;
-  var error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time, tol);
-  var maxF = UtilEngine.maxSize(f);
+  const error = this.computeForces_.compute_forces(A, f, b, joint, pileDebug, time, tol);
+  const maxF = UtilEngine.maxSize(f);
   if (maxF > this.maxForce_) {
     this.maxForce_ = maxF;
   }
@@ -610,9 +610,9 @@ calcContactForces(vars, change, subset) {
     this.myPrint('found '+subset.length+' contacts');
   }
   // apply the calculated contact forces
-  for (var i=0, len=subset.length; i<len; i++) {
+  for (let i=0, len=subset.length; i<len; i++) {
     /** @type {!RigidBodyCollision} */
-    var c = subset[i];
+    const c = subset[i];
     this.applyContactForce(c, f[i], change);
     if (Util.DEBUG && ContactSim.SHOW_CONTACTS) {
       this.myPrint('contact['+i+']= '+c);
@@ -630,9 +630,9 @@ calcContactForces(vars, change, subset) {
 */
 removeNonContacts(contactsFound) {
   // iterate backwards because we may remove items from the list
-  for (var i=contactsFound.length-1; i>=0; i--) {
+  for (let i=contactsFound.length-1; i>=0; i--) {
     /** @type {!RigidBodyCollision} */
-    var c = contactsFound[i];
+    const c = contactsFound[i];
     // There should be no collisions (interpenetrations) at this time,
     // because those should have been handled by the collision handling mechanism.
     // See handleCollisions and findCollisions.
@@ -654,20 +654,20 @@ removeNonContacts(contactsFound) {
 /** @override */
 findCollisions(collisions, vars, stepSize) {
   // Adds collisions or contacts from Connectors like Joint.
-  var i, j, len;
   super.findCollisions(collisions, vars, stepSize);
-  if (ImpulseSim.COLLISIONS_DISABLED)
+  if (ImpulseSim.COLLISIONS_DISABLED) {
     return;
-  var rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
-  for (j=0, len=this.connectors_.length; j<len; j++) {
-    var connector = this.connectors_[j];
-    var time = vars[this.varsList_.timeIndex()];
+  }
+  const rbcs = /** @type {!Array<!RigidBodyCollision>} */(collisions);
+  for (let j=0, len=this.connectors_.length; j<len; j++) {
+    const connector = this.connectors_[j];
+    const time = vars[this.varsList_.timeIndex()];
     connector.addCollision(rbcs, time, this.collisionAccuracy_);
   }
   if (0 == 1 && Util.DEBUG) {
-    var numFound = 0;
-    for (i=0, len=rbcs.length; i<len; i++) {
-      var c = rbcs[i];
+    let numFound = 0;
+    for (let i=0, len=rbcs.length; i<len; i++) {
+      const c = rbcs[i];
       if (c.contact() && !c.joint) {
         numFound++;
         // show contact points with a temporary small circle
@@ -699,25 +699,24 @@ not.
 * @private
 */
 static calculate_a_matrix(contacts) {
-  var nc = contacts.length;
+  const nc = contacts.length;
   /** @type {!Array<!Float64Array>} */
-  var a = UtilEngine.newEmptyMatrix(nc, nc);
-  for (var i=0; i<nc; i++) {
+  const a = UtilEngine.newEmptyMatrix(nc, nc);
+  for (let i=0; i<nc; i++) {
     /** @type {!RigidBodyCollision} */
-    var ci = contacts[i];
-    var m1,I1,m2,I2;
-    m1 = ci.primaryBody.getMass();
-    I1 = ci.primaryBody.momentAboutCM();
-    m2 = ci.normalBody.getMass();
-    I2 = ci.normalBody.momentAboutCM();
-    var r1 = ci.getU1();
-    var r2 = ci.getU2();
-    var Rx = r1.getX();
-    var Ry = r1.getY();
-    var R2x = r2.getX();
-    var R2y = r2.getY();
+    const ci = contacts[i];
+    const m1 = ci.primaryBody.getMass();
+    const I1 = ci.primaryBody.momentAboutCM();
+    const m2 = ci.normalBody.getMass();
+    const I2 = ci.normalBody.momentAboutCM();
+    let r1 = ci.getU1();
+    let r2 = ci.getU2();
+    const Rx = r1.getX();
+    const Ry = r1.getY();
+    const R2x = r2.getX();
+    const R2y = r2.getY();
     // (D-1) di'' = ai1 f1 + ai2 f2 + ... + ain fn + bi = sum(aij fj) + bi
-    for (var j=0; j<nc; j++) {
+    for (let j=0; j<nc; j++) {
       a[i][j] = 0;
       // Find contribution of j-th contact force to the accel of gap at i-th contact
       // See equation above for Aij.
@@ -725,14 +724,14 @@ static calculate_a_matrix(contacts) {
       // point of impact
       // for the 'primary' object in collision, while R2 is for the normal object.
       /** @type {!RigidBodyCollision} */
-      var cj = contacts[j];
+      const cj = contacts[j];
       r1 = cj.getU1();
       r2 = cj.getU2();
       // NEW APRIL 23 2009:  use U vector here
-      var Rxj = r1.getX();
-      var Ryj = r1.getY();
-      var R2xj = r2.getX();
-      var R2yj = r2.getY();
+      const Rxj = r1.getX();
+      const Ryj = r1.getY();
+      const R2xj = r2.getX();
+      const R2yj = r2.getY();
       if (isFinite(m1) && ci.primaryBody == cj.primaryBody) {
         // body 1 is primary object in j-th contact
         // fj affects p1 in eqn (D-2), so use m1, I1
@@ -840,23 +839,23 @@ to eliminate velocity" kluge for joints.
 * @private
 */
 calculate_b_vector(contacts, change, vars) {
-  var c_len=contacts.length;
+  const c_len=contacts.length;
   /** @type {!Array<number>} */
-  var b = new Array(c_len);
-  for (var i=0; i<c_len; i++) {
+  const b = new Array(c_len);
+  for (let i=0; i<c_len; i++) {
     /** @type {!RigidBodyCollision} */
-    var c = contacts[i];
+    const c = contacts[i];
     b[i] = 0;
-    var fixedObj = c.primaryBody.getMass() == Util.POSITIVE_INFINITY;
-    var fixedNBody = c.normalBody.getMass() == Util.POSITIVE_INFINITY;
-    var obj = fixedObj ? -1 : c.primaryBody.getVarsIndex();
-    var nobj = fixedNBody ? -1 : c.normalBody.getVarsIndex();
+    const fixedObj = c.primaryBody.getMass() == Util.POSITIVE_INFINITY;
+    const fixedNBody = c.normalBody.getMass() == Util.POSITIVE_INFINITY;
+    const obj = fixedObj ? -1 : c.primaryBody.getVarsIndex();
+    const nobj = fixedNBody ? -1 : c.normalBody.getVarsIndex();
     asserts.assert( c.contact() );
     // Adjust acceleration to eliminate velocity at contact.
     // See notes above for how we derive a = v / h
     // totalTimeStep is overall length of time step, it is not affected by
     // small time steps during collision search.
-    var extrab = 0;
+    let extrab = 0;
     switch (this.extra_accel_) {
       case ExtraAccel.NONE:
         extrab = 0;
@@ -877,9 +876,9 @@ calculate_b_vector(contacts, change, vars) {
         // intentional fall-thru
       case ExtraAccel.VELOCITY_AND_DISTANCE_JOINTS:
         // average of distance and velocity
-        var v0 = c.getNormalVelocity();
-        var h = this.extraAccelTimeStep_;
-        var x0 = c.distanceToHalfGap();
+        const v0 = c.getNormalVelocity();
+        const h = this.extraAccelTimeStep_;
+        const x0 = c.distanceToHalfGap();
         extrab = (2*v0*h + x0)/(h*h);
         break;
       default:
@@ -895,40 +894,40 @@ calculate_b_vector(contacts, change, vars) {
           +' extraAccelTimeStep='+Util.NF5(this.extraAccelTimeStep_)
           );
     }
-    var vx1 = fixedObj ? 0 : vars[RigidBodySim.VX_+obj];
-    var vy1 = fixedObj ? 0 : vars[RigidBodySim.VY_+obj];
-    var w1 = fixedObj ? 0 : vars[RigidBodySim.VW_+obj];
-    var vx2 = fixedNBody ? 0 : vars[RigidBodySim.VX_+nobj];
-    var vy2 = fixedNBody ? 0 : vars[RigidBodySim.VY_+nobj];
-    var w2 = fixedNBody ? 0 : vars[RigidBodySim.VW_+nobj];
+    const vx1 = fixedObj ? 0 : vars[RigidBodySim.VX_+obj];
+    const vy1 = fixedObj ? 0 : vars[RigidBodySim.VY_+obj];
+    const w1 = fixedObj ? 0 : vars[RigidBodySim.VW_+obj];
+    const vx2 = fixedNBody ? 0 : vars[RigidBodySim.VX_+nobj];
+    const vy2 = fixedNBody ? 0 : vars[RigidBodySim.VY_+nobj];
+    const w2 = fixedNBody ? 0 : vars[RigidBodySim.VW_+nobj];
     /*  The velocity of a corner is given by
        p' = V + w x R = (Vx, Vy, 0) + w (-Ry, Rx, 0)
        = (Vx - w Ry, Vy + w Rx, 0)
       (16)  2 N'.(p1' - p2') = 2 w2(-Ny, Nx, 0).(p1' - p2')
     */
-    var r1 = c.getU1();
-    var r2 = c.getU2();
-    var Rx = r1.getX();
-    var Ry = r1.getY();
-    var R2x = Util.NaN;
-    var R2y = Util.NaN;
+    const r1 = c.getU1();
+    const r2 = c.getU2();
+    const Rx = r1.getX();
+    const Ry = r1.getY();
+    let R2x = Util.NaN;
+    let R2y = Util.NaN;
     if (!fixedNBody) {
       R2x = r2.getX();
       R2y = r2.getY();
     }
     if (!c.normalFixed) {
       // np = n' = the derivative of the normal n.
-      var npx = 0;
-      var npy = 0;
+      let npx = 0;
+      let npy = 0;
       if (c.ballNormal) {
         // Curved Edge defines the normal
-        var normal_dt = c.normal_dt;
+        const normal_dt = c.normal_dt;
         if (normal_dt != null) {
           // deriv of normal is pre-computed; example: Joint on NumericalPath.
           npx = normal_dt.getX();
           npy = normal_dt.getY();
         } else {
-          var radius;
+          let radius;
           if (c.ballObject) {
             // Curved Edge/Curved Edge
             asserts.assert( !isNaN(c.radius1) && !isNaN(c.radius2) );
@@ -963,10 +962,10 @@ calculate_b_vector(contacts, change, vars) {
         }
       }
       {
-        var v1x = fixedObj ? 0 : vx1 - w1*Ry;
-        var v1y = fixedObj ? 0 : vy1 + w1*Rx;
-        var v2x = fixedNBody ? 0 : vx2 - w2*R2y;
-        var v2y = fixedNBody ? 0 : vy2 + w2*R2x;
+        const v1x = fixedObj ? 0 : vx1 - w1*Ry;
+        const v1y = fixedObj ? 0 : vy1 + w1*Rx;
+        const v2x = fixedNBody ? 0 : vx2 - w2*R2y;
+        const v2y = fixedNBody ? 0 : vy2 + w2*R2x;
         // (16)  2 N'.(p1' - p2')
         if (!c.ballNormal) {
           b[i] += 2*(npx*(v1x - v2x) + npy*(v1y - v2y));
@@ -1053,9 +1052,9 @@ applyContactForce(c, f, change) {
   // forceNum is used to avoid showing the second force of a pair.
   // The contact forces are given names to indicate which is the second force
   // in a pair of opposing forces.
-  var forceNum = 1;
+  let forceNum = 1;
   if (isFinite(c.primaryBody.getMass())) {
-    var f1 = new Force('contact_force'+forceNum+'_'+c.primaryBody.getName(),
+    const f1 = new Force('contact_force'+forceNum+'_'+c.primaryBody.getName(),
         c.primaryBody,
         /*location=*/c.impact1, CoordType.WORLD,
         /*direction=*/c.normal.multiply(f), CoordType.WORLD);
@@ -1066,8 +1065,8 @@ applyContactForce(c, f, change) {
   }
   if (isFinite(c.normalBody.getMass())) {
     // confusing:  is there always an impact2 ?  or only sometimes, like for Rope?
-    var impact2 = (c.impact2 == null) ? c.impact1 : c.impact2;
-    var f2 = new Force('contact_force'+forceNum+'_'+c.normalBody.getName(),
+    const impact2 = (c.impact2 == null) ? c.impact1 : c.impact2;
+    const f2 = new Force('contact_force'+forceNum+'_'+c.normalBody.getName(),
         c.normalBody,
         /*location=*/impact2,  CoordType.WORLD,
         /*direction=*/c.normal.multiply(-f), CoordType.WORLD);
@@ -1089,7 +1088,7 @@ applyContactForce(c, f, change) {
 reportError(error, tol, A, f, b, joint) {
   // check on how bad the solution is.
   /** @type {!Array<number>} */
-  var accel = UtilEngine.matrixMultiply(A, f);
+  let accel = UtilEngine.matrixMultiply(A, f);
   accel = UtilEngine.vectorAdd(accel, b);
   if (!ComputeForces.checkForceAccel(tol, f, accel, joint)) {
     if (Util.DEBUG) {
@@ -1111,11 +1110,11 @@ reportError(error, tol, A, f, b, joint) {
 */
 static matrixDiff(A1, A2) {
   /** @type {number} */
-  var s = 0;
+  let s = 0;
   if (Util.DEBUG) {
-    for (var i=0, len=A1.length; i<len; i++) {
-      for (var j=0, len2=A1[i].length; j<len2; j++) {
-        var t = A1[i][j] - A2[i][j];
+    for (let i=0, len=A1.length; i<len; i++) {
+      for (let j=0, len2=A1[i].length; j<len2; j++) {
+        const t = A1[i][j] - A2[i][j];
         if (0 == 1) {
           // sum of squares of differences
           s += t*t;
@@ -1147,7 +1146,7 @@ getMaxForce() {
 printContactInfo(subset, b, vars) {
   if (Util.DEBUG) {
     // print all the collisions currently being treated
-    for (var i=0, len=subset.length; i<len; i++) {
+    for (let i=0, len=subset.length; i<len; i++) {
       this.myPrint('b['+i+']='+Util.NF7(b[i])+' '+subset[i],'background:#ffc',
         'color:black');
     }
@@ -1171,13 +1170,13 @@ printForceInfo(subset, A, f, b, joint, vars) {
   if (Util.DEBUG) {
     // if the largest force suddenly is much larger than previously,
     // then print out debug information.
-    var maxForce = UtilEngine.maxSize(f);
-    var lastMaxForce = UtilEngine.maxSize(this.forceHistory_);
-    var limitForce = (lastMaxForce > 0.5) ? 2.5*lastMaxForce : 80;
+    const maxForce = UtilEngine.maxSize(f);
+    const lastMaxForce = UtilEngine.maxSize(this.forceHistory_);
+    const limitForce = (lastMaxForce > 0.5) ? 2.5*lastMaxForce : 80;
     if (maxForce > 1 && maxForce > limitForce) {
       this.myPrint('==== maxForce increased from '+Util.NF5(lastMaxForce)
           +' to '+Util.NF5(maxForce));
-      for (var i=0, len=subset.length; i<len; i++) {
+      for (let i=0, len=subset.length; i<len; i++) {
         this.myPrint('c['+i+']='+subset[i]);
       }
       console.log(this.formatVars());
@@ -1213,8 +1212,8 @@ addForceHistory(f) {
 printContactDistances(contacts) {
   if (Util.DEBUG) {
     // print all contact distances
-    var s = 'contact dist ';
-    for (var i=0, len=contacts.length; i<len; i++) {
+    let s = 'contact dist ';
+    for (let i=0, len=contacts.length; i<len; i++) {
       s += ' '+Util.NF7(contacts[i].distance);
     }
     this.myPrint(s);
@@ -1228,7 +1227,7 @@ printContactDistances(contacts) {
 printNumContacts() {
   if (Util.DEBUG) {
     if (ContactSim.SHOW_NUM_CONTACTS) {
-      var t = this.getTime();
+      const t = this.getTime();
       if (t - this.debugPrintTime_ > 2.0 || t < this.debugPrintTime_) {
         this.myPrint('num bodies='+this.bods_.length
             +', num contacts='+this.getNumContacts());
