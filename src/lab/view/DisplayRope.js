@@ -96,20 +96,21 @@ draw(context, map) {
   if (this.rope_ == null) {
     return;
   }
-  var len = this.rope_.getLength();
-  if (len < 1e-6)
+  const len = this.rope_.getLength();
+  if (len < 1e-6) {
     return;
+  }
   context.save()
   context.lineWidth = this.getThickness();
-  var tight = this.rope_.isTight();
-  var slack = tight ? 0 : this.rope_.getRestLength() - len;
+  const tight = this.rope_.isTight();
+  const slack = tight ? 0 : this.rope_.getRestLength() - len;
   if (tight) {
     context.strokeStyle = this.getColorTight();
   } else {
     context.strokeStyle = this.getColorSlack();
   }
-  var p1 = this.rope_.getStartPoint();
-  var p2 = this.rope_.getEndPoint();
+  let p1 = this.rope_.getStartPoint();
+  let p2 = this.rope_.getEndPoint();
   if (tight) {
     // draw as a straight line
     p1 = map.simToScreen(p1);
@@ -121,9 +122,9 @@ draw(context, map) {
   } else {
     // note that the transforms are applied in reverse order  (because of
     // how matrix multiplication works).
-    var at = map.getAffineTransform(); // sim to screen transform
+    let at = map.getAffineTransform(); // sim to screen transform
     at = at.translate(p1.getX(), p1.getY());
-    var theta = Math.atan2(p2.getY()-p1.getY(), p2.getX()-p1.getX());
+    const theta = Math.atan2(p2.getY()-p1.getY(), p2.getX()-p1.getX());
     at = at.rotate(theta);
     // stretch out the rope to the desired length & thickness
     at = at.scale(len/DisplayRope.pathLength,
@@ -147,17 +148,18 @@ static drawRope(context, at) {
   Returns the height the rope should be away from x-axis at that point.
   @type {function(number):number}
   */
-  var ropeHeight = x => DisplayRope.pathWidth * Math.sin(Math.PI*x/DisplayRope.pathLength);
+  const ropeHeight =
+      x => DisplayRope.pathWidth * Math.sin(Math.PI*x/DisplayRope.pathLength);
 
-  var size = DisplayRope.pathLength;
-  var t = DisplayRope.pathWidth/2; // half thickness of rope
-  var w = size / 16;
+  const size = DisplayRope.pathLength;
+  const t = DisplayRope.pathWidth/2; // half thickness of rope
+  const w = size / 16;
   context.beginPath();
   at.moveTo(0, 0, context); // start drawing at the base
   at.lineTo(w, -ropeHeight(w), context);   // from start point
   at.lineTo(2*w, ropeHeight(2*w), context);  // ramp up
-  for (var i=1; i<=3; i++) {  // 3 cycles down and up
-    var x = 4*i*w;
+  for (let i=1; i<=3; i++) {  // 3 cycles down and up
+    let x = 4*i*w;
     at.lineTo(x, -ropeHeight(x), context);
     x = (4*i + 2)*w;
     at.lineTo(x, ropeHeight(x), context);

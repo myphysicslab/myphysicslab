@@ -91,10 +91,9 @@ draw(context, map) {
   // Use CoordMap.simToScreenRect to calc screen coords of the shape.
   context.save();
   context.fillStyle = this.getColor();
-  var p = map.simToScreen(this.getPosition());
+  const p = map.simToScreen(this.getPosition());
   context.translate(p.getX(), p.getY());
   context.beginPath();
-  //var r = map.screenToSimScaleX(this.radius_);
   context.arc(0, 0, this.getRadius(), 0, 2*Math.PI, false);
   context.closePath();
   context.fill();

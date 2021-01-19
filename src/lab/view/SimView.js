@@ -369,9 +369,9 @@ current settings for width, height, centerX, centerY.
 * @private
 */
 modifySimRect() {
-  var left = this.centerX_ - this.width_/2.0;
-  var bottom = this.centerY_ - this.height_/2.0;
-  var r = new DoubleRect(left, bottom, left+this.width_, bottom+this.height_);
+  const left = this.centerX_ - this.width_/2.0;
+  const bottom = this.centerY_ - this.height_/2.0;
+  const r = new DoubleRect(left, bottom, left+this.width_, bottom+this.height_);
   this.setSimRect(r);
 };
 

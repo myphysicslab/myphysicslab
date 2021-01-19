@@ -314,7 +314,7 @@ toStringShort() {
 
 /** @override */
 contains(p_world) {
-  var p_body = this.massObject_.worldToBody(p_world);
+  const p_body = this.massObject_.worldToBody(p_world);
   return this.massObject_.getBoundsBody().contains(p_body);
 };
 
@@ -332,12 +332,12 @@ static darkColor(color) {
   // gcolor.parse() does not accept 'rgba' type of colors.  Therefore
   // transform rgba to rgb.
   // Matches things like: rgba(192, 255, 192, 0.5) or rgba(192, 255, 192, 1)
-  var m = color.match(/^rgba\((.*),\s*\d*\.?\d+\)/);
+  const m = color.match(/^rgba\((.*),\s*\d*\.?\d+\)/);
   if (m != null) {
     color = 'rgb('+m[1]+')';
   }
-  var c = gcolor.parse(color);
-  var hsb = gcolor.hexToHsv(c.hex);
+  const c = gcolor.parse(color);
+  const hsb = gcolor.hexToHsv(c.hex);
   // decide if its a dark color by looking at the saturation and brightness
   // low brightness  OR  (high saturation AND close to blue)
   return hsb[2] < 0.65 || hsb[1] > 0.57 && Math.abs(hsb[0] - 0.677) < 0.11;
@@ -347,36 +347,36 @@ static darkColor(color) {
 draw(context, map) {
   context.save();
   /** @type {!AffineTransform} */
-  var sim_to_screen = map.getAffineTransform(); // sim to screen transform
+  const sim_to_screen = map.getAffineTransform(); // sim to screen transform
   // sim_to_screen_units = scaling factor to go from sim units to screen units (pixels)
-  var sim_to_screen_units = 1/map.getScaleX();
-  var body_to_screen =
+  const sim_to_screen_units = 1/map.getScaleX();
+  const body_to_screen =
       sim_to_screen.concatenate(this.massObject_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
   this.massObject_.createCanvasPath(context);
   if (this.getImageClip()) {
     context.clip();
   }
-  var fillStyle = this.getFillStyle();
+  const fillStyle = this.getFillStyle();
   if (fillStyle) {
     context.fillStyle = fillStyle;
     context.fill();
   }
-  var strokeStyle = this.getStrokeStyle();
+  const strokeStyle = this.getStrokeStyle();
   if (strokeStyle) {
     context.lineWidth = map.screenToSimScaleX(this.getThickness());
-    var borderDash = this.getBorderDash();
+    const borderDash = this.getBorderDash();
     if (borderDash.length > 0 && typeof context.setLineDash === 'function') {
       // convert the borderDash to be in sim coords
-      var ld = borderDash.map(n => map.screenToSimScaleX(n));
+      const ld = borderDash.map(n => map.screenToSimScaleX(n));
       context.setLineDash(ld);
     }
     context.strokeStyle = strokeStyle;
     context.stroke();
     context.setLineDash([]);
   }
-  var image = this.getImage();
-  var imageDraw = this.getImageDraw();
+  const image = this.getImage();
+  const imageDraw = this.getImageDraw();
   if (image != null || imageDraw != null) {
     // Set origin to be top left corner of massObject bounding box.
     context.translate(this.massObject_.getLeftBody(), this.massObject_.getTopBody());
@@ -398,19 +398,19 @@ draw(context, map) {
       this.lastColor_ = fillStyle;
       this.isDarkColor_ = DisplayShape.darkColor(fillStyle);
     }
-    var pixel = map.screenToSimScaleX(1);
+    const pixel = map.screenToSimScaleX(1);
     context.lineWidth = pixel; // one pixel wide stroke.
     if (this.getDrawCenterOfMass()) {
-      var cm_body = this.massObject_.getCenterOfMassBody();
+      const cm_body = this.massObject_.getCenterOfMassBody();
       // draw a cross at the center of mass
       if (this.isDarkColor_) {
         context.strokeStyle = '#ccc'; //lightGray;
       } else {
         context.strokeStyle = 'black';
       }
-      var len = 0.2 * Math.min(this.massObject_.getWidth(),
+      let len = 0.2 * Math.min(this.massObject_.getWidth(),
           this.massObject_.getHeight());
-      var max_len = 8*pixel;
+      const max_len = 8*pixel;
       if (len > max_len) {
         len = max_len;
       }
@@ -426,8 +426,8 @@ draw(context, map) {
     }
     // draw a dot at the drag points
     if (this.getDrawDragPoints()) {
-      var d = 4*pixel;
-      var sz = 0.15 * Math.min(this.massObject_.getWidth(),
+      let d = 4*pixel;
+      const sz = 0.15 * Math.min(this.massObject_.getWidth(),
           this.massObject_.getHeight());
       if (sz < d) {
         d = sz;
@@ -447,9 +447,9 @@ draw(context, map) {
   }
   if (this.getNameFont()) {
     // draw name of massObject
-    var cen = this.massObject_.getCentroidBody();
-    var at = body_to_screen.translate(cen);
-    var nameRotate = this.getNameRotate();
+    const cen = this.massObject_.getCentroidBody();
+    let at = body_to_screen.translate(cen);
+    const nameRotate = this.getNameRotate();
     if (nameRotate) {
       at = at.rotate(nameRotate);
     }
@@ -458,9 +458,9 @@ draw(context, map) {
     context.fillStyle = this.getNameColor();
     context.font = this.getNameFont();
     context.textAlign = 'center';
-    var tx = this.massObject_.getName(/*localized=*/true);
+    const tx = this.massObject_.getName(/*localized=*/true);
     // find height of text from width of 'M', because is a roughly square letter.
-    var ht = context.measureText('M').width;
+    const ht = context.measureText('M').width;
     context.fillText(tx, 0, ht/2);
   }
   context.restore();

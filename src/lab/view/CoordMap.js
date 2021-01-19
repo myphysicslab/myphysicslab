@@ -110,7 +110,7 @@ constructor(screen_left, screen_bottom, sim_left, sim_bottom, pixel_per_unit_x,
   * @private
   */
   this.pixel_per_unit_y_ = Util.testFinite(pixel_per_unit_y);
-  var at = AffineTransform.IDENTITY;
+  let at = AffineTransform.IDENTITY;
   // do operations in reverse order, because of how matrix multiplication works
   at = at.translate(this.screen_left_, this.screen_bottom_);
   at = at.scale(this.pixel_per_unit_x_, -this.pixel_per_unit_y_);
@@ -274,21 +274,21 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
   if (aspectRatio < CoordMap.MIN_SIZE || !isFinite(aspectRatio)) {
     throw 'bad aspectRatio '+aspectRatio;
   }
-  var simLeft = simRect.getLeft();
-  var simBottom = simRect.getBottom();
-  var sim_width = simRect.getRight() - simLeft;
-  var sim_height = simRect.getTop() - simBottom;
+  const simLeft = simRect.getLeft();
+  const simBottom = simRect.getBottom();
+  const sim_width = simRect.getRight() - simLeft;
+  const sim_height = simRect.getTop() - simBottom;
   if (sim_width < CoordMap.MIN_SIZE || sim_height < CoordMap.MIN_SIZE) {
     throw 'simRect cannot be empty '+simRect;
   }
-  var screen_top = screenRect.getTop();
-  var screen_left = screenRect.getLeft();
-  var screen_width = screenRect.getWidth();
-  var screen_height = screenRect.getHeight();
-  var offset_x = 0;
-  var offset_y = 0;
-  var pixel_per_unit_x = 0;
-  var pixel_per_unit_y = 0;
+  const screen_top = screenRect.getTop();
+  const screen_left = screenRect.getLeft();
+  const screen_width = screenRect.getWidth();
+  const screen_height = screenRect.getHeight();
+  let offset_x = 0;
+  let offset_y = 0;
+  let pixel_per_unit_x = 0;
+  let pixel_per_unit_y = 0;
   // FULL = simRect matches the screenRect
   if (horizAlign == HorizAlign.FULL) {
     pixel_per_unit_x = screen_width/sim_width;
@@ -302,7 +302,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
     // find scale (pixel_per_unit) for both x and y
     // aspectRatio = pixel_per_unit_y/pixel_per_unit_x
     // horizFull = true means: x axis has full-justification
-    var horizFull;
+    let horizFull;
     if (horizAlign == HorizAlign.FULL) {
       pixel_per_unit_y = pixel_per_unit_x * aspectRatio;
       horizFull = true;
@@ -316,7 +316,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
       pixel_per_unit_x = screen_width/sim_width;
       pixel_per_unit_y = pixel_per_unit_x * aspectRatio;
       horizFull = true;
-      var ideal_height = Math.floor(0.5 + pixel_per_unit_y*sim_height);
+      const ideal_height = Math.floor(0.5 + pixel_per_unit_y*sim_height);
       if (screen_height < ideal_height) { // height is limiting factor
         pixel_per_unit_y = screen_height/sim_height;
         pixel_per_unit_x = pixel_per_unit_y / aspectRatio;
@@ -328,7 +328,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
       // y is 'full justified':  simRect matches the screenRect on y axis
       asserts.assert(horizAlign != HorizAlign.FULL);
       offset_y = 0;
-      var ideal_width = Math.floor(0.5 + sim_width*pixel_per_unit_x);
+      const ideal_width = Math.floor(0.5 + sim_width*pixel_per_unit_x);
       switch (horizAlign) {
         case HorizAlign.LEFT:
           offset_x = 0; break;
@@ -342,7 +342,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
       // x is 'full justified':  simRect matches the screenRect on x axis
       asserts.assert(verticalAlign != VerticalAlign.FULL);
       offset_x = 0;
-      var ideal_height = Math.floor(0.5 + sim_height*pixel_per_unit_y);
+      const ideal_height = Math.floor(0.5 + sim_height*pixel_per_unit_y);
       switch (verticalAlign) {
         case VerticalAlign.BOTTOM:
           offset_y = 0; break;
@@ -354,7 +354,7 @@ static make(screenRect, simRect, horizAlign, verticalAlign, aspectRatio) {
       }
     }
   }
-  var coordMap = new CoordMap(screen_left,
+  const coordMap = new CoordMap(screen_left,
     screen_top + screen_height,
     simLeft - offset_x/pixel_per_unit_x,
     simBottom - offset_y/pixel_per_unit_y,
@@ -417,12 +417,12 @@ getScaleY() {
 @return {!Vector} the equivalent position in simulation coordinates
 */
 screenToSim(scr_x, scr_y) {
-  var sx, sy;
+  let sx, sy;
   if (typeof scr_x === 'number') {
     sx = scr_x;
     sy = scr_y;
   } else {
-    var v = /** @type {!GenericVector} */(scr_x);
+    const v = /** @type {!GenericVector} */(scr_x);
     sy = v.getY();
     sx = v.getX();
   }

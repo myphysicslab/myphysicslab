@@ -225,7 +225,7 @@ Notifies any Observers by broadcasting GenericEvents named {@link #VIEW_ADDED} a
 addView(view) {
   asserts.assertObject(view);
   if (this.getWidth() > 0 && this.getHeight() > 0) {
-    var sr = new ScreenRect(0, 0, this.getWidth(), this.getHeight());
+    const sr = new ScreenRect(0, 0, this.getWidth(), this.getHeight());
     //console.log('LabCanvas.addView of '+view+' sr='+sr);
     view.setScreenRect(sr);
   }
@@ -336,7 +336,7 @@ memorize() {
 @private
 */
 notifySizeChanged() {
-  var r = this.getScreenRect();
+  const r = this.getScreenRect();
   this.labViews_.forEach(view => view.setScreenRect(r));
   this.broadcast(new GenericEvent(this, LabCanvas.SIZE_CHANGED));
 };
@@ -353,7 +353,7 @@ paint() {
   // `null` whenever it, or any of its parents, is hidden via the display style
   // property. Just make sure that the element doesnt have 'position:fixed;'.
   if (this.canvas_.offsetParent != null) {
-    var context = /** @type {!CanvasRenderingContext2D} */
+    const context = /** @type {!CanvasRenderingContext2D} */
         (this.canvas_.getContext('2d'));
     context.save();
     try {

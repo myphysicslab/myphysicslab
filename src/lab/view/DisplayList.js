@@ -76,7 +76,7 @@ add(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw 'non-object passed to DisplayList.add';
   }
-  var zIndex = dispObj.getZIndex();
+  const zIndex = dispObj.getZIndex();
   if (Util.DEBUG) {
     this.preExist(dispObj);
   }
@@ -84,8 +84,10 @@ add(dispObj) {
   // Objects in drawables_ array should be sorted by zIndex.
   // Starting at front of drawables_ array, find the object with bigger
   // zIndex, insert dispObj just before that object.
-  for (var i=0, n= this.drawables_.length; i<n; i++) {
-    var z = this.drawables_[i].getZIndex();
+  let n = this.drawables_.length;
+  let i;
+  for (i=0; i<n; i++) {
+    const z = this.drawables_[i].getZIndex();
     if (zIndex < z) {
       break;
     }
@@ -126,8 +128,8 @@ draw(context, map) {
 */
 find(search) {
   if (typeof search === 'number') {
-    var index = /** @type {number}*/(search);
-    var n = this.drawables_.length;
+    const index = /** @type {number}*/(search);
+    const n = this.drawables_.length;
     if (index < 0 || index >= n) {
       return null;
     } else {
@@ -135,10 +137,10 @@ find(search) {
       return this.drawables_[index];
     }
   } else if (typeof search === 'string') {
-    var objName = Util.toName(search);
+    const objName = Util.toName(search);
     return array.find(this.drawables_, element => {
-      var simObjs = element.getSimObjects();
-      for (var i=0, n=simObjs.length; i<n; i++) {
+      const simObjs = element.getSimObjects();
+      for (let i=0, n=simObjs.length; i<n; i++) {
         if (simObjs[i].getName() == objName) {
           return true;
         }
@@ -147,7 +149,7 @@ find(search) {
     });
   } else if (goog.isObject(search)) {
     return array.find(this.drawables_, element => {
-      var simObjs = element.getSimObjects();
+      const simObjs = element.getSimObjects();
       return array.contains(simObjs, search);
     });
   } else {
@@ -164,7 +166,7 @@ find(search) {
 @throws {!Error} if DisplayShape is not found
 */
 findShape(search) {
-  var ds = this.find(search);
+  const ds = this.find(search);
   if (ds instanceof DisplayShape) {
     return /**!DisplayShape*/(ds);
   }
@@ -180,7 +182,7 @@ findShape(search) {
 @throws {!Error} if DisplaySpring is not found
 */
 findSpring(search) {
-  var ds = this.find(search);
+  const ds = this.find(search);
   if (ds instanceof DisplaySpring) {
     return /**!DisplaySpring*/(ds);
   }
@@ -194,7 +196,7 @@ findSpring(search) {
 @throws {!Error} if index out of range
 */
 get(index) {
-  var n = this.drawables_.length;
+  const n = this.drawables_.length;
   if (index < 0 || index >= n) {
     throw index+' is not in range 0 to '+(n-1);
   }
@@ -215,10 +217,10 @@ length() {
 */
 preExist(dispObj) {
   if (Util.DEBUG) {
-    var simObjs = dispObj.getSimObjects();
-    for (var i=0, len=simObjs.length; i<len; i++) {
-      var obj = simObjs[i];
-      var preExist = this.find(obj);
+    const simObjs = dispObj.getSimObjects();
+    for (let i=0, len=simObjs.length; i<len; i++) {
+      const obj = simObjs[i];
+      const preExist = this.find(obj);
       if (preExist != null) {
         console.log('*** WARNING PRE-EXISTING DISPLAYOBJECT '+preExist);
         console.log('*** FOR SIMOBJECT=' + obj);
@@ -238,7 +240,7 @@ prepend(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw 'non-object passed to DisplayList.add';
   }
-  var zIndex = dispObj.getZIndex();
+  const zIndex = dispObj.getZIndex();
   if (Util.DEBUG) {
     this.preExist(dispObj);
   }
@@ -246,8 +248,10 @@ prepend(dispObj) {
   // Objects in drawables_ array should be sorted by zIndex.
   // Starting at back of drawables_ array, find the object with smaller
   // zIndex, insert dispObj just after that object.
-  for (var n= this.drawables_.length, i=n; i>0; i--) {
-    var z = this.drawables_[i-1].getZIndex();
+  let n = this.drawables_.length;
+  let i;
+  for (let i=n; i>0; i--) {
+    const z = this.drawables_[i-1].getZIndex();
     if (zIndex > z) {
       break;
     }
@@ -263,7 +267,7 @@ remove(dispObj) {
   if (!goog.isObject(dispObj)) {
     throw 'non-object passed to DisplayList.remove';
   }
-  var idx = this.drawables_.indexOf(dispObj);
+  const idx = this.drawables_.indexOf(dispObj);
   if (idx > -1) {
     array.removeAt(this.drawables_, idx);
     this.broadcast(new GenericEvent(this, DisplayList.OBJECT_REMOVED, dispObj));
@@ -282,10 +286,10 @@ removeAll() {
 */
 sort() {
   // avoid sorting if the list is already sorted
-  var isSorted = true;
-  var lastZ = Util.NEGATIVE_INFINITY;
-  for (var i=0, n= this.drawables_.length; i<n; i++) {
-    var z = this.drawables_[i].getZIndex();
+  let isSorted = true;
+  let lastZ = Util.NEGATIVE_INFINITY;
+  for (let i=0, n= this.drawables_.length; i<n; i++) {
+    const z = this.drawables_[i].getZIndex();
     if (z < lastZ) {
       isSorted = false;
       break;
@@ -294,10 +298,10 @@ sort() {
   }
   if (!isSorted) {
     array.stableSort(this.drawables_, function(arg1, arg2) {
-      var e1 = /** @type {!DisplayObject}*/(arg1);
-      var e2 = /** @type {!DisplayObject}*/(arg2);
-      var z1 = e1.getZIndex();
-      var z2 = e2.getZIndex();
+      const e1 = /** @type {!DisplayObject}*/(arg1);
+      const e2 = /** @type {!DisplayObject}*/(arg2);
+      const z1 = e1.getZIndex();
+      const z2 = e2.getZIndex();
       if (z1 < z2) {
         return -1;
       } else if (z1 > z2) {

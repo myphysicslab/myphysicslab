@@ -152,7 +152,7 @@ getWidth() {
 * @return {boolean} true if this ScreenRect has zero width or height
 */
 isEmpty(opt_tol) {
-  var tol = opt_tol || 1E-14;
+  const tol = opt_tol || 1E-14;
   return this.width_ < tol || this.height_ < tol;
 };
 
@@ -160,8 +160,8 @@ isEmpty(opt_tol) {
 @param {!CanvasRenderingContext2D} context the Canvas context to draw into
 */
 makeOval(context) {
-    var w = this.width_/2;
-    var h = this.height_/2;
+    const w = this.width_/2;
+    const h = this.height_/2;
   if (typeof context.ellipse === 'function') {
     context.beginPath();
     context.moveTo(this.left_ + this.width_, this.top_ + h);
@@ -169,7 +169,7 @@ makeOval(context) {
     context.ellipse(this.left_ + w, this.top_ + h, w, h, 0, 0, 2*Math.PI, false);
   } else {
     // If ellipse() is not defined, draw a circle instead
-    var min = Math.min(w, h);
+    const min = Math.min(w, h);
     context.beginPath();
     context.moveTo(this.left_ + this.width_, this.top_);
     // arc(x, y, radius, startAngle, endAngle, anticlockwise);

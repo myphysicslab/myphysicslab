@@ -109,10 +109,10 @@ draw(context, map) {
   context.font = this.getFont();
   context.textAlign = this.getTextAlign();
   context.textBaseline = this.getTextBaseline();
-  var x1 = map.simToScreenX(this.location_.getX());
-  var y1 = map.simToScreenY(this.location_.getY());
+  const x1 = map.simToScreenX(this.location_.getX());
+  const y1 = map.simToScreenY(this.location_.getY());
   /*if (this.centered_) {
-    var textWidth = context.measureText(this.text_).width;
+    const textWidth = context.measureText(this.text_).width;
     x1 = x1 - textWidth/2;
   }*/
   context.fillText(this.text_, x1, y1);

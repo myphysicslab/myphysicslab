@@ -66,8 +66,8 @@ VerticalAlign.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 VerticalAlign.stringToEnum = value => {
-  var vals = VerticalAlign.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = VerticalAlign.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return vals[i];
     }

@@ -97,49 +97,49 @@ draw(context, map) {
   if (this.arc_ == null) {
     return;
   }
-  var centerX = map.simToScreenX(this.arc_.getCenter().getX());
-  var centerY = map.simToScreenY(this.arc_.getCenter().getY());
+  const centerX = map.simToScreenX(this.arc_.getCenter().getX());
+  const centerY = map.simToScreenY(this.arc_.getCenter().getY());
   // assumption: x & y are scaled same
-  var r = map.simToScreenScaleX(this.arc_.getRadius());
-  var angle = this.arc_.getAngle();
+  const r = map.simToScreenScaleX(this.arc_.getRadius());
+  const angle = this.arc_.getAngle();
 
   if ((angle != 0) && (r > 0))  {
     context.save();
     context.lineWidth = this.getThickness();
     context.strokeStyle = this.getColor();
-    var lineDash = this.getLineDash();
+    const lineDash = this.getLineDash();
     if (lineDash.length > 0 && context.setLineDash) {
       context.setLineDash(lineDash);
     }
-    var startAngle = -this.arc_.getStartAngle();
+    const startAngle = -this.arc_.getStartAngle();
     // Canvas.arc uses 'angle increases clockwise' convention, therefore subtract angle.
-    var endAngle = -(this.arc_.getStartAngle() + angle);
+    const endAngle = -(this.arc_.getStartAngle() + angle);
     context.beginPath();
     context.arc(centerX, centerY, r, startAngle, endAngle, /*anticlockwise=*/angle > 0);
     context.stroke();
     // arrowhead
     // find tip of arrowhead
-    var x,y;
-    var a0, a1, a;  // startangle & angle in radians
+    let x,y;
+    let a0, a1, a;  // startangle & angle in radians
     a0 = this.arc_.getStartAngle();
     a1 = this.arc_.getAngle();
     a = -(a0 + a1);
     x = this.arc_.getCenter().getX() + this.arc_.getRadius()*Math.cos(a);
     y = this.arc_.getCenter().getY() - this.arc_.getRadius()*Math.sin(a);
 
-    var h = Math.min(this.getArrowHeadLength(), 0.5*this.arc_.getRadius());
+    let h = Math.min(this.getArrowHeadLength(), 0.5*this.arc_.getRadius());
     if (a1 > 0) {
       h = -h;
     }
 
     // find endpoint of first arrowhead, and draw it
-    var xp, yp;
+    let xp, yp;
     xp = x - h*Math.cos(Math.PI/2 + a - Math.PI/6);
     yp = y + h*Math.sin(Math.PI/2 + a - Math.PI/6);
-    var x1 = map.simToScreenX(x);
-    var y1 = map.simToScreenY(y);
-    var x2 = map.simToScreenX(xp);
-    var y2 = map.simToScreenY(yp);
+    const x1 = map.simToScreenX(x);
+    const y1 = map.simToScreenY(y);
+    let x2 = map.simToScreenX(xp);
+    let y2 = map.simToScreenY(yp);
     context.beginPath();
     context.moveTo(x1, y1);
     context.lineTo(x2, y2);

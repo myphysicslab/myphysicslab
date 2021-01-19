@@ -67,8 +67,8 @@ HorizAlign.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 HorizAlign.stringToEnum = value => {
-  var vals = HorizAlign.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = HorizAlign.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return vals[i];
     }

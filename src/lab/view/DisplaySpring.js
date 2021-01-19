@@ -112,9 +112,10 @@ draw(context, map) {
   if (this.spring_ == null) {
     return;
   }
-  var len = this.spring_.getLength();
-  if (len < 1e-6 || this.spring_.getStiffness()==0)
+  const len = this.spring_.getLength();
+  if (len < 1e-6 || this.spring_.getStiffness()==0) {
     return;
+  }
   context.save()
   context.lineWidth = this.getThickness();
   // the 0.00001 factor prevents flickering between red/green when springs are at rest.
@@ -127,19 +128,19 @@ draw(context, map) {
     // draw as a jagged line
     // note that the transforms are applied in reverse order  (because of
     // how matrix multiplication works).
-    var at = map.getAffineTransform(); // sim to screen transform
-    var p1 = this.spring_.getStartPoint();
-    var p2 = this.spring_.getEndPoint();
+    let at = map.getAffineTransform(); // sim to screen transform
+    const p1 = this.spring_.getStartPoint();
+    const p2 = this.spring_.getEndPoint();
     at = at.translate(p1.getX(), p1.getY());
-    var theta = Math.atan2(p2.getY()-p1.getY(), p2.getX()-p1.getX());
+    const theta = Math.atan2(p2.getY()-p1.getY(), p2.getX()-p1.getX());
     at = at.rotate(theta);
     // stretch out the spring to the desired length & width
     at = at.scale(len/DisplaySpring.pathLength, this.getWidth()/0.5);
     DisplaySpring.drawSpring(context, at);
   } else {
     // draw as a straight line
-    var p1 = map.simToScreen(this.spring_.getStartPoint());
-    var p2 = map.simToScreen(this.spring_.getEndPoint());
+    const p1 = map.simToScreen(this.spring_.getStartPoint());
+    const p2 = map.simToScreen(this.spring_.getEndPoint());
     context.beginPath();
     context.moveTo(p1.getX(), p1.getY());
     context.lineTo(p2.getX(), p2.getY());
@@ -158,14 +159,14 @@ scaled up or down, it doesn't get too distorted.
 * @private
 */
 static drawSpring(context, at) {
-  var size = DisplaySpring.pathLength;
-  var t = DisplaySpring.pathWidth/2; // half thickness of spring
-  var w = size / 16;
+  const size = DisplaySpring.pathLength;
+  const t = DisplaySpring.pathWidth/2; // half thickness of spring
+  const w = size / 16;
   context.beginPath();
   at.moveTo(0, 0, context);
   at.lineTo(w, 0, context);   // from start point
   at.lineTo(2*w, t, context);  // ramp up
-  for (var i=1; i<=3; i++) {  // 3 cycles down and up
+  for (let i=1; i<=3; i++) {  // 3 cycles down and up
     at.lineTo(4*i*w, -t, context);
     at.lineTo((4*i + 2)*w, t, context);
   }

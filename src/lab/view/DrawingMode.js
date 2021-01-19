@@ -34,8 +34,8 @@ const DrawingMode = {
 * @throws {!Error} if the value does not represent a valid enum
 */
 DrawingMode.choiceToEnum = value => {
-  var choices = DrawingMode.getChoices();
-  for (var i=0, len=choices.length; i<len; i++) {
+  const choices = DrawingMode.getChoices();
+  for (let i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
       return DrawingMode.getValues()[i];
     }
@@ -49,8 +49,8 @@ DrawingMode.choiceToEnum = value => {
 * @throws {!Error} if the value does not represent a valid enum
 */
 DrawingMode.enumToChoice = value => {
-  var vals = DrawingMode.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = DrawingMode.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {
       return DrawingMode.getChoices()[i];
     }
@@ -78,8 +78,8 @@ DrawingMode.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 DrawingMode.stringToEnum = value => {
-  var vals = DrawingMode.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = DrawingMode.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value == vals[i]) {
       return vals[i];
     }

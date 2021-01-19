@@ -93,15 +93,15 @@ contains(point) {
 
 /** @override */
 draw(context, map) {
-  var thickness = this.getThickness();
+  const thickness = this.getThickness();
   if (thickness > 0) {
-    var p1 = map.simToScreen(this.line_.getStartPoint());
-    var p2 = map.simToScreen(this.line_.getEndPoint());
-    var len = p1.distanceTo(p2);
+    const p1 = map.simToScreen(this.line_.getStartPoint());
+    const p2 = map.simToScreen(this.line_.getEndPoint());
+    const len = p1.distanceTo(p2);
     if (len < 1e-6)
       return;
     context.save()
-    var lineDash = this.getLineDash();
+    const lineDash = this.getLineDash();
     if (lineDash.length > 0 && context.setLineDash) {
       context.setLineDash(lineDash);
     }

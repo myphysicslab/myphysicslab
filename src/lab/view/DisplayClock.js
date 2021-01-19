@@ -138,8 +138,8 @@ contains(point) {
 
 /** @override */
 draw(context, map) {
-  var center = map.simToScreen(this.location_);
-  var r = map.simToScreenScaleX(this.radius_);
+  const center = map.simToScreen(this.location_);
+  const r = map.simToScreenScaleX(this.radius_);
   // fill circle with transparent white, so that it is visible with black background
   context.save();
   context.beginPath();
@@ -150,12 +150,12 @@ draw(context, map) {
   context.stroke();
   context.fillStyle = this.fillStyle_;
   context.fill();
-  var time = this.simTimeFn_();
-  var realTime = this.realTimeFn_();
+  const time = this.simTimeFn_();
+  const realTime = this.realTimeFn_();
   this.drawHand(context, map, this.handColor_, time, center);
   // show the real-time hand
   this.drawHand(context, map, this.realColor_, realTime, center);
-  var tx = time.toFixed(3);
+  const tx = time.toFixed(3);
   context.fillStyle = this.textColor_;
   context.font = this.font_;
   context.textAlign = 'center';
@@ -173,9 +173,9 @@ draw(context, map) {
 */
 drawHand(context, map, color, time, center) {
   time = time - this.period_ * Math.floor(time/this.period_);
-  var fraction = time / this.period_;
-  var endx = map.simToScreenScaleX(this.radius_ * Math.sin(2*Math.PI * fraction));
-  var endy = map.simToScreenScaleY(this.radius_ * Math.cos(2*Math.PI * fraction));
+  const fraction = time / this.period_;
+  const endx = map.simToScreenScaleX(this.radius_ * Math.sin(2*Math.PI * fraction));
+  const endy = map.simToScreenScaleY(this.radius_ * Math.cos(2*Math.PI * fraction));
   context.lineWidth = this.handWidth_;
   context.strokeStyle = color;
   context.beginPath();

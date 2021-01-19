@@ -155,18 +155,18 @@ containsPath(path) {
 
 /** @override */
 draw(context, map) {
-  var r = this.screenRect_;
+  const r = this.screenRect_;
   if (r.isEmpty()) {
     // don't bother if the screen isn't visible
     return;
   }
   asserts.assert( r.getLeft() == 0);
   asserts.assert( r.getTop() == 0);
-  var w = r.getWidth();
-  var h = r.getHeight();
+  const w = r.getWidth();
+  const h = r.getHeight();
   context.save();
   this.paths_.forEach((path, idx) => {
-      var seq = path.getSequence();
+      const seq = path.getSequence();
       // Change in sequence number indicates path has changed.
       // If any of the paths have changed, then need to redraw.
       if (seq != this.sequence_[idx]) {
@@ -180,7 +180,7 @@ draw(context, map) {
     this.redraw_ = true;
   }
   // compare size of image to that of the screen rect; reallocate if different
-  var useBuffer = this.getUseBuffer();
+  const useBuffer = this.getUseBuffer();
   if (useBuffer && this.offScreen_ != null)  {
     if (this.offScreen_.width != w || this.offScreen_.height != h) {
       this.flush();
@@ -194,9 +194,9 @@ draw(context, map) {
     this.redraw_ = true;
   }
   /** @type {!CanvasRenderingContext2D}*/
-  var ctx = context;
+  const ctx = context;
   if (useBuffer && this.offScreen_) {
-    var offCtx =
+    const offCtx =
         /** @type {!CanvasRenderingContext2D}*/(this.offScreen_.getContext('2d'));
     if (offCtx) {
       ctx = offCtx;
@@ -226,13 +226,13 @@ draw(context, map) {
 * @private
 */
 drawPath(path, context, map, style) {
-  var point = new MutableVector(0, 0);
-  var firstTime = true;
-  var w = style.lineWidth;
-  var pointsIterator = path.getIterator(DisplayPath.DRAW_POINTS);
+  const point = new MutableVector(0, 0);
+  let firstTime = true;
+  const w = style.lineWidth;
+  const pointsIterator = path.getIterator(DisplayPath.DRAW_POINTS);
   while (pointsIterator.nextPoint(point)) {
-    var scrX = map.simToScreenX(point.getX());
-    var scrY = map.simToScreenY(point.getY());
+    const scrX = map.simToScreenX(point.getX());
+    const scrY = map.simToScreenY(point.getY());
     if (firstTime) {
       context.beginPath();
       context.moveTo(scrX, scrY);
@@ -308,7 +308,7 @@ getPath(arg) {
     }
   } else if (typeof arg === 'string') {
     arg = Util.toName(arg);
-    var e = array.find(this.paths_,
+    const e = array.find(this.paths_,
       function (/** !Path */obj) {
         return obj.getName() == arg;
       });
@@ -383,7 +383,7 @@ isDragable() {
 */
 removePath(path) {
   if (this.containsPath(path)) {
-    var idx = this.paths_.indexOf(path);
+    const idx = this.paths_.indexOf(path);
     if (idx > -1) {
       array.removeAt(this.paths_, idx);
       array.removeAt(this.styles_, idx);
