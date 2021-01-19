@@ -99,8 +99,8 @@ angleTo(vector) {
   if (this.getZ() != 0 || vector.getZ() != 0) {
     throw '';
   }
-  var at = Math.atan2(this.y_, this.x_);
-  var bt = Math.atan2(vector.getY(), vector.getX());
+  const at = Math.atan2(this.y_, this.x_);
+  const bt = Math.atan2(vector.getY(), vector.getX());
   return Util.limitAngle(bt - at);
 };
 
@@ -111,9 +111,9 @@ multiplication, no square root.
 @return {number} distance squared between this point and the given point
 */
 distanceSquaredTo(point) {
-  var dx = this.x_ - point.getX();
-  var dy = this.y_ - point.getY();
-  var dz = this.z_ - point.getZ();
+  const dx = this.x_ - point.getX();
+  const dy = this.y_ - point.getY();
+  const dz = this.z_ - point.getZ();
   return dx*dx + dy*dy + dz*dz;
 };
 
@@ -146,7 +146,7 @@ divide(factor) {
 @return {number} the dot product of this Vector and the given vector
 */
 dotProduct(vector) {
-  var r = this.x_ * vector.getX() + this.y_ * vector.getY() + this.z_ * vector.getZ();
+  const r = this.x_ * vector.getX() + this.y_ * vector.getY() + this.z_ * vector.getZ();
   if (isNaN(r)) {
     throw Util.DEBUG ? ('dotproduct is not a number '+this+' '+vector) : '';
   }
@@ -206,7 +206,7 @@ returns sum of absolute value of each component `x, y, z`.
 @return {number} sum of absolute value of each component `x, y, z`.
 */
 lengthCheap() {
-  var r = Math.abs(this.x_) + Math.abs(this.y_);
+  const r = Math.abs(this.x_) + Math.abs(this.y_);
   if (this.z_ == 0.0) {
     return r;
   } else {
@@ -281,17 +281,18 @@ in radians. If two parameters are given then they are the cosine and sine of the
 @return {!Vector} this Vector rotated counter-clockwise about the origin
 */
 rotate(angle, sineAngle) {
-  var cosAngle;
+  let cosAngle;
   if (sineAngle !== undefined) {
     cosAngle = angle;
   } else {
     cosAngle = Math.cos(angle);
     sineAngle = Math.sin(angle);
   }
-  if (Math.abs(cosAngle*cosAngle + sineAngle*sineAngle - 1.0) > 1E-12)
-    throw '';
+  if (Math.abs(cosAngle*cosAngle + sineAngle*sineAngle - 1.0) > 1E-12) {
+    throw 'not cosine, sine: '+cosAngle+', '+sineAngle;
+  }
   return new Vector(this.x_ * cosAngle - this.y_ * sineAngle,
-                    this.x_ * sineAngle + this.y_ * cosAngle, this.z_);
+      this.x_ * sineAngle + this.y_ * cosAngle, this.z_);
 };
 
 /** Returns difference of this Vector and given Vector.

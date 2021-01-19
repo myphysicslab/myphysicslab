@@ -111,10 +111,10 @@ static isDuckType(obj) {
 @return {!DoubleRect} a DoubleRect spanning the two given points
 */
 static make(point1, point2) {
-  var left = Math.min(point1.getX(), point2.getX());
-  var right = Math.max(point1.getX(), point2.getX());
-  var bottom = Math.min(point1.getY(), point2.getY());
-  var top = Math.max(point1.getY(), point2.getY());
+  const left = Math.min(point1.getX(), point2.getX());
+  const right = Math.max(point1.getX(), point2.getX());
+  const bottom = Math.min(point1.getY(), point2.getY());
+  const top = Math.max(point1.getY(), point2.getY());
   return new DoubleRect(left, bottom, right, top);
 };
 
@@ -126,8 +126,8 @@ static make(point1, point2) {
     with given height and width
 */
 static makeCentered(center, width, height) {
-  var x = center.getX();
-  var y = center.getY();
+  const x = center.getX();
+  const y = center.getY();
   return new DoubleRect(x - width/2, y - height/2, x + width/2, y + height/2);
 };
 
@@ -138,10 +138,10 @@ static makeCentered(center, width, height) {
     with given size
 */
 static makeCentered2(center, size) {
-  var x = center.getX();
-  var y = center.getY();
-  var w = size.getX();
-  var h = size.getY();
+  const x = center.getX();
+  const y = center.getY();
+  const w = size.getX();
+  const h = size.getY();
   return new DoubleRect(x - w/2, y - h/2, x + w/2, y + h/2);
 };
 
@@ -274,7 +274,7 @@ intersection(rect) {
 *     tolerance)
 */
 isEmpty(opt_tolerance) {
-  var tol = opt_tolerance || 1E-16;
+  const tol = opt_tolerance || 1E-16;
   return this.getWidth() < tol || this.getHeight() < tol;
 };
 
@@ -290,11 +290,11 @@ maybeVisible(p1, p2) {
     return true;
   }
   // if both points are "outside" one of the rectangle sides, then line is not visible
-  var p1x = p1.getX();
-  var p1y = p1.getY();
-  var p2x = p2.getX();
-  var p2y = p2.getY();
-  var d = this.left_;
+  const p1x = p1.getX();
+  const p1y = p1.getY();
+  const p2x = p2.getX();
+  const p2y = p2.getY();
+  let d = this.left_;
   if (p1x < d && p2x < d) {
     return false;
   }
@@ -350,10 +350,10 @@ expansion factor in x and y dimensions.
 */
 scale(factorX, factorY) {
   factorY = (factorY === undefined) ? factorX : factorY;
-  var x0 = this.getCenterX();
-  var y0 = this.getCenterY();
-  var w = this.getWidth();
-  var h = this.getHeight();
+  const x0 = this.getCenterX();
+  const y0 = this.getCenterY();
+  const w = this.getWidth();
+  const h = this.getHeight();
   return new DoubleRect(x0 - (factorX*w)/2, y0 - (factorY*h)/2,
       x0 + (factorX*w)/2, y0 + (factorY*h)/2);
 };
@@ -367,12 +367,12 @@ scale(factorX, factorY) {
 @throws {!Error} when `x` is a number and `y` is not defined
 */
 translate(x, y) {
-  var x1, y1;
+  let x1, y1;
   if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
-    var v = /** @type {!GenericVector} */(x);
+    const v = /** @type {!GenericVector} */(x);
     y1 = v.getY();
     x1 = v.getX();
   }

@@ -82,9 +82,9 @@ multiplication, no square root.
 @return {number} distance squared between this point and the given point
 */
 distanceSquaredTo(point) {
-  var dx = this.x_ - point.getX();
-  var dy = this.y_ - point.getY();
-  var dz = this.z_ - point.getZ();
+  const dx = this.x_ - point.getX();
+  const dy = this.y_ - point.getY();
+  const dz = this.z_ - point.getZ();
   return dx*dx + dy*dy + dz*dz;
 };
 
@@ -157,7 +157,7 @@ which avoids the square root; returns sum of absolute value of each component `x
 @return {number} sum of absolute value of each component `x, y, z`.
 */
 lengthCheap() {
-  var r = Math.abs(this.x_) + Math.abs(this.y_);
+  const r = Math.abs(this.x_) + Math.abs(this.y_);
   if (this.z_ == 0.0)
     return r;
   else
@@ -213,7 +213,7 @@ and the same direction.
 {@link Vector.TINY_POSITIVE}
 */
 normalize() {
-  var len = this.length();
+  const len = this.length();
   if (len < Vector.TINY_POSITIVE) {
     throw '';
   } else {

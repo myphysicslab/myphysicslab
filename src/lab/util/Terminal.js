@@ -577,14 +577,14 @@ toString() {
 *     already exists)
 */
 addRegex(names, prefix, opt_addToVars, opt_prepend) {
-  var addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
+  const addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
   if (!Util.ADVANCED) {
     if (names.length == 0) {
       throw '';
     }
     if (addToVars) {
-      var nms = names.split('|');
-      var vrs = this.vars_.split('|');
+      const nms = names.split('|');
+      const vrs = this.vars_.split('|');
       nms.forEach(nm => {
         if (!vrs.includes(nm)) {
           this.vars_ += (this.vars_.length > 0 ? '|' : '') + nm;
@@ -598,7 +598,7 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
     // Should NOT match within: module$exports$myphysicslab$lab$util$Util
     // SHOULD match within: Util.toName
     /** @type {!Terminal.regexPair} */
-    var re = {
+    const re = {
       regex: new RegExp('(^|[^\\w.$])('+names+')\\b', 'g'),
       replace: '$1'+prefix+'$2'
     };
@@ -626,7 +626,7 @@ addRegex(names, prefix, opt_addToVars, opt_prepend) {
 addRegex2(regex, replace, opt_prepend) {
   if (!Util.ADVANCED) {
     /** @type {!Terminal.regexPair} */
-    var re = {
+    const re = {
       regex: regex,
       replace: replace
     };
@@ -649,7 +649,7 @@ addRegex2(regex, replace, opt_prepend) {
 *     set of defined names returned by {@link #vars}; default is `true`
 */
 addWhiteList(name, opt_addToVars) {
-  var addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
+  const addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
   if (!this.whiteList_.includes(name)) {
     this.whiteList_.push(name);
     if (addToVars) {
@@ -682,12 +682,12 @@ alertOnce(msg) {
 * @private
 */
 static badCommand(command, name, whiteList) {
-  for (var i=0, n=whiteList.length; i<n; i++) {
+  for (let i=0, n=whiteList.length; i<n; i++) {
     if (name == whiteList[i]) {
       return false;
     }
   }
-  var re = new RegExp('\\b'+name+'\\b', 'g');
+  const re = new RegExp('\\b'+name+'\\b', 'g');
   return re.test(command);
 };
 
@@ -707,7 +707,7 @@ clear() {
 */
 commands() {
   if (this.term_output_) {
-    var t = this.term_output_.value;
+    let t = this.term_output_.value;
     t = t.split('\n');
     // remove leading and trailing whitespace on each command
     t = t.map(e => e.trim());
@@ -796,8 +796,8 @@ script that caused the error).
 *    is false
 */
 eval(script, opt_output, opt_userInput) {
-  var output = typeof opt_output === 'boolean' ? opt_output : true;
-  var userInput = opt_userInput || false;
+  let output = typeof opt_output === 'boolean' ? opt_output : true;
+  const userInput = opt_userInput || false;
   if (userInput && !output) {
     // if user input the script then must have output==true
     throw '';
@@ -827,13 +827,13 @@ eval(script, opt_output, opt_userInput) {
     this.resultStack_.push(this.result);
     this.result = undefined;
   }
-  var prompt = this.prompt_;
+  const prompt = this.prompt_;
   try {
     Terminal.vetBrackets(script);
     // split the script into pieces at each semicolon, evaluate one piece at a time
-    var cmds = ['', script];
+    let cmds = ['', script];
     while (cmds = this.splitAtSemicolon(cmds[1]), cmds[0]) {
-      var cmd = cmds[0].trim();
+      const cmd = cmds[0].trim();
       if (cmd.length == 0) {
         // ignore blank lines
         continue;
@@ -852,14 +852,14 @@ eval(script, opt_output, opt_userInput) {
           // Script Safe Subset:
           // Note that unexpanded `cmd` has NOT gone thru vetCommand, but it is only
           // a string and should not be eval'd by the parser.
-          var parseResult = this.parser.parse(cmd);
+          const parseResult = this.parser.parse(cmd);
           if (parseResult !== undefined) {
             // the parser was successful
             this.result = parseResult;
             break execute_cmd;
           }
         }
-        var expScript = this.expand(cmd); // expanded and vetted cmd
+        const expScript = this.expand(cmd); // expanded and vetted cmd
         if (output && this.verbose_) {
           this.println(prompt.trim() + prompt + expScript);
         }
@@ -892,7 +892,7 @@ eval(script, opt_output, opt_userInput) {
     return this.result;
   } else {
     // restore this.result to previous value, but return result of this script
-    var r = this.result;
+    const r = this.result;
     this.result = this.resultStack_.pop();
     return r;
   }
@@ -908,18 +908,18 @@ eval(script, opt_output, opt_userInput) {
 * @return {string} the script expanded by registered regular expressions
 */
 expand(script) {
-  var c = this.replaceVar(script);
-  var exp = ''; //result
-  var count = 0;
+  let c = this.replaceVar(script);
+  let exp = ''; //result
+  let count = 0;
   while (c) {
     if (++count > 10000) {
       // prevent infinite loop
       throw 'Terminal.expand';
     }
     // process non-quoted string at start of c
-    var a = c.match(/^[^'"/]+/);
+    let a = c.match(/^[^'"/]+/);
     if (a !== null) {
-      var e = a[0]; // the non-quoted string at start of c
+      let e = a[0]; // the non-quoted string at start of c
       c = c.slice(e.length); // remove the non-quoted string from start of c
       // process the non-quoted string with desired regexs
       e = array.reduce(this.regexs_,
@@ -940,7 +940,7 @@ expand(script) {
       // Note that we exclude matching on /* or //
       a = c.match(/^\/[^*/](\\\/|[^\\/])*\//);
       if (a !== null) {
-        e = a[0]; // the regexp at start of c
+        const e = a[0]; // the regexp at start of c
         c = c.slice(e.length); // remove the regexp from start of c
         // add to result
         exp += e;
@@ -961,7 +961,7 @@ expand(script) {
     // quote ( any-escaped-char  |  not-backslash-or-quote )*  quote
     a = c.match(/^"(\\.|[^\\"])*"/);
     if (a !== null) {
-      e = a[0]; // the quoted string at start of c
+      const e = a[0]; // the quoted string at start of c
       c = c.slice(e.length); // remove the quoted string from start of c
       // add to result
       exp += e;
@@ -976,7 +976,7 @@ expand(script) {
     // process single-quotes string at start of c
     a = c.match(/^'(\\.|[^\\'])*'/);
     if (a !== null) {
-      e = a[0]; // the quoted string at start of c
+      const e = a[0]; // the quoted string at start of c
       c = c.slice(e.length); // remove the quoted string from start of c
       // add to result
       exp += e;
@@ -1007,7 +1007,7 @@ See [Script Storage](#scriptstorage).
 */
 forget() {
   try {
-    var localStore = window.localStorage;
+    const localStore = window.localStorage;
     if (localStore != null) {
       localStore.removeItem(this.pageKey());
     }
@@ -1071,8 +1071,8 @@ handleKey(evt) {
 * @private
 */
 hasRegex(q) {
-  var regex = q.regex.toString();
-  var replace = q.replace;
+  const regex = q.regex.toString();
+  const replace = q.replace;
   return array.some(this.regexs_,
     r => r.replace == replace && r.regex.toString() == regex);
 };
@@ -1098,7 +1098,7 @@ myEval(script) {
   if (!Util.ADVANCED) {
     return eval(script);
   } else {
-    var msg = 'JavaScript is disabled due to advanced compilation; try a simple-compiled version';
+    const msg = 'JavaScript is disabled due to advanced compilation; try a simple-compiled version';
     // Output to console.log helps when debugging UnitTest problems.
     console.log(msg+': '+script);
     this.println(msg);
@@ -1118,8 +1118,8 @@ pageKey() {
   // https://www.myphysicslab.com/pendulum/pendulum-en.html is the English version
   // https://www.myphysicslab.com/pendulum/pendulum-de.html is the German version.
   // (We could erase the locale from the key if desired).
-  var loc = window.location.href;
-  var query = loc.indexOf('?');
+  let loc = window.location.href;
+  const query = loc.indexOf('?');
   // if this page loaded with a query in the URL, erase the query
   if (query > -1) {
     loc = loc.slice(0, query);
@@ -1138,10 +1138,10 @@ parseURL() {
   if (this.parser != null) {
     this.parser.saveStart();
   }
-  var loc = window.location.href;
-  var queryIdx = loc.indexOf('?');
+  const loc = window.location.href;
+  const queryIdx = loc.indexOf('?');
   if (queryIdx > -1) {
-    var cmd = loc.slice(queryIdx+1);
+    let cmd = loc.slice(queryIdx+1);
     // decode the percent-encoded URL
     // See https://en.wikipedia.org/wiki/Percent-encoding
     // encodeURIComponent('hello +(2+3*4)!/=?[];{}.<>:|^$_-~`@#')
@@ -1187,12 +1187,12 @@ the script if `opt_execute` is `true`. See [Script Storage](#scriptstorage).
 * @return {undefined}
 */
 recall(opt_execute) {
-  var execute = typeof opt_execute === 'boolean' ? opt_execute : true;
+  const execute = typeof opt_execute === 'boolean' ? opt_execute : true;
   this.recalling = true;
   try {
-    var localStore = window.localStorage;
+    const localStore = window.localStorage;
     if (localStore != null) {
-      var s = /** @type {string} */(localStore.getItem(this.pageKey()));
+      const s = /** @type {string} */(localStore.getItem(this.pageKey()));
       if (s) {
         this.println('//start of stored scripts');
         if (execute) {
@@ -1220,14 +1220,14 @@ stored, as returned by {@link #commands}.
 * @return {undefined}
 */
 remember(opt_script) {
-  var script = opt_script !== undefined ? opt_script : this.commands();
+  let script = opt_script !== undefined ? opt_script : this.commands();
   if (Array.isArray(script)) {
     script = script.join('\n');
   }
   try {
-    var k = this.pageKey();
+    const k = this.pageKey();
     // store the script under the current file name
-    var localStore = window.localStorage;
+    const localStore = window.localStorage;
     if (localStore != null) {
       localStore.setItem(this.pageKey(), script);
     }
@@ -1248,12 +1248,12 @@ this will return just `foo = 3;` and add a regexp that replaces `foo` by `z.foo`
 * @private
 */
 replaceVar(script) {
-  var m = script.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
+  const m = script.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
   if (m) {
     // suppose the script was 'var foo = 3;'
     // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from script
     asserts.assert(m.length >= 3);
-    var varName = m[1];
+    const varName = m[1];
     // important to prepend because the regexp's are executed in order
     this.addRegex(varName, 'z.', /*addToVars=*/true, /*prepend=*/true);
     return m[1] + m[2];
@@ -1323,16 +1323,16 @@ Note however that top-level double-slash comments end at a new-line not semicolo
 * @private
 */
 splitAtSemicolon(text) {
-  var level = 0;
-  var lastNonSpace = '';
-  var lastChar = '';
-  var nextChar = ''
-  var c = '';
-  var commentMode = false; // double-slash comments only
-  var regexMode = false;
-  var quoteMode = false;
-  var quoteChar = '';
-  var i, n;
+  let level = 0;
+  let lastNonSpace = '';
+  let lastChar = '';
+  let nextChar = ''
+  let c = '';
+  let commentMode = false; // double-slash comments only
+  let regexMode = false;
+  let quoteMode = false;
+  let quoteChar = '';
+  let i, n;
   for (i=0, n=text.length; i<n; i++) {
     lastChar = c;
     if (c != ' ' && c != '\t' && c != '\n') {
@@ -1457,7 +1457,7 @@ static stdRegex(terminal) {
 * @return {!Array<string>} names of defined variables, in alphabetic order
 */
 vars() {
-  var v = this.vars_.split('|');
+  const v = this.vars_.split('|');
   array.sort(v);
   return v;
 };
@@ -1484,14 +1484,14 @@ which is an access of a numbered array property.
 */
 static vetBrackets(script) {
   // Allow only non-negative integer inside square brackets (indicates array access).
-  var goodRegexp = /^\w\s*\[\s*\d*\s*\]$/;
+  const goodRegexp = /^\w\s*\[\s*\d*\s*\]$/;
   // Only check when bracket is preceded by an identifier, which is a property access.
   // This allows making an array with square brackets, or passing an array to a
   // function, etc.
-  var broadRegexp = /\w\s*\[[^\]]*?\]/g;
-  var r = script.match(broadRegexp);
+  const broadRegexp = /\w\s*\[[^\]]*?\]/g;
+  const r = script.match(broadRegexp);
   if (r != null) {
-    for (var i=0, n=r.length; i<n; i++) {
+    for (let i=0, n=r.length; i<n; i++) {
       if (!goodRegexp.test(r[i])) {
         throw 'prohibited usage of square brackets in script: '+script+
           ' Only positive integer is allowed in brackets. '+
@@ -1512,7 +1512,7 @@ prohibited by default, but you can add a blackList regexp for it.
 static vetCommand(script, whiteList, opt_blackList) {
   // prohibit all window properties (which are globally accessible names),
   // except for those on whiteList_.
-  for (var p in window) {
+  for (let p in window) {
     if (Terminal.badCommand(script, p, whiteList)) {
       throw 'prohibited name: "' + p + '" found in script: ' + script;
     }
@@ -1521,7 +1521,7 @@ static vetCommand(script, whiteList, opt_blackList) {
   // properties of Terminal.
   // Prohibit HTML Element and Node properties and methods that access parent or change
   // structure of the Document.
-  var blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
+  const blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
   if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
     throw 'prohibited name in script: '+script;
   }

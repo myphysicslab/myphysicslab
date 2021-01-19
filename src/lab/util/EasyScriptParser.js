@@ -351,9 +351,9 @@ addCommand(commandName, commandFnc, helpText) {
 */
 static checkUniqueNames(subjects) {
   /** @type !Array<string> */
-  var names = [];
+  const names = [];
   subjects.forEach(subj => {
-    var nm = subj.getName();
+    const nm = subj.getName();
     if (names.includes(nm)) {
       throw 'duplicate Subject name: '+nm;
     };
@@ -375,8 +375,8 @@ can call methods like `getValue()` or `setValue()` on the Parameter.
 */
 getParameter(fullName) {
   fullName = Util.toName(fullName);
-  var n = fullName.split('.');
-  var subjectName, paramName;
+  const n = fullName.split('.');
+  let subjectName, paramName;
   if (n.length == 1) {
     subjectName = '';
     paramName = n[0];
@@ -386,9 +386,9 @@ getParameter(fullName) {
   } else {
     return null;
   }
-  var idx;
+  let idx;
   if (subjectName == '') {
-    var count = array.count(this.allParamNames_,
+    const count = array.count(this.allParamNames_,
         p => p == paramName);
     if (count > 1) {
       throw 'multiple Subjects have Parameter '+paramName;
@@ -406,7 +406,7 @@ getParameter(fullName) {
 *    no Subject found
 */
 getSubject(name) {
-  var subjectName = Util.toName(name);
+  const subjectName = Util.toName(name);
   return array.find(this.subjects_, s => s.getName() == subjectName);
 };
 
@@ -435,8 +435,8 @@ help() {
     s += 'println(1+2)         prints to the Terminal window\n';
     s += 'result               the result of the previous command\n';
   }
-  for (var i=0, len=this.commandNames_.length; i<len; i++) {
-    var cn = this.commandNames_[i];
+  for (let i=0, len=this.commandNames_.length; i<len; i++) {
+    let cn = this.commandNames_[i];
     while (cn.length < 20) {
       cn += ' ';
     }
@@ -473,9 +473,9 @@ that are being automatically computed, unless `includeComputed` is `true`.
 */
 namesAndValues(dependent, includeComputed, fullName) {
   dependent = dependent == true;
-  var allParams = this.allSubjects_.map((s, idx) =>
+  const allParams = this.allSubjects_.map((s, idx) =>
       s.getParameter(this.allParamNames_[idx]));
-  var params = allParams;
+  let params = allParams;
   if (!includeComputed) {
     // filter out Parameters that are automatically computed
     params = array.filter(params, p => !p.isComputed());
@@ -483,11 +483,11 @@ namesAndValues(dependent, includeComputed, fullName) {
   // Keep only Parameters of dependent or non-dependent Subjects as requested.
   params = array.filter(params,
       p => this.dependent_.includes(p.getSubject()) == dependent, this);
-  var re = /^[a-zA-Z0-9_]+$/;
-  var s = params.map(p => {
-      var paramName = Util.toName(p.getName());
-      var idx = allParams.indexOf(p);
-      var v = p.getValue();
+  const re = /^[a-zA-Z0-9_]+$/;
+  const s = params.map(p => {
+      const paramName = Util.toName(p.getName());
+      const idx = allParams.indexOf(p);
+      let v = p.getValue();
       if (typeof v === 'string' && !re.test(v)) {
         // add quotes when string has non-alphanumeric characters
         v = '"' + v + '"';
@@ -496,7 +496,7 @@ namesAndValues(dependent, includeComputed, fullName) {
       if (!fullName && this.unique_[idx]) {
         return paramName + '=' + v;
       } else {
-        var subjName = Util.toName(p.getSubject().getName());
+        const subjName = Util.toName(p.getSubject().getName());
         return subjName + '.' + paramName + '=' + v;
       }
     });
@@ -510,23 +510,24 @@ parse(script) {
     script = script.slice(0, script.length-1);
   }
   // if script is single-word command names, then execute that command function
-  for (var i=0, len=this.commandNames_.length; i<len; i++) {
+  for (let i=0, len=this.commandNames_.length; i<len; i++) {
     if (script.toLowerCase() == this.commandNames_[i]) {
       // Returning 'undefined' means 'did not recognize', therefore we must return
       // a value other than 'undefined' here.
       return this.commandFns_[i]();
     }
   }
-  var a = script.split('=');
+  const a = script.split('=');
   // fullName can be 'SUBJECT_NAME.PARAM_NAME' or just 'PARAM_NAME'
-  var fullName = Util.toName(a[0].trim());
-  var param = this.getParameter(fullName);
+  const fullName = Util.toName(a[0].trim());
+  const param = this.getParameter(fullName);
   if (param == null || a.length > 2) {
     return undefined;
   }
   if (a.length == 2) {
+    let value;
     try {
-      var value = EasyScriptParser.unquote(a[1].trim());
+      value = EasyScriptParser.unquote(a[1].trim());
       param.setFromString(value);
     } catch(ex) {
       ex.message += '\nwhile setting value "'+value+'" on parameter '+fullName;
@@ -557,9 +558,9 @@ saveStart() {
 * @return {string} script that sets Parameters to current values
 */
 script() {
-  var ar = this.namesAndValues(false).split(';');
+  let ar = this.namesAndValues(false).split(';');
   ar = ar.concat(this.namesAndValues(true).split(';'));
-  var initSettings = array.concat(this.initialNonDependent_,
+  const initSettings = array.concat(this.initialNonDependent_,
       this.initialDependent_);
   // strip out any settings that are identical to initial settings
   array.removeAllIf(ar, s => initSettings.includes(s));
@@ -579,7 +580,7 @@ script() {
 */
 scriptURL() {
   // get the current URL, but remove any URL query (= text after the '?' in URL)
-  var u = window.location.href.replace(/\.html\?.*$/, '.html');
+  const u = window.location.href.replace(/\.html\?.*$/, '.html');
   // Add commands as a URL query, after '?'.
   return u + '?' + Terminal.encodeURIComponent(this.script());
 };
@@ -594,13 +595,13 @@ static unquote(text) {
   if (text.length < 2) {
     return text;
   }
-  var firstChar = text.charAt(0);
-  var lastChar = text.charAt(text.length-1);
+  const firstChar = text.charAt(0);
+  const lastChar = text.charAt(text.length-1);
   if (firstChar == lastChar && (firstChar == '"' || firstChar == '\'')) {
     // search for escaped quotes
-    var r = '';
-    for (var i=1, n=text.length-1; i<n; i++) {
-      var c = text[i];
+    let r = '';
+    for (let i=1, n=text.length-1; i<n; i++) {
+      let c = text[i];
       if (c == '\\') {
         // when we see a backslash, look ahead at next char
         i++;
@@ -645,10 +646,10 @@ static unquote(text) {
 * @return {undefined}
 */
 update() {
-  var params = array.reduce(this.subjects_,
+  const params = array.reduce(this.subjects_,
       function(/** !Array<!Parameter>*/result, subj) {
         // filter out params with name 'DELETED'
-        var s_params = array.filter(subj.getParameters(),
+        const s_params = array.filter(subj.getParameters(),
             p => p.getName() != 'DELETED');
         return result.concat(s_params);
       }, []);

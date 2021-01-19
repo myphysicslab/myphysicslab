@@ -172,7 +172,7 @@ causeMaxIntError() {
 getEndIndex() {
   if (this.size_ == 0)
     return -1;
-  var idx;
+  let idx;
   if (this.nextPtr_ == 0)
     idx = this.pointerToIndex(this.size_ - 1);
   else
@@ -182,7 +182,7 @@ getEndIndex() {
 
 /** @override */
 getEndValue() {
-  var idx = this.getEndIndex();
+  const idx = this.getEndIndex();
   return idx == -1 ? null : this.values_[this.indexToPointer(idx)];
 };
 
@@ -198,13 +198,13 @@ getSize() {
 
 /** @override */
 getStartIndex() {
-  var idx = (this.size_ < this.capacity_) ? 0 : this.pointerToIndex(this.nextPtr_);
+  const idx = (this.size_ < this.capacity_) ? 0 : this.pointerToIndex(this.nextPtr_);
   return idx;
 };
 
 /** @override */
 getValue(index) {
-  var i = this.indexToPointer(index);
+  const i = this.indexToPointer(index);
   return this.values_[i];
 };
 
@@ -217,8 +217,8 @@ Pointer and index are the same until the list fills and 'wraps around'.
 indexToPointer(index) {
   if (this.size_ < this.capacity_)
     return index;
-  var p = index % this.capacity_;
-  var idx = index - (this.cycles_ - (p < this.nextPtr_ ? 0 : 1)) * this.capacity_;
+  const p = index % this.capacity_;
+  const idx = index - (this.cycles_ - (p < this.nextPtr_ ? 0 : 1)) * this.capacity_;
   return idx;
 };
 
@@ -232,7 +232,7 @@ Pointer and index are the same until the list fills and 'wraps around'.
 pointerToIndex(pointer) {
   if (this.size_ < this.capacity_)
     return pointer;
-  var idx = pointer +
+  const idx = pointer +
       (this.cycles_ - (pointer < this.nextPtr_ ? 0 : 1)) * this.capacity_;
   if (idx >= Util.MAX_INTEGER)
     throw CircularList.MAX_INDEX_ERROR;

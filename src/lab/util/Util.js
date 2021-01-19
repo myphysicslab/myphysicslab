@@ -38,9 +38,9 @@ static array2string(r, nf, separator) {
   if (separator === undefined) {
     separator = ', ';
   }
-  var n = r.length;
-  var s = '';
-  for (var i=0; i<n; i++) {
+  const n = r.length;
+  let s = '';
+  for (let i=0; i<n; i++) {
     s += (i > 0 ? separator : '') + nf(r[i]);
   }
   return s;
@@ -55,9 +55,9 @@ static array2string(r, nf, separator) {
 static arrayBool2string(r, trueString, falseString) {
   trueString = trueString || 'true';
   falseString = falseString || 'false';
-  var n = r.length;
-  var s = '';
-  for (var i=0; i<n; i++) {
+  const n = r.length;
+  let s = '';
+  for (let i=0; i<n; i++) {
     s += r[i] ? trueString : falseString;
     if (i<n-1) {
       s += ', ';
@@ -75,9 +75,9 @@ proportions.
 @return {string} the corresponding CSS3 color string with 3 hex digits
 */
 static colorString3(red, green, blue) {
-  var s = '#';
-  var colors = [red, green, blue];
-  for (var i=0; i<3; i++) {
+  let s = '#';
+  const colors = [red, green, blue];
+  for (let i=0; i<3; i++) {
     s += Util.numToHexChar1(colors[i]);
   }
   asserts.assert( s.length == 4 );
@@ -93,9 +93,9 @@ proportions.
 @return {string} the corresponding CSS3 color string with 6 hex digits
 */
 static colorString6(red, green, blue) {
-  var s = '#';
-  var colors = [red, green, blue];
-  for (var i=0; i<3; i++) {
+  let s = '#';
+  const colors = [red, green, blue];
+  for (let i=0; i<3; i++) {
     s += Util.numToHexChar2(colors[i]);
   }
   asserts.assert( s.length == 7 );
@@ -109,7 +109,7 @@ static colorString6(red, green, blue) {
 * @return {!HTMLImageElement}  an HTMLImageElement
 */
 static createImage(url, width, opt_height) {
-  var img =  /** @type {!HTMLImageElement} */(document.createElement('img'));
+  const img =  /** @type {!HTMLImageElement} */(document.createElement('img'));
   img.src = url;
   img.width = width;
   img.height = opt_height !== undefined ? opt_height : width;
@@ -159,7 +159,7 @@ static hypot(a, b) {
 * @return {boolean} `true` if running under Chrome browser
 */
 static isChrome() {
-  var nav = navigator;
+  const nav = navigator;
   if (nav != null) {
     return nav.userAgent.match(/.*Chrome.*/) != null;
   } else {
@@ -171,7 +171,7 @@ static isChrome() {
 * @return {boolean} `true` if running on iPhone
 */
 static isIPhone() {
-  var nav = navigator;
+  const nav = navigator;
   if (nav != null) {
     return nav.platform == 'iPhone';
   } else {
@@ -184,12 +184,11 @@ static isIPhone() {
 @return {number} the equivalent angle in the range -pi to +pi
 */
 static limitAngle(angle) {
-  var n;
   if (angle > Math.PI) {
-    n = Math.floor((angle - -Math.PI)/(2*Math.PI));
+    const n = Math.floor((angle - -Math.PI)/(2*Math.PI));
     return angle - 2*Math.PI*n;
   } else if (angle < -Math.PI) {
-    n = Math.floor(-(angle - Math.PI)/(2*Math.PI));
+    const n = Math.floor(-(angle - Math.PI)/(2*Math.PI));
     return angle + 2*Math.PI*n;
   } else {
     return angle;
@@ -201,10 +200,10 @@ static limitAngle(angle) {
 * @return {!Array<string>} list of names of functions defined on the given object
 */
 static methodsOf(obj) {
-  var s = [];
-  var proto = Object.getPrototypeOf(obj);
+  const s = [];
+  const proto = Object.getPrototypeOf(obj);
   if (proto) {
-    var nms = Object.getOwnPropertyNames(proto);
+    const nms = Object.getOwnPropertyNames(proto);
     for (let i=0; i<nms.length; i++) {
       let p = nms[i];
       if (p === 'constructor') {
@@ -226,7 +225,7 @@ static methodsOf(obj) {
 *   or the empty string if value not found.
 */
 static nameOf(obj, value) {
-  for (var p in obj) {
+  for (let p in obj) {
     if (obj[p] === value) {
       return p;
     }
@@ -239,8 +238,8 @@ static nameOf(obj, value) {
 * @return {!Array<boolean>} array of booleans with all entries initialized to `false`.
 */
 static newBooleanArray(n) {
-  var a = new Array(n);
-  for (var i=0; i<n; i++) {
+  const a = new Array(n);
+  for (let i=0; i<n; i++) {
     a[i] = false;
   }
   return a;
@@ -251,8 +250,8 @@ static newBooleanArray(n) {
 * @return {!Array<number>} an array of numbers with all entries initialized to zero.
 */
 static newNumberArray(n) {
-  var a = new Array(n);
-  for (var i=0; i<n; i++) {
+  const a = new Array(n);
+  for (let i=0; i<n; i++) {
     a[i] = 0;
   }
   return a;
@@ -359,7 +358,7 @@ static NF5E(num) {
 */
 static nf5(num) {
   if (num != null) {
-    var s = num.toFixed(5);
+    const s = num.toFixed(5);
     // remove trailing zeros, and possibly decimal point
     return s.replace(/\.?0+$/, '');
   } else {
@@ -401,7 +400,7 @@ static NF7E(num) {
 */
 static nf7(num) {
   if (num != null) {
-    var s = num.toFixed(7);
+    const s = num.toFixed(7);
     // remove trailing zeros, and possibly decimal point
     return s.replace(/\.?0+$/, '');
   } else {
@@ -468,8 +467,8 @@ static numToHexChar2(n) {
   else if (n <= 0)
     return '00';
   else {
-    var i = Math.floor(n/16);
-    var j = n % 16;
+    const i = Math.floor(n/16);
+    const j = n % 16;
     return Util.HEX_DIGITS.charAt(i) + Util.HEX_DIGITS.charAt(j);
   }
 };
@@ -541,17 +540,17 @@ static prettyPrint(input, level, indent) {
   if (typeof indent !== 'string') {
     indent = '  ';
   }
-  var inp = String(input);
-  var out = '';
-  var lvl = 0;  // number of unbalanced braces seen
-  var n = inp.length;
-  var ignoreSpace = false;
+  const inp = String(input);
+  let out = '';
+  let lvl = 0;  // number of unbalanced braces seen
+  const n = inp.length;
+  let ignoreSpace = false;
   /** @type {!Array<string>} */
-  var closeList = [];
+  const closeList = [];
   /** @type {string} */
-  var closeSymbol = '';
-  next_char: for (var i = 0; i<n; i++) {
-    var c = inp.charAt(i);
+  let closeSymbol = '';
+  next_char: for (let i = 0; i<n; i++) {
+    let c = inp.charAt(i);
     // we ignore spaces until we find a non-space
     if (ignoreSpace) {
       if (c == ' ') {
@@ -566,7 +565,7 @@ static prettyPrint(input, level, indent) {
         // after every open brace, insert a new line and some spaces
         out += c+'\n';
         // indent according to level
-        for (var l=0; l<lvl; l++) {
+        for (let l=0; l<lvl; l++) {
           out += indent;
         }
         ignoreSpace = true;
@@ -581,7 +580,7 @@ static prettyPrint(input, level, indent) {
         lvl--;
         out += '\n';
         // indent according to level
-        for (var l=0; l<lvl; l++) {
+        for (let l=0; l<lvl; l++) {
           out += indent;
         }
         out += c;
@@ -594,11 +593,11 @@ static prettyPrint(input, level, indent) {
       if (lvl < 0)
         throw 'unbalanced '+closeSymbol+' at '+i+' in '+input;
     } else if (c == '"' || c == '\'') {
-      var q = c;
-      var k = i;  // index of starting quote
+      const q = c;
+      const k = i;  // index of starting quote
       out += c;
       // read entire quoted string
-      while (++i<n) {
+      while (++i < n) {
         c = inp.charAt(i);
         out += c;
         if (c == q) {
@@ -611,7 +610,7 @@ static prettyPrint(input, level, indent) {
       // after every comma, insert a new line and some spaces
       out += c+'\n';
       // indent according to level
-      for (var l=0; l<lvl; l++) {
+      for (let l=0; l<lvl; l++) {
         out += indent;
       }
       ignoreSpace = true;
@@ -634,9 +633,9 @@ static printArray(array, lineLength, format) {
   if (Util.DEBUG) {
     lineLength = lineLength || 80;
     format = format || Util.NF5E;
-    var s = '';
-    for (var i=0, len=array.length; i<len; i++) {
-      var r = format(array[i]);
+    let s = '';
+    for (let i=0, len=array.length; i<len; i++) {
+      const r = format(array[i]);
       if (s.length + r.length > lineLength) {
         console.log(s);
         s = '  ' + r;  // indent lines after first
@@ -666,7 +665,7 @@ static println(s) {
 @param {...number} nums numbers to print, variable number of arguments
 */
 static printNums5(s, nums) {
-  for (var i=1; i<arguments.length; i++) {
+  for (let i=1; i<arguments.length; i++) {
     s += ' '+Util.NF5(arguments[i]);
   }
   console.log(s);
@@ -685,10 +684,8 @@ static propertiesOf(obj, showValues) {
     return ['null'];
   }
   showValues = showValues || false;
-  var s = [];
-  /** @type {string} */
-  var p;
-  for (p in obj) {
+  const s = [];
+  for (let p in obj) {
     if (typeof obj[p] === 'function') {
       continue;
     }
@@ -723,7 +720,7 @@ static set(array, index, value) {
 */
 static setErrorHandler() {
   window.onerror = function(msg, url, line) {
-    var s = msg + '\n' + url + ':' + line;
+    const s = msg + '\n' + url + ':' + line;
     if (Util.DEBUG) {
       console.log(s);
     }
@@ -735,8 +732,8 @@ static setErrorHandler() {
   // Check that assertions are working.
   // Note that assertions are always removed under advanced compile.
   if (goog.DEBUG && !Util.ADVANCED) {
+    let a = 1;
     try {
-      var a = 1;
       asserts.assert(1 == 0);
       a = 2;
     } catch(e) {
@@ -829,17 +826,17 @@ static toName(text) {
 * @return {boolean} Whether all elements of the array are unique with no duplicates.
 */
 static uniqueElements(arr) {
-  var len = arr.length;
+  const len = arr.length;
   if (len > 1) {
     // make a copy so that we don't modify the passed-in array
     /** @type {!Array<string>} */
-    var a = new Array(len);
-    for (var i=0; i<len; i++) {
+    const a = new Array(len);
+    for (let i=0; i<len; i++) {
       a[i] = arr[i];
     }
     array.sort(a);
-    var last = /** @type {string} */(a[0]);
-    for (i=1; i<len; i++) {
+    let last = /** @type {string} */(a[0]);
+    for (let i=1; i<len; i++) {
       if (last == a[i]) {
         return false;
       }
@@ -916,8 +913,8 @@ static veryDifferent(arg1, arg2, epsilon, magnitude) {
   if (magnitude <= 0) {
     throw 'magnitude must be positive '+magnitude;
   }
-  var maxArg = Math.max(Math.abs(arg1), Math.abs(arg2));
-  var max = maxArg > magnitude ? maxArg : magnitude;
+  const maxArg = Math.max(Math.abs(arg1), Math.abs(arg2));
+  const max = maxArg > magnitude ? maxArg : magnitude;
   return Math.abs(arg1 - arg2) > max * epsilon;
 };
 
@@ -925,8 +922,8 @@ static veryDifferent(arg1, arg2, epsilon, magnitude) {
 * @param {!Array<number>} array the array to modify
 */
 static zeroArray(array) {
-  var n = array.length;
-  for (var i=0; i<n; i++) {
+  const n = array.length;
+  for (let i=0; i<n; i++) {
     array[i] = 0;
   }
 };

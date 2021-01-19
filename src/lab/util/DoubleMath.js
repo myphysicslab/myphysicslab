@@ -43,10 +43,10 @@ static binaryToHex(binary) {
   if (binary.length % 4 != 0) {
     throw '';
   }
-  var s = '';
-  var i, v = 0;
-  var n = binary.length;
-  for (i = 0; i<n; i++) {
+  let s = '';
+  let v = 0;
+  const n = binary.length;
+  for (let i = 0; i<n; i++) {
     v = (2 * v) + (binary[i] === '0' ? 0 : 1);
     if (i % 4 === 3) {
       s = s + /** @type {string} */(DoubleMath.HEX_DIGITS[v]);
@@ -61,23 +61,24 @@ static binaryToHex(binary) {
 * @return {number} the equivalent floating-point number
 */
 static binaryToNum(s) {
-  var i;
-  if (s.length != 64)
-    throw '';
+  if (s.length != 64) {
+    throw 'need 64 binary digits '+s;
+  }
   // sign is bit 0
-  var sign = s[0] == '0' ? 1 : -1;
+  const sign = s[0] == '0' ? 1 : -1;
   // exponent is bits 1 to 11
-  var exp = 0;
-  var d = 1;
-  for (i = 11; i > 0; i--) {
-    if (s[i] == '1')
+  let exp = 0;
+  let d = 1;
+  for (let i = 11; i > 0; i--) {
+    if (s[i] == '1') {
       exp += d;
+    }
     d *= 2;
   }
-  var frac = 0;
+  let frac = 0;
   // fraction (mantissa) is bits 12 to 63
   d = 0.5;
-  for (i = 12; i < 64; i++) {
+  for (let i = 12; i < 64; i++) {
     if (s[i] == '1')
       frac += d;
     d /= 2;
@@ -110,10 +111,9 @@ static binaryToNum(s) {
 */
 static hexToBinary(hex) {
   hex = hex.toUpperCase();
-  var s = '';
-  var i, j, k;
-  for (i = 0; i < hex.length; i++) {
-    j = DoubleMath.HEX_DIGITS.indexOf(hex[i]);
+  let s = '';
+  for (let i = 0; i < hex.length; i++) {
+    let j = DoubleMath.HEX_DIGITS.indexOf(hex[i]);
     if (j < 0) {
       throw '';
     }
@@ -123,8 +123,8 @@ static hexToBinary(hex) {
     // D = 1101
     // E = 1110
     // F = 1111
-    var d = 8;
-    for (k = 0; k < 4; k++) {
+    let d = 8;
+    for (let k = 0; k < 4; k++) {
       if (j >= d) {
         s += '1';
         j -= d;
@@ -144,7 +144,7 @@ static hexToBinary(hex) {
 static hexToNum(hex) {
   if (hex.length != 16)
     throw '';
-  var s = DoubleMath.hexToBinary(hex);
+  const s = DoubleMath.hexToBinary(hex);
   asserts.assert( s.length == 64 );
   return DoubleMath.binaryToNum(s);
 };
@@ -169,13 +169,13 @@ static numToBinary(x) {
   if (isNaN(x)) {
     return '0' + DoubleMath.repeatChar('1', 12) + DoubleMath.repeatChar('0', 51);
   }
-  var sign = x >= 0 ? 0 : 1;
-  var s = sign == 0 ? '0' : '1';
+  const sign = x >= 0 ? 0 : 1;
+  let s = sign == 0 ? '0' : '1';
   if (!isFinite(x)) {
     return s + DoubleMath.repeatChar('1', 11) + DoubleMath.repeatChar('0', 52);
   }
-  var absx = Math.abs(x);
-  var bit;
+  const absx = Math.abs(x);
+  let bit;
   // zero is a special case
   if (absx === 0) {
     bit = 1;
@@ -185,11 +185,12 @@ static numToBinary(x) {
     return s;
   }
   // log = log (base 2) of absolute value of x, determines the exponent
-  var log = Math.floor(Math.LOG2E * Math.log(absx));
+  let log = Math.floor(Math.LOG2E * Math.log(absx));
   // this limit of the exponent matters at least when x = Number.MAX_VALUE
-  if (log > 1023)
+  if (log > 1023) {
     log = 1023;
-  var num;  // num = mantissa
+  }
+  let num;  // num = mantissa
   if (log < -1022) {
     // subnormal number;  exponent is zero
     s += '00000000000';
@@ -231,7 +232,7 @@ static numToBinary(x) {
 * @return {string} equivalent string of bits encoded as '0' and '1'
 */
 static numToBits(num, size) {
-  var s = '', bit;
+  let s = '', bit;
   while (size--) {
     s = (bit = num % 2) + s;
     num = (num - bit) / 2;
@@ -254,7 +255,7 @@ static numToHex(x) {
 * @return {string} a string of repetitions of a given string
 */
 static repeatChar(str, size) {
-  var s = '';
+  let s = '';
   while (size--) {
     s += str;
   }

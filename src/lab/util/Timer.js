@@ -98,8 +98,8 @@ timerCallback() {
   if (this.callBack_ == null) {
     return;
   }
-  var now = Util.systemTime();
-  var elapsed = now - (this.fired_sys_ - this.delta_);
+  const now = Util.systemTime();
+  const elapsed = now - (this.fired_sys_ - this.delta_);
   if (elapsed >= this.period_) {
     this.callBack_();
     // adjust "last fired time" by how much this callback was late.
@@ -122,7 +122,7 @@ timerCallback() {
   }
   if (this.legacy_) {
     // when period is zero use 60 fps which is 1/60 = 0.016666 = 17 ms
-    var delay_ms = this.period_ > 0 ? Math.round(this.period_*1000) : 17;
+    const delay_ms = this.period_ > 0 ? Math.round(this.period_*1000) : 17;
     this.timeoutID_ = setTimeout(this.timerCallback_, delay_ms);
   } else {
     this.timeoutID_ = requestAnimationFrame(this.timerCallback_);

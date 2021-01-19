@@ -92,7 +92,7 @@ toStringShort() {
 /** @override */
 addObserver(observer) {
   /** @type {!AbstractSubject.Command} */
-  var cmd = {
+  const cmd = {
     action: true,
     observer: observer
   };
@@ -108,8 +108,8 @@ addObserver(observer) {
 */
 doCommands() {
   if (!this.isBroadcasting_) {
-    for (var i=0, len=this.commandList_.length; i<len; i++) {
-      var cmd = this.commandList_[i];
+    for (let i=0, len=this.commandList_.length; i<len; i++) {
+      const cmd = this.commandList_[i];
       if (cmd.action) {
         if (!this.observers_.includes(cmd.observer)) {
           this.observers_.push(cmd.observer);
@@ -127,8 +127,8 @@ doCommands() {
 @param {!Parameter} parameter the Parameter to add
 */
 addParameter(parameter) {
-  var name = parameter.getName();
-  var p = this.getParam(name);
+  const name = parameter.getName();
+  const p = this.getParam(name);
   if (p != null) {
     throw 'parameter '+name+' already exists: '+p;
   }
@@ -154,7 +154,7 @@ broadcast(evt) {
 
 /** @override */
 broadcastParameter(name) {
-  var p = this.getParam(name);
+  const p = this.getParam(name);
   if (p == null) {
     throw 'unknown Parameter '+name;
   }
@@ -199,7 +199,7 @@ getParam(name) {
 
 /** @override */
 getParameter(name) {
-  var p = this.getParam(name);
+  const p = this.getParam(name);
   if (p != null) {
     return p;
   }
@@ -208,7 +208,7 @@ getParameter(name) {
 
 /** @override */
 getParameterBoolean(name) {
-  var p = this.getParam(name);
+  const p = this.getParam(name);
   if (p instanceof ParameterBoolean) {
     return p;
   }
@@ -217,7 +217,7 @@ getParameterBoolean(name) {
 
 /** @override */
 getParameterNumber(name) {
-  var p = this.getParam(name);
+  const p = this.getParam(name);
   if (p instanceof ParameterNumber) {
     return p;
   }
@@ -226,7 +226,7 @@ getParameterNumber(name) {
 
 /** @override */
 getParameterString(name) {
-  var p = this.getParam(name);
+  const p = this.getParam(name);
   if (p instanceof ParameterString) {
     return p;
   }
@@ -241,7 +241,7 @@ getParameters() {
 /** @override */
 removeObserver(observer) {
   /** @type {!AbstractSubject.Command} */
-  var cmd = {
+  const cmd = {
     action: false,
     observer: observer
   };
@@ -266,7 +266,7 @@ completed.
 @protected
 */
 setBroadcast(value) {
-  var saveBroadcast = this.doBroadcast_;
+  const saveBroadcast = this.doBroadcast_;
   this.doBroadcast_ = value;
   return saveBroadcast;
 };

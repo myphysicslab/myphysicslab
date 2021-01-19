@@ -31,7 +31,7 @@ constructor() { throw ''; }
 * @return {number} the quadrature of fn from a to b
 */
 static simp(f, a, b) {
-  var h = (b - a)/2;
+  const h = (b - a)/2;
   return (h/3)*(f(a) + 4*f(a+h) + f(b));
 };
 
@@ -44,9 +44,9 @@ static simp(f, a, b) {
 * @return {number} the integral of f from a to b
 */
 static aq(f, a, b, tol, S1) {
-  var c = (a + b)/2;
-  var S_left = Calculus.simp(f, a, c);
-  var S_right = Calculus.simp(f, c, b);
+  const c = (a + b)/2;
+  const S_left = Calculus.simp(f, a, c);
+  const S_right = Calculus.simp(f, c, b);
   if (Math.abs(S1 - S_left - S_right) < tol) {
     return S_left + S_right;
   } else {
@@ -69,7 +69,7 @@ static adaptQuad(f, a, b, tol) {
   } else if (a == b) {
     return 0;
   }
-  var S1 = Calculus.simp(f, a, b);
+  const S1 = Calculus.simp(f, a, b);
   return Calculus.aq(f, a, b, 10*tol, S1);
 };
 

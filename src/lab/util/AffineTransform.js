@@ -145,12 +145,12 @@ Result is:
 *   matrix right-multiplied by the `at` AffineTransform matrix
 */
 concatenate(at) {
-  var m11 = this.m11_ * at.m11_ + this.m21_ * at.m12_;
-  var m12 = this.m12_ * at.m11_ + this.m22_ * at.m12_;
-  var m21 = this.m11_ * at.m21_ + this.m21_ * at.m22_;
-  var m22 = this.m12_ * at.m21_ + this.m22_ * at.m22_;
-  var dx =  this.m11_ * at.dx_  + this.m21_ * at.dy_ + this.dx_;
-  var dy =  this.m12_ * at.dx_  + this.m22_ * at.dy_ + this.dy_;
+  const m11 = this.m11_ * at.m11_ + this.m21_ * at.m12_;
+  const m12 = this.m12_ * at.m11_ + this.m22_ * at.m12_;
+  const m21 = this.m11_ * at.m21_ + this.m21_ * at.m22_;
+  const m22 = this.m12_ * at.m21_ + this.m22_ * at.m22_;
+  const dx =  this.m11_ * at.dx_  + this.m21_ * at.dy_ + this.dx_;
+  const dy =  this.m12_ * at.dx_  + this.m22_ * at.dy_ + this.dy_;
   return new AffineTransform(m11, m12, m21, m22, dx, dy);
 };
 
@@ -160,7 +160,7 @@ concatenate(at) {
 * @param {!CanvasRenderingContext2D} context the canvas context to modify
 */
 lineTo(x, y, context) {
-  var p = this.transform(x, y);
+  const p = this.transform(x, y);
   context.lineTo(p.getX(), p.getY());
 };
 
@@ -170,7 +170,7 @@ lineTo(x, y, context) {
 * @param {!CanvasRenderingContext2D} context the canvas context to modify
 */
 moveTo(x, y, context) {
-  var p = this.transform(x, y);
+  const p = this.transform(x, y);
   context.moveTo(p.getX(), p.getY());
 };
 
@@ -194,12 +194,12 @@ Result is:
 *     this AffineTransform rotated by the given angle
 */
 rotate(angle) {
-  var c = Math.cos(angle);
-  var s = Math.sin(angle);
-  var m11 = c*this.m11_ + s*this.m21_;
-  var m12 = c*this.m12_ + s*this.m22_;
-  var m21 = -s*this.m11_ + c*this.m21_;
-  var m22 = -s*this.m12_ + c*this.m22_;
+  const c = Math.cos(angle);
+  const s = Math.sin(angle);
+  const m11 = c*this.m11_ + s*this.m21_;
+  const m12 = c*this.m12_ + s*this.m22_;
+  const m21 = -s*this.m11_ + c*this.m21_;
+  const m22 = -s*this.m12_ + c*this.m22_;
   return new AffineTransform(m11, m12, m21, m22, this.dx_, this.dy_);
 };
 
@@ -225,10 +225,10 @@ Result is:
 *     this AffineTransform scaled by the given x and y factors
 */
 scale(x, y) {
-  var m11 = this.m11_ * x;
-  var m12 = this.m12_ * x;
-  var m21 = this.m21_ * y;
-  var m22 = this.m22_ * y;
+  const m11 = this.m11_ * x;
+  const m12 = this.m12_ * x;
+  const m21 = this.m21_ * y;
+  const m22 = this.m22_ * y;
   return new AffineTransform(m11, m12, m21, m22, this.dx_, this.dy_);
 };
 
@@ -260,20 +260,20 @@ Result is:
 * @throws {string} if x is not a GenericVector, or x, y are not numbers
 */
 transform(x, y) {
-  var x1, y1;
+  let x1, y1;
   if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
-    var v = /** @type {!GenericVector} */(x);
+    const v = /** @type {!GenericVector} */(x);
     y1 = v.getY();
     x1 = v.getX();
   }
   if (typeof x1 !== 'number' || typeof y1 !== 'number') {
     throw 'need a Vector or two numbers';
   }
-  var x2 = this.m11_ * x1 + this.m21_ * y1 + this.dx_;
-  var y2 = this.m12_ * x1 + this.m22_ * y1 + this.dy_;
+  const x2 = this.m11_ * x1 + this.m21_ * y1 + this.dx_;
+  const y2 = this.m12_ * x1 + this.m22_ * y1 + this.dy_;
   return new Vector(x2, y2);
 };
 
@@ -299,20 +299,20 @@ Result is:
 * @throws {string} if x is not a GenericVector, or x, y are not numbers
 */
 translate(x, y) {
-  var x1, y1;
+  let x1, y1;
   if (typeof x === 'number') {
     x1 = x;
     y1 = y;
   } else {
-    var v = /** @type {!GenericVector} */(x);
+    const v = /** @type {!GenericVector} */(x);
     y1 = v.getY();
     x1 = v.getX();
   }
   if (typeof x1 !== 'number' || typeof y1 !== 'number') {
     throw 'need a Vector or two numbers';
   }
-  var dx = this.dx_ + this.m11_*x1 + this.m21_*y1;
-  var dy = this.dy_ + this.m12_*x1 + this.m22_*y1;
+  const dx = this.dx_ + this.m11_*x1 + this.m21_*y1;
+  const dy = this.dy_ + this.m12_*x1 + this.m22_*y1;
   return new AffineTransform(this.m11_, this.m12_, this.m21_, this.m22_, dx, dy);
 };
 

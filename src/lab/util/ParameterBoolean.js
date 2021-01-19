@@ -158,7 +158,7 @@ nameEquals(name) {
 */
 setChoices(choices, values) {
   this.setChoices_(choices, values);
-  var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
+  const evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
 };
 

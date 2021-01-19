@@ -123,7 +123,7 @@ toString() {
 * @private
 */
 static checkSeed(seed) {
-  var err = 'random seed must be '
+  const err = 'random seed must be '
   if (seed < 0) {
     throw err + '0 or greater '+seed;
   }
@@ -147,7 +147,7 @@ getSeed() {
 
 /** @override */
 nextFloat() {
-  var x = this.nextInt_();
+  const x = this.nextInt_();
   if (RandomLCG.DEBUG_RANDOM) {
     console.log(' '+x);
   }
@@ -156,7 +156,7 @@ nextFloat() {
 
 /** @override */
 nextInt() {
-  var x = this.nextInt_();
+  const x = this.nextInt_();
   if (RandomLCG.DEBUG_RANDOM) {
     console.log(' '+x);
   }
@@ -168,19 +168,19 @@ nextInt() {
 @private
 */
 nextInt_() {
-  var r = this.seed_ * RandomLCG.a + RandomLCG.c;
-  var m = RandomLCG.m;
+  const r = this.seed_ * RandomLCG.a + RandomLCG.c;
+  const m = RandomLCG.m;
   this.seed_ = r - Math.floor(r/m)*m;
   RandomLCG.checkSeed(this.seed_);
   if (RandomLCG.DEBUG_RANDOM_DEEP) {
-    var err = new Error();
+    const err = new Error();
   }
   return this.seed_;
 };
 
 /** @override */
 nextRange(n) {
-  var x = this.nextRange_(n);
+  const x = this.nextRange_(n);
   if (RandomLCG.DEBUG_RANDOM) {
     console.log(' '+x);
   }
@@ -196,44 +196,44 @@ nextRange_(n) {
   if (n <= 0)
     throw 'n must be positive';
   // We don't use modulu because of weak randomness in lower bits.
-  var randomUnder1 = this.nextInt_() / RandomLCG.m;
+  const randomUnder1 = this.nextInt_() / RandomLCG.m;
   return Math.floor(randomUnder1 * n);
 };
 
 /** @override */
 randomInts(n) {
-  var set = new Array(n);
-  var src = new Array(n);
-  for (var i=0; i<n; i++) {
-    set[i] = -1;
+  const set_ = new Array(n);
+  const src = new Array(n);
+  for (let i=0; i<n; i++) {
+    set_[i] = -1;
     src[i] = i;
   }
-  var m = n;
-  var setCount = 0;
+  let m = n;
+  let setCount = 0;
   // move numbers from src to set, in random sequence
   do {
-    var k = this.nextRange_(m--);
+    const k = this.nextRange_(m--);
     // find the k'th number in src
-    var srcCount = 0;
-    for (var j=0; j<n; j++) {
+    let srcCount = 0;
+    for (let j=0; j<n; j++) {
       if (src[j]<0)
         continue;
       if (srcCount++ == k) {
-        set[setCount++] = src[j];
+        set_[setCount++] = src[j];
         src[j] = -1;
         break;
       }
     }
-  } while (set[n-1]<0);
+  } while (set_[n-1]<0);
   // for debugging:  report the set of numbers found
   if (RandomLCG.DEBUG_RANDOM) {
-    var s = '';
-    for (i=0; i<set.length; i++) {
-      s += ' '+set[i];
+    let s = '';
+    for (let i=0; i<set_.length; i++) {
+      s += ' '+set_[i];
     }
     console.log(s);
   }
-  return set;
+  return set_;
 };
 
 /** @override */

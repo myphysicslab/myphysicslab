@@ -232,7 +232,7 @@ See [Internationalization](Building.html#internationalizationi18n).
 */
 setChoices(choices, values) {
   this.setChoices_(choices, values);
-  var evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
+  const evt = new GenericEvent(this.subject_, Parameter.CHOICES_MODIFIED, this);
   this.subject_.broadcast(evt);
 };
 
@@ -265,7 +265,7 @@ setDecimalPlaces(decimals) {
 
 /** @override */
 setFromString(value) {
-  var v = Number(value);
+  const v = Number(value);
   if (isNaN(v)) {
     throw 'not a number: '+value;
   }

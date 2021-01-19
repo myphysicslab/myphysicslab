@@ -111,7 +111,7 @@ system time
 schedule(delay) {
   this.cancel();
   if (typeof this.callBack_ === 'function') {
-    var delay_ms = Math.round(delay*1000);
+    const delay_ms = Math.round(delay*1000);
     this.timeoutID_ = setTimeout(this.callBack_, delay_ms);
   }
 };

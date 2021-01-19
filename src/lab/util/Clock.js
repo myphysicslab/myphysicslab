@@ -373,8 +373,8 @@ scheduleTask(task) {
   task.cancel();
   if (this.isRunning_) {
     // convert to system time to handle time rate other than 1.0
-    var nowTime = this.clockToSystem(this.getTime());
-    var taskTime = this.clockToSystem(task.getTime());
+    const nowTime = this.clockToSystem(this.getTime());
+    const taskTime = this.clockToSystem(task.getTime());
     // execute the task immediately if current time matches task time
     if (!Util.veryDifferent(taskTime, nowTime)) {
       task.execute();
@@ -405,7 +405,7 @@ setTime(time_secs) {
   // Ignore when we are close to the requested time; this prevents needless
   // CLOCK_SET_TIME events. Because system clock usually has millisecond resolution
   // we use 0.001 for the threshold to set the time.
-  var t = this.getTime();
+  const t = this.getTime();
   if (Util.veryDifferent(t, time_secs, 0.001)) {
     this.setTimePrivate(time_secs);
     if (Util.DEBUG && this.clockDebug_) {
@@ -437,12 +437,12 @@ as fast as system time. Broadcasts the {@link #TIME_RATE} Parameter if it change
 */
 setTimeRate(rate) {
   if (Util.veryDifferent(this.timeRate_, rate)) {
-    var t = this.getTime();
-    var sysT = this.getRealTime();
+    const t = this.getTime();
+    const sysT = this.getRealTime();
     this.timeRate_ = rate;
     this.setTimePrivate(t);
     this.setRealTime(sysT);
-    var diff = Math.abs(t - this.getTime());
+    let diff = Math.abs(t - this.getTime());
     asserts.assert(diff < 2E-3, 'time diff='+diff);
     diff = Math.abs(sysT - this.getRealTime());
     asserts.assert(diff < 2E-3, 'realTime diff='+diff);
@@ -463,7 +463,7 @@ step(timeStep) {
   this.pause();
   this.stepMode_ = true;
   asserts.assertNumber(timeStep);
-  var startStepTime = this.saveTime_secs_;
+  const startStepTime = this.saveTime_secs_;
   this.saveTime_secs_ += timeStep;
   this.saveRealTime_secs_ += timeStep;
   this.broadcast(new GenericEvent(this, Clock.CLOCK_STEP));
