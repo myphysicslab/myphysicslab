@@ -199,7 +199,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   // when click on a tab (other than current selected tab) we switch to that layout.
   events.listen(this.tab_list, EventType.CLICK,
       e => {
-        var target = /** @type {Element} */(e.target);
+        const target = /** @type {Element} */(e.target);
         if (target === undefined) {
           throw 'event target is undefined ';
         }
@@ -218,7 +218,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   events.listen(window, EventType.ORIENTATIONCHANGE,
       () => this.redoLayout() );
 
-  var term_output = /**@type {?HTMLInputElement}*/
+  const term_output = /**@type {?HTMLInputElement}*/
       (TabLayout.maybeElementById(elem_ids, 'term_output'));
   /**
   * @type {?HTMLInputElement}
@@ -240,7 +240,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_sim.style.position = 'relative';
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /* tabIndex = 0 makes the canvas selectable via tab key or mouse, so it can
   * get text events. A value of 0 indicates that the element should be placed in the
   * default navigation order. This allows elements that are not natively focusable
@@ -257,7 +257,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   */
   this.show_sim_cb = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'show_sim'));
-  var p = dom.getParentElement(this.show_sim_cb);
+  const p = dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
     throw '';
   }
@@ -272,7 +272,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   this.div_graph = TabLayout.getElementById(elem_ids, 'div_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_graph.style.position = 'relative';
-  var canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /** @type {!LabCanvas} */
   this.graphCanvas = new LabCanvas(canvas2, 'GRAPH_CANVAS');
   canvasWidth = Math.max(canvasWidth, canvasHeight);
@@ -309,7 +309,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   }
 
   // 'show terminal' checkbox.
-  var label_term = /**@type {!HTMLInputElement}*/
+  const label_term = /**@type {!HTMLInputElement}*/
       (TabLayout.getElementById(elem_ids, 'label_terminal'));
   /**
   * @type {!HTMLInputElement}
@@ -330,7 +330,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   this.div_time_graph = TabLayout.getElementById(elem_ids, 'div_time_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_time_graph.style.position = 'relative';
-  var canvas3 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas3 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /** @type {!LabCanvas} */
   this.timeGraphCanvas = new LabCanvas(canvas3, 'TIME_GRAPH_CANVAS');
   this.timeGraphCanvas.setSize(canvasWidth, canvasWidth);
@@ -391,7 +391,7 @@ getClassName() {
 * @return {!Array<!TabLayout.Layout>} array containing all possible layout values
 */
 static getValues() {
-  var Layout = TabLayout.Layout;
+  const Layout = TabLayout.Layout;
   return [ Layout.SIM,
      Layout.GRAPH,
      Layout.GRAPH_AND_SIM,
@@ -413,11 +413,11 @@ static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
-  var e = /** @type {!HTMLElement} */(document.getElementById(e_id));
+  const e = /** @type {!HTMLElement} */(document.getElementById(e_id));
   if (!goog.isObject(e)) {
     throw 'not found: element with id='+e_id;
   }
@@ -434,7 +434,7 @@ static maybeElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
@@ -446,7 +446,7 @@ static maybeElementById(elem_ids, elementId) {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'block';
   this.sim_controls.appendChild(element);
   this.controls_.push(control);
@@ -463,7 +463,6 @@ the controls to have 2 columns when the controls are below the canvas.
 * @private
 */
 alignCanvasControls(canvas, controls, canvas2) {
-  var cvs_width, contain_width, avail_width;
   canvas.style.display = 'block';
   controls.style.display = 'inline-block';
   controls.style.columnCount = '1';
@@ -471,22 +470,22 @@ alignCanvasControls(canvas, controls, canvas2) {
   controls.style.webkitColumnCount = '1';
   controls.style.width = 'auto';
   // Get the 'natural width' of the controls.
-  var ctrl_width = controls.getBoundingClientRect().width;
+  let ctrl_width = controls.getBoundingClientRect().width;
   // boundingClientRect is sometimes 0, like at startup.
   ctrl_width = ctrl_width > 150 ? ctrl_width : 300;
   // offsetWidth seems more reliable, but is sometimes 0, like at startup
-  cvs_width = canvas.offsetWidth || canvas.getBoundingClientRect().width;
+  let cvs_width = canvas.offsetWidth || canvas.getBoundingClientRect().width;
   // When both canvas are visible, use sum of their widths to calculate
   // available width for controls-div.
   if (canvas2 != null) {
     canvas2.style.display = 'block';
     cvs_width += canvas2.offsetWidth || canvas2.getBoundingClientRect().width;
   }
-  contain_width = this.div_contain.offsetWidth ||
+  const contain_width = this.div_contain.offsetWidth ||
       this.div_contain.getBoundingClientRect().width;
   // avail_width = width of space to right of canvas.
   // Subtract 2 makes it work better on Safari...
-  avail_width = contain_width - cvs_width - 2;
+  const avail_width = contain_width - cvs_width - 2;
   // If (not enough space to right of canvas) then controls will be below canvas.
   // In that case: if (enough space for 2 columns) then do 2 columns
   if (avail_width < ctrl_width && contain_width > 2*ctrl_width) {
@@ -523,12 +522,12 @@ getLayout() {
 @private
 */
 getSelectedTab() {
-  var tab = array.find(this.tab_list.childNodes,
+  const tab = array.find(this.tab_list.childNodes,
     function(/** !Node */n) {
       if (n.nodeType != Node.ELEMENT_NODE) {
         return false;
       }
-      var elem = /** @type {!Element} */(n);
+      const elem = /** @type {!Element} */(n);
       if (elem.tagName != 'LI') {
         return false;
       }
@@ -537,9 +536,9 @@ getSelectedTab() {
   if (tab == null) {
     return '';
   }
-  tab = /** @type {!Element} */(tab);
+  const tab2 = /** @type {!Element} */(tab);
   // return className minus ' selected'
-  return tab.className.replace(/[ ]*selected/, '');
+  return tab2.className.replace(/[ ]*selected/, '');
 };
 
 /** Returns the width of the simulation LabCanvas, as fraction of available width
@@ -573,8 +572,8 @@ redoLayout() {
   // You can use style.cssFloat, but IE uses a different name: styleFloat.
   // WARNING-NOTE: viewport size can change if scrollbars appear or disappear
   // due to layout changes.
-  var Layout = TabLayout.Layout;
-  var view_sz = dom.getViewportSize();
+  const Layout = TabLayout.Layout;
+  const view_sz = dom.getViewportSize();
   style.setFloat(this.div_sim, 'left');
   style.setFloat(this.div_graph, 'left');
   style.setFloat(this.div_time_graph, 'left');
@@ -681,19 +680,19 @@ setDisplaySize(max_width, graph_div) {
     //    divsim_w <= window_h (cvs_w/cvs_h)
     // Convert this to fractional width:
     //    (divsim_w/window_w) <= (window_h/window_w) * (cvs_w/cvs_h)
-    var window_sz = dom.getViewportSize();
-    var window_h = (window_sz.height - 80);
+    const window_sz = dom.getViewportSize();
+    const window_h = (window_sz.height - 80);
     // Use the container div for width, not the screen. container div is more reliable.
     // This avoids issues with whether scrollbars are visible.
-    var window_w = this.div_contain.offsetWidth ||
+    const window_w = this.div_contain.offsetWidth ||
         this.div_contain.getBoundingClientRect().width;
-    var cvs_sz = this.simCanvas.getScreenRect();
-    var cvs_w = cvs_sz.getWidth();
-    var cvs_h = cvs_sz.getHeight();
-    var limit_w = (window_h/window_w) * (cvs_w/cvs_h);
+    const cvs_sz = this.simCanvas.getScreenRect();
+    const cvs_w = cvs_sz.getWidth();
+    const cvs_h = cvs_sz.getHeight();
+    const limit_w = (window_h/window_w) * (cvs_w/cvs_h);
     max_width = Math.min(max_width, limit_w);
   }
-  var widthPct = (Math.floor(max_width*100) + '%');
+  const widthPct = (Math.floor(max_width*100) + '%');
   this.div_sim.style.width = widthPct;
   this.div_sim.style.height = 'auto';
   graph_div.style.width = widthPct;
@@ -715,11 +714,11 @@ setGraphWidth(value) {
 @param {string} layout name of layout
 */
 setLayout(layout) {
-  var Layout = TabLayout.Layout;
+  const Layout = TabLayout.Layout;
   layout = layout.toLowerCase().trim();
   if (this.layout_ != layout) {
     this.layout_ = layout;
-    var tabName = this.layout_;
+    let tabName = this.layout_;
     //select the appropriate tab when in one of the 'sim+graph' layouts
     switch (tabName) {
       case Layout.GRAPH_AND_SIM:
@@ -742,7 +741,7 @@ setLayout(layout) {
 @param {string} layout class name of tab that was clicked
 */
 setLayoutFromTab(layout) {
-  var Layout = TabLayout.Layout;
+  const Layout = TabLayout.Layout;
   layout = layout.toLowerCase().trim();
   // When click on a graph tab, set layout to include sim view also.
   switch (layout) {
@@ -771,7 +770,7 @@ setSelectedTab(layout) {
         // it's not an Element
         return;
       }
-      var elem = /** @type {!Element} */(node);
+      const elem = /** @type {!Element} */(node);
       if (elem.tagName != 'LI') {
         // ignore text elements between the LI elements (usually whitespace)
         return;
@@ -817,7 +816,7 @@ setTimeGraphWidth(value) {
 @param {boolean} visible whether sim view should be visible
 */
 showSim(visible) {
-  var Layout = TabLayout.Layout;
+  const Layout = TabLayout.Layout;
   switch (this.layout_) {
     case '':
     case Layout.SIM:

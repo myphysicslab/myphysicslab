@@ -82,7 +82,7 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
 
   /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
-  var updateAxes = evt => {
+  const updateAxes = evt => {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
       this.axes.setHorizName(this.line1.getXVarName());
     }
@@ -119,12 +119,12 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
-  var pn = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  let pn = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'Y:'));
   pn = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'X:'));
 
-  var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
+  const bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
       () => {
         line1.reset();
         line2.reset();
@@ -133,7 +133,7 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(bc);
 
   /** @type {!ParameterString} */
-  var ps = line1.getParameterString(GraphLine.en.DRAWING_MODE);
+  const ps = line1.getParameterString(GraphLine.en.DRAWING_MODE);
   this.addControl(new ChoiceControl(ps));
 
   // use same drawing mode on line2
@@ -145,11 +145,11 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
 
-  var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
+  const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => this.autoScale.setActive(true) );
   div_graph.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
-  var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
+  const pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
 
@@ -182,7 +182,7 @@ getSubjects() {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
   this.controls_.push(control);

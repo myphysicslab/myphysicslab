@@ -87,7 +87,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
       }
     }, 'resize DisplayGraph');
 
-  var timeIdx = this.line1.getVarsList().timeIndex();
+  const timeIdx = this.line1.getVarsList().timeIndex();
   this.line1.setXVariable(timeIdx);
   this.line1.setYVariable(0);
   // Don't use off-screen buffer with time variable because the auto-scale causes
@@ -120,7 +120,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
-  var pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  let pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE1));
   pn = this.line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE2));
@@ -130,7 +130,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(new ChoiceControl(pn, 'X:'));
   pn = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
   this.addControl(new NumericControl(pn));
-  var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
+  const bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
       () => {
         this.line1.reset();
         this.line2.reset();
@@ -163,17 +163,17 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   // after clicking the "rewind" button, the timeGraph should go to time zero.
   new GenericObserver(simRun, evt => {
     if (evt.nameEquals(SimRunner.RESET)) {
-      var vw = this.view.getWidth();
+      const vw = this.view.getWidth();
       this.view.setCenterX(vw/2);
       this.autoScale.setActive(true);
     }
   });
 
-  var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
+  const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => this.autoScale.setActive(true) );
   div_graph.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
-  var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
+  const pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
 
@@ -202,7 +202,7 @@ getClassName() {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
   this.controls_.push(control);

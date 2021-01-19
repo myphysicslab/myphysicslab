@@ -111,9 +111,9 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
       }
     }, 'resize DisplayGraph');
 
-  var timeIdx = line1.getVarsList().timeIndex();
+  const timeIdx = line1.getVarsList().timeIndex();
   line1.setXVariable(timeIdx);
-  var timeIdx2 = line2.getVarsList().timeIndex();
+  const timeIdx2 = line2.getVarsList().timeIndex();
   line2.setXVariable(timeIdx2);
 
   /** @type {!Array<!LabControl>} */
@@ -123,13 +123,12 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
 
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
-  /** @type {!ParameterNumber} */
-  var pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, 'Y:'));
-  pn = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
-  this.addControl(new NumericControl(pn));
+  const pn1 = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  this.addControl(new ChoiceControl(pn1, 'Y:'));
+  const pn2 = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
+  this.addControl(new NumericControl(pn2));
 
-  var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
+  const bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
       () => {
         line1.reset();
         line2.reset();
@@ -137,8 +136,7 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
       });
   this.addControl(bc);
 
-  /** @type {!ParameterString} */
-  var ps = line1.getParameterString(GraphLine.en.DRAWING_MODE);
+  const ps = line1.getParameterString(GraphLine.en.DRAWING_MODE);
   this.addControl(new ChoiceControl(ps));
 
   // use same drawing mode on line2
@@ -153,11 +151,10 @@ constructor(line1, line2, graphCanvas, div_controls, div_graph, simRun) {
   // Turn off scale-together so that zoom controls only work on vertical axis.
   // Use TIME_WINDOW control for changing horizontal axis, separately.
   this.view.setScaleTogether(false);
-  var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
+  const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => this.autoScale.setActive(true) );
   div_graph.appendChild(panzoom);
-  /** @type {!ParameterBoolean} */
-  var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
+  const pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
 
@@ -190,7 +187,7 @@ getSubjects() {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
   this.controls_.push(control);

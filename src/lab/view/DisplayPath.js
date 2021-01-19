@@ -194,7 +194,7 @@ draw(context, map) {
     this.redraw_ = true;
   }
   /** @type {!CanvasRenderingContext2D}*/
-  const ctx = context;
+  let ctx = context;
   if (useBuffer && this.offScreen_) {
     const offCtx =
         /** @type {!CanvasRenderingContext2D}*/(this.offScreen_.getContext('2d'));

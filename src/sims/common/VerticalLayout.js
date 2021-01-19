@@ -59,9 +59,9 @@ constructor(elem_ids) {
   this.debug_layout = false;
   /** @type {!Array<!LabControl>} */
   this.controls_ = [];
-  var term_output = /**@type {?HTMLInputElement}*/
+  const term_output = /**@type {?HTMLInputElement}*/
       (VerticalLayout.maybeElementById(elem_ids, 'term_output'));
-  var term_input = /**@type {?HTMLInputElement}*/
+  const term_input = /**@type {?HTMLInputElement}*/
       (VerticalLayout.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal} */
   this.terminal = new Terminal(term_input, term_output);
@@ -71,7 +71,7 @@ constructor(elem_ids) {
   this.div_sim = VerticalLayout.getElementById(elem_ids, 'sim_applet');
   // to allow absolute positioning of icon controls over the canvas:
   this.div_sim.style.position = 'relative';
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /* tabIndex = 0 makes the canvas selectable via tab key or mouse, so it can
   * get text events. A value of 0 indicates that the element should be placed in the
   * default navigation order. This allows elements that are not natively focusable
@@ -87,7 +87,7 @@ constructor(elem_ids) {
   /* GraphCanvas */
   /** @type {!Element} */
   this.div_graph = VerticalLayout.getElementById(elem_ids, 'div_graph');
-  var canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   canvas2.style.float = 'left';
   canvas2.style.margin = '0px 15px 15px 0px';
   /** @type {!LabCanvas} */
@@ -105,7 +105,7 @@ constructor(elem_ids) {
   this.div_graph.insertBefore(this.graphCanvas.getCanvas(), this.graph_controls);
 
   /* 'show graph' checkbox. */
-  var show_graph_cb = /**@type {!HTMLInputElement}*/
+  const show_graph_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_graph'));
   /** @type {function(boolean)} */
   this.showGraph = visible => {
@@ -124,7 +124,7 @@ constructor(elem_ids) {
   }
 
   /* 'show controls' checkbox. */
-  var show_controls_cb = /**@type {!HTMLInputElement}*/
+  const show_controls_cb = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_controls'));
   this.sim_controls.style.display = 'none';
   /** @type {function(boolean)} */
@@ -136,13 +136,13 @@ constructor(elem_ids) {
       e => this.showControls(show_controls_cb.checked) );
 
   /* <form> element for Terminal */
-  var form_term = /**@type {!HTMLFormElement}*/
+  const form_term = /**@type {!HTMLFormElement}*/
       (VerticalLayout.getElementById(elem_ids, 'form_terminal'));
   form_term.style.display = 'none';
   if (this.debug_layout) {
     form_term.style.border = 'dashed 1px green';
   }
-  var label_term = /**@type {!HTMLInputElement}*/
+  const label_term = /**@type {!HTMLInputElement}*/
       (VerticalLayout.getElementById(elem_ids, 'label_terminal'));
   /** @type {function(boolean)} */
   this.showTerminal;
@@ -152,7 +152,7 @@ constructor(elem_ids) {
     label_term.style.display = 'none';
   } else {
     /* 'show terminal' checkbox. */
-    var show_term_cb = /**@type {!HTMLInputElement}*/
+    const show_term_cb = /**@type {!HTMLInputElement}*/
         (VerticalLayout.getElementById(elem_ids, 'show_terminal'));
     this.showTerminal = /** @type {function(boolean)}*/(visible => {
       form_term.style.display = visible ? 'block' : 'none';
@@ -166,7 +166,7 @@ constructor(elem_ids) {
       e => this.showTerminal(show_term_cb.checked) );
   }
 
-  var show_hide_form = /**@type {!HTMLFormElement}*/
+  const show_hide_form = /**@type {!HTMLFormElement}*/
       (VerticalLayout.getElementById(elem_ids, 'show_hide_form'));
   if (this.debug_layout) {
     show_hide_form.style.border = 'dashed 1px green';
@@ -195,11 +195,11 @@ static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
-  var e = document.getElementById(e_id);
+  const e = document.getElementById(e_id);
   if (!goog.isObject(e)) {
     throw 'not found: element with id='+e_id;
   }
@@ -216,7 +216,7 @@ static maybeElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
@@ -228,7 +228,7 @@ static maybeElementById(elem_ids, elementId) {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'inline-block';
   this.sim_controls.appendChild(element);
   this.controls_.push(control);

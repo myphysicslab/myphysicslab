@@ -88,7 +88,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
 
   /** @type {!DisplayAxes} */
   this.axes = CommonControls.makeAxes(this.view);
-  var updateAxes = evt => {
+  const updateAxes = evt => {
     if (evt.nameEquals(GraphLine.en.X_VARIABLE)) {
       this.axes.setHorizName(this.line.getXVarName());
     }
@@ -124,7 +124,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
-  var pn = this.line.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  let pn = this.line.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'Y:'));
   pn = this.line.getParameterNumber(GraphLine.en.X_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'X:'));
@@ -132,7 +132,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
       () => this.line.reset() ));
 
   /** @type {!ParameterString} */
-  var ps = this.line.getParameterString(GraphLine.en.GRAPH_COLOR);
+  let ps = this.line.getParameterString(GraphLine.en.GRAPH_COLOR);
   this.addControl(new ChoiceControl(ps, /*label=*/undefined, GraphColor.getChoices(),
       GraphColor.getValues()));
   pn = this.line.getParameterNumber(GraphLine.en.LINE_WIDTH);
@@ -146,13 +146,13 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
   this.graphCtrl = new SimController(graphCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
 
-  var panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
+  const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => {
         this.autoScale.setActive(true);
       });
   div_graph.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
-  var pb = CommonControls.makeShowPanZoomParam(panzoom, this);
+  const pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
 };
 
@@ -184,7 +184,7 @@ getSubjects() {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = this.displayStyle;
   this.div_controls.appendChild(element);
   this.controls_.push(control);

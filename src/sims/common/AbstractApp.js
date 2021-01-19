@@ -103,15 +103,15 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   /** @type {!DoubleRect} */
   this.simRect = simRect;
   // set canvasWidth to 800, and canvasHeight proportional as in simRect.
-  var canvasWidth = 800;
-  var canvasHeight =
+  const canvasWidth = 800;
+  const canvasHeight =
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
 
   /** @type {!ODESim} */
   this.sim = sim;
@@ -162,7 +162,7 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
@@ -232,13 +232,14 @@ addStandardControls() {
   }
   this.addControl(new CheckBoxControl(this.showClockParam));
   this.addControl(new CheckBoxControl(this.panZoomParam));
-  var pn = this.simRun.getParameterNumber(SimRunner.en.TIME_STEP);
+  let pn = this.simRun.getParameterNumber(SimRunner.en.TIME_STEP);
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
+  const ps =
+      this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
   // show compile time so user can ensure loading latest version
   if (Util.DEBUG) {
@@ -270,7 +271,7 @@ in EasyScriptParser documentation.
 * @param {!Array<!Subject>=} opt_dependent additional dependent Subjects
 */
 makeEasyScript(opt_dependent) {
-  var dependent = [ this.varsList ];
+  const dependent = [ this.varsList ];
   if (Array.isArray(opt_dependent)) {
     dependent = dependent.concat(opt_dependent);
   }
@@ -280,7 +281,7 @@ makeEasyScript(opt_dependent) {
 
 /** @override */
 getSubjects() {
-  var subjects = [
+  const subjects = [
     this,
     this.sim,
     this.diffEqSolver,

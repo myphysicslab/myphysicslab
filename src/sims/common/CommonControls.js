@@ -60,14 +60,14 @@ changes (for example because of pan-zoom controls).
 */
 static makeAxes(simView, bottomLeft_opt) {
   /** @type {!DisplayAxes} */
-  var axes = new DisplayAxes(simView.getSimRect());
+  const axes = new DisplayAxes(simView.getSimRect());
   if (bottomLeft_opt) {
     axes.setXAxisAlignment(VerticalAlign.BOTTOM);
     axes.setYAxisAlignment(HorizAlign.LEFT);
   }
   new GenericObserver(simView, evt => {
       if (evt.nameEquals(LabView.COORD_MAP_CHANGED)) {
-        var r = simView.getCoordMap().screenToSimRect(simView.getScreenRect());
+        const r = simView.getCoordMap().screenToSimRect(simView.getScreenRect());
         axes.setSimRect(r);
       }
     }, 'resize axes');
@@ -83,7 +83,7 @@ turns on the global alpha transparency feature in LabCanvas. See
 * @return {!ChoiceControlBase}
 */
 static makeBackgroundMenu(labCanvas) {
-  var choices = [
+  const choices = [
       CommonControls.i18n.WHITE,
       CommonControls.i18n.BLACK,
       CommonControls.i18n.WHITE_WITH_TRAILS,
@@ -91,7 +91,7 @@ static makeBackgroundMenu(labCanvas) {
       CommonControls.i18n.WHITE_WITH_LONG_TRAILS,
       CommonControls.i18n.BLACK_WITH_LONG_TRAILS
     ];
-  var values = [
+  let values = [
       CommonControls.en.WHITE,
       CommonControls.en.BLACK,
       CommonControls.en.WHITE_WITH_TRAILS,
@@ -100,11 +100,11 @@ static makeBackgroundMenu(labCanvas) {
       CommonControls.en.BLACK_WITH_LONG_TRAILS
     ];
   values = values.map(v => Util.toName(v));
-  var longAlpha = CommonControls.LONG_TRAILS;
-  var shortAlpha = CommonControls.SHORT_TRAILS;
-  var getter = () => {
-    var bg = labCanvas.getBackground();
-    var alpha = labCanvas.getAlpha();
+  const longAlpha = CommonControls.LONG_TRAILS;
+  const shortAlpha = CommonControls.SHORT_TRAILS;
+  const getter = () => {
+    const bg = labCanvas.getBackground();
+    const alpha = labCanvas.getAlpha();
     if (bg == '') {
       return values[0];
     } else if (bg == 'black') {
@@ -126,8 +126,8 @@ static makeBackgroundMenu(labCanvas) {
     }
     return -1;
   };
-  var setter = value => {
-    var idx = array.indexOf(values, value);
+  const setter = value => {
+    const idx = array.indexOf(values, value);
     switch (idx) {
       case 0: labCanvas.setBackground(''); labCanvas.setAlpha(1); break;
       case 1: labCanvas.setBackground('black'); labCanvas.setAlpha(1); break;
@@ -138,7 +138,7 @@ static makeBackgroundMenu(labCanvas) {
       default:
     }
   };
-  var menu = new ChoiceControlBase(choices, values, getter, setter,
+  const menu = new ChoiceControlBase(choices, values, getter, setter,
       CommonControls.i18n.BACKGROUND);
   labCanvas.addObserver(menu);
   return menu;
@@ -153,7 +153,7 @@ static makeBackgroundMenu(labCanvas) {
 * @return {!Element} the div containing the pan-zoom controls.
 */
 static makePanZoomControls(simView, overlay, resetFunc) {
-  var imagesPath = Util.IMAGES_DIR+'/';
+  const imagesPath = Util.IMAGES_DIR+'/';
   // There are several nested div's used to achieve the layout.
   // <div>
   //   <div style=float: right;>
@@ -175,18 +175,18 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   //   </div>
   // </div>
   // Set debug = true to see the div's.
-  var debug = false;
-  var sz = 30;
-  var up_div = /** @type {!Element}*/(document.createElement('div'));
+  const debug = false;
+  const sz = 30;
+  const up_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) up_div.style.border = 'dashed red thin';
   up_div.style.width = (sz*3.2)+'px';
-  var img = Util.createImage(imagesPath+'up_gray.png', sz);
+  let img = Util.createImage(imagesPath+'up_gray.png', sz);
   /** @type {!ButtonControl} */
-  var bc = new ButtonControl('up', () => simView.panUp(), img);
+  let bc = new ButtonControl('up', () => simView.panUp(), img);
   bc.repeatDelay = 100;
   up_div.appendChild(bc.getElement());
 
-  var mid_div = /** @type {!Element}*/(document.createElement('div'));
+  const mid_div = /** @type {!Element}*/(document.createElement('div'));
   if (debug) mid_div.style.border = 'dashed red thin';
   mid_div.style.width = up_div.style.width;
   img = Util.createImage(imagesPath+'backward_gray.png', sz);
@@ -201,7 +201,7 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   bc.repeatDelay = 100;
   mid_div.appendChild(bc.getElement());
 
-  var down_div = /** @type {!Element}*/(document.createElement('div'));
+  const down_div = /** @type {!Element}*/(document.createElement('div'));
   img = Util.createImage(imagesPath+'down_gray.png', sz);
   bc = new ButtonControl('down', () => simView.panDown(), img);
   bc.repeatDelay = 100;
@@ -209,14 +209,14 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   if (debug) down_div.style.border = 'dashed red thin';
   down_div.style.width = up_div.style.width;
 
-  var pan_div = /** @type {!Element}*/(document.createElement('div'));
+  const pan_div = /** @type {!Element}*/(document.createElement('div'));
   pan_div.appendChild(up_div);
   pan_div.appendChild(mid_div);
   pan_div.appendChild(down_div);
   if (debug) pan_div.style.border = 'dashed green thin';
   pan_div.style.textAlign = 'center';
 
-  var zoom_div = /** @type {!Element}*/(document.createElement('div'));
+  const zoom_div = /** @type {!Element}*/(document.createElement('div'));
   img = Util.createImage(imagesPath+'plus_gray.png', sz);
   bc = new ButtonControl('zoomIn', () => simView.zoomIn(), img);
   bc.repeatDelay = 100;
@@ -236,7 +236,7 @@ static makePanZoomControls(simView, overlay, resetFunc) {
 
   // To overlay the controls on top of canvas:  put the controls in a div;
   // use absolute positioning to place the div on top of canvas.
-  var panzoom_div = /** @type {!Element}*/(document.createElement('div'));
+  const panzoom_div = /** @type {!Element}*/(document.createElement('div'));
   if (overlay) {
     panzoom_div.style.position = 'absolute';
     panzoom_div.style.right = '10%';
@@ -260,10 +260,10 @@ static makePanZoomControls(simView, overlay, resetFunc) {
 * @return {!GroupControl}
 */
 static makePlaybackControls(simrun, opt_overlay) {
-  var imagesPath = Util.IMAGES_DIR+'/';
+  const imagesPath = Util.IMAGES_DIR+'/';
   // To overlay the controls on top of canvas:  put the controls in a div;
   // use absolute positioning to place the div on top of canvas.
-  var timer_div =  /** @type {!Element}*/(document.createElement('div'));
+  const timer_div =  /** @type {!Element}*/(document.createElement('div'));
   // for debugging: show border of timer_div
   //timer_div.style.border = 'dashed 1px blue';
   // use 'inline-block', so that the icons stay together horizontally.
@@ -275,20 +275,20 @@ static makePlaybackControls(simrun, opt_overlay) {
     timer_div.style.bottom = '0';
     timer_div.style.opacity=0.5;
   }
-  var sz = 30;
-  var img = Util.createImage(imagesPath+'rewind.png', sz);
+  const sz = 30;
+  let img = Util.createImage(imagesPath+'rewind.png', sz);
   /** @type {!ButtonControl} */
-  var bc1 = new ButtonControl(SimRunner.i18n.RESTART, () => simrun.reset(), img);
+  const bc1 = new ButtonControl(SimRunner.i18n.RESTART, () => simrun.reset(), img);
   timer_div.appendChild(bc1.getElement());
   img =  Util.createImage(imagesPath+'forward.png', sz);
-  var img2 =  Util.createImage(imagesPath+'pause.png', sz);
-  var tc = new ToggleControl(simrun.getParameterBoolean(SimRunner.en.RUNNING), img, img2);
+  const img2 =  Util.createImage(imagesPath+'pause.png', sz);
+  const tc = new ToggleControl(simrun.getParameterBoolean(SimRunner.en.RUNNING), img, img2);
   timer_div.appendChild(tc.getElement());
   img =  Util.createImage(imagesPath+'next.png', sz);
-  var bc2 = new ButtonControl(SimRunner.i18n.STEP, () => simrun.step(), img);
+  const bc2 = new ButtonControl(SimRunner.i18n.STEP, () => simrun.step(), img);
   bc2.repeatDelay = 100;
   timer_div.appendChild(bc2.getElement());
-  var gc = new GroupControl('playback', timer_div, [bc1, tc, bc2]);
+  const gc = new GroupControl('playback', timer_div, [bc1, tc, bc2]);
   return gc;
 };
 
@@ -305,7 +305,7 @@ controlling the SimRunner
 * @return {!EasyScriptParser}
 */
 static makeEasyScript(subjects, dependent, simRun, terminal) {
-  var easyScript = new EasyScriptParser(subjects, dependent);
+  const easyScript = new EasyScriptParser(subjects, dependent);
   easyScript.addCommand('reset', () => simRun.reset(),
     'sets simulation to initial conditions');
   easyScript.addCommand('save', () => simRun.save(),
@@ -333,8 +333,8 @@ targetView.
 * @return {!ParameterBoolean}
 */
 static makeShowClockParam(displayClock, targetView, subject) {
-  var displayList = targetView.getDisplayList();
-  var pb = new ParameterBoolean(subject, DisplayClock.en.SHOW_CLOCK,
+  const displayList = targetView.getDisplayList();
+  const pb = new ParameterBoolean(subject, DisplayClock.en.SHOW_CLOCK,
       DisplayClock.i18n.SHOW_CLOCK,
       () => displayList.contains(displayClock),
       (value) => {
@@ -370,13 +370,13 @@ ParameterBoolean whenever the EnergyBarGraph is added or removed from the target
 * @return {!ParameterBoolean}
 */
 static makeShowEnergyParam(energyGraph, targetView, subject, opt_name, opt_i18n_name) {
-  var paramName = typeof opt_name === 'string' ? opt_name : EnergyBarGraph.en.SHOW_ENERGY;
-  var i18nName = typeof opt_i18n_name === 'string' ? opt_i18n_name :
+  const paramName = typeof opt_name === 'string' ? opt_name : EnergyBarGraph.en.SHOW_ENERGY;
+  const i18nName = typeof opt_i18n_name === 'string' ? opt_i18n_name :
       EnergyBarGraph.i18n.SHOW_ENERGY;
-  var r = targetView.getCoordMap().screenToSimRect(targetView.getScreenRect());
+  const r = targetView.getCoordMap().screenToSimRect(targetView.getScreenRect());
   energyGraph.setVisibleArea(r);
-  var displayList = targetView.getDisplayList();
-  var pb = new ParameterBoolean(subject, paramName,
+  const displayList = targetView.getDisplayList();
+  const pb = new ParameterBoolean(subject, paramName,
       i18nName,
       () => displayList.contains(energyGraph),
       (value) => {
@@ -403,7 +403,7 @@ controls.
 * @return {!ParameterBoolean} the PAN_ZOOM ParmeterBoolean that is created
 */
 static makeShowPanZoomParam(panZoomDiv, subject) {
-  var pb = new ParameterBoolean(subject, CommonControls.en.PAN_ZOOM,
+  const pb = new ParameterBoolean(subject, CommonControls.en.PAN_ZOOM,
       CommonControls.i18n.PAN_ZOOM,
       /* getter=*/() => panZoomDiv.style.display != 'none',
       /* setter=*/value => {
@@ -429,15 +429,15 @@ static makeURLScriptButton(easyScript, simRun) {
   if (easyScript === undefined) {
     throw '';
   }
-  var copyURL = () => {
-      var u = easyScript.scriptURL();
-      var p = EasyScriptParser.i18n.PROMPT_URL;
+  const copyURL = () => {
+      const u = easyScript.scriptURL();
+      let p = EasyScriptParser.i18n.PROMPT_URL;
       if (u.length > 2048) {
         p = p + '  ' + EasyScriptParser.i18n.WARN_URL_2048;
       }
       // Pause the timer while the synchronous prompt is up;
       // otherwise the timer races ahead but nothing is happening on screen.
-      var firing = simRun.getFiring();
+      const firing = simRun.getFiring();
       if (firing) {
         simRun.stopFiring();
       }

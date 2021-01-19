@@ -111,7 +111,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
       }
     }, 'resize DisplayGraph1');
 
-  var timeIdx = this.line1.getVarsList().timeIndex();
+  const timeIdx = this.line1.getVarsList().timeIndex();
   this.line1.setXVariable(timeIdx);
   this.line1.setYVariable(0);
 
@@ -163,7 +163,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
 
   this.addControl(CommonControls.makePlaybackControls(simRun));
 
-  var pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  let pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, TimeGraph2.i18n.LIME));
   pn = this.line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
   this.addControl(new ChoiceControl(pn, TimeGraph2.i18n.RED));
@@ -171,7 +171,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.addControl(new ChoiceControl(pn, 'X:'));
   pn = this.autoScale1.getParameterNumber(AutoScale.en.TIME_WINDOW)
   this.addControl(new NumericControl(pn));
-  var bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
+  const bc = new ButtonControl(GraphLine.i18n.CLEAR_GRAPH,
       () => {
         this.line1.reset();
         this.line2.reset();
@@ -189,7 +189,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.line1Obs = new GenericObserver(this.line1, e => {
       // Don't use off-screen buffer with time variable because the auto-scale causes
       // graph to redraw every frame.
-      var isTimeGraph = this.line1.getXVariable() == timeIdx;
+      const isTimeGraph = this.line1.getXVariable() == timeIdx;
       this.displayGraph1.setUseBuffer(!isTimeGraph);
       this.displayGraph2.setUseBuffer(!isTimeGraph);
       this.line2.setXVariable(this.line1.getXVariable());
@@ -223,7 +223,7 @@ toStringShort() {
 * @return {!LabControl} the control that was passed in
 */
 addControl(control) {
-  var element = control.getElement();
+  const element = control.getElement();
   element.style.display = 'block';
   this.div_controls.appendChild(element);
   this.controls_.push(control);
