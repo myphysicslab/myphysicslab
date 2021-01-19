@@ -112,10 +112,10 @@ getVariables() {
 
 /** @override */
 memorize() {
-  var vars = this.variablesList_.getValues(/*computed=*/true);
-  var data = this.varIndex_.map(idx => vars[idx]);
+  const vars = this.variablesList_.getValues(/*computed=*/true);
+  const data = this.varIndex_.map(idx => vars[idx]);
   // only store if the new point is different from the last point
-  var last = this.dataPoints_.getEndValue();
+  const last = this.dataPoints_.getEndValue();
   if (last == null || !array.equals(data, last)) {
     this.dataPoints_.store(data);
   }
@@ -127,10 +127,10 @@ number formatting function and text separator specified by the properties
 * @return {string}
 */
 output() {
-  var iter = this.dataPoints_.getIterator();
-  var s = '';
+  const iter = this.dataPoints_.getIterator();
+  let s = '';
   while (iter.hasNext()) {
-    var data = iter.nextValue();
+    const data = iter.nextValue();
     s += Util.array2string(data, this.numberFormat, this.separator) + '\n';
   }
   return s;
@@ -148,7 +148,7 @@ reset() {
     variables to remember
 */
 setVariables(varIndex) {
-  var numVars = this.variablesList_.numVariables();
+  const numVars = this.variablesList_.numVariables();
   varIndex.forEach(idx => {
     if (idx < 0 || idx > numVars) {
       throw 'variable index '+idx+' not between 0 and '+numVars;
@@ -162,8 +162,8 @@ setVariables(varIndex) {
 * @return {!Array<!Array<number>>}
 */
 toArray() {
-  var iter = this.dataPoints_.getIterator();
-  var r = [];
+  const iter = this.dataPoints_.getIterator();
+  const r = [];
   while (iter.hasNext()) {
     r.push(iter.nextValue());
   }

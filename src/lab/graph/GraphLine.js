@@ -263,9 +263,9 @@ VarsList, plus add the `NONE` choice.
 */
 buildMenu() {
   // add the NONE option to front of the list
-  var varNames = [GraphLine.i18n.NONE];
-  var vals = [-1];
-  for (var i=0, len=this.varsList_.numVariables(); i<len; i++) {
+  const varNames = [GraphLine.i18n.NONE];
+  const vals = [-1];
+  for (let i=0, len=this.varsList_.numVariables(); i<len; i++) {
     varNames.push(this.varsList_.getVariable(i).getName(/*localized=*/true));
     vals.push(i);
   }
@@ -321,15 +321,15 @@ getGraphPoints() {
 @return {!GraphStyle} the GraphStyle for that position
 */
 getGraphStyle(index) {
-  var styles = this.styles_;
+  const styles = this.styles_;
   if (styles.length == 0) {
     throw 'graph styles list is empty';
   }
   // Find the latest style in the styles list with an index less than or
   // equal to the given index.
-  var last = styles[0];
-  for (var i=1, len=styles.length; i<len; i++) {
-    var s = styles[i];
+  let last = styles[0];
+  for (let i=1, len=styles.length; i<len; i++) {
+    const s = styles[i];
     // assert that indices in style list are non-decreasing
     asserts.assert(last.index_ <= s.index_);
     if (s.index_ > index)
@@ -397,17 +397,17 @@ getYVarName() {
 /** @override */
 memorize() {
   if (this.xVar_ > -1 && this.yVar_ > -1) {
-    var xVar = this.varsList_.getVariable(this.xVar_);
-    var yVar = this.varsList_.getVariable(this.yVar_);
-    var x = xVar.getValue();
-    var y = yVar.getValue();
-    var nextX = this.xTransform(x, y);
-    var nextY = this.yTransform(x, y);
-    var seqX = xVar.getSequence();
-    var seqY = yVar.getSequence();
-    var newPoint = new GraphPoint(nextX, nextY, seqX, seqY);
+    const xVar = this.varsList_.getVariable(this.xVar_);
+    const yVar = this.varsList_.getVariable(this.yVar_);
+    const x = xVar.getValue();
+    const y = yVar.getValue();
+    const nextX = this.xTransform(x, y);
+    const nextY = this.yTransform(x, y);
+    const seqX = xVar.getSequence();
+    const seqY = yVar.getSequence();
+    const newPoint = new GraphPoint(nextX, nextY, seqX, seqY);
     // only store if the new point is different from the last point
-    var last = this.dataPoints_.getEndValue();
+    const last = this.dataPoints_.getEndValue();
     if (last == null || !last.equals(newPoint)) {
       this.dataPoints_.store(newPoint);
     }
@@ -461,7 +461,7 @@ memorized after this time.
 @throws {!Error} if the value does not represent a valid DrawingMode
 */
 setDrawingMode(value) {
-  var dm = DrawingMode.stringToEnum(value);
+  const dm = DrawingMode.stringToEnum(value);
   asserts.assert(dm == value);
   if (this.drawMode_ != dm) {
     this.drawMode_ = dm;

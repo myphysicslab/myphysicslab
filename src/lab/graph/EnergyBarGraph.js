@@ -330,17 +330,17 @@ draw(context, map) {
   context.font = this.graphFont;
   context.textAlign = 'start';
   context.textBaseline = 'alphabetic';
-  var e = this.system_.getEnergyInfo();
-  var te = e.getTranslational();
-  var pe = e.getPotential();
-  var re = e.getRotational();
-  var tes2 = EnergyBarGraph.i18n.TRANSLATIONAL_ENERGY+',';
+  const e = this.system_.getEnergyInfo();
+  const te = e.getTranslational();
+  const pe = e.getPotential();
+  const re = e.getRotational();
+  let tes2 = EnergyBarGraph.i18n.TRANSLATIONAL_ENERGY+',';
   if (isNaN(re)) {
     tes2 = EnergyBarGraph.i18n.KINETIC_ENERGY+',';
   }
-  var height2 = EnergyBarGraph.TOP_MARGIN + 3 * EnergyBarGraph.HEIGHT + this.fontAscent_
-      + 8 + this.fontDescent_;
-  var h2 = map.screenToSimScaleY(height2);
+  const height2 = EnergyBarGraph.TOP_MARGIN + 3 * EnergyBarGraph.HEIGHT
+      + this.fontAscent_ + 8 + this.fontDescent_;
+  const h2 = map.screenToSimScaleY(height2);
   // NOTE WELL: this.rect_ is empty first time thru here!
   if (this.needResize_ || this.rect_.isEmpty()
       || Util.veryDifferent(h2, this.rect_.getHeight())) {
@@ -350,15 +350,15 @@ draw(context, map) {
     this.resizeRect(h2);
   }
   if (this.debug_ && Util.DEBUG) {
-    var r = map.simToScreenRect(this.rect_);
+    const r = map.simToScreenRect(this.rect_);
     context.fillStyle = 'rgba(255,255,0,0.5)'; // transparent yellow
     context.fillRect(r.getLeft(), r.getTop(), r.getWidth(), r.getHeight());
   }
   this.leftEdge_ = map.simToScreenX(this.rect_.getLeft()) + EnergyBarGraph.LEFT_MARGIN;
   this.rightEdge_ = map.simToScreenX(this.rect_.getRight())
       - EnergyBarGraph.RIGHT_MARGIN;
-  var maxWidth = this.rightEdge_ - this.leftEdge_;
-  var top = map.simToScreenY(this.rect_.getTop());
+  const maxWidth = this.rightEdge_ - this.leftEdge_;
+  const top = map.simToScreenY(this.rect_.getTop());
   if (this.drawBackground_) {
     // draw a semi-transparent white rectangle, in case background is black
     context.fillStyle = 'rgba(255,255,255,0.75)'; // transparent white
@@ -390,8 +390,8 @@ draw(context, map) {
   }
   //console.log('pe='+pe+'  energy bar total='+total+' maxWidth='+maxWidth);
   this.rescale(maxWidth);
-  var w = this.graphOrigin_;
-  var w2 = 0;
+  let w = this.graphOrigin_;
+  let w2 = 0;
   // draw a bar chart of the various energy types.
   context.fillStyle = this.potentialColor;
   if (pe < 0) {
@@ -416,7 +416,7 @@ draw(context, map) {
   // To stabilize the width of the bar and prevent flickering at the right edge
   // due to rounding in sims where energy is constant,
   // we find where the total should be.
-  var totalLoc = this.graphOrigin_ +
+  const totalLoc = this.graphOrigin_ +
     Math.floor(0.5 + this.totalEnergy_ * this.graphFactor_);
   // check this is no more than 2 pixels away from the 'flicker' way to calc.
   asserts.assert(Math.abs(w + w2 - totalLoc) <= 2);
@@ -425,13 +425,13 @@ draw(context, map) {
   context.fillRect(w, top + EnergyBarGraph.HEIGHT+EnergyBarGraph.TOP_MARGIN, w2,
       EnergyBarGraph.HEIGHT);
   // rightEnergy = energy at right-hand edge of the display
-  var rightEnergy = (this.rightEdge_ - this.graphOrigin_)/this.graphFactor_;
-  var y = this.drawScale(context,
+  const rightEnergy = (this.rightEdge_ - this.graphOrigin_)/this.graphFactor_;
+  const y = this.drawScale(context,
         /*left=*/this.leftEdge_,
         /*top=*/top + EnergyBarGraph.HEIGHT + EnergyBarGraph.TOP_MARGIN,
         /*total=*/rightEnergy);
   // draw legend:  boxes and text
-  var x = this.leftEdge_;
+  let x = this.leftEdge_;
   x = this.drawLegend(context, EnergyBarGraph.i18n.POTENTIAL_ENERGY+',',
       this.potentialColor, /*filled=*/true, x, y);
   if (!isNaN(re)) {
@@ -454,7 +454,7 @@ draw(context, map) {
 * @private
 */
 drawLegend(context, s, c, filled, x, y) {
-  var BOX = 10;
+  const BOX = 10;
   if (filled) {
     context.fillStyle = c;
     context.fillRect(x, y, BOX, BOX);
@@ -463,7 +463,7 @@ drawLegend(context, s, c, filled, x, y) {
     context.strokeRect(x, y, BOX, BOX);
   }
   x += BOX + 3;
-  var textWidth = context.measureText(s).width;
+  const textWidth = context.measureText(s).width;
   context.fillStyle = '#000'; // black
   context.fillText(s, x, y+this.fontAscent_);
   x += textWidth+5;
@@ -479,22 +479,22 @@ drawLegend(context, s, c, filled, x, y) {
 @private
 */
 drawScale(context, left, top, total) {
-  var graphAscent = this.fontAscent_;
+  const graphAscent = this.fontAscent_;
   // don't draw anything when total is zero.
   if (Math.abs(total) > 1E-18 && this.graphDelta_ > 1E-18) {
     context.fillStyle = '#000'; // black
     context.strokeStyle = '#000'; // black
-    var scale = 0;
+    let scale = 0;
     // draw positive part of scale, from 0 to total
-    var loopCtr = 0;
+    let loopCtr = 0;
     do {
-      var x = this.graphOrigin_ + Math.floor(scale*this.graphFactor_);
+      const x = this.graphOrigin_ + Math.floor(scale*this.graphFactor_);
       context.beginPath();
       context.moveTo(x, top+EnergyBarGraph.HEIGHT/2);
       context.lineTo(x, top+EnergyBarGraph.HEIGHT+2);
       context.stroke();
-      var s = EnergyBarGraph.numberFormat1(scale);
-      var textWidth = context.measureText(s).width;
+      const s = EnergyBarGraph.numberFormat1(scale);
+      const textWidth = context.measureText(s).width;
       context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
       scale += this.graphDelta_;
       if (this.debug_ && Util.DEBUG && ++loopCtr > 100) {
@@ -511,15 +511,15 @@ drawScale(context, left, top, total) {
     // draw negative part of scale, from -graphDelta to megaMinEnergy
     if (this.megaMinEnergy_ < -1E-12) {
       scale = -this.graphDelta_;
-      var x;
+      let x;
       do {
         x = this.graphOrigin_ + Math.floor(scale*this.graphFactor_);
         context.beginPath();
         context.moveTo(x, top+EnergyBarGraph.HEIGHT/2);
         context.lineTo(x, top+EnergyBarGraph.HEIGHT+2);
         context.stroke();
-        var s = EnergyBarGraph.numberFormat1(scale);
-        var textWidth = context.measureText(s).width;
+        const s = EnergyBarGraph.numberFormat1(scale);
+        const textWidth = context.measureText(s).width;
         context.fillText(s, x -textWidth/2, top+EnergyBarGraph.HEIGHT+graphAscent+3);
         scale -= this.graphDelta_;
         if (this.debug_ && Util.DEBUG) {
@@ -540,7 +540,7 @@ drawScale(context, left, top, total) {
 * @private
 */
 drawTotalEnergy(context, x, y) {
-  var s = EnergyBarGraph.i18n.TOTAL+' '+
+  const s = EnergyBarGraph.i18n.TOTAL+' '+
     this.formatTotalEnergy(this.totalEnergyDisplay_, this.lastEnergyDisplay_);
   context.fillStyle = '#000'; // black
   context.fillText(s, x, y+this.fontAscent_);
@@ -558,15 +558,15 @@ then we retain the previous setting for number of digits to show.
 @private
 */
 formatTotalEnergy(value, previous) {
-  var diff = Math.abs(value - previous);
+  const diff = Math.abs(value - previous);
   if (diff > 1E-15) {
     // number of decimal places is based on difference to previous value
-    var logDiff = -Math.floor(Math.log(diff)/Math.log(10));
-    var digits = logDiff > 0 ? logDiff : 1;
+    const logDiff = -Math.floor(Math.log(diff)/Math.log(10));
+    const digits = logDiff > 0 ? logDiff : 1;
     this.totalDigits_ = digits < 20 ? digits : 20;
   }
-  var v = Math.abs(value);
-  var sign = value < 0 ? '-' : '+';
+  const v = Math.abs(value);
+  const sign = value < 0 ? '-' : '+';
   if (v < 1E-6) {
     return sign + v.toExponential(5);
   } else if (v < 1000) {
@@ -615,8 +615,8 @@ isDragable() {
 * @private
 */
 minHistory() {
-  var min = 0;
-  for (var i=0, len=this.history_.length; i<len; i++) {
+  let min = 0;
+  for (let i=0, len=this.history_.length; i<len; i++) {
     if (this.history_[i] < min)
       min = this.history_[i];
   }
@@ -630,8 +630,8 @@ Designed to format scale tick marks.
 @private
 */
 static numberFormat1(value) {
-  var v = Math.abs(value);
-  var s;
+  const v = Math.abs(value);
+  let s;
   // use regexp to remove trailing zeros, and maybe decimal point
   if (v < 1E-16) {
     s = '0';
@@ -679,7 +679,7 @@ printEverything(s) {
 * @private
 */
 rescale(maxWidth) {
-  var time_check = this.timeCheck(this.minEnergy_);
+  const time_check = this.timeCheck(this.minEnergy_);
   if (Util.DEBUG) { this.printEverything('(status)'); }
   // keep track of most negative min energy value during this time check period
   this.megaMinEnergy_ = this.minHistory();
@@ -749,7 +749,7 @@ rescale(maxWidth) {
     this.lastTime_ = Util.systemTime(); // time reset
     this.needRescale_ = false;
     // scale goes from megaMinEnergy to totalEnergy or zero.
-    var total = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
+    let total = this.totalEnergy_ > 0 ? this.totalEnergy_ : 0;
     total -= this.megaMinEnergy_;
     if (total < 1E-16) {
       // kludge by ERN 11-14-2014; Problem is when energy is zero at startup
@@ -769,8 +769,8 @@ rescale(maxWidth) {
     } else {
       this.graphOrigin_ = this.leftEdge_;
     }
-    var power = Math.pow(10, Math.floor(Math.log(total)/Math.log(10)));
-    var logTot = total/power;
+    const power = Math.pow(10, Math.floor(Math.log(total)/Math.log(10)));
+    const logTot = total/power;
     // logTot should be in the range from 1.0 to 9.999
     // choose a nice delta for the numbers on the chart
     if (logTot >= 8)
@@ -794,9 +794,9 @@ rescale(maxWidth) {
 */
 resizeRect(height) {
   asserts.assertObject(this.visibleRect_);
-  var top = this.rect_.isEmpty() ?
+  let top = this.rect_.isEmpty() ?
       this.visibleRect_.getTop() : this.rect_.getTop();
-  var bottom = top - height;
+  let bottom = top - height;
   if (top > this.visibleRect_.getTop() || height > this.visibleRect_.getHeight()) {
     top = this.visibleRect_.getTop();
     bottom = top - height;
@@ -825,7 +825,7 @@ setDragable(dragable) {
 /** @override */
 setPosition(position) {
   if (!this.rect_.isEmpty()) {
-    var h = this.rect_.getHeight()/2;
+    const h = this.rect_.getHeight()/2;
     this.rect_ = new DoubleRect(this.rect_.getLeft(), position.getY() - h,
         this.rect_.getRight(), position.getY() + h);
     if (this.debug_ && Util.DEBUG) {
@@ -858,7 +858,7 @@ setZIndex(zIndex) {
 * @private
 */
 timeCheck(minEnergy) {
-  var nowTime = Util.systemTime();
+  const nowTime = Util.systemTime();
   if (nowTime - this.lastTime2_ > 1.0) {
     this.lastTime2_ = nowTime;
     if (++this.bufptr_ >= this.history_.length)

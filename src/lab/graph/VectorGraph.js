@@ -155,8 +155,8 @@ draw(context, map) {
     this.needRedraw_ = true;
   }
 
-  var w = this.screenRect_.getWidth();
-  var h = this.screenRect_.getHeight();
+  const w = this.screenRect_.getWidth();
+  const h = this.screenRect_.getHeight();
   if (this.offScreen_ == null) {
     asserts.assert(w > 0 && h > 0);
     // make the offscreen buffer that has an alpha channel.
@@ -168,7 +168,7 @@ draw(context, map) {
   }
   asserts.assertObject(this.offScreen_);
   // osb = off screen buffer
-  var osb = /** @type {!CanvasRenderingContext2D} */(this.offScreen_.getContext('2d'));
+  const osb = /** @type {!CanvasRenderingContext2D} */(this.offScreen_.getContext('2d'));
   asserts.assertObject(osb);
   if (this.needRedraw_) {
     // Clear image with transparent alpha by drawing a rectangle
@@ -193,48 +193,48 @@ draw(context, map) {
 * @private
 */
 fullDraw(context, coordMap) {
-  var gp = this.gridPoints;
-  var sr = this.screenRect_;
-  var w = sr.getWidth();
-  var h = sr.getHeight();
-  var left = sr.getLeft();
-  var top = sr.getTop();
-  var va = this.sim_.getVarsList();
-  var state = Util.newNumberArray(va.numVariables());
-  var change = Util.newNumberArray(va.numVariables());
+  const gp = this.gridPoints;
+  const sr = this.screenRect_;
+  const w = sr.getWidth();
+  const h = sr.getHeight();
+  const left = sr.getLeft();
+  const top = sr.getTop();
+  const va = this.sim_.getVarsList();
+  const state = Util.newNumberArray(va.numVariables());
+  const change = Util.newNumberArray(va.numVariables());
   // draw dots, in like a 4 x 4 grid
-  for (var i=0; i<gp; i++) {
-    for (var j=0; j<gp; j++) {
-      var x = left + (i*w/gp) + w/(2*gp);
-      var y = top + (j*h/gp) + h/(2*gp);
-      var dot = new ScreenRect(x-3, y-3, 6, 6);
+  for (let i=0; i<gp; i++) {
+    for (let j=0; j<gp; j++) {
+      const x = left + (i*w/gp) + w/(2*gp);
+      const y = top + (j*h/gp) + h/(2*gp);
+      const dot = new ScreenRect(x-3, y-3, 6, 6);
       dot.makeOval(context);
       context.lineWidth = 1;
       context.strokeStyle = this.dotStyle;
       context.stroke();
-      var sim_x = coordMap.screenToSimX(x);
-      var sim_y = coordMap.screenToSimY(y);
+      const sim_x = coordMap.screenToSimX(x);
+      const sim_y = coordMap.screenToSimY(y);
       state[this.xVariable_] = sim_x;
       state[this.yVariable_] = sim_y;
       Util.zeroArray(change);
       this.sim_.evaluate(state, change, 0);
-      var delta_x = coordMap.simToScreenScaleX(change[this.xVariable_]);
-      var delta_y = coordMap.simToScreenScaleY(change[this.yVariable_]);
+      const delta_x = coordMap.simToScreenScaleX(change[this.xVariable_]);
+      const delta_y = coordMap.simToScreenScaleY(change[this.yVariable_]);
       // k = slope at this point, in screen coords
-      var k = delta_y/delta_x;
+      const k = delta_y/delta_x;
       // r = desired length of flags, in screen coords
-      var r = w/(2*gp);
+      const r = w/(2*gp);
       // draw a line from (x, y) at a slope = k, for a distance r
       // the line goes down dy units, and to the right dx units, in screen coords
       // right triangle, so:  r^2 = dx^2 + dy^2 = dx^2 (1 + dy^2/dx^2)
       // r^2 = dx^2 (1 + k^2)
       // dx = r / sqrt(1 + k^2)
       // dy = k dx
-      var absX = r / Math.sqrt(1 + k*k);
-      var dx = delta_x > 0 ? absX : -absX;
+      const absX = r / Math.sqrt(1 + k*k);
+      const dx = delta_x > 0 ? absX : -absX;
       // The minus sign here is because screen coords increase down,
       // opposite of sim coords which increase up (? this is a guess).
-      var dy = -k * dx;
+      const dy = -k * dx;
 
       context.strokeStyle = this.lineStyle;
       context.beginPath();

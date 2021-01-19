@@ -148,7 +148,7 @@ draw(context, map) {
     this.lastMap_ = map;
     this.needRedraw_ = true;
   }
-  for (var i=0, n=this.graphLines_.length; i<n; i++) {
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
   // Detect when graphLine has been reset.
     if (this.memDraw_[i] > this.graphLines_[i].getGraphPoints().getEndIndex()) {
       this.reset();
@@ -167,8 +167,8 @@ draw(context, map) {
       this.incrementalDraw(context, map);
     }
   } else {
-    var w = this.screenRect_.getWidth();
-    var h = this.screenRect_.getHeight();
+    const w = this.screenRect_.getWidth();
+    const h = this.screenRect_.getHeight();
     if (this.offScreen_ == null) {
       asserts.assert(w > 0 && h > 0);
       // make the offscreen buffer that has an alpha channel.
@@ -180,7 +180,7 @@ draw(context, map) {
     }
     asserts.assertObject(this.offScreen_);
     // osb = off screen buffer
-    var osb = /** @type {!CanvasRenderingContext2D} */(
+    const osb = /** @type {!CanvasRenderingContext2D} */(
         this.offScreen_.getContext('2d'));
     asserts.assertObject(osb);
     if (this.needRedraw_) {
@@ -200,7 +200,7 @@ draw(context, map) {
     // it does a sort of 'transparent image copy'.
     context.drawImage(this.offScreen_, 0, 0, w, h);
   }
-  for (var i=0, n=this.graphLines_.length; i<n; i++) {
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
     this.drawHotSpot(context, map, this.graphLines_[i]);
   }
   context.restore();
@@ -216,11 +216,11 @@ If the hot spot color is the empty string, then the hot spot is not drawn.
 * @private
 */
 drawHotSpot(context, coordMap, graphLine) {
-  var p = graphLine.getGraphPoints().getEndValue();
+  const p = graphLine.getGraphPoints().getEndValue();
   if (p != null) {
-    var x = coordMap.simToScreenX(p.getX());
-    var y = coordMap.simToScreenY(p.getY());
-    var color = graphLine.getHotSpotColor();
+    const x = coordMap.simToScreenX(p.getX());
+    const y = coordMap.simToScreenY(p.getY());
+    const color = graphLine.getHotSpotColor();
     if (color) {
       context.fillStyle = color;
       context.fillRect(x-2, y-2, 5, 5);
@@ -239,25 +239,26 @@ drawHotSpot(context, coordMap, graphLine) {
 * @private
 */
 drawPoints(context, coordMap, from, graphLine) {
-  var simRect = coordMap.screenToSimRect(this.screenRect_);
-  var iter = graphLine.getGraphPoints().getIterator(from);
-  if (!iter.hasNext())
+  const simRect = coordMap.screenToSimRect(this.screenRect_);
+  const iter = graphLine.getGraphPoints().getIterator(from);
+  if (!iter.hasNext()) {
     return from;
+  }
   /** @type {!GraphPoint} */
-  var next = iter.nextValue();  // move to first point
+  let next = iter.nextValue();  // move to first point
   // Draw first point.
   // Find the GraphStyle corresponding to this point.
-  var style = graphLine.getGraphStyle(iter.getIndex());
+  let style = graphLine.getGraphStyle(iter.getIndex());
   if (style.drawMode == DrawingMode.DOTS) {
-    var x = coordMap.simToScreenX(next.x);
-    var y = coordMap.simToScreenY(next.y);
-    var w = style.lineWidth;
+    const x = coordMap.simToScreenX(next.x);
+    const y = coordMap.simToScreenY(next.y);
+    const w = style.lineWidth;
     context.fillStyle = style.color_;
     context.fillRect(x, y, w, w);
   }
   while (iter.hasNext()) {
     /** @type {!GraphPoint} */
-    var last = next;
+    const last = next;
     next = iter.nextValue();
     // if same point then don't draw again
     if (next.x == last.x && next.y == last.y)
@@ -267,14 +268,14 @@ drawPoints(context, coordMap, from, graphLine) {
     // Avoid drawing nonsense lines in a graph, like when the pendulum
     // moves over the 0 to 2Pi boundary.  The sequence number changes
     // when there is a discontinuity, so don't draw a line in this case.
-    var continuous = next.seqX == last.seqX && next.seqY == last.seqY;
+    const continuous = next.seqX == last.seqX && next.seqY == last.seqY;
     if (style.drawMode == DrawingMode.DOTS || !continuous) {
       // Only draw points that are visible.
       if (!simRect.contains(next))
         continue;
-      x = coordMap.simToScreenX(next.x);
-      y = coordMap.simToScreenY(next.y);
-      w = style.lineWidth;
+      const x = coordMap.simToScreenX(next.x);
+      const y = coordMap.simToScreenY(next.y);
+      const w = style.lineWidth;
       context.fillStyle = style.color_;
       context.fillRect(x, y, w, w);
     } else {
@@ -282,10 +283,10 @@ drawPoints(context, coordMap, from, graphLine) {
       if (!simRect.maybeVisible(last, next)) {
         continue;
       }
-      var x1 = coordMap.simToScreenX(last.x);
-      var y1 = coordMap.simToScreenY(last.y);
-      var x2 = coordMap.simToScreenX(next.x);
-      var y2 = coordMap.simToScreenY(next.y);
+      const x1 = coordMap.simToScreenX(last.x);
+      const y1 = coordMap.simToScreenY(last.y);
+      const x2 = coordMap.simToScreenX(next.x);
+      const y2 = coordMap.simToScreenY(next.y);
       context.strokeStyle = style.color_;
       context.lineWidth = style.lineWidth;
       context.beginPath();
@@ -356,10 +357,10 @@ Keeps track of what was the last point drawn.
 incrementalDraw(context, coordMap) {
   // draw points from the last drawn (=memDraw) up to the current latest point
   //experiment: fade the graph by drawing a translucent white rectangle
-  //var r = this.getScreenRect();
+  //const r = this.getScreenRect();
   //context.fillStyle = 'rgba(255,255,255,0.02)';
   //context.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-  for (var i=0, n=this.graphLines_.length; i<n; i++) {
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
     this.memDraw_[i] = this.drawPoints(context, coordMap, this.memDraw_[i],
         this.graphLines_[i]);
   }
@@ -375,7 +376,7 @@ isDragable() {
 */
 removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
-    var idx = this.graphLines_.indexOf(graphLine);
+    const idx = this.graphLines_.indexOf(graphLine);
     array.removeAt(this.graphLines_, idx);
     array.removeAt(this.memDraw_, idx);
     asserts.assert(!this.graphLines_.includes(graphLine));

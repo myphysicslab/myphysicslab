@@ -91,8 +91,8 @@ GraphColor.getValues = () =>
 * @throws {!Error} if the value does not represent a valid enum
 */
 GraphColor.stringToEnum = value => {
-  var vals = GraphColor.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = GraphColor.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return vals[i];
     }

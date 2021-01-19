@@ -166,18 +166,18 @@ draw(context, map) {
   context.textAlign = 'start';
   context.textBaseline = 'alphabetic';
   // figure where to draw axes
-  var x0, y0;  // screen coords of axes, the point where the axes intersect
-  var r = this.simRect_;
-  var sim_x1 = r.getLeft();
-  var sim_x2 = r.getRight();
-  var sim_y1 = r.getBottom();
-  var sim_y2 = r.getTop();
-  var sim_right = sim_x2 - 0.06*(sim_x2 - sim_x1);
-  var sim_left = sim_x1 + 0.01*(sim_x2 - sim_x1);
+  let x0, y0;  // screen coords of axes, the point where the axes intersect
+  const r = this.simRect_;
+  const sim_x1 = r.getLeft();
+  const sim_x2 = r.getRight();
+  const sim_y1 = r.getBottom();
+  const sim_y2 = r.getTop();
+  const sim_right = sim_x2 - 0.06*(sim_x2 - sim_x1);
+  const sim_left = sim_x1 + 0.01*(sim_x2 - sim_x1);
   switch (this.vertAxisAlignment_) {
     case HorizAlign.VALUE:
       // if the value is not visible, then use RIGHT or LEFT alignment
-      var sim_v = this.vertAlignValue_;
+      let sim_v = this.vertAlignValue_;
       if (sim_v < sim_left) {
         sim_v = sim_left;
       } else if (sim_v > sim_right) {
@@ -195,9 +195,9 @@ draw(context, map) {
       x0 = map.simToScreenX(r.getCenterX());
   }
 
-  var scr_top = map.simToScreenY(sim_y2);
-  var scr_bottom = map.simToScreenY(sim_y1);
-  var lineHeight = 10 + this.fontDescent + this.fontAscent;
+  const scr_top = map.simToScreenY(sim_y2);
+  const scr_bottom = map.simToScreenY(sim_y1);
+  const lineHeight = 10 + this.fontDescent + this.fontAscent;
   // leave room to draw the numbers below the horizontal axis
   switch (this.horizAxisAlignment_) {
     case VerticalAlign.VALUE:
@@ -243,23 +243,23 @@ draw(context, map) {
 @private
 */
 drawHorizTicks(y0, context, map, r) {
-  var y1 = y0 - 4;  // bottom edge of tick mark
-  var y2 = y1 + 8;  // top edge of tick mark
-  var sim_x1 = r.getLeft();
-  var sim_x2 = r.getRight();
-  var graphDelta = this.getNiceIncrement(sim_x2 - sim_x1);
-  var x_sim = DisplayAxes.getNiceStart(sim_x1, graphDelta);
+  const y1 = y0 - 4;  // bottom edge of tick mark
+  const y2 = y1 + 8;  // top edge of tick mark
+  const sim_x1 = r.getLeft();
+  const sim_x2 = r.getRight();
+  const graphDelta = this.getNiceIncrement(sim_x2 - sim_x1);
+  let x_sim = DisplayAxes.getNiceStart(sim_x1, graphDelta);
   while (x_sim < sim_x2) {
-    var x_screen = map.simToScreenX(x_sim);
+    const x_screen = map.simToScreenX(x_sim);
     context.beginPath(); // draw a tick mark
     context.moveTo(x_screen, y1);
     context.lineTo(x_screen, y2);
     context.stroke();
-    var next_x_sim = x_sim + graphDelta;  // next tick mark location
+    const next_x_sim = x_sim + graphDelta;  // next tick mark location
     if (next_x_sim > x_sim) {
       // draw a number
-      var s = x_sim.toFixed(this.numDecimal_);
-      var textWidth = context.measureText(s).width;
+      const s = x_sim.toFixed(this.numDecimal_);
+      const textWidth = context.measureText(s).width;
       //console.log('drawHorizTicks s='+s+' tx-width='+textWidth
       //  +' x='+(x_screen - textWidth/2)
       //  +' y='+(y2 + this.fontAscent));
@@ -274,7 +274,7 @@ drawHorizTicks(y0, context, map, r) {
     x_sim = next_x_sim;
   }
   // draw name of the horizontal axis
-  var w = context.measureText(this.horizName_).width;
+  const w = context.measureText(this.horizName_).width;
   //console.log('drawHorizName '+hname
   //  +' x='+(map.simToScreenX(sim_x2) - w - 5)
   //  +' y='+(y0 - 8));
@@ -290,23 +290,23 @@ drawHorizTicks(y0, context, map, r) {
 @private
 */
 drawVertTicks(x0, context, map, r) {
-  var x1 = x0 - 4;  // left edge of tick mark
-  var x2 = x1 + 8;  // right edge of tick mark
-  var sim_y1 = r.getBottom();
-  var sim_y2 = r.getTop();
-  var graphDelta = this.getNiceIncrement(sim_y2 - sim_y1);
-  var y_sim = DisplayAxes.getNiceStart(sim_y1, graphDelta);
+  const x1 = x0 - 4;  // left edge of tick mark
+  const x2 = x1 + 8;  // right edge of tick mark
+  const sim_y1 = r.getBottom();
+  const sim_y2 = r.getTop();
+  const graphDelta = this.getNiceIncrement(sim_y2 - sim_y1);
+  let y_sim = DisplayAxes.getNiceStart(sim_y1, graphDelta);
   while (y_sim < sim_y2) {
-    var y_screen = map.simToScreenY(y_sim);
+    const y_screen = map.simToScreenY(y_sim);
     context.beginPath(); // draw a tick mark
     context.moveTo(x1, y_screen);
     context.lineTo(x2, y_screen);
     context.stroke();
-    var next_y_sim = y_sim + graphDelta;
+    const next_y_sim = y_sim + graphDelta;
     if (next_y_sim > y_sim) {
       // draw a number
-      var s = y_sim.toFixed(this.numDecimal_);
-      var textWidth = context.measureText(s).width;
+      const s = y_sim.toFixed(this.numDecimal_);
+      const textWidth = context.measureText(s).width;
       if (this.vertAxisAlignment_ === HorizAlign.RIGHT) {
         context.fillText(s, x2-(textWidth+10), y_screen+(this.fontAscent/2));
       } else {// LEFT is default
@@ -321,7 +321,7 @@ drawVertTicks(x0, context, map, r) {
     y_sim = next_y_sim;  // next tick mark
   }
   // draw name of the vertical axis
-  var w = context.measureText(this.verticalName_).width;
+  const w = context.measureText(this.verticalName_).width;
   if (this.vertAxisAlignment_ === HorizAlign.RIGHT) {
     context.fillText(this.verticalName_, x0 - (w+6), map.simToScreenY(sim_y2) + 13);
   } else { // LEFT is default
@@ -367,10 +367,10 @@ Side effect: modifies the number of fractional digits to show
 */
 getNiceIncrement(range) {
   // First, scale the range to within 1 to 10.
-  var power = Math.pow(10, Math.floor(Math.log(range)/Math.LN10));
-  var logTot = range/power;
+  const power = Math.pow(10, Math.floor(Math.log(range)/Math.LN10));
+  const logTot = range/power;
   // logTot should be in the range from 1.0 to 9.999
-  var incr;
+  let incr;
   if (logTot >= 8)
     incr = 2;
   else if (logTot >= 5)
@@ -383,7 +383,7 @@ getNiceIncrement(range) {
     incr = 0.2;
   incr *= power;  // scale back to original range
   // setup for nice formatting of numbers in this range
-  var dlog = Math.log(incr)/Math.LN10;
+  const dlog = Math.log(incr)/Math.LN10;
   this.numDecimal_ = (dlog < 0) ? Math.ceil(-dlog) : 0;
   return incr;
 };

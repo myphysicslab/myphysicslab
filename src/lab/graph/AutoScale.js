@@ -191,7 +191,7 @@ constructor(name, graphLine, simView) {
       AutoScale.i18n.TIME_WINDOW,
       () => this.getTimeWindow(), a => this.setTimeWindow(a))
       .setSignifDigits(3));
-  var choices = [AutoScale.VERTICAL, AutoScale.HORIZONTAL, AutoScale.BOTH_AXES];
+  const choices = [AutoScale.VERTICAL, AutoScale.HORIZONTAL, AutoScale.BOTH_AXES];
   this.addParameter(new ParameterString(this, AutoScale.en.AXIS,
       AutoScale.i18n.AXIS,
       () => this.getAxis(), a => this.setAxis(a), choices, choices));
@@ -292,19 +292,19 @@ getTimeWindow() {
 
 /** @override */
 memorize() {
-  for (var i=0, n=this.graphLines_.length; i<n; i++) {
-    var graphPts = this.graphLines_[i].getGraphPoints();
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
+    const graphPts = this.graphLines_[i].getGraphPoints();
     // Detect when graphLine has been reset.
     if (this.lastIndex_[i] > graphPts.getEndIndex()) {
       this.reset();
     }
   }
-  for (i=0, n=this.graphLines_.length; i<n; i++) {
-    graphPts = this.graphLines_[i].getGraphPoints();
-    var iter = graphPts.getIterator(this.lastIndex_[i]);
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
+    const graphPts = this.graphLines_[i].getGraphPoints();
+    const iter = graphPts.getIterator(this.lastIndex_[i]);
     while (iter.hasNext()) {
       /** @type {!GraphPoint} */
-      var gp = iter.nextValue();
+      const gp = iter.nextValue();
       this.updateRange_(this.graphLines_[i], gp.x, gp.y);
       this.lastIndex_[i] = iter.getIndex();
     }
@@ -340,8 +340,8 @@ observe(event) {
 @private
 */
 rangeCheck_() {
-  var avg, incr;
-  var e = this.minSize;
+  let avg, incr;
+  const e = this.minSize;
   // set range rectangle to minimum size, when range is very tiny
   // (but choose an increment that is big enough to make hi & lo different numbers)
   if (this.rangeXHi_ - this.rangeXLo_ < e) {
@@ -356,8 +356,8 @@ rangeCheck_() {
     this.rangeYHi_ = avg + incr;
     this.rangeYLo_ = avg - incr;
   }
-  var nr = this.getRangeRect();
-  var sr = this.simView_.getSimRect();
+  let nr = this.getRangeRect();
+  const sr = this.simView_.getSimRect();
   if (this.axis_ == AutoScale.VERTICAL) {
     // set vertical range, but retain existing horiz range
     nr = new DoubleRect(sr.getLeft(), nr.getBottom(),
@@ -381,7 +381,7 @@ rectangle of points on the line.
 */
 removeGraphLine(graphLine) {
   if (GraphLine.isDuckType(graphLine)) {
-    var idx = this.graphLines_.indexOf(graphLine);
+    const idx = this.graphLines_.indexOf(graphLine);
     array.removeAt(this.graphLines_, idx);
     array.removeAt(this.lastIndex_, idx);
     asserts.assert(!this.graphLines_.includes(graphLine));
@@ -397,7 +397,7 @@ removeGraphLine(graphLine) {
 */
 reset() {
   this.clearRange();
-  for (var i=0, n=this.lastIndex_.length; i<n; i++) {
+  for (let i=0, n=this.lastIndex_.length; i<n; i++) {
     this.lastIndex_[i] = -1;
   }
 };
@@ -450,7 +450,7 @@ depending on whether this AutoScale is active.
 * @private
 */
 setComputed(value) {
-  var names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
+  const names = [SimView.en.WIDTH, SimView.en.HEIGHT, SimView.en.CENTER_X,
       SimView.en.CENTER_Y];
   names.forEach(nm => this.simView_.getParameter(nm).setComputed(value));
 };
@@ -508,9 +508,9 @@ updateRange_(line, nowX, nowY) {
       nowY = -1e308;
     }
   }
-  var timeIdx = line.getVarsList().timeIndex();
-  var xIsTimeVar = line.getXVariable() == timeIdx;
-  var yIsTimeVar = line.getYVariable() == timeIdx;
+  const timeIdx = line.getVarsList().timeIndex();
+  const xIsTimeVar = line.getXVariable() == timeIdx;
+  const yIsTimeVar = line.getYVariable() == timeIdx;
   if (!this.rangeSetX_) {
     this.rangeXLo_ = nowX;
     this.rangeXHi_ = nowX + (xIsTimeVar ? this.timeWindow_ : 0);
