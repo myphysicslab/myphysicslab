@@ -241,11 +241,11 @@ to `z` is replaced by `terminal.z` when the command is executed.
 
 Declaring a Variable
 --------------------
-To hide the usage of the `z` object, Terminal interprets the `var` keyword in a
-special way.
+To hide the usage of the `z` object, Terminal interprets the `var` or `let` keywords
+in a special way.
 
-When Terminal sees the `var` keyword at the start of a command, it changes the script
-to use the `z` object and defines a short-name. For example the command
+When Terminal sees the `var` or `let` keywords at the start of a command, it changes
+the script to use the `z` object and defines a short-name. For example the command
 
     > var foo = 3
     3
@@ -1236,9 +1236,9 @@ remember(opt_script) {
   }
 };
 
-/** Removes the 'var' at front of a script (if any) and adds regexp which mimics that
-JavaScript `var` statement. This helps make Terminal scripts more JavaScript-like, by
-hiding usage of the `z` object. For example, if the script is
+/** Removes the `var` or `let` at front of a script (if any) and adds regexp which
+mimics that JavaScript `var` statement. This helps make Terminal scripts more
+JavaScript-like, by hiding usage of the `z` object. For example, if the script is
 
     var foo = 3;
 
@@ -1248,15 +1248,15 @@ this will return just `foo = 3;` and add a regexp that replaces `foo` by `z.foo`
 * @private
 */
 replaceVar(script) {
-  const m = script.match(/^\s*var\s+(\w[\w_\d]*)(.*)/);
+  const m = script.match(/^\s*(var|let)\s+(\w[\w_\d]*)(.*)/);
   if (m) {
     // suppose the script was 'var foo = 3;'
     // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from script
-    asserts.assert(m.length >= 3);
-    const varName = m[1];
+    asserts.assert(m.length >= 4);
+    const varName = m[2];
     // important to prepend because the regexp's are executed in order
     this.addRegex(varName, 'z.', /*addToVars=*/true, /*prepend=*/true);
-    return m[1] + m[2];
+    return m[2] + m[3];
   }
   return script;
 };

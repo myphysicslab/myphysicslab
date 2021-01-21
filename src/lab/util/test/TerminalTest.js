@@ -209,7 +209,7 @@ static testTerminal3() {
   assertEquals(7, t.eval('foo=7'));
   assertEquals(7, t.eval('foo'));
   assertEquals(7, t.eval('z.foo'));
-  assertEquals(4, t.eval('var bar=4'));
+  assertEquals(4, t.eval('let bar=4'));
   assertEquals(5, t.vars().length);
   assertElementsEquals(['bar', 'foo', 'parser', 'result', 'z'], t.vars());
   assertEquals(28, t.eval('foo*bar'));
