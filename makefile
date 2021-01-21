@@ -303,7 +303,6 @@ sims/engine2D/PileApp \
 sims/engine2D/PileAttractApp\
 sims/engine2D/PolygonTestApp \
 sims/engine2D/RigidBodyApp \
-sims/engine2D/RobotSpeedApp \
 sims/engine2D/TestBodyApp \
 sims/experimental/BikeTimerApp \
 sims/experimental/BlankSlateApp \
