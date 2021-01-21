@@ -126,17 +126,17 @@ addBodies(bodies) {
 * @param {!SimObject} obj
 */
 addBody(obj) {
-  var dobj = this.displayList_.find(obj);
+  const dobj = this.displayList_.find(obj);
   if (dobj != null) {
     // if we already have a DisplayObject for this, don't add a new one.
     return;
   }
   if (obj instanceof NumericalPath) {
-    var np = /** @type {!NumericalPath} */(obj);
+    const np = /** @type {!NumericalPath} */(obj);
     this.displayPath_.addPath(np, DrawingStyle.lineStyle('gray', /*lineWidth=*/2));
   } else if (obj instanceof PointMass) {
-    var pm = /** @type {!PointMass} */(obj);
-    var dp = new DisplayShape(pm);
+    const pm = /** @type {!PointMass} */(obj);
+    const dp = new DisplayShape(pm);
     dp.setDragable(false);
     if (pm.getName().match(/BALL_SELECTED/)) {
       dp.setFillStyle('red');
@@ -161,8 +161,8 @@ addBody(obj) {
 * @private
 */
 getTextPosition() {
-  var sr = this.statusView_.getScreenRect();
-  var r = this.statusView_.getCoordMap().screenToSimRect(sr);
+  const sr = this.statusView_.getScreenRect();
+  const r = this.statusView_.getCoordMap().screenToSimRect(sr);
   return new Vector(r.getLeft() + 0.15*r.getWidth(), r.getTop() - 0.1*r.getHeight());
 };
 
@@ -172,8 +172,8 @@ observe(event) {
   if (event.getSubject() == this.sim_) {
     if (event.nameEquals(BrachistoSim.PATH_CHOSEN)) {
       // text object shows the question or the choice
-      var msg;
-      var choice = this.sim_.getPathChoice();
+      let msg;
+      const choice = this.sim_.getPathChoice();
       if (choice >= 0) {
         msg = BrachistoObserver.i18n.YOU_PICKED;
         msg += ' ' + this.sim_.getPaths()[choice].getName();
@@ -189,16 +189,16 @@ observe(event) {
       this.displayPath_.setScreenRect(this.simView_.getScreenRect());
     }
   } else if (event.getSubject() == this.simList_) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
       if (obj instanceof NumericalPath) {
-        var np = /** @type {!NumericalPath} */(obj);
+        const np = /** @type {!NumericalPath} */(obj);
         this.displayPath_.removePath(np);
       } else if (obj instanceof PointMass) {
-        var so = /** @type {!SimObject} */(obj);
-        var dispObj = this.displayList_.find(so);
+        const so = /** @type {!SimObject} */(obj);
+        const dispObj = this.displayList_.find(so);
         if (dispObj != null) {
           this.displayList_.remove(dispObj);
         }

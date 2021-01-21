@@ -103,15 +103,15 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
   /** @type {!DoubleRect} */
   this.simRect = simRect;
   // set canvasWidth to 800, and canvasHeight proportional as in simRect.
-  var canvasWidth = 800;
-  var canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
+  const canvasWidth = 800;
+  const canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
       this.simRect.getWidth());
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
@@ -167,7 +167,7 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
@@ -250,7 +250,7 @@ watchEnergyChange(parameter) {
 
 /** @override */
 getSubjects() {
-  var subjects = [
+  const subjects = [
     this,
     this.sim,
     this.elasticity,
@@ -271,7 +271,7 @@ in EasyScriptParser documentation.
 * @param {!Array<!Subject>=} opt_dependent additional dependent Subjects
 */
 makeEasyScript(opt_dependent) {
-  var dependent = [ this.varsList ];
+  let dependent = [ this.varsList ];
   if (Array.isArray(opt_dependent)) {
     dependent = dependent.concat(opt_dependent);
   }
@@ -327,9 +327,9 @@ addURLScriptButton() {
 * @return {undefined}
 */
 addStandardControls() {
-  var pn = this.elasticity.getParameterNumber(ElasticitySetter.en.ELASTICITY);
+  let pn = this.elasticity.getParameterNumber(ElasticitySetter.en.ELASTICITY);
   this.addControl(new NumericControl(pn));
-  var pb = this.sim.getParameterBoolean(RigidBodySim.en.SHOW_FORCES);
+  const pb = this.sim.getParameterBoolean(RigidBodySim.en.SHOW_FORCES);
   this.addControl(new CheckBoxControl(pb));
   this.addControl(new CheckBoxControl(this.showEnergyParam));
   this.addControl(new CheckBoxControl(this.showClockParam));
@@ -338,11 +338,11 @@ addStandardControls() {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
+  const ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
   pn = this.sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
   //ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   //this.addControl(new ChoiceControl(ps));

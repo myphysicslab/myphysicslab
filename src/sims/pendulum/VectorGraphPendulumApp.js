@@ -43,9 +43,9 @@ class VectorGraphPendulumApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
-  var sim = new PendulumSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-2, -2.2, 2, 1.5);
+  const sim = new PendulumSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -70,10 +70,10 @@ constructor(elem_ids) {
   // remove the VectorGraph when the variables are any other than
   // the specific 2 variables it works with.
   new GenericObserver(this.graph.line, evt => {
-    var yVar = this.graph.line.getYVariable();
-    var xVar = this.graph.line.getXVariable();
-    var isOK = yVar == 1 && xVar == 0;
-    var isVis = this.graph.displayList.contains(this.vectorGraph);
+    const yVar = this.graph.line.getYVariable();
+    const xVar = this.graph.line.getXVariable();
+    const isOK = yVar == 1 && xVar == 0;
+    const isVis = this.graph.displayList.contains(this.vectorGraph);
     if (isOK && !isVis) {
       this.graph.displayList.add(this.vectorGraph);
     } else if (!isOK && isVis) {
@@ -83,7 +83,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(PendulumSim.en.LENGTH);
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
 

@@ -43,9 +43,9 @@ class Double2DSpringApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Double2DSpringSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Double2DSpringSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
@@ -75,7 +75,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(Double2DSpringSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 50, /*multiply=*/false));
 
@@ -100,7 +100,7 @@ constructor(elem_ids) {
   this.addStandardControls();
 
   /** @type {!ButtonControl} */
-  var bc = new ButtonControl(Double2DSpringSim.i18n.REST_STATE,
+  const bc = new ButtonControl(Double2DSpringSim.i18n.REST_STATE,
       () => sim.restState());
   this.addControl(bc);
 

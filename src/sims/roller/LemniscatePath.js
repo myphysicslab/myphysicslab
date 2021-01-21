@@ -86,7 +86,7 @@ x_func(t) {
   if (t<=Math.PI/4) {
     return this.a_ *Math.sqrt(2*Math.cos(2*t))*Math.cos(t);
   } else if (t<=3*Math.PI/4) {
-    var T = -t + Math.PI/2;
+    const T = -t + Math.PI/2;
     return -this.a_ *Math.sqrt(2*Math.cos(2*T))*Math.cos(T);
   } else {
     return 0;
@@ -98,7 +98,7 @@ y_func(t) {
   if (t<=Math.PI/4) {
     return this.a_*Math.sqrt(2*Math.cos(2*t))*Math.sin(t);
   } else if (t<=3*Math.PI/4) {
-    var T = -t + Math.PI/2;
+    const T = -t + Math.PI/2;
     return -this.a_*Math.sqrt(2*Math.cos(2*T))*Math.sin(T);
   } else {
     return 0;

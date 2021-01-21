@@ -39,9 +39,9 @@ class DoublePendulumApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
-  var sim = new DoublePendulumSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-2, -2.2, 2, 1.5);
+  const sim = new DoublePendulumSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -82,7 +82,7 @@ constructor(elem_ids) {
   }
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(DoublePendulumSim.en.ROD_1_LENGTH);
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
 

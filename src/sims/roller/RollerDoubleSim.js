@@ -61,7 +61,7 @@ constructor(opt_name) {
   super(opt_name);
   //  0   1   2   3   4   5   6   7
   // p1, v1, p2, v2, ke, pe, te, time
-  var var_names = [
+  const var_names = [
     RollerDoubleSim.en.POSITION_1,
     RollerDoubleSim.en.VELOCITY_1,
     RollerDoubleSim.en.POSITION_2,
@@ -71,7 +71,7 @@ constructor(opt_name) {
     EnergySystem.en.TOTAL_ENERGY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     RollerDoubleSim.i18n.POSITION_1,
     RollerDoubleSim.i18n.VELOCITY_1,
     RollerDoubleSim.i18n.POSITION_2,
@@ -199,20 +199,20 @@ getPath() {
 
 /** @override */
 setPath(path) {
-  var simList = this.getSimList();
-  var oldPath = this.path_;
+  const simList = this.getSimList();
+  const oldPath = this.path_;
   if (oldPath != null) {
     simList.remove(oldPath);
   }
   this.path_ = path;
   simList.add(path);
-  var r = path.getBoundsWorld();
+  const r = path.getBoundsWorld();
   this.lowestPoint_ = r.getBottom();
   // find closest starting point to a certain x-y position on screen
-  var start1 = new Vector(r.getLeft() + r.getWidth()*0.1,
+  const start1 = new Vector(r.getLeft() + r.getWidth()*0.1,
       r.getTop() - r.getHeight()*0.1);
   this.pathPoint1_ = path.findNearestGlobal(start1);
-  var start2 = new Vector(r.getLeft() + r.getWidth()*0.2,
+  const start2 = new Vector(r.getLeft() + r.getWidth()*0.2,
       r.getTop() - r.getHeight()*0.3);
   this.pathPoint2_ = path.findNearestGlobal(start2);
   this.getVarsList().setValues([this.pathPoint1_.p, 0, this.pathPoint2_.p, 0]);
@@ -221,23 +221,23 @@ setPath(path) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   //  0   1   2   3   4   5   6   7
   // p1, v1, p2, v2, ke, pe, te, time
   if (this.path_ != null) {
-    var p = this.path_.mod_p(vars[0]);
+    const p = this.path_.mod_p(vars[0]);
     if (p != vars[0]) {
       vars[0] = p;
       va.setValue(0, p);
     }
-    var p2 = this.path_.mod_p(vars[2]);
+    const p2 = this.path_.mod_p(vars[2]);
     if (p2 != vars[2]) {
       vars[2] = p2;
       va.setValue(2, p2);
     }
-    var ei = this.getEnergyInfo_(vars);
+    const ei = this.getEnergyInfo_(vars);
     va.setValue(4, ei.getTranslational(), true);
     va.setValue(5, ei.getPotential(), true);
     va.setValue(6, ei.getTotalEnergy(), true);
@@ -252,8 +252,8 @@ moveObjects(vars) {
   //  0   1   2   3   4   5   6   7
   // p1, v1, p2, v2, ke, pe, te, time
   if (this.path_ != null) {
-    var pp1 = this.pathPoint1_;
-    var pp2 = this.pathPoint2_;
+    const pp1 = this.pathPoint1_;
+    const pp2 = this.pathPoint2_;
     pp1.p = vars[0];
     pp2.p = vars[2];
     this.path_.map_p_to_slope(pp1);
@@ -267,7 +267,7 @@ moveObjects(vars) {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -278,9 +278,9 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.ball1_.getKineticEnergy() + this.ball2_.getKineticEnergy();
+  const ke = this.ball1_.getKineticEnergy() + this.ball2_.getKineticEnergy();
   // gravity potential = m g y
-  var pe = this.ball1_.getMass() * this.gravity_
+  let pe = this.ball1_.getMass() * this.gravity_
       * (this.ball1_.getPosition().getY() - this.lowestPoint_);
   pe += this.ball2_.getMass() * this.gravity_
       * (this.ball2_.getPosition().getY() - this.lowestPoint_);
@@ -319,8 +319,8 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   if (this.path_ == null)
     return;
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
   //  0   1   2   3   4   5   6   7
   // p1, v1, p2, v2, ke, pe, te, time
   if (simObject==this.ball1_)  {
@@ -354,19 +354,19 @@ evaluate(vars, change, timeStep) {
   // vars[0] is p = path length position.
   // move objects to position so that we can get force from spring
   this.moveObjects(vars); // also updates pathPoint1_, pathPoint2_
-  var springForces = this.spring_.calculateForces();
-  var k, sinTheta, tangent, force, f;
+  const springForces = this.spring_.calculateForces();
   if (this.dragObj_ != this.ball1_) {
     // FIRST BALL.
     change[0] = vars[1];  // p1' = v1
     // see Mathematica file 'roller.nb' for derivation of the following
     // let k = slope of curve. Then sin(theta) = k/sqrt(1+k^2)
     // Component due to gravity is v' = - g sin(theta) = - g k/sqrt(1+k^2)
-    k = this.pathPoint1_.slope;
-    sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
+    const k = this.pathPoint1_.slope;
+    const sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
     // v' = - g sin(theta) - (b/m) v= - g k/sqrt(1+k^2) - (b/m) v
     change[1] = -this.gravity_ * this.pathPoint1_.direction * sinTheta
         - this.damping_ * vars[1] / this.ball1_.getMass();
+    let tangent;
     // spring force
     if (!isFinite(k)) {
       tangent = new Vector(0, k>0 ? 1 : -1, 0);
@@ -376,20 +376,21 @@ evaluate(vars, change, timeStep) {
       if (tangent == null)
         throw '';
     }
-    force = springForces[0];
+    const force = springForces[0];
     asserts.assert( force.getBody() == this.ball1_);
-    f = force.getVector();
+    const f = force.getVector();
     change[1] += f.dotProduct(tangent) / this.ball1_.getMass();
   }
 
   if (this.dragObj_ != this.ball2_) {
     // SECOND BALL
     change[2] = vars[3];  // p2' = v2
-    k = this.pathPoint2_.slope;
-    sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
+    const k = this.pathPoint2_.slope;
+    const sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
     // v' = - g sin(theta) - (b/m) v= - g k/sqrt(1+k^2) - (b/m) v
     change[3] = -this.gravity_ * this.pathPoint2_.direction * sinTheta
         - this.damping_ * vars[3] / this.ball2_.getMass();
+    let tangent;
     // spring force
     if (!isFinite(k)) {
       tangent = new Vector(0, k>0 ? 1 : -1, 0);
@@ -399,9 +400,9 @@ evaluate(vars, change, timeStep) {
       if (tangent == null)
         throw '';
     }
-    force = springForces[1];
+    const force = springForces[1];
     asserts.assert( force.getBody() == this.ball2_);
-    f = force.getVector();
+    const f = force.getVector();
     change[3] += f.dotProduct(tangent) / this.ball2_.getMass();
   }
   return null;

@@ -68,8 +68,8 @@ Polygon.
 * @return {!ThrusterSet}
 */
 static make(magnitude, body) {
-  var ts = new ThrusterSet(6, body, magnitude);
-  for (var i=0; i<6; i++) {
+  const ts = new ThrusterSet(6, body, magnitude);
+  for (let i=0; i<6; i++) {
     ts.setThruster(i, SixThrusters.getLocationBody(i, body),
         SixThrusters.getDirectionBody(i, body));
   }
@@ -83,13 +83,14 @@ static make(magnitude, body) {
 * @private
 */
 static getLocationBody(index, body) {
-  var t_body = body.getDragPoints()[0];
-  if (index <= 2)
+  const t_body = body.getDragPoints()[0];
+  if (index <= 2) {
     return t_body;
+  }
   // reflect t thru centroid:
   //    t  <--- diff ----  centroid  --- (-diff) ----> t2
-  var centroid_body = body.getCentroidBody();
-  var diff = t_body.subtract(centroid_body);
+  const centroid_body = body.getCentroidBody();
+  const diff = t_body.subtract(centroid_body);
   return centroid_body.subtract(diff);
 };
 
@@ -100,10 +101,11 @@ static getLocationBody(index, body) {
 * @private
 */
 static getDirectionBody(index, body) {
-  if (index < 0 || index >= SixThrusters.thrustAngle.length)
+  if (index < 0 || index >= SixThrusters.thrustAngle.length) {
     return Vector.ORIGIN;
+  }
   // side thrusters are weaker
-  var tmag = (index==2 || index==3) ? 1.0 : 0.4;
+  const tmag = (index==2 || index==3) ? 1.0 : 0.4;
   // start with thrust pointing at zero degrees, then rotate it
   return new Vector(tmag, 0).rotate(SixThrusters.thrustAngle[index]);
 };

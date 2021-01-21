@@ -58,9 +58,9 @@ class CarSuspensionApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-7, -5, 7, 5);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-7, -5, 7, 5);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -91,7 +91,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, CarSuspensionApp.en.FORMATION,
       CarSuspensionApp.i18n.FORMATION,
       () => this.getFormation(), a => this.setFormation(a),
@@ -169,11 +169,11 @@ addSpring(s) {
 * @private
 */
 configure() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.springs = [];
-  var car = Shapes.makeBlock(5.0, 2.0, CarSuspensionApp.en.CAR,
+  const car = Shapes.makeBlock(5.0, 2.0, CarSuspensionApp.en.CAR,
       CarSuspensionApp.i18n.CAR);
   car.setMass(this.carMass);
   car.setPosition(new Vector(0,  -1),  0);
@@ -181,13 +181,13 @@ configure() {
   this.displayList.findShape(car).setFillStyle('lightGray');
   switch (this.formation) {
     case CarSuspensionApp.Formation.TWO_SPRINGS:
-      var wheel1 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+1,
+      const wheel1 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+1,
           CarSuspensionApp.i18n.WHEEL+1);
       wheel1.setMass(this.wheelMass);
       wheel1.setPosition(new Vector(-1.0,  -3.0),  0);
       this.mySim.addBody(wheel1);
       this.displayList.findShape(wheel1).setPrototype(this.protoWheel);
-      var wheel2 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+2,
+      const wheel2 = Shapes.makeBall(0.4, CarSuspensionApp.en.WHEEL+2,
           CarSuspensionApp.i18n.WHEEL+2);
       wheel2.setMass(this.wheelMass);
       wheel2.setPosition(new Vector(2.0,  -3.0),  0);
@@ -211,7 +211,7 @@ configure() {
           this.springLength, this.stiffness));
       break;
     case CarSuspensionApp.Formation.ROD_SPRING:
-      var p1 = Shapes.makePendulum(0.05, this.springLength, 0.4,
+      const p1 = Shapes.makePendulum(0.05, this.springLength, 0.4,
           CarSuspensionApp.en.WHEEL+1, CarSuspensionApp.i18n.WHEEL+1);
       p1.setAngle(0);
       this.mySim.addBody(p1);
@@ -225,7 +225,7 @@ configure() {
           car, new Vector(-2.1, -1.0),
           p1, Vector.ORIGIN,
           this.springLength, this.stiffness));
-      var p2 = Shapes.makePendulum(0.05, this.springLength, 0.4,
+      const p2 = Shapes.makePendulum(0.05, this.springLength, 0.4,
           CarSuspensionApp.en.WHEEL+2, CarSuspensionApp.i18n.WHEEL+2);
       p2.setAngle(0);
       this.mySim.addBody(p2);
@@ -284,7 +284,7 @@ getSpringDamping() {
 */
 setSpringDamping(value) {
   this.springDamping = value;
-  for (var i=0; i<this.springs.length; i++) {
+  for (let i=0; i<this.springs.length; i++) {
     this.springs[i].setDamping(this.springDamping);
   }
   this.broadcastParameter(CarSuspensionApp.en.SPRING_DAMPING);
@@ -302,7 +302,7 @@ getStiffness() {
 */
 setStiffness(value) {
   this.stiffness = value;
-  for (var i=0; i<this.springs.length; i++) {
+  for (let i=0; i<this.springs.length; i++) {
     this.springs[i].setStiffness(this.stiffness);
   }
   this.broadcastParameter(CarSuspensionApp.en.STIFFNESS);

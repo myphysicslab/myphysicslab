@@ -80,7 +80,7 @@ class BrachistoSim extends AbstractODESim {
 */
 constructor(paths, opt_name, opt_simList) {
   super(opt_name, opt_simList);
-  var plen = paths.length;
+  const plen = paths.length;
   /** keep track of our SimObjects so that we can erase them
   * @type {!Array<!SimObject>} simObjects
   * @private
@@ -116,7 +116,7 @@ constructor(paths, opt_name, opt_simList) {
   * @private
   */
   this.paths_ = new Array(plen);
-  for (var i=0; i<plen; i++) {
+  for (let i=0; i<plen; i++) {
     this.paths_[i] = new NumericalPath(paths[i]);
     this.getSimList().add(this.paths_[i]);
   }
@@ -125,7 +125,7 @@ constructor(paths, opt_name, opt_simList) {
       BrachistoSim.makeVarNames(paths, /*localized=*/true),
       this.getName()+'_VARS'));
   // the variables for x- and y- position and velocity are auto computed.
-  var cv = this.getVarsList().toArray().map(
+  const cv = this.getVarsList().toArray().map(
       v => {
         if (v.getName().match(/^.*_(X|Y)_(POSITION|VELOCITY)$/)) {
           v.setComputed(true);
@@ -165,8 +165,8 @@ getClassName() {
 * @private
 */
 static makeVarNames(paths, localized) {
-  var names = new Array(paths.length*4 + 1);
-  for (var i=0, len=names.length; i<len; i++) {
+  const names = new Array(paths.length*4 + 1);
+  for (let i=0, len=names.length; i<len; i++) {
     names[i] = BrachistoSim.getVariableName(i, paths, localized);
   }
   return names;
@@ -184,10 +184,10 @@ static getVariableName(i, paths, localized) {
   if (i==0) {
     return localized ? VarsList.i18n.TIME : VarsList.en.TIME;
   }
-  var j = (i-1) % 4;  // % is mod, so j tells what variable is wanted
-  var obj = Math.floor((i-1) / 4);  // which path: 0, 1, 2, etc.
-  var name = paths[obj].getName();
-  var type;
+  const j = (i-1) % 4;  // % is mod, so j tells what variable is wanted
+  const obj = Math.floor((i-1) / 4);  // which path: 0, 1, 2, etc.
+  const name = paths[obj].getName();
+  let type;
   if (j == 1) {
     type = localized ? BrachistoSim.i18n.VELOCITY : BrachistoSim.en.VELOCITY;
   } else {
@@ -228,22 +228,21 @@ instructions.
 */
 setPathChoice(choice) {
   this.choice_ = choice;
-  var i, len;
   // remove from simList all of our old objects
   this.getSimList().removeAll(this.simObjects_);
   this.simObjects_.length = 0; // clears the array
   // specify iniial conditions
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   va.setValue(0, 0);  // time
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...
   // set each ball to start at the same start point where x = 0
-  for (i=0, len=this.paths_.length; i<len; i++) {
+  for (let i=0, len=this.paths_.length; i<len; i++) {
     va.setValue(1 + 4*i, this.paths_[i].map_x_to_p(0.0));
     va.setValue(2 + 4*i, 0);  // start velocity is zero
   }
   this.saveInitialState();
-  var p = PointMass.makeCircle(0.2, 'start');
+  let p = PointMass.makeCircle(0.2, 'start');
   p.setPosition(new Vector(0,  0));
   p.setShape(ShapeType.RECTANGLE);
   this.simObjects_.push(p);
@@ -253,9 +252,9 @@ setPathChoice(choice) {
   this.simObjects_.push(p);
   // add ball objects, one for each path
   if (choice >= 0) {
-    len = this.balls_.length;
-    for (i=0; i<len; i++) {
-      var name = (i==choice) ? 'ball selected' : 'ball';
+    const len = this.balls_.length;
+    for (let i=0; i<len; i++) {
+      const name = (i==choice) ? 'ball selected' : 'ball';
       p = this.balls_[i] = PointMass.makeCircle(0.1, name);
       this.simObjects_.push(p);
     }
@@ -266,17 +265,17 @@ setPathChoice(choice) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...
-  for (var i=0, len=this.paths_.length; i<len; i++) {
+  for (let i=0, len=this.paths_.length; i<len; i++) {
     if (this.balls_[i] == null)
       continue;
-    var pathPoint = new PathPoint(vars[1+4*i]);
+    const pathPoint = new PathPoint(vars[1+4*i]);
     this.paths_[i].map_p_to_slope(pathPoint);
     this.balls_[i].setPosition(pathPoint);
-    var veloVector = pathPoint.getSlope().multiply(vars[2+4*i]);
+    const veloVector = pathPoint.getSlope().multiply(vars[2+4*i]);
     this.balls_[i].setVelocity(veloVector);
     // update x, y location in vars array
     va.setValue(3+ 4*i, pathPoint.getX(), /*continuous=*/true);
@@ -287,11 +286,11 @@ modifyObjects() {
 /** @override */
 startDrag(simObject, location, offset, dragBody, mouseEvent) {
   // find the closest path to this point.
-  var dist = Util.POSITIVE_INFINITY;
-  var closestPath = -1;
-  for (var i=0, len=this.paths_.length; i<len; i++) {
-    var pathPoint = this.paths_[i].findNearestGlobal(location);
-    var d = pathPoint.getPosition().distanceTo(location);
+  let dist = Util.POSITIVE_INFINITY;
+  let closestPath = -1;
+  for (let i=0, len=this.paths_.length; i<len; i++) {
+    const pathPoint = this.paths_[i].findNearestGlobal(location);
+    const d = pathPoint.getPosition().distanceTo(location);
     if (d < dist) { // found a closer path
       closestPath = i;
       dist = d;
@@ -318,21 +317,21 @@ evaluate(vars, change, timeStep) {
   //   0   1  2  3  4  5  6  7  8  9 10 11 12 ...
   // time p0 v0 x0 y0 p1 v1 x1 y1 p2 v2 x2 y2 ...
   change[0] = 1; // time
-  for (var i=0, len=this.balls_.length; i<len; i++) {
+  for (let i=0, len=this.balls_.length; i<len; i++) {
     if (this.balls_[i] == null) {
-      for (var j=1; j<=4; j++)
+      for (let j=1; j<=4; j++)
         change[j + 4*i] = 0;
       continue;
     }
     change[1 + 4*i] = vars[2 + 4*i];  // p' = v
     // calculate the slope at the given arc-length position on the curve
     // vars[1] is p = path length position.  xval is the corresponding x value.
-    var pathPoint = new PathPoint(vars[1 + 4*i]);
+    const pathPoint = new PathPoint(vars[1 + 4*i]);
     this.paths_[i].map_p_to_slope(pathPoint);
-    var k = pathPoint.slope;
+    const k = pathPoint.slope;
     // let k = slope of curve. Then sin(theta) = k/sqrt(1+k^2)
     // v' = - g sin(theta) = - g k/sqrt(1+k^2)
-    var sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
+    const sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
     change[2 + 4*i] = -this.gravity_*pathPoint.direction*sinTheta;
     // add friction damping:  - b*v/m
     change[2 + 4*i] -= this.damping_*vars[2 + 4*i]/this.balls_[i].getMass();
@@ -383,7 +382,7 @@ getMass() {
 */
 setMass(value) {
   this.mass_ = value;
-  for (var i=0, len=this.balls_.length; i<len; i++) {
+  for (let i=0, len=this.balls_.length; i<len; i++) {
     if (this.balls_[i] != null)
       this.balls_[i].setMass(value);
   }

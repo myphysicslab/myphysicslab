@@ -61,10 +61,10 @@ class Molecule6App extends AbstractApp {
 */
 constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Molecule3Sim();
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Molecule3Sim();
   sim.setDamping(0);
-  var advance = new CollisionAdvance(sim);
+  const advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -173,7 +173,7 @@ constructor(elem_ids, numAtoms) {
   this.displayList.add(this.residualEnergy_);
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addPlaybackControls();
   this.addParameter(pn = new ParameterNumber(this, Molecule6App.en.NUM_ATOMS,
@@ -194,7 +194,7 @@ constructor(elem_ids, numAtoms) {
   this.addControl(new NumericControl(pn));
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   this.addParameter(pb = new ParameterBoolean(this, Molecule6App.en.SHOW_NAMES,
       Molecule6App.i18n.SHOW_NAMES,
       () => this.getShowNames(),
@@ -249,8 +249,7 @@ constructor(elem_ids, numAtoms) {
     pn.setDecimalPlaces(5);
     this.addControl(new NumericControl(pn));
   }
-  var msm = this.msm_;
-  var len;
+  const msm = this.msm_;
   for (let i=0, len=msm.length; i<len; i++) {
     let idx1 = msm[i][0] + 1;
     let idx2 = msm[i][1] + 1;
@@ -285,9 +284,9 @@ constructor(elem_ids, numAtoms) {
   */
   this.ke_high_memo_ = new GenericMemo(() =>
     this.sim_.getAtoms().forEach((atom, idx) => {
-      var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
-      var ke_pct = ke_var.getValue();
-      var dispAtom = this.displayList.findShape(atom);
+      const ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
+      const ke_pct = ke_var.getValue();
+      const dispAtom = this.displayList.findShape(atom);
       if (ke_pct > this.ke_high_pct_) {
         dispAtom.setFillStyle('red');
       } else {
@@ -302,12 +301,12 @@ constructor(elem_ids, numAtoms) {
   */
   this.residualEnergy_memo_ = new GenericMemo(() => {
     if (!this.residualEnergySet_) {
-      var ei = this.sim_.getEnergyInfo();
+      const ei = this.sim_.getEnergyInfo();
       this.residualEnergySamples_.push(ei.getTranslational());
       if (this.residualEnergySamples_.length > 100) {
         this.residualEnergySamples_.shift();
       }
-      var max = array.reduce(this.residualEnergySamples_,
+      const max = array.reduce(this.residualEnergySamples_,
         function(prev, cur) {
           return Math.max(prev, cur);
         }, /*initial value=*/0);
@@ -348,13 +347,13 @@ addBody(obj) {
     return;
   }
   if (obj instanceof PointMass) {
-    var pm = /** @type {!PointMass} */(obj);
+    const pm = /** @type {!PointMass} */(obj);
     if (pm.getName().match(/^WALL/)) {
-      var walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
+      const walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
       this.displayList.add(walls);
     } else {
-      var dispAtom = new DisplayShape(pm);
-      var cm = 'gray';
+      const dispAtom = new DisplayShape(pm);
+      let cm = 'gray';
       if (!this.show_ke_high_) {
         switch (pm.getName()) {
           case 'ATOM1': cm = 'red'; break;
@@ -370,7 +369,7 @@ addBody(obj) {
       // perhaps show name of the atom
       if (this.showNames_) {
         dispAtom.setNameFont('12pt sans-serif');
-        var bg = this.layout.simCanvas.getBackground();
+        const bg = this.layout.simCanvas.getBackground();
         dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
       } else {
         dispAtom.setNameFont('');
@@ -379,8 +378,8 @@ addBody(obj) {
     }
   } else if (obj instanceof Spring || obj instanceof SpringNonLinear2) {
     if (this.showSprings_) {
-      var s = /** @type {!Spring} */(obj);
-      var dispSpring = new DisplaySpring(s, this.protoSpring);
+      const s = /** @type {!Spring} */(obj);
+      const dispSpring = new DisplaySpring(s, this.protoSpring);
       // display springs behind atoms.
       dispSpring.setZIndex(-1);
       this.displayList.add(dispSpring);
@@ -393,7 +392,7 @@ addBody(obj) {
 @private
 */
 rebuild() {
-  var atoms = this.sim_.getAtoms();
+  const atoms = this.sim_.getAtoms();
   atoms.forEach(atom => {
     this.removeBody(atom);
     this.addBody(atom);
@@ -405,7 +404,7 @@ rebuild() {
 @private
 */
 removeBody(obj) {
-  var dispObj = this.displayList.find(obj);
+  const dispObj = this.displayList.find(obj);
   if (dispObj) {
     this.displayList.remove(dispObj);
   }
@@ -414,7 +413,7 @@ removeBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
@@ -438,17 +437,17 @@ createAtoms() {
   // Reason: we store the mass and stiffness in the mass and spring objects.
   // This allows user choice of mass & stiffness to persist after changing
   // number of masses.
-  for (var i=0; i<6; i++) {
-    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
+  for (let i=0; i<6; i++) {
+    const atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
     this.atoms_.push(atom);
   }
   // Mass-Spring-Mass matrix says how springs & masses are connected
   // each row corresponds to a spring, with indices of masses connected to that spring.
-  var msm = this.msm_;
-  for (i=0; i<msm.length; i++) {
-    var atom1 = this.atoms_[msm[i][0]];
-    var atom2 = this.atoms_[msm[i][1]];
-    var spring = new SpringNonLinear2('spring '+i,
+  const msm = this.msm_;
+  for (let i=0; i<msm.length; i++) {
+    const atom1 = this.atoms_[msm[i][0]];
+    const atom2 = this.atoms_[msm[i][1]];
+    let spring = new SpringNonLinear2('spring '+i,
         atom1, Vector.ORIGIN, atom2, Vector.ORIGIN,
         /*restLength=*/3.0, /*stiffness=*/1.0, /*attract=*/this.attract_);
     spring.setDamping(0);
@@ -471,19 +470,19 @@ createAtoms() {
 * @private
 */
 config() {
-  var numAtoms = this.numAtoms_;
+  const numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw 'too many atoms '+numAtoms;
   }
   this.sim_.cleanSlate();
   this.resetResidualEnergy();
   // Add to simulation only the atoms requested.
-  for (var i=0; i<numAtoms; i++) {
+  for (let i=0; i<numAtoms; i++) {
     this.sim_.addAtom(this.atoms_[i]);
   }
-  var atoms = this.sim_.getAtoms();
+  const atoms = this.sim_.getAtoms();
   // add all springs that connect atoms in that set
-  var springs;
+  let springs;
   switch (this.springType_) {
     case Molecule6App.SpringType.LINEAR:
       springs = this.springsLinear_; break;
@@ -503,7 +502,7 @@ config() {
         return false;
       }
     });
-  for (i=0; i<springs.length; i++) {
+  for (let i=0; i<springs.length; i++) {
     this.sim_.addSpring(springs[i]);
   }
   this.initialPositions(numAtoms);
@@ -532,20 +531,20 @@ resetResidualEnergy() {
 * @private
 */
 addKEVars()  {
-  var sim = this.sim_;
-  var va = sim.getVarsList();
+  const sim = this.sim_;
+  const va = sim.getVarsList();
   for (let i=1; i<=this.numAtoms_; i++) {
-    var nm = 'ke'+i;
+    const nm = 'ke'+i;
     va.addVariable(new FunctionVariable(va, nm, nm,
       () => {
-        var atom1 = sim.getSimList().getPointMass('atom'+i);
+        const atom1 = sim.getSimList().getPointMass('atom'+i);
         return atom1.getKineticEnergy();
       }
     ));
-    var nm2 = 'ke'+i+' pct';
+    const nm2 = 'ke'+i+' pct';
     va.addVariable(new FunctionVariable(va, nm2, nm2,
       () => {
-        var atom = sim.getSimList().getPointMass('atom'+i);
+        const atom = sim.getSimList().getPointMass('atom'+i);
         return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
       }
     ));
@@ -558,13 +557,13 @@ addKEVars()  {
 * @private
 */
 initialPositions(numAtoms)  {
-  var vars = this.sim_.getVarsList().getValues();
+  const vars = this.sim_.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
-  var r = 1.0; // radius
-  for (var i=0; i<numAtoms; i++) {
-    var idx = Molecule3Sim.START_VAR + 4*i;
+  const r = 1.0; // radius
+  for (let i=0; i<numAtoms; i++) {
+    const idx = Molecule3Sim.START_VAR + 4*i;
     // note: don't set the positions randomly here. That destroys the ability to
     // use the "share" button to save and share a configuration.
     vars[idx + 0] = r * Math.cos(i*2*Math.PI/numAtoms);
@@ -644,8 +643,8 @@ getSpring(springs, index1, index2) {
   if (index2 < 1 || index2 > this.atoms_.length) {
     return null;
   }
-  var atom1 = this.atoms_[index1-1];
-  var atom2 = this.atoms_[index2-1];
+  const atom1 = this.atoms_[index1-1];
+  const atom2 = this.atoms_[index2-1];
   return array.find(springs, spr => {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
@@ -663,7 +662,7 @@ getSpring(springs, index1, index2) {
 @return {number} spring stiffness
 */
 getStiffness(index1, index2) {
-  var spr = this.getSpring(this.springsLinear_, index1, index2);
+  const spr = this.getSpring(this.springsLinear_, index1, index2);
   return spr ? spr.getStiffness() : 0;
 };
 
@@ -673,7 +672,7 @@ getStiffness(index1, index2) {
 @param {number} value spring stiffness
 */
 setStiffness(index1, index2, value) {
-  var spr = this.getSpring(this.springsLinear_, index1, index2);
+  let spr = this.getSpring(this.springsLinear_, index1, index2);
   if (!spr) {
     throw 'unknown spring connecting '+index1+'-'+index2;
   }
@@ -703,7 +702,7 @@ calcMinPE() {
   if (this.springType_ == Molecule6App.SpringType.PSEUDO_GRAVITY) {
     this.sim_.getSprings().forEach(spr => {
       if (spr instanceof SpringNonLinear2) {
-        var s2 = /** SpringNonLinear2 */(spr);
+        const s2 = /** SpringNonLinear2 */(spr);
         s2.calcMinPE();
       }
     });
@@ -800,7 +799,7 @@ setAttractForce(value) {
     this.attract_ = value;
     this.springsPseudoGravity_.forEach(spr => {
       if (spr instanceof SpringNonLinear2) {
-        var s2 = /** SpringNonLinear2 */(spr);
+        const s2 = /** SpringNonLinear2 */(spr);
         s2.setAttract(this.attract_);
       }
     });

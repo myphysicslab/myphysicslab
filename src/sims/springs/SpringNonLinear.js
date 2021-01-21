@@ -79,24 +79,24 @@ getClassName() {
 
 /** @override */
 calculateForces() {
-  var point1 = this.getStartPoint();
-  var point2 = this.getEndPoint();
-  var body1 = this.getBody1();
-  var body2 = this.getBody2();
-  var v = point2.subtract(point1);
-  var len = v.length();
+  const point1 = this.getStartPoint();
+  const point2 = this.getEndPoint();
+  const body1 = this.getBody1();
+  const body2 = this.getBody2();
+  const v = point2.subtract(point1);
+  const len = v.length();
   // force on body 1 is in direction of v
-  var sf = -this.getStiffness() * (6*Math.pow(len,-1) - Math.pow(len/2, -3));
+  const sf = -this.getStiffness() * (6*Math.pow(len,-1) - Math.pow(len/2, -3));
   // amount of force is proportional to stretch of spring
   // spring force is - stiffness * stretch
-  //var sf = -this.stiffness_ * (len - this.restLength_);
-  var fx = -sf * (v.getX() / len);
-  var fy = -sf * (v.getY() / len);
-  var f = new Vector(fx, fy, 0);
+  //const sf = -this.stiffness_ * (len - this.restLength_);
+  const fx = -sf * (v.getX() / len);
+  const fy = -sf * (v.getY() / len);
+  let f = new Vector(fx, fy, 0);
   if (this.getDamping() != 0) {
-      var v1 = body1.getVelocity(this.getAttach1());
-      var v2 = body2.getVelocity(this.getAttach2());
-      var df = v1.subtract(v2).multiply(-this.getDamping());
+      const v1 = body1.getVelocity(this.getAttach1());
+      const v2 = body2.getVelocity(this.getAttach2());
+      const df = v1.subtract(v2).multiply(-this.getDamping());
       f = f.add(df);
   }
   return [ new Force('spring', body1,
@@ -109,7 +109,7 @@ calculateForces() {
 
 /** @override */
 getPotentialEnergy() {
-  var len = this.getLength();
+  const len = this.getLength();
   return this.potentialEnergy(len) - this.minPE_;
 };
 
@@ -118,7 +118,7 @@ getPotentialEnergy() {
 @return {number} potential energy
 */
 potentialEnergy(len) {
-  var S = this.getStiffness();
+  const S = this.getStiffness();
   return S * (6 * Math.log(len) + 4/(len*len));
 };
 

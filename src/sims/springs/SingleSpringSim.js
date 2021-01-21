@@ -97,7 +97,7 @@ constructor(opt_name) {
   super(opt_name);
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
-  var var_names = [
+  const var_names = [
     SingleSpringSim.en.POSITION,
     SingleSpringSim.en.VELOCITY,
     SingleSpringSim.en.WORK_FROM_DAMPING,
@@ -107,7 +107,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     SingleSpringSim.i18n.POSITION,
     SingleSpringSim.i18n.VELOCITY,
     SingleSpringSim.i18n.WORK_FROM_DAMPING,
@@ -131,7 +131,7 @@ constructor(opt_name) {
   */
   this.fixedPoint_ = PointMass.makeSquare(0.5, 'fixed_point')
       .setMass(Util.POSITIVE_INFINITY);
-  var restLength = 2.5;
+  const restLength = 2.5;
   this.fixedPoint_.setPosition(new Vector(-restLength,  0));
   /**
   * @type {!Spring}
@@ -226,7 +226,7 @@ initWork() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -239,9 +239,9 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
-  var ke = this.block_.getKineticEnergy();
-  var pe = this.spring_.getPotentialEnergy() + this.potentialOffset_;
-  var work = vars[2];
+  const ke = this.block_.getKineticEnergy();
+  const pe = this.spring_.getPotentialEnergy() + this.potentialOffset_;
+  const work = vars[2];
   return new EnergyInfo(pe, ke, NaN, work, this.initialEnergy_);
 };
 
@@ -263,15 +263,15 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   vars[4] = rate[1]; // acceleration
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[5] = ei.getTranslational();
   vars[6] = ei.getPotential();
   vars[7] = ei.getTotalEnergy();
@@ -302,10 +302,10 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   // 0  1   2       3     4    5   6   7
   // x, v, work, time, accel, ke, pe, te
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   if (simObject == this.block_) {
     // don't allow vertical dragging, so only set horizontal component
-    var p = location.subtract(offset);
+    const p = location.subtract(offset);
     va.setValue(0, p.getX());
     va.setValue(1, 0);
     this.initWork();

@@ -139,7 +139,7 @@ constructor(opt_name) {
   super(opt_name);
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
-  var var_names = [
+  const var_names = [
     PendulumSim.en.ANGLE,
     PendulumSim.en.ANGULAR_VELOCITY,
     VarsList.en.TIME,
@@ -148,7 +148,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     PendulumSim.i18n.ANGLE,
     PendulumSim.i18n.ANGULAR_VELOCITY,
     VarsList.i18n.TIME,
@@ -279,7 +279,7 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -290,11 +290,11 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.bob_.getKineticEnergy();
-  var y = this.bob_.getPosition().getY();
+  const ke = this.bob_.getKineticEnergy();
+  const y = this.bob_.getPosition().getY();
   // center of pendulum is at origin. When bob.y = -length, this is lowest it can be.
   // So PE is zero when bob.y = -length.
-  var pe = this.gravity_ * this.bob_.getMass() * (y + this.length_);
+  const pe = this.gravity_ * this.bob_.getMass() * (y + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -315,11 +315,11 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   if (this.limitAngle_) {
     // limit the pendulum angle to +/- Pi
-    var angle = Util.limitAngle(vars[0]);
+    const angle = Util.limitAngle(vars[0]);
     if (angle != vars[0]) {
       // This also increases sequence number when angle crosses over
       // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -330,10 +330,10 @@ modifyObjects() {
   this.moveObjects(vars);
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   vars[3] = rate[1]; // angular acceleration
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[4] = ei.getTranslational();
   vars[5] = ei.getPotential();
   vars[6] = ei.getTotalEnergy();
@@ -347,21 +347,21 @@ modifyObjects() {
 moveObjects(vars) {
   //  0       1       2    3        4   5   6
   // angle, angle', time, angle'', ke, pe, te
-  var angle = vars[0];
-  var sinAngle = Math.sin(angle);
-  var cosAngle = Math.cos(angle);
+  const angle = vars[0];
+  const sinAngle = Math.sin(angle);
+  const cosAngle = Math.cos(angle);
   // set the position of the pendulum according to the angle
-  var len = this.length_;
+  const len = this.length_;
   this.bob_.setPosition(new Vector(this.pivot_.getX() + len * sinAngle,
       this.pivot_.getY() - len * cosAngle));
-  var vx = vars[1] * len * cosAngle;
-  var vy = vars[1] * len * sinAngle;
+  const vx = vars[1] * len * cosAngle;
+  const vy = vars[1] * len * sinAngle;
   this.bob_.setVelocity(new Vector(vx, vy));
   this.rod_.setStartPoint(this.pivot_);
   this.rod_.setEndPoint(this.bob_.getPosition());
 
   // show the driving torque as a line circling about origin
-  var t = this.frequency_ *vars[2];   // vars[2] = time
+  let t = this.frequency_ *vars[2];   // vars[2] = time
   // angle is the angle from the startAngle, so from -90 to 90 degrees
   t = 180*t/Math.PI;  // convert to degrees, starting at 0
   t = t - 360 *Math.floor(t/360);  // mod 360, range is 0 to 360
@@ -392,12 +392,12 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   if (simObject == this.bob_) {
     // only allow movement along circular arc
     // calculate angle theta given current mass position & width & origin setting, etc.
-    var p = location.subtract(offset).subtract(this.pivot_);
+    const p = location.subtract(offset).subtract(this.pivot_);
     vars[0] = Math.PI/2 + Math.atan2(p.getY(), p.getX());
     vars[1] = 0;
     va.setValues(vars);
@@ -428,9 +428,9 @@ evaluate(vars, change, timeStep) {
     // th' = v
     change[0] = vars[1];
     // v' = -(g/L) sin(th) - (b/mL^2) v + (A/mL^2) cos(k t)
-    var len = this.length_;
-    var dd = -(this.gravity_ / len)*Math.sin(vars[0]);
-    var mlsq = this.bob_.getMass() * len * len;
+    const len = this.length_;
+    let dd = -(this.gravity_ / len)*Math.sin(vars[0]);
+    const mlsq = this.bob_.getMass() * len * len;
     dd += -(this.damping_/mlsq) * vars[1];
     dd += (this.amplitude_/mlsq) * Math.cos(this.frequency_ * vars[2]);
     change[1] = dd;

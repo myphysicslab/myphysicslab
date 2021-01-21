@@ -47,7 +47,7 @@ class BrachistoApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var paths = [
+  const paths = [
       new BrachistoPaths.BrachistochronePath(),
       new BrachistoPaths.LinearPath(),
       new BrachistoPaths.CircleArcPath(),
@@ -55,9 +55,9 @@ constructor(elem_ids) {
       new BrachistoPaths.ParabolaUpPath(),
       new BrachistoPaths.ParabolaDownPath()
     ];
-  var simRect = new DoubleRect(-1, -3, 7, 1);
-  var sim = new BrachistoSim(paths);
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-1, -3, 7, 1);
+  const sim = new BrachistoSim(paths);
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*enerygSystem=*/null);
 
   /** @type {!Array<!ParametricPath>} **/
@@ -79,7 +79,7 @@ constructor(elem_ids) {
     if (evt.nameEquals(BrachistoSim.PATH_CHOSEN)) {
       this.clock.setTime(0);
       this.clock.setRealTime(0);
-      var choice = /** @type {number}*/ (evt.getValue());
+      const choice = /** @type {number}*/ (evt.getValue());
       if (choice == -1) {
         this.clock.pause();
       } else {
@@ -99,7 +99,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   pn = sim.getParameterNumber(BrachistoSim.en.GRAVITY);
   this.addControl(new NumericControl(pn));

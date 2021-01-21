@@ -52,9 +52,9 @@ class PileAttractApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-3, -3, 3, 3);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-3, -3, 3, 3);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -88,9 +88,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
       () => this.getNumBlocks(), a => this.setNumBlocks(a))
@@ -116,7 +116,7 @@ constructor(elem_ids) {
 
   this.addStandardControls();
 
-  var c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
+  const c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
   this.addControl(c);
 
   this.makeEasyScript();
@@ -157,7 +157,7 @@ getSubjects() {
 */
 config() {
   this.randomSeed = this.buildRNG.getSeed();
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
@@ -165,9 +165,9 @@ config() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var half = Math.floor(this.numBlocks/2);
-  var rest = this.numBlocks-half;
-  var blocks = PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/half,
+  const half = Math.floor(this.numBlocks/2);
+  const rest = this.numBlocks-half;
+  const blocks = PileConfig.makeRandomBlocks(this.mySim, /* num blocks=*/half,
       /* x=*/-half/2, /* y=*/1, this.buildRNG, /*rightAngle=*/this.squareBlocks);
   array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim,
       /* num blocks=*/rest, /* x=*/-half/2, /* y=*/-1, this.buildRNG,

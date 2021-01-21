@@ -64,7 +64,7 @@ constructor(parts, opt_name, opt_simList) {
   super(opt_name, opt_simList);
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
-  var var_names = [
+  const var_names = [
     RigidDoublePendulumSim.en.ANGLE_1,
     RigidDoublePendulumSim.en.ANGLE_1_VELOCITY,
     RigidDoublePendulumSim.en.ANGLE_2,
@@ -74,7 +74,7 @@ constructor(parts, opt_name, opt_simList) {
     EnergySystem.en.TOTAL_ENERGY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     RigidDoublePendulumSim.i18n.ANGLE_1,
     RigidDoublePendulumSim.i18n.ANGLE_1_VELOCITY,
     RigidDoublePendulumSim.i18n.ANGLE_2,
@@ -141,17 +141,17 @@ constructor(parts, opt_name, opt_simList) {
   */
   this.omega2_ = this.pendulum2_.getAngle();
   // figure out initial conditions from angles and angular velocity of pendulums
-  var theta1 = this.omega1_ + this.gamma1_;
-  var theta1_velocity = this.pendulum1_.getAngularVelocity();
-  var theta2 = this.omega2_ + this.gamma2_;
-  var theta2_velocity = this.pendulum2_.getAngularVelocity();
+  const theta1 = this.omega1_ + this.gamma1_;
+  const theta1_velocity = this.pendulum1_.getAngularVelocity();
+  const theta2 = this.omega2_ + this.gamma2_;
+  const theta2_velocity = this.pendulum2_.getAngularVelocity();
   // calculate length of vectors R1, L1, R2
-  var c1 = this.pendulum1_.getCenterOfMassBody();
-  var attach1_0 = this.pivot1_.getAttach2();
-  var r1 = c1.subtract(attach1_0);
-  var l1 = this.pivot2_.getAttach1().subtract(attach1_0);
-  var c2 = this.pendulum2_.getCenterOfMassBody();
-  var r2 = c2.subtract(this.pivot2_.getAttach2());
+  const c1 = this.pendulum1_.getCenterOfMassBody();
+  const attach1_0 = this.pivot1_.getAttach2();
+  const r1 = c1.subtract(attach1_0);
+  const l1 = this.pivot2_.getAttach1().subtract(attach1_0);
+  const c2 = this.pendulum2_.getCenterOfMassBody();
+  const r2 = c2.subtract(this.pivot2_.getAttach2());
   /** distance from pivot 1 to the center of mass of pendulum 1
   * @type {number}
   * @private
@@ -184,7 +184,7 @@ constructor(parts, opt_name, opt_simList) {
   this.potentialOffset_ = 0;
   // find zero energy level by moving to rest state
   // (for non-centered version, this is close to rest state, but not quite there).
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   vars[0] = 0;
   vars[1] = 0;
   vars[2] = 0;
@@ -248,32 +248,32 @@ is not along the vertical center line of either body, but is offset.
 static makeOffset(theta1, theta2, pivot) {
   pivot = pivot || Vector.ORIGIN;
   // body coords origin is at lower left corner with makeBlock2
-  var p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
+  const p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
       RigidDoublePendulumSim.i18n.PENDULUM+1);
   p1.setCenterOfMass(p1.getWidth()/3.0, p1.getHeight()*0.3);
   //p1.setDragPoints([ new Vector(p1.getWidth()/2.0, p1.getHeight()*0.2) ]);
   p1.setPosition(new Vector(0,  0),  theta1);
-  var p2 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+2,
+  const p2 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+2,
       RigidDoublePendulumSim.i18n.PENDULUM+2);
   p2.setPosition(new Vector(0,  0),  theta2);
   //p2.setDragPoints([ new Vector(p2.getWidth()/2.0, p2.getHeight()*0.2) ]);
-  var scrim = Scrim.getScrim();
-  var j1 = new Joint(
+  const scrim = Scrim.getScrim();
+  const j1 = new Joint(
       scrim, /*attach_body=*/pivot,
       p1, /*attach_body=*/new Vector(0.5*p1.getWidth(), 0.85*p1.getHeight()),
       CoordType.BODY, /*normal=*/Vector.NORTH
   );
-  var j2 = new Joint(
+  const j2 = new Joint(
       p1, /*attach1_body=*/new Vector(0.85*p1.getWidth(), 0.15*p1.getHeight()),
       p2, /*attach2_body=*/new Vector(0.15*p2.getWidth(), 0.85*p2.getHeight()),
       CoordType.BODY, /*normal=*/Vector.NORTH
   );
-  var j1_1 = new Joint(
+  const j1_1 = new Joint(
       scrim, /*attach_body=*/pivot,
       p1, j1.getAttach2(),
       CoordType.BODY, /*normal=*/Vector.EAST
   );
-  var j2_1 = new Joint(
+  const j2_1 = new Joint(
       p1, j2.getAttach1(),
       p2, j2.getAttach2(),
       CoordType.BODY, /*normal=*/Vector.EAST
@@ -292,29 +292,29 @@ each pendulum, and joints are along the vertical center line of each body.
 static makeCentered(theta1, theta2, pivot) {
   pivot = pivot || Vector.ORIGIN;
   // (body coords origin is at lower left corner with makeBlock2)
-  var p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
+  const p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
       RigidDoublePendulumSim.i18n.PENDULUM+1);
   p1.setPosition(new Vector(0,  0),  theta1);
-  var p2 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+2,
+  const p2 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+2,
       RigidDoublePendulumSim.i18n.PENDULUM+2);
   p2.setPosition(new Vector(0,  0),  theta2);
-  var scrim = Scrim.getScrim();
-  var j1 = new Joint(
+  const scrim = Scrim.getScrim();
+  const j1 = new Joint(
       scrim, /*attach_body=*/pivot,
       p1, /*attach_body=*/new Vector(0.5*p1.getWidth(), 0.85*p1.getHeight()),
       CoordType.BODY, /*normal=*/Vector.NORTH
   );
-  var j2 = new Joint(
+  const j2 = new Joint(
       p1, /*attach1_body=*/new Vector(0.5*p1.getWidth(), 0.15*p1.getHeight()),
       p2, /*attach2_body=*/new Vector(0.5*p2.getWidth(), 0.85*p2.getHeight()),
       CoordType.BODY, /*normal=*/Vector.NORTH
   );
-  var j1_1 = new Joint(
+  const j1_1 = new Joint(
       scrim, /*attach_body=*/pivot,
       p1, /*attach_body=*/j1.getAttach2(),
       CoordType.BODY, /*normal=*/Vector.EAST
   );
-  var j2_1 = new Joint(
+  const j2_1 = new Joint(
       p1, j2.getAttach1(),
       p2, j2.getAttach2(),
       CoordType.BODY, /*normal=*/Vector.EAST
@@ -334,7 +334,7 @@ with no forces other than gravity acting, then the angle of the pendulum would b
 */
 static getGamma(pendulum, pivot) {
   /** @type {!Vector} */
-  var attach;
+  let attach;
   if (pivot.getBody1() == pendulum) {
     attach = pivot.getAttach1();
   } else if (pivot.getBody2() == pendulum) {
@@ -342,13 +342,13 @@ static getGamma(pendulum, pivot) {
   } else {
     throw '';
   }
-  var v = attach.subtract(pendulum.getCenterOfMassBody());
+  const v = attach.subtract(pendulum.getCenterOfMassBody());
   return v.getAngle() - Math.PI/2;
 };
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -359,11 +359,11 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var p1 = this.pendulum1_;
-  var p2 = this.pendulum2_;
-  var ke = p1.translationalEnergy() + p2.translationalEnergy();
-  var re = p1.rotationalEnergy() + p2.rotationalEnergy();
-  var pe = this.gravity_ * p1.getMass() * p1.getPosition().getY()
+  const p1 = this.pendulum1_;
+  const p2 = this.pendulum2_;
+  const ke = p1.translationalEnergy() + p2.translationalEnergy();
+  const re = p1.rotationalEnergy() + p2.rotationalEnergy();
+  const pe = this.gravity_ * p1.getMass() * p1.getPosition().getY()
          + this.gravity_ * p2.getMass() * p2.getPosition().getY();
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };
@@ -385,10 +385,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
   va.setValue(4, ei.getTranslational() + ei.getRotational(), true);
@@ -403,15 +403,15 @@ modifyObjects() {
 moveObjects(vars) {
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
-  var sin_th1 = Math.sin(vars[0]);
-  var cos_th1 = Math.cos(vars[0]);
-  var sin_th2 = Math.sin(vars[2]);
-  var cos_th2 = Math.cos(vars[2]);
-  var sin_ph1 = Math.sin(vars[0] + this.phi_);
-  var cos_ph1 = Math.cos(vars[0] + this.phi_);
-  var R1 = this.R1_;
-  var R2 = this.R2_;
-  var L1 = this.L1_;
+  const sin_th1 = Math.sin(vars[0]);
+  const cos_th1 = Math.cos(vars[0]);
+  const sin_th2 = Math.sin(vars[2]);
+  const cos_th2 = Math.cos(vars[2]);
+  const sin_ph1 = Math.sin(vars[0] + this.phi_);
+  const cos_ph1 = Math.cos(vars[0] + this.phi_);
+  const R1 = this.R1_;
+  const R2 = this.R2_;
+  const L1 = this.L1_;
   this.pendulum1_.setPosition(new Vector(R1*sin_th1, -R1*cos_th1),
       vars[0] - this.gamma1_);
   this.pendulum1_.setVelocity(new Vector(vars[1]*R1*cos_th1, vars[1]*R1*sin_th1),
@@ -428,19 +428,19 @@ evaluate(vars, change, timeStep) {
   change[7] = 1; // time
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
-  var th1 = vars[0];
-  var dth1 = vars[1];
-  var th2 = vars[2];
-  var dth2 = vars[3];
-  var m1 = this.pendulum1_.getMass();
-  var m2 = this.pendulum2_.getMass();
-  var I1 = this.pendulum1_.momentAboutCM();
-  var I2 = this.pendulum2_.momentAboutCM();
-  var R1 = this.R1_;
-  var R2 = this.R2_;
-  var L1 = this.L1_;
-  var g = this.gravity_;
-  var phi = this.phi_;
+  const th1 = vars[0];
+  const dth1 = vars[1];
+  const th2 = vars[2];
+  const dth2 = vars[3];
+  const m1 = this.pendulum1_.getMass();
+  const m2 = this.pendulum2_.getMass();
+  const I1 = this.pendulum1_.momentAboutCM();
+  const I2 = this.pendulum2_.momentAboutCM();
+  const R1 = this.R1_;
+  const R2 = this.R2_;
+  const L1 = this.L1_;
+  const g = this.gravity_;
+  const phi = this.phi_;
   change[0] = dth1;
   change[1] = -((2*g*m1*R1*(I2 + m2*R2*R2)*Math.sin(th1) +
       L1*m2*(g*(2*I2 + m2*R2*R2)*Math.sin(th1 + phi) +
@@ -503,8 +503,8 @@ setInitialAngles() {
   this.reset();
   // figure out the new 'theta' angles
   // theta = omega + gamma, where omega is the rigid body angle.
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   vars[0] = this.omega1_ + this.gamma1_;
   vars[1] = 0;
   vars[2] = this.omega2_ + this.gamma2_;

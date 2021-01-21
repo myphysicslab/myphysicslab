@@ -52,39 +52,38 @@ constructor() {
 */
 static makeBikeTimerApp(sound_url) {
   Util.setErrorHandler();
-  var simDiv = window.document.getElementById('sim_applet');
+  const simDiv = window.document.getElementById('sim_applet');
   if (simDiv === null)
     throw 'cannot find sim_applet';
-  //var body = window.document.getElementById('body');
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
-  var simCanvas = new LabCanvas(canvas, 'canvas1');
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const simCanvas = new LabCanvas(canvas, 'canvas1');
   simCanvas.setSize(800, 500);
   simDiv.appendChild(simCanvas.getCanvas());
-  var simRect = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
-  var simView = new SimView('simView', simRect);
-  var timer = new Timer();
-  var clock = new Clock();
+  const simRect = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
+  const simView = new SimView('simView', simRect);
+  const timer = new Timer();
+  const clock = new Clock();
 
-  var dtext1 = new DisplayText('0.0', new Vector(2, -1));
+  const dtext1 = new DisplayText('0.0', new Vector(2, -1));
   dtext1.setFont('160pt sans-serif');
   dtext1.setTextAlign('center');
   dtext1.setTextBaseline('middle');
   simView.getDisplayList().add(dtext1);
 
   simCanvas.addView(simView);
-  var beep2 = new Audio(sound_url);
+  const beep2 = new Audio(sound_url);
   if (0 == 1) {
     beep2.play();  // pre-load the sound.
   }
 
-  var period = 10.1;
-  var startTime = 3.0;
-  var shouldBeep = true;
+  let period = 10.1;
+  let startTime = 3.0;
+  let shouldBeep = true;
 
   clock.setTime(-startTime);
   timer.setCallBack(() => {
-    var now = clock.getTime();
-    var t = period*Math.ceil(now/period) - now;
+    const now = clock.getTime();
+    const t = period*Math.ceil(now/period) - now;
     dtext1.setText(t.toFixed(1));
     //console.log('t='+t+' t2='+t2+' lastBeepTime='+lastBeepTime+' period='+period);
     if (t > period - 2) {
@@ -98,7 +97,7 @@ static makeBikeTimerApp(sound_url) {
     simCanvas.paint();
   });
 
-  var resetButton = document.getElementById('reset_button');
+  const resetButton = document.getElementById('reset_button');
   if (resetButton != null) {
     resetButton.onclick = () => {
       clock.pause();
@@ -107,18 +106,18 @@ static makeBikeTimerApp(sound_url) {
     };
   };
 
-  var stopButton = document.getElementById('stop_button');
+  const stopButton = document.getElementById('stop_button');
   if (stopButton != null) {
     stopButton.onclick = () => clock.pause();
   };
 
-  var startButton = document.getElementById('start_button');
+  const startButton = document.getElementById('start_button');
   if (startButton != null) {
     startButton.onclick = () => clock.resume();
   };
 
   // Find the period field which is defined in HTML
-  var field_period = /** @type {!HTMLInputElement} */
+  const field_period = /** @type {!HTMLInputElement} */
       (document.getElementById('period_field'));
   if (field_period != null) {
     field_period.textAlign = 'right'; // this is not working
@@ -126,7 +125,7 @@ static makeBikeTimerApp(sound_url) {
     events.listen(field_period, EventType.CHANGE,
       /*callback=*/event => {
         //console.log('period change '+field_period.value);
-        var value = parseFloat(field_period.value);
+        const value = parseFloat(field_period.value);
         if (isNaN(value)) {
           field_period.value = period.toFixed(1);
         } else {
@@ -135,7 +134,7 @@ static makeBikeTimerApp(sound_url) {
     });
   };
 
-  var field_start = /** @type {!HTMLInputElement} */
+  const field_start = /** @type {!HTMLInputElement} */
       (document.getElementById('start_field'));
   if (field_start != null) {
     field_start.textAlign = 'right'; // this is not working
@@ -143,7 +142,7 @@ static makeBikeTimerApp(sound_url) {
     events.listen(field_start, EventType.CHANGE,
       /*callback=*/event => {
         //console.log('startTime change '+field_start.value);
-        var value = parseFloat(field_start.value);
+        const value = parseFloat(field_start.value);
         if (isNaN(value)) {
           field_start.value = startTime.toFixed(1);
         } else {

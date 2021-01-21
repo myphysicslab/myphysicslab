@@ -34,13 +34,13 @@ class FastBallApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6.5, -6.5, 6.5, 6.5);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6.5, -6.5, 6.5, 6.5);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  var p = Shapes.makeBall(0.2, FastBallApp.en.FAST_BALL, FastBallApp.i18n.FAST_BALL);
+  const p = Shapes.makeBall(0.2, FastBallApp.en.FAST_BALL, FastBallApp.i18n.FAST_BALL);
   p.setMass(0.1);
   p.setPosition(new Vector(-5,  0),  0);
   p.setVelocity(new Vector(200,  153),  0);

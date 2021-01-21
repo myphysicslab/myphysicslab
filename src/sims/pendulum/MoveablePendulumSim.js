@@ -82,7 +82,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  var var_names = [
+  const var_names = [
     MoveablePendulumSim.en.ANGLE,
     MoveablePendulumSim.en.ANGULAR_VELOCITY,
     VarsList.en.TIME,
@@ -94,7 +94,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     MoveablePendulumSim.i18n.ANGLE,
     MoveablePendulumSim.i18n.ANGULAR_VELOCITY,
     VarsList.i18n.TIME,
@@ -283,20 +283,20 @@ To avoid the anchor wandering need `C = 0` therefore
 setAnchorYVelocity() {
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  var value = Math.abs(this.frequency_) < 1E-10 ? 0 :
+  const value = Math.abs(this.frequency_) < 1E-10 ? 0 :
       -this.amplitude_/this.frequency_;
   // calculate anchor_y velocity at time = this.initialState_[2]
   if (this.initialState_) {
     this.initialState_[6] = value * Math.cos(this.frequency_ * this.initialState_[2]);
   }
   // set value for current time
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   va.setValue(6, value * Math.cos(this.frequency_ * this.getTime()));
 };
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -309,10 +309,10 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // TO DO: This energy calc doesn't include motion from anchor moving.
   // Both kinetic and potential energy needs to be fixed.
-  var ke = this.bob_.getKineticEnergy();
-  var anchorY = this.anchor_.getPosition().getY();
-  var y = this.bob_.getPosition().getY();
-  var pe = this.gravity_ * this.bob_.getMass() *(y - anchorY + this.length_);
+  const ke = this.bob_.getKineticEnergy();
+  const anchorY = this.anchor_.getPosition().getY();
+  const y = this.bob_.getPosition().getY();
+  const pe = this.gravity_ * this.bob_.getMass() *(y - anchorY + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -333,10 +333,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var angle = Util.limitAngle(vars[0]);
+  const angle = Util.limitAngle(vars[0]);
   if (angle != vars[0]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -346,7 +346,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   va.setValue(7, ei.getTranslational(), true);
   va.setValue(8, ei.getPotential(), true);
   va.setValue(9, ei.getTotalEnergy(), true);
@@ -359,16 +359,16 @@ modifyObjects() {
 moveObjects(vars) {
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  var angle = vars[0];
-  var sinAngle = Math.sin(angle);
-  var cosAngle = Math.cos(angle);
+  const angle = vars[0];
+  const sinAngle = Math.sin(angle);
+  const cosAngle = Math.cos(angle);
   this.anchor_.setPosition(new Vector(vars[3],  vars[5]));
-  var len = this.length_;
+  const len = this.length_;
   this.bob_.setPosition(new Vector(vars[3] + len*sinAngle,  vars[5] - len*cosAngle));
   // TO DO: this velocity calc doesn't include motion from anchor moving.
   // needs to be fixed.
-  var vx = vars[1] * len * cosAngle;
-  var vy = vars[1] * len * sinAngle;
+  const vx = vars[1] * len * cosAngle;
+  const vy = vars[1] * len * sinAngle;
   this.bob_.setVelocity(new Vector(vx, vy));
   this.rod_.setStartPoint(this.anchor_.getPosition());
   this.rod_.setEndPoint(this.bob_.getPosition());
@@ -405,9 +405,9 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const p = location.subtract(offset);
   if (simObject == this.anchor_) {
     if (this.springDragging_) {
       // When running, apply spring force on the anchor mass.
@@ -424,7 +424,7 @@ mouseDrag(simObject, location, offset, mouseEvent) {
   } else if (simObject == this.bob_) {
     // only allow movement along circular arc
     // calculate angle current bob and anchor position
-    var th = Math.PI/2 + Math.atan2(p.getY()-vars[5], p.getX()-vars[3]);
+    const th = Math.PI/2 + Math.atan2(p.getY()-vars[5], p.getX()-vars[3]);
     va.setValue(0, th);
     va.setValue(1, 0);
   }
@@ -455,7 +455,7 @@ evaluate(vars, change, timeStep) {
   change[5] = vars[6]; // y_0 ' = v_{y0}
   // v_{x0}' = -b_0 v_{x0} + k (mouse_x - x_0)
   change[4] = -this.anchorDamping_*vars[4];
-  var mouse = this.mouse_.getPosition();
+  const mouse = this.mouse_.getPosition();
   if (this.springDragging_) {
     change[4] += this.springStiffness_*(mouse.getX() - vars[3]);
   }
@@ -467,11 +467,11 @@ evaluate(vars, change, timeStep) {
   }
   if (!this.pendulumDragging_) {
     change[0] = vars[1];  // \theta' = \Omega
-    var ddx0 = change[4];  // = v_{x0}' = x_0''
-    var ddy0 = change[6];  // = v_{y0}' = y_0''
-    var R = this.length_;
-    var dd = -(this.gravity_/R)*Math.sin(vars[0]);
-    var mRsq = this.bob_.getMass() * R * R;
+    const ddx0 = change[4];  // = v_{x0}' = x_0''
+    const ddy0 = change[6];  // = v_{y0}' = y_0''
+    const R = this.length_;
+    let dd = -(this.gravity_/R)*Math.sin(vars[0]);
+    const mRsq = this.bob_.getMass() * R * R;
     dd += -(this.damping_/mRsq) * vars[1];
     dd += -(ddx0/R) * Math.cos(vars[0]) - (ddy0 / R) * Math.sin(vars[0]);
     // \Omega' = -\frac{\cos(\theta)}{R} v_{x0}' - \frac{\sin(\theta)}{R} v_{y0}'

@@ -81,15 +81,15 @@ constructor(elem_ids, opt_name) {
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-3, -2, 3, 2);
   // set canvasWidth to 800, and canvasHeight proportional as in simRect.
-  var canvasWidth = 800;
-  var canvasHeight =
+  const canvasWidth = 800;
+  const canvasHeight =
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
 
   /** @type {!SingleSpringSim} */
   this.sim = new SingleSpringSim();
@@ -136,7 +136,7 @@ constructor(elem_ids, opt_name) {
   this.showClockParam = CommonControls.makeShowClockParam(this.displayClock,
       this.statusView, this);
 
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       /*resetFunc=*/ () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom);
@@ -166,14 +166,14 @@ constructor(elem_ids, opt_name) {
 
   // Demo of adding an ExpressionVariable.
   if (!Util.ADVANCED) {
-    var va = this.sim.getVarsList();
+    const va = this.sim.getVarsList();
     va.addVariable(new ExpressionVariable(va, 'sin_time', 'sin(time)',
         this.terminal, 'Math.sin(sim.getTime());'));
   }
 
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 
-  var pn = this.sim.getParameterNumber(SingleSpringSim.en.MASS);
+  let pn = this.sim.getParameterNumber(SingleSpringSim.en.MASS);
   this.addControl(new NumericControl(pn));
 
   pn = this.sim.getParameterNumber(SingleSpringSim.en.DAMPING);
@@ -195,12 +195,12 @@ constructor(elem_ids, opt_name) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
+  const ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
-  var subjects = [
+  const subjects = [
     this,
     this.sim,
     this.diffEqSolver,

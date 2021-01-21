@@ -93,7 +93,7 @@ constructor(elem_ids) {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  var t = this.terminal;
+  const t = this.terminal;
   t.addWhiteList(myName);
   t.addRegex('layout',
       myName+'.');

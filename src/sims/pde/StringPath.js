@@ -52,8 +52,8 @@ getClassName() {
 /** @override */
 getBoundsWorld() {
   // height is just a guess! Should get this info from StringShape?
-  var len = this.sim_.getLength();
-  var height = 1;
+  const len = this.sim_.getLength();
+  const height = 1;
   return new DoubleRect(0, -height, len, height);
 };
 
@@ -92,7 +92,7 @@ constructor(sim) {
 
 /** @override */
 nextPoint(point) {
-  var n = this.sim_.getNumPoints();
+  const n = this.sim_.getNumPoints();
   if (this.idx_ >=  n-1) {
     return false;
   }

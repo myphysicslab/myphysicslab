@@ -50,9 +50,9 @@ class Molecule3App extends AbstractApp {
 */
 constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Molecule3Sim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Molecule3Sim();
+  const advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -101,7 +101,7 @@ constructor(elem_ids, numAtoms) {
   this.config();
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addPlaybackControls();
   this.addParameter(pn = new ParameterNumber(this, Molecule3App.en.NUM_ATOMS,
@@ -182,12 +182,12 @@ addBody(obj) {
     return;
   }
   if (obj instanceof PointMass) {
-    var pm = /** @type {!PointMass} */(obj);
+    const pm = /** @type {!PointMass} */(obj);
     if (pm.getName().match(/^WALL/)) {
-      var walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
+      const walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
       this.displayList.add(walls);
     } else {
-      var cm = 'black';
+      let cm = 'black';
       switch (pm.getName()) {
         case 'ATOM1': cm = 'red'; break;
         case 'ATOM2': cm = 'blue'; break;
@@ -197,12 +197,12 @@ addBody(obj) {
         case 'ATOM6': cm = 'green'; break;
         default: cm = 'pink';
       }
-      var atom = new DisplayShape(pm).setFillStyle(cm);
+      const atom = new DisplayShape(pm).setFillStyle(cm);
       this.displayList.add(atom);
     }
   } else if (obj instanceof Spring) {
-    var s = /** @type {!Spring} */(obj);
-    var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
+    const s = /** @type {!Spring} */(obj);
+    const proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
         this.protoSpring;
     this.displayList.add(new DisplaySpring(s, proto));
   }
@@ -211,11 +211,11 @@ addBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }
@@ -228,7 +228,7 @@ observe(event) {
 * @private
 */
 config()  {
-  var numAtoms = this.numAtoms_;
+  const numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw 'too many atoms '+numAtoms;
   }
@@ -240,15 +240,15 @@ config()  {
   this.sg_ = Molecule3App.getSG(numAtoms);
   // Non-Special Group of springs. These are indices in springs_ array.
   this.nsg_ = Molecule3App.getNSG(this.msm_.length, this.sg_);
-  for (var i=0; i<numAtoms; i++) {
-    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
+  for (let i=0; i<numAtoms; i++) {
+    const atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
     this.sim_.addAtom(atom);
   }
-  var atoms = this.sim_.getAtoms();
-  for (i=0; i<this.msm_.length; i++) {
-    var special = this.sg_.includes(i);
-    var name = (special ? 'special ' : '') + 'spring '+i;
-    var spring = new Spring(name,
+  const atoms = this.sim_.getAtoms();
+  for (let i=0; i<this.msm_.length; i++) {
+    const special = this.sg_.includes(i);
+    const name = (special ? 'special ' : '') + 'spring '+i;
+    const spring = new Spring(name,
       atoms[this.msm_[i][0]], Vector.ORIGIN,
       atoms[this.msm_[i][1]], Vector.ORIGIN,
       /*restLength=*/3.0, /*stiffness=*/6.0);
@@ -307,8 +307,8 @@ static getSG(numAtoms) {
 * @private
 */
 static getNSG(num_springs, sg) {
-  var nsg = [];
-  for (var i=0; i<num_springs; i++) {
+  const nsg = [];
+  for (let i=0; i<num_springs; i++) {
     if (!sg.includes(i)) {
       nsg.push(i);
     }
@@ -322,20 +322,20 @@ static getNSG(num_springs, sg) {
 * @private
 */
 initialPositions(numAtoms)  {
-  var vars = this.sim_.getVarsList().getValues();
+  const vars = this.sim_.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11
   //      time KE  PE  TE  U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
-  var r = 1.0; // radius
-  for (var i=0; i<numAtoms; i++) {
-    var idx = Molecule3Sim.START_VAR + 4*i;
+  const r = 1.0; // radius
+  for (let i=0; i<numAtoms; i++) {
+    const idx = Molecule3Sim.START_VAR + 4*i;
     vars[idx + 0] = r * Math.cos(i*2*Math.PI/numAtoms);
     vars[idx + 1] = r * Math.sin(i*2*Math.PI/numAtoms);
   }
   this.sim_.getVarsList().setValues(vars);
   /*  rotating star for 4 masses
-  var v = 3;  // velocity
-  var l = 2;  // length of springs
+  const v = 3;  // velocity
+  const l = 2;  // length of springs
   // ball 1 at 90 degrees, vel=(-v,0)
   vars[5] = l;
   vars[6] = -v;
@@ -428,7 +428,7 @@ getLength() {
 @param {number} value spring resting length
 */
 setLength(value) {
-  for (var i=0; i<this.nsg_.length; i++) {
+  for (let i=0; i<this.nsg_.length; i++) {
     this.sim_.getSprings()[this.nsg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
@@ -450,7 +450,7 @@ getLengthSpecial() {
 @param {number} value spring resting length
 */
 setLengthSpecial(value) {
-  for (var i=0; i<this.sg_.length; i++) {
+  for (let i=0; i<this.sg_.length; i++) {
     this.sim_.getSprings()[this.sg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
@@ -472,7 +472,7 @@ getStiffness() {
 @param {number} value spring stiffness
 */
 setStiffness(value) {
-  for (var i=0; i<this.nsg_.length; i++) {
+  for (let i=0; i<this.nsg_.length; i++) {
     this.sim_.getSprings()[this.nsg_[i]].setStiffness(value);
   }
   // discontinuous change in energy
@@ -493,7 +493,7 @@ getStiffnessSpecial() {
 @param {number} value spring stiffness of special group of springs
 */
 setStiffnessSpecial(value) {
-  for (var i=0; i<this.sg_.length; i++) {
+  for (let i=0; i<this.sg_.length; i++) {
     this.sim_.getSprings()[this.sg_[i]].setStiffness(value);
   }
   // discontinuous change in energy

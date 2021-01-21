@@ -96,10 +96,10 @@ constructor(elem_ids) {
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var sim_controls = this.layout.sim_controls;
-  var simCanvas = this.layout.simCanvas;
+  const sim_controls = this.layout.sim_controls;
+  const simCanvas = this.layout.simCanvas;
 
-  var length = 13.5;
+  const length = 13.5;
   /** @type {!Array<!StringShape>} */
   this.shapes = [
       new StringShapes.FlatShape(length),
@@ -152,9 +152,9 @@ constructor(elem_ids) {
       .setTextAlign('center');
   this.statusView.getDisplayList().add(this.blockText);
   this.statusView.addMemo(new GenericMemo( () => {
-    var map1 = this.simView.getCoordMap();
-    var map2 = this.statusView.getCoordMap();
-    var loc = map1.simToScreen(this.blockMass.getPosition());
+    const map1 = this.simView.getCoordMap();
+    const map2 = this.statusView.getCoordMap();
+    const loc = map1.simToScreen(this.blockMass.getPosition());
     this.blockText.setPosition(map2.screenToSim(loc));
   }, 'blockText follows blockMass'));
 
@@ -169,17 +169,17 @@ constructor(elem_ids) {
       .setStrokeStyle('gray');
   this.statusView.getDisplayList().add(this.showShadow);
   this.statusView.addMemo(new GenericMemo( () => {
-    var map1 = this.simView.getCoordMap();
-    var map2 = this.statusView.getCoordMap();
+    const map1 = this.simView.getCoordMap();
+    const map2 = this.statusView.getCoordMap();
     // set width and height of shadow to match blockMass
-    var w = this.blockMass.getWidth();
-    var w2 = w*map1.getScaleX()/map2.getScaleX();
+    const w = this.blockMass.getWidth();
+    const w2 = w*map1.getScaleX()/map2.getScaleX();
     this.shadow.setWidth(w2);
-    var h = this.blockMass.getHeight();
-    var h2 = h*map1.getScaleY()/map2.getScaleY();
+    const h = this.blockMass.getHeight();
+    const h2 = h*map1.getScaleY()/map2.getScaleY();
     this.shadow.setHeight(h2);
     // set position of shadow to match blockMass
-    var loc = map1.simToScreen(this.blockMass.getPosition());
+    const loc = map1.simToScreen(this.blockMass.getPosition());
     this.shadow.setPosition(map2.screenToSim(loc));
   }, 'shadow outline follows blockMass'));
 
@@ -193,7 +193,7 @@ constructor(elem_ids) {
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(this.sim, evt => {
     this.sim.modifyObjects();
-    var s = this.sim.getStability();
+    const s = this.sim.getStability();
     if (this.stability != s) {
       this.stabilityText.setText('stability = '+Util.NF5(s));
       this.stability = s;
@@ -217,19 +217,19 @@ constructor(elem_ids) {
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 
   // make array of shape name strings for the SHAPE parameter
-  var sn = [];
-  var snl = [];
-  for (var i=0; i<this.shapes.length; i++) {
+  const sn = [];
+  const snl = [];
+  for (let i=0; i<this.shapes.length; i++) {
     sn.push(this.shapes[i].getName(/*localized=*/false));
     snl.push(this.shapes[i].getName(/*localized=*/true));
   }
-  var ps = new ParameterString(this, StringSim.en.SHAPE,
+  const ps = new ParameterString(this, StringSim.en.SHAPE,
       StringSim.i18n.SHAPE,
       () => this.getShape(), a => this.setShape(a), snl, sn);
   this.addParameter(ps);
   this.addControl(new ChoiceControl(ps));
 
-  var pn = this.sim.getParameterNumber(StringSim.en.NUM_POINTS);
+  let pn = this.sim.getParameterNumber(StringSim.en.NUM_POINTS);
   this.addControl(new NumericControl(pn));
   pn = this.sim.getParameterNumber(StringSim.en.DENSITY);
   this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
@@ -260,17 +260,17 @@ constructor(elem_ids) {
       () => this.clock.getRealTime(), /*period=*/2, /*radius=*/2);
   this.displayClock.setPosition(new Vector(8, 4));
   /** @type {!ParameterBoolean} */
-  var pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
+  let pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom);
   pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   pb.setValue(false);
   this.addControl(new CheckBoxControl(pb));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
   // keep the SimRunner's timeStep to be same as the Simulation's timeStep
@@ -280,7 +280,7 @@ constructor(elem_ids) {
     }
   }, 'keep SimRunner\'s timeStep same as Simulation\'s');
 
-  var subjects = [
+  let subjects = [
     this,
     this.sim,
     this.simRun,
@@ -325,8 +325,8 @@ getShape() {
 * @param {string} value  name of initial string shape
 */
 setShape(value) {
-  for (var i=0; i<this.shapes.length; i++) {
-    var shape = this.shapes[i];
+  for (let i=0; i<this.shapes.length; i++) {
+    const shape = this.shapes[i];
     if (shape.getName() == value) {
       this.sim.setShape(shape);
       this.broadcastParameter(StringSim.en.SHAPE);

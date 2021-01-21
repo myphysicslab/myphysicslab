@@ -56,9 +56,9 @@ class RollerDoubleApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new RollerDoubleSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new RollerDoubleSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   //this.layout.simCanvas.setBackground('black');
@@ -97,9 +97,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));
   pn = sim.getParameterNumber(RollerDoubleSim.en.GRAVITY);

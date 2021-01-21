@@ -77,9 +77,9 @@ class RigidBodyRollerApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -127,9 +127,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));
 
@@ -204,7 +204,7 @@ config() {
     this.simRun.removeMemo(this.pathAction);
     this.pathAction = null;
   }
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.gravityLaw);
@@ -218,7 +218,7 @@ config() {
   this.displayList.findShape(this.block).setFillStyle('rgba(51,204,255,0.5)')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
 
-  var attach = this.block.getDragPoints()[1];
+  const attach = this.block.getDragPoints()[1];
   this.pathJoint = new PathJoint(this.path, this.block, attach);
   this.mySim.addConnector(this.pathJoint);
   this.mySim.alignConnectors();
@@ -226,7 +226,7 @@ config() {
   if (this.path.nameEquals(CirclePath.en.NAME)) {
     if (0 == 1) {
       // stop-point at 45 degrees southwest of center.
-      var endPt = this.path.findNearestGlobal(new Vector(-2, -2));
+      const endPt = this.path.findNearestGlobal(new Vector(-2, -2));
       this.mySim.addConnector(new PathEndPoint('stop point', this.path, this.block,
         attach, endPt.p, /*upperLimit=*/true));
     }
@@ -241,9 +241,9 @@ config() {
       attach, this.path.getFinishPValue() - 0.1, /*upperLimit=*/true));
     // This demonstrates disconnecting the block from path when the block reaches
     // a certain point on the path.
-    var disconnectPt = 3*this.path.getFinishPValue()/4;
+    const disconnectPt = 3*this.path.getFinishPValue()/4;
     this.pathAction = new GenericMemo(() => {
-      var ppt = this.pathJoint.getPathPoint();
+      const ppt = this.pathJoint.getPathPoint();
       if (ppt.p > disconnectPt) {
         // disconnect the block from the path
         this.mySim.removeConnector(this.pathJoint);
@@ -251,8 +251,8 @@ config() {
     }, 'disconnect block from path');
     this.simRun.addMemo(this.pathAction);
     // add a dummy joint to show where the 'disconnect block' happens
-    var dpt = this.path.map_p_to_vector(disconnectPt);
-    var dj = new PathJoint(this.path, Scrim.getScrim(), dpt);
+    const dpt = this.path.map_p_to_vector(disconnectPt);
+    const dj = new PathJoint(this.path, Scrim.getScrim(), dpt);
     this.mySim.getSimList().add(dj);
     // Add back the PathJoint when a RESET event occurs.
     this.resetObserver = new GenericObserver(this.mySim, evt => {
@@ -263,16 +263,16 @@ config() {
     }, 'Add back PathJoint on RESET event');
   }
   // add variables that tell path distance & velocity
-  var va = this.mySim.getVarsList();
-  var varP = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_POSITION,
+  const va = this.mySim.getVarsList();
+  const varP = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_POSITION,
       RigidBodyRollerApp.i18n.PATH_POSITION,
       () => this.pathJoint.getPathPoint().p);
   va.addVariable(varP);
-  var varPV = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_VELOCITY,
+  const varPV = new FunctionVariable(va, RigidBodyRollerApp.en.PATH_VELOCITY,
       RigidBodyRollerApp.i18n.PATH_VELOCITY,
       () => {
-        var ppt = this.pathJoint.getPathPoint();
-        var vel = this.block.getVelocity(this.pathJoint.getAttach1());
+        const ppt = this.pathJoint.getPathPoint();
+        const vel = this.block.getVelocity(this.pathJoint.getAttach1());
         return vel.dotProduct(new Vector(ppt.slopeX, ppt.slopeY));
       });
   va.addVariable(varPV);

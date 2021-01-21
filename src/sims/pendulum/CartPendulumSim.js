@@ -87,7 +87,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  var var_names = [
+  const var_names = [
     CartPendulumSim.en.CART_POSITION,
     CartPendulumSim.en.PENDULUM_ANGLE,
     CartPendulumSim.en.CART_VELOCITY,
@@ -98,7 +98,7 @@ constructor(opt_name) {
     EnergySystem.en.TOTAL_ENERGY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     CartPendulumSim.i18n.CART_POSITION,
     CartPendulumSim.i18n.PENDULUM_ANGLE,
     CartPendulumSim.i18n.CART_VELOCITY,
@@ -109,7 +109,7 @@ constructor(opt_name) {
     EnergySystem.i18n.TOTAL_ENERGY,
     VarsList.i18n.TIME
   ];
-  var va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
+  const va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
   this.setVarsList(va);
   va.setComputed(4, 5, 6, 7);
   /**
@@ -243,7 +243,7 @@ initWork() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -256,12 +256,12 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  var ke = this.cart_.getKineticEnergy();
+  let ke = this.cart_.getKineticEnergy();
   ke += this.pendulum_.getKineticEnergy();
-  var pe = this.spring_.getPotentialEnergy();
-  var y = this.pendulum_.getPosition().getY();
+  let pe = this.spring_.getPotentialEnergy();
+  const y = this.pendulum_.getPosition().getY();
   pe += this.gravity_ * this.pendulum_.getMass() * (y + this.length_);
-  var work = vars[4];
+  const work = vars[4];
   return new EnergyInfo(pe + this.potentialOffset_, ke, /*rotational=*/NaN, work,
        this.initialEnergy_);
 };
@@ -283,10 +283,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var angle = Util.limitAngle(vars[1]);
+  const angle = Util.limitAngle(vars[1]);
   if (angle != vars[1]) {
     // Increase sequence number of angle variable when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -296,7 +296,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   va.setValue(5, ei.getTranslational(), true);
   va.setValue(6, ei.getPotential(), true);
   va.setValue(7, ei.getTotalEnergy(), true);
@@ -309,16 +309,16 @@ modifyObjects() {
 moveObjects(vars) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  var angle = vars[1];
-  var sinAngle = Math.sin(angle);
-  var cosAngle = Math.cos(angle);
+  const angle = vars[1];
+  const sinAngle = Math.sin(angle);
+  const cosAngle = Math.cos(angle);
   this.cart_.setPosition(new Vector(vars[0],  0));
   this.cart_.setVelocity(new Vector(vars[2], 0, 0));
   this.pendulum_.setPosition(new Vector(
       this.cart_.getPosition().getX() + this.length_*sinAngle,
       this.cart_.getPosition().getY() - this.length_*cosAngle));
-  var vx = vars[2] + this.length_*vars[3]*cosAngle;
-  var vy = this.length_*vars[3]*sinAngle;
+  const vx = vars[2] + this.length_*vars[3]*cosAngle;
+  const vy = this.length_*vars[3]*sinAngle;
   this.pendulum_.setVelocity(new Vector(vx, vy));
   this.rod_.setStartPoint(this.cart_.getPosition());
   this.rod_.setEndPoint(this.pendulum_.getPosition());
@@ -336,21 +336,21 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  var p = location.subtract(offset);
+  const p = location.subtract(offset);
   if (simObject == this.cart_) {
     vars[0] = p.getX();
     vars[2] = 0;
     vars[3] = 0;
   } else if (simObject == this.pendulum_) {
-    var x1 = vars[0]; // center of cart
-    var y1 = 0;
-    var x2 = p.getX();  //  center of pendulum
-    var y2 = p.getY();
-    var th = Math.atan2(x2-x1, -(y2-y1));
+    const x1 = vars[0]; // center of cart
+    const y1 = 0;
+    const x2 = p.getX();  //  center of pendulum
+    const y2 = p.getY();
+    const th = Math.atan2(x2-x1, -(y2-y1));
     vars[1] = th;
     vars[2] = 0;
     vars[3] = 0;
@@ -376,17 +376,17 @@ evaluate(vars, change, timeStep) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
   if (!this.isDragging_) {
-    var m = this.pendulum_.getMass(); // pendulum mass
-    var M = this.cart_.getMass(); // cart mass
-    var L = this.length_;  // length of pendulum rod
-    var k = this.spring_.getStiffness();
-    var sh = Math.sin(vars[1]);  // sin(h)
-    var csh = Math.cos(vars[1]); // cos(h)
+    const m = this.pendulum_.getMass(); // pendulum mass
+    const M = this.cart_.getMass(); // cart mass
+    const L = this.length_;  // length of pendulum rod
+    const k = this.spring_.getStiffness();
+    const sh = Math.sin(vars[1]);  // sin(h)
+    const csh = Math.cos(vars[1]); // cos(h)
     change[0] = vars[2];  //x' = v
     change[1] = vars[3];  //h' = w
     //v' = (m w^2 L sin(h) + m g sin(h) cos(h) - k x - d v + b w cos(h)/L)
     //     /(M + m sin^2(h))
-    var numer = m*vars[3]*vars[3]*L*sh + m*this.gravity_*sh*csh - k*vars[0]
+    let numer = m*vars[3]*vars[3]*L*sh + m*this.gravity_*sh*csh - k*vars[0]
           - this.dampingCart_*vars[2] + this.dampingPendulum_*vars[3]*csh/L;
     change[2] = numer/(M + m*sh*sh);
     //w' = ( -m w^2 L sin(h) cos(h) + k x cos(h) - (M + m) g sin(h) + d v cos(h)

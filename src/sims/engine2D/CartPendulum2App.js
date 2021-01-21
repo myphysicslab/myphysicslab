@@ -55,9 +55,9 @@ class CartPendulum2App extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-3, -2, 3, 2);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-3, -2, 3, 2);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -76,7 +76,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));
   this.watchEnergyChange(pn);
@@ -134,34 +134,34 @@ getSubjects() {
 * @private
 */
 configure() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   // wall pivot point is where in world space the pivot is
-  var wallPivotX = -0.85;
-  var wallPivotY = 0;
-  var displacement = 0.13; //=(6.0/5.83)*0.13; initial displacement; to match other sim.
+  const wallPivotX = -0.85;
+  const wallPivotY = 0;
+  const displacement = 0.13; //=(6.0/5.83)*0.13; initial displacement; to match other sim.
 
   // the cart (on track)
-  var cart = Shapes.makeBlock2(0.3, 1.0, CartPendulum2App.en.CART,
+  const cart = Shapes.makeBlock2(0.3, 1.0, CartPendulum2App.en.CART,
       CartPendulum2App.i18n.CART);
-  var pivotX = 0.5*cart.getWidth();
-  var pivot1Y = 0.85*cart.getHeight();
-  var pivot2Y = 0.15*cart.getHeight();
-  var bodyX = 0.3*cart.getWidth(); // was 0.5
-  var bodyY = 0.5*cart.getHeight();
+  const pivotX = 0.5*cart.getWidth();
+  const pivot1Y = 0.85*cart.getHeight();
+  const pivot2Y = 0.15*cart.getHeight();
+  const bodyX = 0.3*cart.getWidth(); // was 0.5
+  const bodyY = 0.5*cart.getHeight();
   //cart.setDragPoints([Vector.ORIGIN]);
   this.mySim.addBody(cart);
   this.displayList.findShape(cart).setFillStyle('rgb(200,200,200)');
 
   // the pendulum
-  var pendulum = Shapes.makePendulum(/*stickwidth=*/0.03,
+  const pendulum = Shapes.makePendulum(/*stickwidth=*/0.03,
       /*sticklength=*/1.0, /*radius=*/0.15, CartPendulum2App.en.PENDULUM,
       CartPendulum2App.i18n.PENDULUM);
   //pendulum.setDragPoints(
   //    [new Vector(0.5*pendulum.getWidth(), 0.15*pendulum.getHeight())]);
-  //var otherBodyX = .5* pendulum.getWidth();
-  //var otherBodyY = .85* pendulum.getHeight();
+  //const otherBodyX = .5* pendulum.getWidth();
+  //const otherBodyY = .85* pendulum.getHeight();
   this.mySim.addBody(pendulum);
   this.displayList.findShape(pendulum).setFillStyle('#B0C4DE').setDrawCenterOfMass(true);
   //this.mySim.addBody(this.mySim.getScrim());
@@ -180,17 +180,17 @@ configure() {
   // Make joints to keep the cart on the track.
   // These joints are only pushing vertically, one joint is forward,
   // the other aft on the body.
-  var pivot1_body = new Vector(pivotX, pivot1Y);
-  var fixed1_world = cart.bodyToWorld(pivot1_body);
-  var j1 = new Joint(
+  const pivot1_body = new Vector(pivotX, pivot1Y);
+  const fixed1_world = cart.bodyToWorld(pivot1_body);
+  const j1 = new Joint(
     cart, pivot1_body,
     Scrim.getScrim(), fixed1_world,
     CoordType.WORLD, Vector.SOUTH
     );
   this.mySim.addConnector(j1);
-  var pivot2_body = new Vector(pivotX, pivot2Y);
-  var fixed2_world = cart.bodyToWorld(pivot2_body);
-  var j2 = new Joint(
+  const pivot2_body = new Vector(pivotX, pivot2Y);
+  const fixed2_world = cart.bodyToWorld(pivot2_body);
+  const j2 = new Joint(
     cart, pivot2_body,
     Scrim.getScrim(), fixed2_world,
     CoordType.WORLD, Vector.SOUTH
@@ -208,11 +208,11 @@ configure() {
   cart.setZeroEnergyLevel(cart.getPosition().getY());
   pendulum.setZeroEnergyLevel(pendulum.getPosition().getY());
 
-  var Icm = pendulum.momentAboutCM();
+  const Icm = pendulum.momentAboutCM();
   // distance from pivot to CM on the pendulum
-  //var R = otherBodyY-bods[1].cmy;
-  var R = 0.5;
-  var r = (Icm/(pendulum.getMass() * R)) + R;
+  //const R = otherBodyY-bods[1].cmy;
+  let R = 0.5;
+  let r = (Icm/(pendulum.getMass() * R)) + R;
   //console.log('Icm='+Icm+' R='+R+'  r='+r);
   // parallel axis theorem: I = Icm + m R^2
   // equation of motion:  th'' = torque / rotational inertia
@@ -282,8 +282,8 @@ setStiffness(value) {
 
 /** @override */
 graphSetup(body) {
-  var cart = this.mySim.getBody('cart');
-  var pendulum = this.mySim.getBody('pendulum');
+  const cart = this.mySim.getBody('cart');
+  const pendulum = this.mySim.getBody('pendulum');
   this.graph.line.setXVariable(cart.getVarsIndex()+0); // x position
   this.graph.line.setYVariable(pendulum.getVarsIndex()+4); // angle
   this.timeGraph.line1.setYVariable(cart.getVarsIndex()+0); // x position

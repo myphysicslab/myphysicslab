@@ -72,21 +72,21 @@ toStringShort() {
 
 /** @override */
 contains(p_world) {
-  var p_body = this.wheel_.worldToBody(p_world);
+  const p_body = this.wheel_.worldToBody(p_world);
   return this.wheel_.getBoundsBody().contains(p_body);
 };
 
 /** @override */
 draw(context, map) {
-  var r = this.wheel_.getWidth() / 2;
+  const r = this.wheel_.getWidth() / 2;
   context.save();
   /** @type {!AffineTransform} */
-  var sim_to_screen = map.getAffineTransform(); // sim to screen transform
+  const sim_to_screen = map.getAffineTransform(); // sim to screen transform
   // sim_to_screen_units = scaling factor to go from sim units to screen units (pixels)
-  var sim_to_screen_units = 1/map.getScaleX();
+  const sim_to_screen_units = 1/map.getScaleX();
 
   // draw in body coords (rotated by angle of wheel).
-  var body_to_screen =
+  const body_to_screen =
       sim_to_screen.concatenate(this.wheel_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
   // draw the circle representing the wheel
@@ -107,10 +107,10 @@ draw(context, map) {
   context.strokeStyle = 'red';
   context.stroke();
   // draw spokes
-  for (var i=0; i<this.spokes_; i++) {
+  for (let i=0; i<this.spokes_; i++) {
     context.beginPath();
     context.moveTo(0, 0);
-    var a = i * 2 * Math.PI / this.spokes_;
+    const a = i * 2 * Math.PI / this.spokes_;
     context.lineTo(r * Math.cos(a), r * Math.sin(a));
     context.strokeStyle = i == 0 ? 'red' : 'black';
     context.stroke();

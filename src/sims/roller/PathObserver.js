@@ -46,7 +46,7 @@ there are two approaches:
 
 Modify the DisplayPath's style directly, for example:
 
-    var dispPath1 = simView.getDisplayList().find(path1);
+    const dispPath1 = simView.getDisplayList().find(path1);
     dispPath1.setStyle(0, DrawingStyle.lineStyle('red', 2));
 
 #### 2. Modify the prototype
@@ -60,7 +60,7 @@ changes made to the prototype.
 
 Here is an example where we set the prototype to have a thin blue line.
 
-    var pathObs = new PathObserver(simList, simView, null);
+    const pathObs = new PathObserver(simList, simView, null);
     pathObs.protoDisplayPath.setStyle(0, DrawingStyle.lineStyle('blue', 1));
 
 ### Resize the SimView to match NumericalPath
@@ -148,21 +148,21 @@ addPath(np) {
     // we already have a DisplayPath for this NumericalPath, don't add a new one.
     return;
   }
-  var displayPath = new DisplayPath(this.protoDisplayPath);
+  const displayPath = new DisplayPath(this.protoDisplayPath);
   displayPath.setScreenRect(this.simView_.getScreenRect());
   displayPath.addPath(np);
   this.displayList_.add(displayPath);
   if (this.simRectSetter_ != null) {
     // modify size of display to fit this path
-    var r = np.getBoundsWorld().scale(this.expansionFactor_);
+    let r = np.getBoundsWorld().scale(this.expansionFactor_);
     if (r.isEmpty()) {
       // for empty rectangle: expand bounds to be at least a unit square
-      var unitRect = DoubleRect.makeCentered(r.getCenter(), 1, 1);
+      const unitRect = DoubleRect.makeCentered(r.getCenter(), 1, 1);
       r = r.union(unitRect);
     }
     this.simRectSetter_(r);
   }
-  var obs = new GenericObserver(this.simView_, event => {
+  const obs = new GenericObserver(this.simView_, event => {
     if (event.getSubject() == this.simView_) {
       if (event.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         displayPath.setScreenRect(this.simView_.getScreenRect());
@@ -178,7 +178,7 @@ addPath(np) {
 * @private
 */
 removePath(np) {
-  var memObj = array.find(this.memObjs_, element => element.simObj == np);
+  const memObj = array.find(this.memObjs_, element => element.simObj == np);
   if (memObj != null) {
     // Disconnect things to help with garbage collection.
     this.displayList_.remove(memObj.dispPath);
@@ -191,9 +191,9 @@ removePath(np) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList_) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (obj instanceof NumericalPath) {
-      var np = /** @type {!NumericalPath} */(obj);
+      const np = /** @type {!NumericalPath} */(obj);
       if (event.nameEquals(SimList.OBJECT_ADDED)) {
         this.addPath(np);
       } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {

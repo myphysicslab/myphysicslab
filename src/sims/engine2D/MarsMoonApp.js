@@ -42,9 +42,9 @@ class MarsMoonApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-10, -10, 10, 10);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-10, -10, 10, 10);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -88,9 +88,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
   this.addControl(new NumericControl(pn));
 
@@ -169,7 +169,7 @@ getSubjects() {
 
 /** @override */
 graphSetup(body) {
-  var idx = this.asteroid.getVarsIndex();
+  const idx = this.asteroid.getVarsIndex();
   this.graph.line.setXVariable(idx+0); // 'asteroid x position'
   this.graph.line.setYVariable(idx+2); // 'asteroid y position'
   this.timeGraph.line1.setYVariable(idx+0); // 'asteroid x position'
@@ -180,7 +180,7 @@ graphSetup(body) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
@@ -197,7 +197,7 @@ config() {
   // Set moon velocity so the combined bodies have zero momentum.
   // asteroid momentum = asteroid_v * asteroid_mass
   // moon_momentum = -asteroid_momentum = moon_v * moon_mass
-  var moon_v = -this.velocity * this.asteroidMass / this.moonMass;
+  const moon_v = -this.velocity * this.asteroidMass / this.moonMass;
   this.moon.setMass(this.moonMass);
   this.moon.setPosition(new Vector(0,  0),  0);
   this.moon.setVelocity(new Vector(0,  moon_v),  this.moonSpin);
@@ -208,7 +208,7 @@ config() {
 
   this.asteroid = Shapes.makeBall(this.asteroidRadius, MarsMoonApp.en.ASTERIOD,
       MarsMoonApp.i18n.ASTERIOD);
-  var dist = this.asteroidRadius + this.moonRadius + this.distance;
+  const dist = this.asteroidRadius + this.moonRadius + this.distance;
   this.asteroid.setPosition(new Vector(dist,  0),  0);
   this.asteroid.setMass(this.asteroidMass);
   this.asteroid.setVelocity(new Vector(0,  this.velocity),  0);

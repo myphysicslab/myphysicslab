@@ -69,8 +69,8 @@ const ExtraAccel = {
 * @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.choiceToEnum = value => {
-  var choices = ExtraAccel.getChoices();
-  for (var i=0, len=choices.length; i<len; i++) {
+  const choices = ExtraAccel.getChoices();
+  for (let i=0, len=choices.length; i<len; i++) {
     if (value == choices[i]) {
       return ExtraAccel.getValues()[i];
     }
@@ -84,8 +84,8 @@ ExtraAccel.choiceToEnum = value => {
 * @throws {!Error} if the value does not represent a valid enum
 */
 ExtraAccel.enumToChoice = value => {
-  var vals = ExtraAccel.getValues();
-  for (var i=0, len=vals.length; i<len; i++) {
+  const vals = ExtraAccel.getValues();
+  for (let i=0, len=vals.length; i<len; i++) {
     if (value === vals[i]) {
       return ExtraAccel.getChoices()[i];
     }

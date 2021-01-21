@@ -117,7 +117,7 @@ constructor(opt_name) {
   this.damping_ = 0;
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
-  var var_names = [
+  const var_names = [
     CollideBlocksSim.en.POSITION_1,
     CollideBlocksSim.en.VELOCITY_1,
     CollideBlocksSim.en.POSITION_2,
@@ -127,7 +127,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     CollideBlocksSim.i18n.POSITION_1,
     CollideBlocksSim.i18n.VELOCITY_1,
     CollideBlocksSim.i18n.POSITION_2,
@@ -252,7 +252,7 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -263,8 +263,8 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
-  var pe = this.spring1_.getPotentialEnergy() + this.spring2_.getPotentialEnergy();
+  const ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
+  const pe = this.spring1_.getPotentialEnergy() + this.spring2_.getPotentialEnergy();
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
 
@@ -285,12 +285,12 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[5] = ei.getTranslational();
   vars[6] = ei.getPotential();
   vars[7] = ei.getTotalEnergy();
@@ -332,13 +332,13 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
   // maintain gap between objects, to avoid stuck collision problems.
-  var gap = 0.02;
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var p = location.subtract(offset);
+  const gap = 0.02;
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const p = location.subtract(offset);
   // objects other than mass 1 and mass 2 are not allowed to be dragged
   if (simObject == this.block1_)  {
-    var x = p.getX();
+    let x = p.getX();
     if (x - this.block1_.getWidth()/2 < this.wallLeft_.getRightWorld() + gap) {
       // don't allow drag past wallLeft
       x = this.wallLeft_.getRightWorld() + this.block1_.getWidth()/2 + gap;
@@ -362,7 +362,7 @@ mouseDrag(simObject, location, offset, mouseEvent) {
     vars[3] = 0;
     va.setValues(vars);
   } else if (simObject == this.block2_) {
-    var x = p.getX();
+    let x = p.getX();
     if (x + this.block2_.getWidth()/2 > this.wallRight_.getLeftWorld() - gap) {
       // don't allow drag past wallRight
       x = this.wallRight_.getLeftWorld() - this.block2_.getWidth()/2 - gap;
@@ -405,15 +405,15 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 * @private
 */
 addCollision(collisions, leftBlock, rightBlock, time) {
-  var c = new BlockCollision(leftBlock, rightBlock, time);
+  const c = new BlockCollision(leftBlock, rightBlock, time);
   if (c.getDistance() < 0.1) {
     // Avoid adding a duplicate collision.
     // Is there already an equivalent collision?
-    var similar = array.find(collisions, function(element, index, array) {
+    const similar = array.find(collisions, function(element, index, array) {
       return c.similarTo(/** @type {!BlockCollision}*/(element));
     });
     if (similar) {
-      var c2 = /** @type {!BlockCollision}*/(similar);
+      const c2 = /** @type {!BlockCollision}*/(similar);
       // Pick the collision with smaller distance, or the needsHandling flag
       if (!c2.needsHandling() && c.getDistance() < c2.getDistance()) {
         array.remove(collisions, c2);
@@ -429,7 +429,7 @@ addCollision(collisions, leftBlock, rightBlock, time) {
 findCollisions(collisions, vars, stepSize) {
   // Assumes only 3 possible collisions.
   this.moveObjects(vars);
-  var time = this.getTime() + stepSize;
+  const time = this.getTime() + stepSize;
   this.addCollision(collisions, this.wallLeft_, this.block1_, time);
   this.addCollision(collisions, this.block1_, this.block2_, time);
   this.addCollision(collisions, this.block2_, this.wallRight_, time);
@@ -437,14 +437,14 @@ findCollisions(collisions, vars, stepSize) {
 
 /** @override */
 handleCollisions(collisions, opt_totals) {
-  var va = this.getVarsList();
-  var seq0 = va.getVariable(0).getSequence();
-  var seq2 = va.getVariable(2).getSequence();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const seq0 = va.getVariable(0).getSequence();
+  const seq2 = va.getVariable(2).getSequence();
+  const vars = va.getValues();
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
   collisions.forEach(collision => {
-    var c = /** @type {!BlockCollision} */(collision);
+    const c = /** @type {!BlockCollision} */(collision);
     if (c.leftBlock_ == this.wallLeft_ && c.rightBlock_ == this.block1_) {
       // mass1 collided with left wall, so just reverse the velocity
       c.impulse = Math.abs(vars[1] * this.block1_.getMass());
@@ -456,7 +456,7 @@ handleCollisions(collisions, opt_totals) {
     } else if (c.leftBlock_ == this.block1_ && c.rightBlock_ == this.block2_) {
       // mass1 and mass2 collided.
       // Find velocity of center of mass.
-      var vcm = (this.block1_.getMass()*vars[1] + this.block2_.getMass()*vars[3]) /
+      const vcm = (this.block1_.getMass()*vars[1] + this.block2_.getMass()*vars[3]) /
          (this.block1_.getMass() + this.block2_.getMass());
       c.impulse = Math.abs(2*(vcm - vars[3]) * this.block2_.getMass());
       va.setValue(1, -vars[1] + 2*vcm);
@@ -498,8 +498,8 @@ evaluate(vars, change, timeStep) {
 */
 getMomentum() {
   this.modifyObjects();
-  var m1 = this.block1_.getVelocity().multiply(this.block1_.getMass());
-  var m2 = this.block2_.getVelocity().multiply(this.block2_.getMass());
+  const m1 = this.block1_.getVelocity().multiply(this.block1_.getMass());
+  const m2 = this.block2_.getVelocity().multiply(this.block2_.getMass());
   return m1.add(m2).length();
 };
 

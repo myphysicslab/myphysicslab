@@ -50,10 +50,10 @@ class MagnetWheelApp extends AbstractApp {
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
   console.log('compiled '+Util.COMPILE_TIME);
-  var simRect = new DoubleRect(-3, -2, 3, 2);
-  var sim = new MagnetWheelSim();
+  const simRect = new DoubleRect(-3, -2, 3, 2);
+  const sim = new MagnetWheelSim();
   sim.getVarsList().setValue(1, 3); // set initial angular velocity
-  var advance = new SimpleAdvance(sim);
+  const advance = new SimpleAdvance(sim);
   // Set smaller time step, because the interaction when magnets are close is
   // very strong and fast.
   advance.setTimeStep(0.01);
@@ -94,7 +94,7 @@ constructor(elem_ids, opt_name) {
   this.addPlaybackControls();
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(MagnetWheelSim.en.MASS);
   this.addControl(new NumericControl(pn));
 
@@ -111,7 +111,7 @@ constructor(elem_ids, opt_name) {
   this.addControl(new SliderControl(pn, 1, 12, /*multiply=*/false));
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   this.addParameter(pb = new ParameterBoolean(this, MagnetWheelSim.en.SYMMETRIC,
       MagnetWheelSim.i18n.SYMMETRIC,
       () => this.getSymmetric(), a => this.setSymmetric(a)));
@@ -137,7 +137,7 @@ constructor(elem_ids, opt_name) {
   this.addURLScriptButton();
 
   // turn off the clock quickly, for debugging.
-  /*var memo = new GenericMemo( () => {
+  /*const memo = new GenericMemo( () => {
     if (this.sim.getTime() > 0.1) {
       this.simRun.pause();
     }
@@ -168,21 +168,21 @@ defineNames(myName) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.sim.getSimList()) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (this.displayList.find(obj) != null) {
         // we already have a DisplayObject for this SimObject, don't add a new one.
         return;
       }
       if (obj instanceof Force) {
-        var line = /** @type {!Force} */(obj);
-        var dl = new DisplayLine(line).setThickness(1);
+        const line = /** @type {!Force} */(obj);
+        const dl = new DisplayLine(line).setThickness(1);
         dl.setColor('blue');
         dl.setZIndex(10);
         this.displayList.add(dl);
       }
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }
@@ -252,12 +252,11 @@ setMagnetAngle(value) {
 * @private
 */
 makeMagnets() {
-  var magnets = [];
-  var n = this.numMagnets_;
-  var r = this.magnetWheel_.getRadius() * 0.85;
-  var i;
-  for (i = 0; i<n; i++) {
-    var a = i * 2*Math.PI * (this.symmetric_ ? 1/n : this.magnetAngle_/360);
+  const magnets = [];
+  const n = this.numMagnets_;
+  const r = this.magnetWheel_.getRadius() * 0.85;
+  for (let i = 0; i<n; i++) {
+    const a = i * 2*Math.PI * (this.symmetric_ ? 1/n : this.magnetAngle_/360);
     magnets.push(new Vector(r * Math.cos(a), r * Math.sin(a)));
   }
   this.magnetWheel_.setMagnets(magnets);

@@ -81,7 +81,7 @@ constructor(thirdSpring, opt_name) {
   super(opt_name);
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
-  var var_names = [
+  const var_names = [
     DoubleSpringSim.en.POSITION+'-1',
     DoubleSpringSim.en.POSITION+'-2',
     DoubleSpringSim.en.VELOCITY+'-1',
@@ -93,7 +93,7 @@ constructor(thirdSpring, opt_name) {
     EnergySystem.en.TOTAL_ENERGY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     DoubleSpringSim.i18n.POSITION+'-1',
     DoubleSpringSim.i18n.POSITION+'-2',
     DoubleSpringSim.i18n.VELOCITY+'-1',
@@ -132,7 +132,7 @@ constructor(thirdSpring, opt_name) {
   this.wall2_ = PointMass.makeRectangle(0.4, 4, 'wall2')
       .setMass(Util.POSITIVE_INFINITY);
   this.wall2_.setPosition(new Vector(9.8,  0));
-  var length = 3.0;
+  const length = 3.0;
   /**
   * @type {number}
   * @private
@@ -279,16 +279,16 @@ Plug that into the second equation and solve for `u1`:
 restState() {
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
-  var vars = this.getVarsList().getValues();
-  var k1 = this.spring1_.getStiffness();
-  var k2 = this.spring2_.getStiffness();
-  var k3 = this.spring3_.getStiffness();
-  var R1 = this.spring1_.getRestLength();
-  var R2 = this.spring2_.getRestLength();
-  var R3 = this.spring3_.getRestLength();
-  var w1 = this.wall1_.getBoundsWorld().getRight();
-  var w2 = this.wall2_.getBoundsWorld().getLeft();
-  var u1 = (k1 * w1 + k1 * R1 + k3 * w2 + (k3 * k1/k2)*(w1 + R1) - k3 * R2 - k3 * R3);
+  const vars = this.getVarsList().getValues();
+  const k1 = this.spring1_.getStiffness();
+  const k2 = this.spring2_.getStiffness();
+  const k3 = this.spring3_.getStiffness();
+  const R1 = this.spring1_.getRestLength();
+  const R2 = this.spring2_.getRestLength();
+  const R3 = this.spring3_.getRestLength();
+  const w1 = this.wall1_.getBoundsWorld().getRight();
+  const w2 = this.wall2_.getBoundsWorld().getLeft();
+  let u1 = (k1 * w1 + k1 * R1 + k3 * w2 + (k3 * k1/k2)*(w1 + R1) - k3 * R2 - k3 * R3);
   u1 = u1 / (k1 + (k3 * k1/k2) + k3);
   vars[0] = u1;
   vars[1] = (k1/k2)*(u1 - w1 - R1) + u1 + R2;
@@ -301,7 +301,7 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -313,9 +313,9 @@ getEnergyInfo() {
 */
 getEnergyInfo_(vars) {
   /** @type {number} */
-  var ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
+  const ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
   /** @type {number} */
-  var pe = this.potentialOffset_;
+  let pe = this.potentialOffset_;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   return new EnergyInfo(pe, ke);
 };
@@ -337,16 +337,16 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   // vars  0   1   2   3   4   5   6   7  8  9
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   vars[4] = rate[2];
   vars[5] = rate[3];
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[6] = ei.getTranslational();
   vars[7] = ei.getPotential();
   vars[8] = ei.getTotalEnergy();
@@ -381,15 +381,15 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var p = location.subtract(offset);
+  const p = location.subtract(offset);
   if (this.dragBlock_ >= 0 && this.dragBlock_ <= 1) {
-    var block = this.dragBlock_ == 0 ? this.block1_ : this.block2_;
+    const block = this.dragBlock_ == 0 ? this.block1_ : this.block2_;
     if (simObject != block) {
       return;
     }
     // vars  0   1   2   3   4   5   6   7  8  9
     //       U1  U2  V1  V2  A1  A2  KE  PE TE time
-    var va = this.getVarsList();
+    const va = this.getVarsList();
     va.setValue(this.dragBlock_, p.getX());
     va.setValue(this.dragBlock_ + 2, 0); // velocity
     // derived energy variables are discontinuous
@@ -506,7 +506,7 @@ getLength() {
 @param {number} value spring resting length
 */
 setLength(value) {
-  for (var i=0; i<this.springs_.length; i++) {
+  for (let i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
   }
   // vars  0   1   2   3   4   5   6   7  8  9

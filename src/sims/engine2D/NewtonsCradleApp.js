@@ -45,9 +45,9 @@ class NewtonsCradleApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-5, -3, 5, 5);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-5, -3, 5, 5);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -57,7 +57,7 @@ constructor(elem_ids) {
   this.mySim.setShowForces(false);
   // JointSmallImpacts==true seems to help with energy stability and joint tightness,
   // but then we get lots of small collisions, which is kind of distracting.
-  var collisionAdvance = /** @type {!CollisionAdvance} */(this.advance);
+  const collisionAdvance = /** @type {!CollisionAdvance} */(this.advance);
   collisionAdvance.setJointSmallImpacts(false);
   //this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   /** @type {!DampingLaw} */
@@ -76,7 +76,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, NewtonsCradleApp.en.NUM_BODIES,
       NewtonsCradleApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -218,7 +218,7 @@ setRadius(value) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
@@ -241,13 +241,13 @@ static make(sim, options) {
   // each pendulum is 2*radius wide.
   // We have a gap between pendulums of distTol/2 + gapDistance
   // total width of all pendulums:
-  var n = options.numBods;
-  var r = options.radius;
-  var between = sim.getDistanceTol()/2  + options.gapDistance;
-  var tw = n * 2 * r + (n - 1) * between;
-  var x = -tw/2 + r;
-  for (var i=0; i<options.numBods; i++) {
-    var body = Shapes.makePendulum(0.05, options.stickLength,
+  const n = options.numBods;
+  const r = options.radius;
+  const between = sim.getDistanceTol()/2  + options.gapDistance;
+  const tw = n * 2 * r + (n - 1) * between;
+  let x = -tw/2 + r;
+  for (let i=0; i<options.numBods; i++) {
+    const body = Shapes.makePendulum(0.05, options.stickLength,
         options.radius, NewtonsCradleApp.en.PENDULUM+(i+1),
         NewtonsCradleApp.i18n.PENDULUM+(i+1));
     body.setAngle(0);

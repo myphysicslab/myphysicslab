@@ -158,7 +158,7 @@ y_func(t) {
   else if (t<0)
     return -t;
   else {
-    var d = 1 - (1 - Math.cos(t))/2.0;
+    const d = 1 - (1 - Math.cos(t))/2.0;
     return 2*1.00133*(-1 + d*d);
   }
 };

@@ -73,13 +73,13 @@ getClassName() {
 
 /** @override */
 x_func(t) {
-  var c = Math.cos(t);
+  const c = Math.cos(t);
   return this.a_ *Math.sin(t)*(1+c);
 };
 
 /** @override */
 y_func(t) {
-  var c = Math.cos(t);
+  const c = Math.cos(t);
   return -this.a_ *c*(1+c);
 };
 

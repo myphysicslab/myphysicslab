@@ -43,9 +43,9 @@ class Spring2DApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Spring2DSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Spring2DSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
@@ -67,7 +67,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(Spring2DSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 
@@ -88,7 +88,7 @@ constructor(elem_ids) {
 
   this.addStandardControls();
 
-  var bc = new ButtonControl(Spring2DSim.i18n.REST_STATE,
+  const bc = new ButtonControl(Spring2DSim.i18n.REST_STATE,
       () => sim.restState());
   this.addControl(bc);
 

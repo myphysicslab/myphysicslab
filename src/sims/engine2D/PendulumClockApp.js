@@ -51,9 +51,9 @@ class PendulumClockApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -4, 4, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -77,11 +77,11 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   this.addParameter(pb = new ParameterBoolean(this, PendulumClockConfig.en.WITH_GEARS,
       PendulumClockConfig.i18n.WITH_GEARS,
       () => this.getWithGears(), a => this.setWithGears(a)));
@@ -158,7 +158,7 @@ graphSetup(body) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
@@ -172,19 +172,19 @@ config() {
     PendulumClockConfig.makeClock(this.mySim, this.pendulumLength,
         /*center=*/Vector.ORIGIN);
   }
-  var escapeWheel = this.displayList.findShape(PendulumClockConfig.en.ESCAPE_WHEEL);
+  const escapeWheel = this.displayList.findShape(PendulumClockConfig.en.ESCAPE_WHEEL);
   escapeWheel.setFillStyle('#D3D3D3');
   if (this.withGears) {
     escapeWheel.setStrokeStyle('black');
-    var gear2 = this.displayList.findShape(PendulumClockConfig.en.GEAR+2);
+    const gear2 = this.displayList.findShape(PendulumClockConfig.en.GEAR+2);
     gear2.setFillStyle('#B0C4DE').setZIndex(2);
   }
-  var anchor = this.displayList.findShape(PendulumClockConfig.en.ANCHOR);
+  const anchor = this.displayList.findShape(PendulumClockConfig.en.ANCHOR);
   anchor.setFillStyle('#B0C4DE').setZIndex(3);
   this.setTurningForce(this.turningForce);
   if (this.extraBody) {
     // optional free moving block, to demonstrate interactions.
-    var block = Shapes.makeBlock(/*width=*/0.12, /*height=*/0.5,
+    const block = Shapes.makeBlock(/*width=*/0.12, /*height=*/0.5,
         PendulumClockConfig.en.EXTRA_BODY, PendulumClockConfig.i18n.EXTRA_BODY);
     block.setMass(0.3);
     block.setPosition(new Vector(0, 6), Math.PI/2);
@@ -262,9 +262,9 @@ setTurningForce(value) {
   if (this.turnForceLaw != null) {
     this.mySim.removeForceLaw(this.turnForceLaw);
   }
-  var body = this.mySim.getBody(PendulumClockConfig.en.ESCAPE_WHEEL);
+  const body = this.mySim.getBody(PendulumClockConfig.en.ESCAPE_WHEEL);
   if (body) {
-    var f = new Force('turning', body,
+    const f = new Force('turning', body,
         /*location=*/body.getDragPoints()[0], CoordType.BODY,
         /*direction=*/new Vector(value, 0), CoordType.BODY);
     this.turnForceLaw = new ConstantForceLaw(f);

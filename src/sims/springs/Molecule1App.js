@@ -38,9 +38,9 @@ class Molecule1App extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Molecule1Sim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Molecule1Sim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('white');
@@ -65,7 +65,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(Molecule1Sim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 

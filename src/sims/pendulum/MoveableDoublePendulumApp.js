@@ -47,9 +47,9 @@ class MoveableDoublePendulumApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-3.3, -3.3, 3.3, 3);
-  var sim = new MoveableDoublePendulumSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-3.3, -3.3, 3.3, 3);
+  const sim = new MoveableDoublePendulumSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
@@ -58,7 +58,7 @@ constructor(elem_ids) {
   this.simRun.setTimeStep(0.01);
   sim.setDriveAmplitude(0);
   sim.setDamping(0.05);
-  var va = sim.getVarsList();
+  const va = sim.getVarsList();
   va.setValue(0, 0.1);
   va.setValue(2, -0.2);
 
@@ -82,8 +82,8 @@ constructor(elem_ids) {
   this.displayList.add(this.bob2);
 
   // make observer which will add/remove the spring during mouse drag
-  var dragSpring = sim.getDragSpring();
-  var dispSpring = new DisplaySpring(dragSpring).setWidth(0.2);
+  const dragSpring = sim.getDragSpring();
+  const dispSpring = new DisplaySpring(dragSpring).setWidth(0.2);
   new GenericObserver(this.simList, evt => {
     if (evt.getValue() == dragSpring) {
       if (evt.nameEquals(SimList.OBJECT_ADDED)) {
@@ -99,7 +99,7 @@ constructor(elem_ids) {
   // and then that is saved as initial conditions when you start running.
   new GenericObserver(this.simRun, evt => {
     if (evt.nameEquals(SimRunner.en.RUNNING)) {
-      var bp = /** @type {!ParameterBoolean} */(evt);
+      const bp = /** @type {!ParameterBoolean} */(evt);
       sim.setRunning(bp.getValue());
       if (bp.getValue() && sim.getTime() == 0) {
         sim.saveInitialState();
@@ -109,7 +109,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(MoveableDoublePendulumSim.en.LENGTH_1);
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
 

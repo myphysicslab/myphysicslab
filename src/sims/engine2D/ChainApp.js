@@ -66,9 +66,9 @@ class ChainApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-12, -12, 12, 12);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-12, -12, 12, 12);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -104,9 +104,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, ChainConfig.en.NUM_LINKS,
       ChainConfig.i18n.NUM_LINKS,
       () => this.getNumLinks(), a => this.setNumLinks(a))
@@ -173,7 +173,7 @@ constructor(elem_ids) {
     this.graph.autoScale.setEnabled(false);
     // Note that you can still use the pan-zoom controls on the graph, but
     // they are overridden whenever you pan-zoom the simView.
-    var matcher = new GenericObserver(this.simView,
+    const matcher = new GenericObserver(this.simView,
       evt => {
         if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
           this.graph.view.setSimRect(this.simView.getSimRect());
@@ -225,16 +225,16 @@ config() {
   }
   this.rbo.protoPolygon.setFillStyle('rgba(255,255,255,0.5)');
   this.rbo.protoPolygon.setStrokeStyle('black');
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var r = ChainConfig.makeChain(this.mySim, this.options);
+  let r = ChainConfig.makeChain(this.mySim, this.options);
   if (this.extraBody) {
-    var block = Shapes.makeBlock(1, 3, ChainConfig.en.EXTRA_BODY,
+    const block = Shapes.makeBlock(1, 3, ChainConfig.en.EXTRA_BODY,
         ChainConfig.i18n.EXTRA_BODY);
     block.setPosition(new Vector(-4,  -4));
     this.mySim.addBody(block);
@@ -244,8 +244,8 @@ config() {
   if (this.walls) {
     /* ensure walls are wide apart enough to contain chain and extra body */
     r = r.scale(1.1);
-    var wr = DoubleRect.makeCentered(Vector.ORIGIN, this.wallWidth, this.wallWidth);
-    var zel = Walls.make2(this.mySim, wr.union(r));
+    const wr = DoubleRect.makeCentered(Vector.ORIGIN, this.wallWidth, this.wallWidth);
+    const zel = Walls.make2(this.mySim, wr.union(r));
     this.gravityLaw.setZeroEnergyLevel(zel);
   }
   this.mySim.setElasticity(elasticity);

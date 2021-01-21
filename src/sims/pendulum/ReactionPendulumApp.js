@@ -207,7 +207,7 @@ constructor(elem_ids) {
   this.layout.simCanvas.setBackground('black');
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-2, -2, 2, 2.7);
   /** @type {!SimView} */
@@ -221,7 +221,7 @@ constructor(elem_ids) {
 
   /** @type {!PendulumSim} */
   this.sim1 = new PendulumSim('SIM_1');
-  var va1 = this.sim1.getVarsList();
+  const va1 = this.sim1.getVarsList();
   this.sim1.setLength(this.classicLength());
   this.sim1.setDriveAmplitude(0);
   this.sim1.setPivot(new Vector(this.separation, 0));
@@ -237,11 +237,11 @@ constructor(elem_ids) {
   new GenericObserver(this.sim1, evt => this.sim1.modifyObjects(),
       'modifyObjects after parameter or variable change');
 
-  var displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'))
+  const displayBob1 = new DisplayShape(this.simList1.getPointMass('bob'))
       .setFillStyle('#3cf');
   displayBob1.setDragable(false);
   this.displayList.add(displayBob1);
-  var displayRod1 = new DisplayLine(this.simList1.getConcreteLine('rod'))
+  const displayRod1 = new DisplayLine(this.simList1.getConcreteLine('rod'))
       .setColor('#39c').setThickness(3);
   this.displayList.add(displayRod1);
 
@@ -278,11 +278,11 @@ constructor(elem_ids) {
   this.clock = this.simRun.getClock();
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
 
   // ********* simulation controls  *************
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
@@ -337,7 +337,7 @@ constructor(elem_ids) {
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
-  var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
+  const panzoom_simview = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
@@ -348,13 +348,13 @@ constructor(elem_ids) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
   /** translate variable index of sim1 to equivalent variable of sim2
   * @type {function(number): number}
   */
-  var translate = v1 => {
+  const translate = v1 => {
     // sim1: PendulumSim
     //  0       1       2    3        4   5   6
     // angle, angle', time, angle'', ke, pe, te
@@ -375,23 +375,23 @@ constructor(elem_ids) {
   };
 
   /** @type {!GraphLine} */
-  var line1 = new GraphLine('GRAPH_LINE_1', va1);
+  const line1 = new GraphLine('GRAPH_LINE_1', va1);
   line1.setXVariable(0);
   line1.setYVariable(1);
   line1.setColor('blue');
   line1.setDrawingMode(DrawingMode.LINES);
 
-  var va2 = this.sim2.getVarsList();
+  const va2 = this.sim2.getVarsList();
   /** @type {!GraphLine} */
-  var line2 = new GraphLine('GRAPH_LINE_2', va2);
+  const line2 = new GraphLine('GRAPH_LINE_2', va2);
   line2.setXVariable(translate(0));
   line2.setYVariable(translate(1));
   line2.setColor('red');
   line2.setDrawingMode(DrawingMode.LINES);
 
   // keep line1's X and Y variable in sync with line2
-  var paramY1 = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  var paramX1 = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
+  const paramY1 = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const paramX1 = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   new GenericObserver(line1, evt => {
     if (evt == paramY1) {
       line2.setYVariable(translate(paramY1.getValue()));
@@ -405,16 +405,16 @@ constructor(elem_ids) {
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
 
-  var timeLine1 = new GraphLine('TIME_LINE_1', va1);
+  const timeLine1 = new GraphLine('TIME_LINE_1', va1);
   timeLine1.setYVariable(0);
   timeLine1.setColor('blue');
   timeLine1.setDrawingMode(DrawingMode.LINES);
-  var timeLine2 = new GraphLine('TIME_LINE_2', va2);
+  const timeLine2 = new GraphLine('TIME_LINE_2', va2);
   timeLine2.setYVariable(translate(0));
   timeLine2.setColor('red');
   timeLine2.setDrawingMode(DrawingMode.LINES);
   // keep timeLine2's Y variable in sync with timeLine1
-  var timeParamY1 = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const timeParamY1 = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY1) {
       timeLine2.setYVariable(translate(timeParamY1.getValue()));
@@ -438,7 +438,7 @@ constructor(elem_ids) {
     }
   }, 'synchronize sim2 parameters to match parameters of sim1');
 
-  var subjects = [
+  let subjects = [
     this,
     this.sim1,
     this.sim2,
@@ -488,20 +488,20 @@ addControl(control) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList2) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (this.displayList.find(obj) != null) {
         // we already have a DisplayObject for this SimObject, don't add a new one.
         return;
       }
       if (obj instanceof Polygon) {
-        var p = /** @type {!Polygon} */(obj);
-        var d = new DisplayShape(p).setDrawCenterOfMass(true).setFillStyle('#f66');
+        const p = /** @type {!Polygon} */(obj);
+        const d = new DisplayShape(p).setDrawCenterOfMass(true).setFillStyle('#f66');
         d.setZIndex(-1);
         this.displayList.add(d);
       } else if (obj instanceof ConcreteLine) {
-        var line = /** @type {!ConcreteLine} */(obj);
-        var dl = new DisplayLine(line).setThickness(4);
+        const line = /** @type {!ConcreteLine} */(obj);
+        const dl = new DisplayLine(line).setThickness(4);
         if (obj.nameEquals('rod')) {
           dl.setColor('#f99');
         } else {
@@ -511,7 +511,7 @@ observe(event) {
         this.displayList.add(dl);
       }
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

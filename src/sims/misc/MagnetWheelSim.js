@@ -42,7 +42,7 @@ constructor(opt_name) {
   super(opt_name);
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
-  var var_names = [
+  const var_names = [
     MagnetWheelSim.en.ANGLE,
     MagnetWheelSim.en.ANGULAR_VELOCITY,
     VarsList.en.TIME,
@@ -50,7 +50,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     MagnetWheelSim.i18n.ANGLE,
     MagnetWheelSim.i18n.ANGULAR_VELOCITY,
     VarsList.i18n.TIME,
@@ -133,7 +133,7 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -146,8 +146,8 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
-  var re = this.wheel_.rotationalEnergy();
-  var pe = this.wheel_.getPotentialEnergy() + this.potentialOffset_;
+  const re = this.wheel_.rotationalEnergy();
+  const pe = this.wheel_.getPotentialEnergy() + this.potentialOffset_;
   return new EnergyInfo(pe, 0, re);
 };
 
@@ -168,14 +168,14 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[3] = ei.getRotational();
   vars[4] = ei.getPotential();
   vars[5] = ei.getTotalEnergy();
@@ -239,7 +239,7 @@ evaluate(vars, change, timeStep) {
   // a, w, time,  ke, pe, te
   Util.zeroArray(change);
   // technically it's rotational inertia we should use here, not mass.
-  var m = this.wheel_.getMass();
+  const m = this.wheel_.getMass();
 
   change[0] = vars[1];
   change[1] = -this.damping_*vars[1]/m;
@@ -247,8 +247,8 @@ evaluate(vars, change, timeStep) {
 
   this.moveObjects(vars);
   // the fixed magnet is at (xf, yf)
-  var fm = this.wheel_.getFixedMagnet();
-  var magnets = this.wheel_.getMagnets();
+  const fm = this.wheel_.getFixedMagnet();
+  const magnets = this.wheel_.getMagnets();
   this.wheel_.calculateForces().forEach(f => {
     change[1] += f.getTorque()/m;
     // Add force to SimList, so that it can be displayed.

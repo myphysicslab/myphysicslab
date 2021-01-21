@@ -55,9 +55,9 @@ class CurvedTestApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -6, 8, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -6, 8, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -81,7 +81,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, CurvedTestApp.en.NUM_BODIES,
       CurvedTestApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -138,13 +138,13 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   CurvedTestApp.make(this.mySim, this.gravityLaw, this.dampingLaw,
       this.numBods, this.simView.getSimRect(), this.displayList);
   /** @type {!RigidBody} */
-  var b;
+  let b;
   if (this.numBods >= 1) {
     b = this.mySim.getBody('block1');
     this.thrust2 = SixThrusters.make(this.thrust, b);
@@ -180,7 +180,7 @@ static make(sim, gravity, damping, numBods, simRect, displayList) {
   sim.addForceLaw(gravity);
   gravity.connect(sim.getSimList());
   /** @type {!RigidBody} */
-  var b;
+  let b;
   b = Shapes.makeBlock(2.0, 2.0, CurvedTestApp.en.FIX_BLOCK+1,
       CurvedTestApp.i18n.FIX_BLOCK+1);
   b.setMass(Util.POSITIVE_INFINITY);
@@ -220,8 +220,8 @@ static make(sim, gravity, damping, numBods, simRect, displayList) {
   if (numBods >= 3) {
     b = Shapes.makeBall(1, CurvedTestApp.en.BALL+2,
         CurvedTestApp.i18n.BALL+2);
-    var x = 0;
-    var y = -1 + 2.0;
+    let x = 0;
+    let y = -1 + 2.0;
     x += 1 - 0.5;
     y += 1 - 0.3;
     b.setPosition(new Vector(x, 0.1+y+ sim.getDistanceTol() / 2.0), Math.PI);
@@ -252,7 +252,7 @@ static make(sim, gravity, damping, numBods, simRect, displayList) {
     sim.addBody(b);
     if (displayList != null) { displayList.findShape(b).setFillStyle('#c99'); };
   }
-  var zel = Walls.make2(sim, simRect);
+  const zel = Walls.make2(sim, simRect);
   gravity.setZeroEnergyLevel(zel);
 };
 

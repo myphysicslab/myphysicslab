@@ -282,7 +282,7 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
   if (simObject == this.block_) {
-    var p = location.subtract(offset);
+    const p = location.subtract(offset);
     this.block_.setPosition(new Vector(this.block_.getPosition().getX(), p.getY()));
   }
 };
@@ -324,11 +324,11 @@ initializeFromShape()  {
   // k = deltaT = time step size
   // h = deltaX = spatial grid size
   // alpha = sqrt(tension/density) = wave speed
-  var r = (this.deltaT_*this.deltaT_*this.tension_/this.density_) /
+  const r = (this.deltaT_*this.deltaT_*this.tension_/this.density_) /
         (this.deltaX_*this.deltaX_);
   this.w1_[0] = this.w1_[this.numPoints_-1] = 0;
   this.w2_[0] = this.w2_[this.numPoints_-1] = 0;
-  for (var i=1; i<this.numPoints_-1; i++) {
+  for (let i=1; i<this.numPoints_-1; i++) {
     this.w1_[i] = this.shape_.position(i*this.deltaX_);
     // Following assumes initial velocity is zero.
     // Note that we could use second derivative of f for more accuracy.
@@ -346,11 +346,11 @@ initializeFromShape()  {
 */
 advance() {
   /** @type {!Array<number>} */
-  var wNew;
+  let wNew;
   /** @type {!Array<number>} */
-  var w;
+  let w;
   /** @type {!Array<number>} */
-  var wOld;
+  let wOld;
   // figure out which vector to use for latest data
   switch (this.wIdx_) {
     case 1:  // w1 is most recent data, then 3, 2 is oldest
@@ -374,15 +374,15 @@ advance() {
     default:
       throw '';
   }
-  var N = this.numPoints_-1;
+  const N = this.numPoints_-1;
   wNew[0] = 0;
   wNew[N] = 0;
   // use vertical position of block to set left point
   wNew[0] = this.block_.getPosition().getY();
-  var r = (this.deltaT_*this.deltaT_*this.tension_/this.density_)/
+  const r = (this.deltaT_*this.deltaT_*this.tension_/this.density_)/
       (this.deltaX_*this.deltaX_);
   // ******  this is the PDE solver  ******
-  for (var i=1; i<=N-1; i++) {
+  for (let i=1; i<=N-1; i++) {
     wNew[i] = 2*(1-r)*w[i] + r*(w[i+1] + w[i-1]) - wOld[i];
     if (this.damping_ > 0) {
       wNew[i] += -this.damping_*(w[i] - wOld[i])*this.deltaT_/this.density_;
@@ -399,9 +399,9 @@ advance() {
 /** @override */
 getEnergyInfo() {
   /** @type {!Array<number>} */
-  var wNew;
+  let wNew;
   /** @type {!Array<number>} */
-  var w;
+  let w;
   // figure out which vector to use for latest data
   switch (this.wIdx_) {
     case 1:  // w1 is most recent data, then 3, 2 is oldest
@@ -419,11 +419,11 @@ getEnergyInfo() {
     default:
       throw '';
   }
-  var ke = 0;
-  var pe = 0;
+  let ke = 0;
+  let pe = 0;
   // integrate potential and kinetic energy over length of string
-  for (var i=1; i<this.numPoints_-1; i++) {
-    var diff = (wNew[i-1] - wNew[i+1]) / (2*this.deltaX_);
+  for (let i=1; i<this.numPoints_-1; i++) {
+    let diff = (wNew[i-1] - wNew[i+1]) / (2*this.deltaX_);
     pe += diff*diff*this.deltaX_;  // potential energy integral
     diff = (wNew[i] - w[i])/ this.deltaT_;
     ke += diff*diff*this.deltaX_;  // kinetic energy integral

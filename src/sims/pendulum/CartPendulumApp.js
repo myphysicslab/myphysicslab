@@ -41,9 +41,9 @@ class CartPendulumApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-3, -4, 3, 2);
-  var sim = new CartPendulumSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-3, -4, 3, 2);
+  const sim = new CartPendulumSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -72,7 +72,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   pn = sim.getParameterNumber(CartPendulumSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));

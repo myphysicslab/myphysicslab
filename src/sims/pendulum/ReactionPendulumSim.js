@@ -69,7 +69,7 @@ constructor(length, radius, startAngle,
   super(opt_name, opt_simList);
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
-  var var_names = [
+  const var_names = [
     ReactionPendulumSim.en.X_POSITION,
     ReactionPendulumSim.en.X_VELOCITY,
     ReactionPendulumSim.en.Y_POSITION,
@@ -81,7 +81,7 @@ constructor(length, radius, startAngle,
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     ReactionPendulumSim.i18n.X_POSITION,
     ReactionPendulumSim.i18n.X_VELOCITY,
     ReactionPendulumSim.i18n.Y_POSITION,
@@ -181,8 +181,8 @@ config(length, radius, startAngle) {
   // x, x', y, y', angle, angle', time, ke, pe, te
   this.length_ = length;
   this.radius_ = radius;
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   vars[4] = startAngle;
   vars[0] = length * Math.sin(vars[4]);
   vars[2] = -length * Math.cos(vars[4]);
@@ -200,7 +200,7 @@ config(length, radius, startAngle) {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -213,14 +213,14 @@ getEnergyInfo() {
 getEnergyInfo_(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
-  var ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
+  const ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
   asserts.assert(!Util.veryDifferent(ke, this.bob_.translationalEnergy()));
   // rotational inertia I = m r^2 / 2
-  var I = this.mass_ * this.radius_ * this.radius_ / 2;
+  const I = this.mass_ * this.radius_ * this.radius_ / 2;
   asserts.assert(!Util.veryDifferent(I, this.bob_.momentAboutCM()));
-  var re = 0.5 * I * vars[5] * vars[5];
+  const re = 0.5 * I * vars[5] * vars[5];
   asserts.assert(!Util.veryDifferent(re, this.bob_.rotationalEnergy()));
-  var pe = this.gravity_ * this.mass_ * (vars[2] + this.length_);
+  const pe = this.gravity_ * this.mass_ * (vars[2] + this.length_);
   return new EnergyInfo(pe + this.potentialOffset_, ke, re);
 };
 
@@ -241,12 +241,12 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   va.setValue(7, ei.getTranslational(), true);
   va.setValue(8, ei.getPotential(), true);
   va.setValue(9, ei.getTotalEnergy(), true);
@@ -271,7 +271,7 @@ evaluate(vars, change, timeStep) {
   // x, x', y, y', angle, angle', time, ke, pe, te
   Util.zeroArray(change);
   change[6] = 1; // time
-  var m = this.mass_;
+  const m = this.mass_;
   change[0] = vars[1]; // x' = vx
   change[1] = -this.damping_*vars[1];  // vx' = -b vx
   change[2] = vars[3];  // y' = vy
@@ -280,29 +280,29 @@ evaluate(vars, change, timeStep) {
   change[5] = 0;  // w' = 0
 
   // figure out and apply contact force
-  var len = this.length_;
+  const len = this.length_;
   // parallel axis theorem: I = Icm + m R^2
   // rotational inertia of disk radius r about center = m r^2 /2
-  var I = m*(this.radius_ * this.radius_/2.0);
+  const I = m*(this.radius_ * this.radius_/2.0);
   // We regard there being two contact points at the pivot.
   // Contact 0 is with a horizontal surface, contact 1 is with a vertical surface.
   // two normal vectors, n0 and n1
   // n1 points downwards. n2 points rightward.
-  var n0x = 0;
-  var n0y = -1;
-  var n1x = -1;
-  var n1y = 0;
-  var rx = -len*Math.sin(vars[4]);
-  var ry = len*Math.cos(vars[4]);
-  var vx = vars[1];
-  var vy = vars[3];
-  var w = vars[5];
+  const n0x = 0;
+  const n0y = -1;
+  const n1x = -1;
+  const n1y = 0;
+  const rx = -len*Math.sin(vars[4]);
+  const ry = len*Math.cos(vars[4]);
+  const vx = vars[1];
+  const vy = vars[3];
+  const w = vars[5];
   // A matrix:  Aij = effect of fj on acceleration at contact i
   // last column of Aij is where -B goes
-  var A = [ new Float64Array(3), new Float64Array(3) ];
-  var B = [ 0, 0 ];
-  var f = [ 0, 0 ];
-  var nx, ny, nix, niy, b;
+  const A = [ new Float64Array(3), new Float64Array(3) ];
+  const B = [ 0, 0 ];
+  const f = [ 0, 0 ];
+  let nx, ny, nix, niy, b;
   nx = n0x;
   ny = n0y;
   // regard the point on the stick as p1, and the point on wall as p2
@@ -343,7 +343,7 @@ evaluate(vars, change, timeStep) {
   // A f = -B
   B[0] = -B[0];
   B[1] = -B[1];
-  var err = UtilEngine.matrixSolve4(A, f, B);
+  const err = UtilEngine.matrixSolve4(A, f, B);
   if (err != -1) {
     throw err;
   }
@@ -351,7 +351,7 @@ evaluate(vars, change, timeStep) {
   nx = n0x; ny = n0y;
   // x and y change according to f nx and f ny
   // acceleration = force/mass
-  var Fx, Fy;
+  let Fx, Fy;
   Fx = f[0]*nx;
   Fy = f[0]*ny;
   change[1] += f[0]*nx/m;
@@ -378,7 +378,7 @@ evaluate(vars, change, timeStep) {
 * @private
 */
 showForce(fx, fy) {
-  var v = new ConcreteLine('contact_force', Vector.ORIGIN, new Vector(fx, fy));
+  const v = new ConcreteLine('contact_force', Vector.ORIGIN, new Vector(fx, fy));
   v.setExpireTime(this.getTime());
   this.getSimList().add(v);
 };

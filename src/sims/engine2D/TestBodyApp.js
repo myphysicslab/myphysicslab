@@ -47,9 +47,9 @@ class TestBodyApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-10, -6, 10, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-10, -6, 10, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -75,19 +75,19 @@ constructor(elem_ids) {
   this.mySim.addForceLaw(this.spring);
   this.simList.add(this.spring);
 
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 
   this.addPlaybackControls();
 
   /** @type {!ParameterString} */
-  var ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
+  let ps = this.mySim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   this.addControl(new ChoiceControl(ps));
   ps = this.mySim.getParameterString(RigidBodySim.en.EXTRA_ACCEL);
   this.addControl(new ChoiceControl(ps));
 
   /** @type {!ParameterNumber} */
-  var pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
+  let pn = this.dampingLaw.getParameterNumber(DampingLaw.en.DAMPING);
   this.addControl(new NumericControl(pn));
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));
@@ -136,7 +136,7 @@ getSubjects() {
 * @export
 */
 setup() {
-  var t = this.terminal;
+  const t = this.terminal;
   t.eval('//setup commands');
   t.eval('gravityLaw.setGravity(8);');
   t.eval('dampingLaw.setDamping(0);');

@@ -49,10 +49,10 @@ pendulum clock.
 @return {!Polygon} the anchor Polygon
 */
 static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
-  var p = new Polygon(PendulumClockConfig.en.ANCHOR, PendulumClockConfig.i18n.ANCHOR);
+  const p = new Polygon(PendulumClockConfig.en.ANCHOR, PendulumClockConfig.i18n.ANCHOR);
   // make the anchor, which is the part that engages the escape wheel
   p.startPath(new ConcreteVertex(new Vector(61*scale, 104*scale)));
-  var e = p.addStraightEdge(new Vector(8*scale, 162*scale), /*outsideIsUp=*/false);
+  let e = p.addStraightEdge(new Vector(8*scale, 162*scale), /*outsideIsUp=*/false);
   startEdges.push(e);
   p.addStraightEdge(new Vector(109*scale, 197*scale), /*outsideIsUp=*/true);
   p.addStraightEdge(new Vector(221*scale, 146*scale), /*outsideIsUp=*/true);
@@ -62,9 +62,9 @@ static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
   p.addStraightEdge(new Vector(61*scale, 104*scale), /*outsideIsUp=*/false);
   p.closePath();
   // make the pendulum
-  var width = 0.05;
-  var xo = anchorJoint.getX();  // x offset for pendulum position
-  var yo = anchorJoint.getY() - rodLength - bobRadius; // y offset
+  const width = 0.05;
+  const xo = anchorJoint.getX();  // x offset for pendulum position
+  const yo = anchorJoint.getY() - rodLength - bobRadius; // y offset
   p.startPath(new ConcreteVertex(new Vector(width + xo, bobRadius + yo)));
   e = p.addStraightEdge(new Vector(width + xo, rodLength+width + yo),
       /*outsideIsUp=*/true);
@@ -80,7 +80,7 @@ static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
   p.finish();
   p.setCenterOfMass(xo, yo);
   p.setDragPoints([new Vector(xo, yo)]);
-  var r = Math.sqrt(width*width + bobRadius*bobRadius);
+  const r = Math.sqrt(width*width + bobRadius*bobRadius);
   p.setMomentAboutCM(r*r/2);
   return p;
 };
@@ -93,32 +93,32 @@ static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
 * @return {!Polygon}
 */
 static makeEscapeWheel(scale, withGear, startEdges) {
-  var p = new Polygon(PendulumClockConfig.en.ESCAPE_WHEEL,
+  const p = new Polygon(PendulumClockConfig.en.ESCAPE_WHEEL,
       PendulumClockConfig.i18n.ESCAPE_WHEEL);
-  var radius = 90 * scale; // inner radius
-  var depth = 14 * scale; // depth of tooth
-  var numTeeth = 24;  // number of teeth
+  const radius = 90 * scale; // inner radius
+  const depth = 14 * scale; // depth of tooth
+  const numTeeth = 24;  // number of teeth
   // the original inside and outside points are in_0 and out_0
-  var in_0 = new Vector(radius, 0);
-  var out_0 = new Vector(radius + depth, 0);
+  const in_0 = new Vector(radius, 0);
+  const out_0 = new Vector(radius + depth, 0);
   // The current inside & outside points are in_p and out_p.
   // We rotate in_0 and out_0 to produce in_p and out_p.
-  var in_p = in_0;
-  var out_p = out_0;
+  let in_p = in_0;
+  let out_p = out_0;
   p.startPath(new ConcreteVertex(new Vector(in_p.getX(), in_p.getY())));
-  for (var i=1; i<=numTeeth; i++) {
+  for (let i=1; i<=numTeeth; i++) {
     // line from inside to outside
-    var outsideIsUp;
+    let outsideIsUp;
     if (Math.abs(in_p.getX() - out_p.getX()) < 1e-2)
       outsideIsUp = out_p.getY() > in_p.getY();
     else
       outsideIsUp = in_p.getX() > out_p.getX();
-    var e = p.addStraightEdge(out_p, outsideIsUp);
+    const e = p.addStraightEdge(out_p, outsideIsUp);
     if (i==1) {
       startEdges.push(e);
     }
     // line from outside to next (rotated) inside point
-    var angle = (Math.PI * 2 * i) / numTeeth;
+    const angle = (Math.PI * 2 * i) / numTeeth;
     in_p = in_0.rotate(angle);
     if (Math.abs(in_p.getX() - out_p.getX()) < 1e-2)
       outsideIsUp = out_p.getY() < in_p.getY();
@@ -136,7 +136,7 @@ static makeEscapeWheel(scale, withGear, startEdges) {
   p.finish();
   p.setCenterOfMass(0, 0);
   p.setDragPoints([new Vector(0, 2)]);
-  var r = radius + depth/2;
+  const r = radius + depth/2;
   p.setMomentAboutCM(r*r/2);
   return p;
 };
@@ -147,9 +147,9 @@ static makeEscapeWheel(scale, withGear, startEdges) {
 * @param {!Vector} center location of escape wheel center, in world coords
 */
 static makeClock(sim, pendulumLength, center) {
-  var escapeEdges = [];
+  const escapeEdges = [];
   // escape wheel is the sharp toothed gear, which drives the clock.
-  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
+  const escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
       /*withGear=*/false, escapeEdges);
   escapeWheel.setPosition(center,  0);
   escapeWheel.setMass(1);
@@ -157,10 +157,10 @@ static makeClock(sim, pendulumLength, center) {
   JointUtil.attachFixedPoint(sim, escapeWheel, Vector.ORIGIN, CoordType.WORLD);
 
   // anchor is the rocking pendulum which regulates movement of escape wheel
-  var scale = 0.03;
-  var anchorJoint = new Vector(109*scale, 166*scale);
-  var anchorEdges = [];
-  var anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint,
+  const scale = 0.03;
+  const anchorJoint = new Vector(109*scale, 166*scale);
+  const anchorEdges = [];
+  const anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint,
       /*rodLength=*/pendulumLength, /*bobRadius=*/0.6, anchorEdges);
   // anchorEdges contains start edge for anchor and pendulum
   asserts.assert(anchorEdges.length >= 2);
@@ -168,7 +168,7 @@ static makeClock(sim, pendulumLength, center) {
   sim.addBody(anchor);
 
   // move anchor to zero energy position, and record zero energy level
-  var p = center.add(new Vector(0, 4.6));
+  const p = center.add(new Vector(0, 4.6));
   anchor.alignTo(anchorJoint, /*p_world=*/p, /*angle=*/0);
   JointUtil.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
   anchor.setZeroEnergyLevel();
@@ -189,17 +189,17 @@ static makeClock(sim, pendulumLength, center) {
 */
 static makeClockWithGears(sim, pendulumLength, center) {
   // anchor is the rocking pendulum which regulates movement of escape wheel
-  var scale = 0.03;
-  var anchorJoint = new Vector(109*scale, 166*scale);
-  var anchorEdges = [];
-  var anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint, pendulumLength,
+  const scale = 0.03;
+  const anchorJoint = new Vector(109*scale, 166*scale);
+  const anchorEdges = [];
+  const anchor = PendulumClockConfig.makeAnchor(scale, anchorJoint, pendulumLength,
       /*bobRadius=*/0.6, anchorEdges);
   // anchorEdges contains start edges for anchor and pendulum
   asserts.assert(anchorEdges.length >= 2);
   anchor.setMass(10);
   sim.addBody(anchor);
   // move anchor to zero energy position, and record zero energy level
-  var p = center.add(new Vector(0, 4.6));
+  let p = center.add(new Vector(0, 4.6));
   anchor.alignTo(anchorJoint, /*p_world=*/p, /*angle=*/0.0);
   JointUtil.attachFixedPoint(sim, anchor, anchorJoint, CoordType.BODY);
   anchor.setZeroEnergyLevel();
@@ -208,12 +208,12 @@ static makeClockWithGears(sim, pendulumLength, center) {
   sim.alignConnectors();
 
   // gear2 is the second gear which interacts with the gears on escape wheel.
-  var r = scale * 90 * 0.8;
-  var gear2Edges = [];
-  var gear2 = GearsConfig.makeGear(r, gear2Edges, PendulumClockConfig.en.GEAR+2,
+  const r = scale * 90 * 0.8;
+  const gear2Edges = [];
+  const gear2 = GearsConfig.makeGear(r, gear2Edges, PendulumClockConfig.en.GEAR+2,
       PendulumClockConfig.i18n.GEAR+2);
   gear2.setMass(0.5);
-  var tooth = 2*Math.PI/36;
+  const tooth = 2*Math.PI/36;
   // May 27 2013:  reduce the angle by 0.002 to avoid a crash.
   // @todo  debug the crash that occurs without that 0.002 offset.
   p = center.add(new Vector((2 * r) +0.008+0.40, 0));
@@ -229,8 +229,8 @@ static makeClockWithGears(sim, pendulumLength, center) {
   // escape wheel is the sharp toothed gear, which drives the clock.
   // A set of rectangular gears is added to to the escape wheel to interact
   // with the second gear.
-  var escapeEdges = [];
-  var escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
+  const escapeEdges = [];
+  const escapeWheel = PendulumClockConfig.makeEscapeWheel(/*scale=*/0.03,
       /*withGear=*/true, escapeEdges);
   // escapeEdges contains start edges for escape wheel and gear
   asserts.assert(escapeEdges.length >= 2);

@@ -61,7 +61,7 @@ Modify the DisplayObject's style directly after it has been created.  Here
 is an example:
 
     simList.add(polygon1); // RigidBodyObserver creates a DisplayShape here
-    var dispPoly1 = displayList.findShape(polygon1);
+    const dispPoly1 = displayList.findShape(polygon1);
     dispPoly1.setFillStyle('red');
 
 #### 2. Modify the prototype
@@ -229,14 +229,14 @@ addBody(obj) {
     return;
   }
   if (obj instanceof Polygon) {
-    var p = /** @type {!Polygon} */(obj);
+    const p = /** @type {!Polygon} */(obj);
     if (isFinite(p.getMass())) {
       this.add_(new DisplayShape(p, this.protoPolygon), obj);
     } else {
       this.add_(new DisplayShape(p, this.protoFixedPolygon), obj);
     }
   } else if (obj instanceof Impulse) {
-    var impulse = /** @type {!Impulse} */(obj);
+    const impulse = /** @type {!Impulse} */(obj);
     if (impulse.getName().match(/^IMPULSE2/) != null) {
       // Avoid showing second impulse in a pair of opposing impulses;
       // the name indicates this is second force of pair.
@@ -244,15 +244,15 @@ addBody(obj) {
     }
     if (impulse.getName().match(/^IMPULSE1/) != null) {
       // Show impulse as a circle with area proportional to magnitude
-      var radius = Math.sqrt(Math.abs(5 * impulse.getMagnitude())/Math.PI);
+      const radius = Math.sqrt(Math.abs(5 * impulse.getMagnitude())/Math.PI);
       // minimum diameter is 0.02
-      var width = Math.max(0.02, Math.abs(2*radius));
-      var m = PointMass.makeCircle(width, impulse.getName()).setMass(0);
+      const width = Math.max(0.02, Math.abs(2*radius));
+      const m = PointMass.makeCircle(width, impulse.getName()).setMass(0);
       m.setPosition(impulse.getStartPoint());
       this.add_(new DisplayShape(m, this.protoCollision), obj);
     }
   } else if (obj instanceof Force) {
-    var f = /** @type {!Force} */(obj);
+    const f = /** @type {!Force} */(obj);
     if (f.getName().match(/^CONTACT_FORCE2/) != null) {
       // Avoid showing second force in a pair of opposing forces;
       // the name indicates this is second force of pair.
@@ -268,26 +268,26 @@ addBody(obj) {
       this.add_(new DisplayLine(f, this.protoForce), obj);
     }
   } else if (obj instanceof PathEndPoint) {
-    p = /** @type {!Connector} */(obj);
+    const p = /** @type {!Connector} */(obj);
     this.add_(new DisplayConnector(p, this.protoPathEndPoint), obj);
   } else if (obj instanceof Joint || obj instanceof PathJoint) {
-    p = /** @type {!Connector} */(obj);
+    const p = /** @type {!Connector} */(obj);
     this.add_(new DisplayConnector(p, this.protoJoint), obj);
   } else if (obj instanceof PointMass) {
-    p = /** @type {!PointMass} */(obj);
+    const p = /** @type {!PointMass} */(obj);
     this.add_(new DisplayShape(p, this.protoPointMass), obj);
   } else if (obj instanceof Spring) {
-    p = /** @type {!Spring} */(obj);
+    const p = /** @type {!Spring} */(obj);
     if (p.nameEquals(RigidBodyEventHandler.en.DRAG)) {
       this.add_(new DisplaySpring(p, this.protoDragSpring), obj);
     } else {
       this.add_(new DisplaySpring(p, this.protoSpring), obj);
     }
   } else if (obj instanceof Rope) {
-    p = /** @type {!Rope} */(obj);
+    const p = /** @type {!Rope} */(obj);
     this.add_(new DisplayRope(p, this.protoRope), obj);
   } else if (obj instanceof ConcreteLine) {
-    p = /** @type {!ConcreteLine} */(obj);
+    const p = /** @type {!ConcreteLine} */(obj);
     this.add_(new DisplayLine(p, this.protoConcreteLine), obj);
   } else {
     //console.log('RigidBodyObserver unknown object '+obj);
@@ -299,7 +299,7 @@ addBody(obj) {
 * @private
 */
 removeBody(obj) {
-  var pair = array.find(this.memPairs_, element => element.simObj == obj);
+  const pair = array.find(this.memPairs_, element => element.simObj == obj);
   if (pair != null) {
     this.displayList_.remove(pair.dispObj);
     array.remove(this.memPairs_, pair);
@@ -309,7 +309,7 @@ removeBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList_) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {

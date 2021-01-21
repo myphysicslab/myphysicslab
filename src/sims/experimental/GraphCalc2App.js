@@ -87,11 +87,11 @@ constructor(elem_ids, opt_name) {
   */
   this.expr_ = '';
 
-  var div = GraphCalc2App.getElementById(elem_ids, 'graph_div');
+  const div = GraphCalc2App.getElementById(elem_ids, 'graph_div');
   if (div == null) {
     throw 'graph_div not found';
   }
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
   * @type {!LabCanvas}
   * @private
@@ -105,9 +105,9 @@ constructor(elem_ids, opt_name) {
   */
   this.graph_controls = GraphCalc2App.getElementById(elem_ids, 'graph_controls');
 
-  var term_output = /** @type {?HTMLInputElement} */
+  const term_output = /** @type {?HTMLInputElement} */
       (GraphCalc2App.getElementById(elem_ids, 'term_output'));
-  var term_input = /** @type {?HTMLInputElement} */
+  const term_input = /** @type {?HTMLInputElement} */
       (GraphCalc2App.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
@@ -135,7 +135,7 @@ constructor(elem_ids, opt_name) {
   this.simView.setHorizAlign(HorizAlign.FULL);
   this.simView.setVerticalAlign(VerticalAlign.FULL);
   this.simCanvas.addView(this.simView);
-  var screenrect = this.simView.getScreenRect();
+  const screenrect = this.simView.getScreenRect();
   /**
   * @type {!GraphLine}
   * @private
@@ -162,8 +162,8 @@ constructor(elem_ids, opt_name) {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.graph.setScreenRect(this.simView.getScreenRect());
       } else if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
-        var screenrect = this.simView.getScreenRect();
-        var simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
+        const screenrect = this.simView.getScreenRect();
+        const simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
         this.axes.setSimRect(simrect);
       }
     }, 'adjust when screen rect changes');
@@ -179,16 +179,16 @@ constructor(elem_ids, opt_name) {
     });
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, GraphCalc2App.en.B_PARAM,
       GraphCalc2App.i18n.B_PARAM,
       () => this.getBParam(), a => this.setBParam(a))
       .setLowerLimit(Util.NEGATIVE_INFINITY)
       .setSignifDigits(3));
-  var b_max = typeof elem_ids.b_max === 'number' ? elem_ids.b_max : 10;
-  var b_min = typeof elem_ids.b_min === 'number' ? elem_ids.b_min : -10;
-  var b_multiply = typeof elem_ids.b_multiply === 'boolean' ? elem_ids.b_multiply : false;
-  var b_increments = typeof elem_ids.b_increments === 'number' ? elem_ids.b_increments : 200;
+  const b_max = typeof elem_ids.b_max === 'number' ? elem_ids.b_max : 10;
+  const b_min = typeof elem_ids.b_min === 'number' ? elem_ids.b_min : -10;
+  const b_multiply = typeof elem_ids.b_multiply === 'boolean' ? elem_ids.b_multiply : false;
+  const b_increments = typeof elem_ids.b_increments === 'number' ? elem_ids.b_increments : 200;
   this.addControl(new SliderControl(pn, b_min, b_max, /*multiply=*/b_multiply,
       /*increments=*/b_increments));
 
@@ -207,7 +207,7 @@ getClassName() {
 */
 addControl(control) {
   if (this.graph_controls != null) {
-    var element = control.getElement();
+    const element = control.getElement();
     element.style.display = 'block';
     this.graph_controls.appendChild(element);
   }
@@ -254,7 +254,7 @@ static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode,
   // but indexing with a string is never renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
@@ -272,14 +272,14 @@ static getElementById(elem_ids, elementId) {
 plot(expr, range1, range2, numPts) {
   expr = this.expr_ = expr || this.expr_;
   numPts = numPts || 1000;
-  var r = this.simView.getSimRect();
+  const r = this.simView.getSimRect();
   if (range1 === undefined) {
     range1 = r.getLeft();
   }
   if (range2 === undefined) {
     range2 = r.getRight();
   }
-  var incr = (range2 - range1)/numPts;
+  const incr = (range2 - range1)/numPts;
   if (incr <= 0) {
     this.terminal.println('ERROR calling plot: range2 must be greater than range1');
     return;
@@ -295,9 +295,9 @@ plot(expr, range1, range2, numPts) {
   // with terminal.addRegex (below in defineNames).
   // terminal.eval then changes 'x' to 'app.x' in the expression.
   this.x = range1;
-  var y = NaN;
+  let y = NaN;
   if (expr) {
-    for (var i=0; i<numPts; i++) {
+    for (let i=0; i<numPts; i++) {
       y = this.terminal.eval(expr, /*output=*/false);
       if (typeof y === 'number' && isFinite(y)) {
         this.vars.setValue(0, this.x, /*continuous=*/true);

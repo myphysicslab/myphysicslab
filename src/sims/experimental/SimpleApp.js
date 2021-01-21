@@ -43,38 +43,38 @@ static makeSimpleApp() {
 
   Util.setErrorHandler();
   // create a canvas for displaying the view objects
-  var canvas_div = window.document.getElementById('canvas_div');
+  const canvas_div = window.document.getElementById('canvas_div');
   if (!canvas_div) {
     throw '';
   }
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
-  var simCanvas = new LabCanvas(canvas, 'canvas1');
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const simCanvas = new LabCanvas(canvas, 'canvas1');
   simCanvas.setSize(500, 300);
   canvas_div.appendChild(simCanvas.getCanvas());
 
   // create the model objects for the spring, block and fixed mass.
-  var point1 = PointMass.makeRectangle(1, 1.5, 'block');
-  var fixedPt = PointMass.makeSquare(1, 'fixed').setMass(Util.POSITIVE_INFINITY);
+  const point1 = PointMass.makeRectangle(1, 1.5, 'block');
+  const fixedPt = PointMass.makeSquare(1, 'fixed').setMass(Util.POSITIVE_INFINITY);
   fixedPt.setPosition(new Vector(-4, 0));
   // connect the spring between the fixed mass and the moveable block.
-  var spring1 = new Spring('spring',
+  const spring1 = new Spring('spring',
       fixedPt, Vector.ORIGIN,
       point1, Vector.ORIGIN,
       /*restLength=*/1, /*stiffness=*/3);
 
   // make view objects that track the block and spring model objects
-  var simRect = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
-  var simView = new SimView('simView', simRect);
-  var shape1 = new DisplayShape(point1).setFillStyle('orange');
+  const simRect = new DoubleRect(/*left=*/-5, /*bottom=*/-5, /*right=*/5, /*top=*/5);
+  const simView = new SimView('simView', simRect);
+  const shape1 = new DisplayShape(point1).setFillStyle('orange');
   simView.getDisplayList().add(shape1);
-  var dspring = new DisplaySpring(spring1).setWidth(1.0).setColorCompressed('yellow')
+  const dspring = new DisplaySpring(spring1).setWidth(1.0).setColorCompressed('yellow')
       .setColorExpanded('blue');
   simView.getDisplayList().add(dspring);
   simCanvas.addView(simView);
 
   // create the callback that drives the animation
-  var clock = new Clock();
-  var timer = new Timer();
+  const clock = new Clock();
+  const timer = new Timer();
   timer.setCallBack(() => {
     point1.setPosition(new Vector(1 + 3*Math.sin(3*clock.getTime()), 0));
     simCanvas.paint();

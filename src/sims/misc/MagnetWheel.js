@@ -49,9 +49,9 @@ class MagnetWheel extends AbstractMassObject {
 * @param {string=} opt_localName localized name of this MagnetWheel, for display to user
 */
 constructor(opt_name, opt_localName) {
-  var name, localName;
+  let name, localName;
   if (opt_name === undefined || opt_name == '') {
-    var id = MagnetWheel.ID++;
+    const id = MagnetWheel.ID++;
     name = MagnetWheel.en.MAGNET_WHEEL + id;
     localName = MagnetWheel.i18n.MAGNET_WHEEL + id;
   } else {
@@ -110,24 +110,24 @@ getClassName() {
 * @return {!MagnetWheel}
 */
 static make(radius, opt_name, opt_localName) {
-  var p = new MagnetWheel(opt_name, opt_localName);
+  const p = new MagnetWheel(opt_name, opt_localName);
   p.setRadius(radius);
   return p;
 };
 
 /** @override */
 calculateForces() {
-  var fm = this.fixedMagnet_;
-  var forces = [];
-  for (var i=0, n=this.magnets_.length; i<n; i++) {
+  const fm = this.fixedMagnet_;
+  const forces = [];
+  for (let i=0, n=this.magnets_.length; i<n; i++) {
     // r = vector from center of wheel to magnet
-    var r = this.bodyToWorld(this.magnets_[i]);
+    const r = this.bodyToWorld(this.magnets_[i]);
     // force from magnet to fixed magnet is proportional to inverse square of distance
-    var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
+    let f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
     f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
-    var t = r.getX() * f.getY() - r.getY() * f.getX();
+    const t = r.getX() * f.getY() - r.getY() * f.getX();
     // name, body, location, locationCoordType, direction, directionCoordType, torque
-    var fc = new Force('magnet'+i, this, r, CoordType.WORLD, f, CoordType.WORLD, t);
+    const fc = new Force('magnet'+i, this, r, CoordType.WORLD, f, CoordType.WORLD, t);
     forces.push(fc);
   }
   return forces;
@@ -194,12 +194,12 @@ getMinHeight() {
 
 /** @override */
 getPotentialEnergy() {
-  var pe = 0;
-  for (var i=0, n=this.magnets_.length; i<n; i++) {
+  let pe = 0;
+  for (let i=0, n=this.magnets_.length; i<n; i++) {
     // current position of the magnet
-    var r = this.bodyToWorld(this.magnets_[i]);
+    const r = this.bodyToWorld(this.magnets_[i]);
     // convert this to angle from -pi to pi.
-    var a = r.getAngle();
+    let a = r.getAngle();
     if (a < -Math.PI/2) {
       a = a + 2 * Math.PI;
     }
@@ -242,23 +242,22 @@ getTopBody() {
 getTorque(idx, angle) {
   if (idx < 0 || idx >= this.magnetDist_.length)
       throw '';
-  var fm = this.fixedMagnet_;
+  const fm = this.fixedMagnet_;
   // only thing that matters here is the magnet's distance from center
-  var d = this.magnetDist_[idx];
+  const d = this.magnetDist_[idx];
   // r = vector from center of wheel to magnet at given angle
   // NOTE: this assumes wheel's center is at the origin.
-  var r = new Vector(d * Math.cos(angle), d * Math.sin(angle));
+  const r = new Vector(d * Math.cos(angle), d * Math.sin(angle));
   // force from magnet to fixed magnet is proportional to inverse square of distance
-  var f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
+  let f = new Vector(fm.getX() - r.getX(), fm.getY() - r.getY());
   f = f.normalize().multiply(this.magnetStrength_ / f.lengthSquared());
-  var t = r.getX() * f.getY() - r.getY() * f.getX();
-  return t;
+  return r.getX() * f.getY() - r.getY() * f.getX();
 };
 
 /** @override */
 getVerticesBody() {
-  var w = this.radius_;
-  var h = this.radius_;
+  const w = this.radius_;
+  const h = this.radius_;
   return [new Vector(-w, -h), new Vector(w, -h), new Vector(w, h), new Vector(-w, h)];
 };
 

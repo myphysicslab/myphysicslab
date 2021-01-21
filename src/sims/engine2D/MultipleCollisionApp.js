@@ -68,11 +68,11 @@ class MultipleCollisionApp extends Engine2DApp {
 * @param {string=} opt_name name of this as a Subject
 */
 constructor(elem_ids, opt_name) {
-  var w = 6;
-  var h = 2;
-  var simRect = new DoubleRect(-w, -h, w, h);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const w = 6;
+  const h = 2;
+  const simRect = new DoubleRect(-w, -h, w, h);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, opt_name);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -96,7 +96,7 @@ constructor(elem_ids, opt_name) {
   this.angle = 0;
   /** @type {number} */
   this.speed = 3;
-  var choices = [ MultipleCollisionApp.i18n.ONE_HITS_TWO,
+  const choices = [ MultipleCollisionApp.i18n.ONE_HITS_TWO,
       MultipleCollisionApp.i18n.ONE_HITS_THREE,
       MultipleCollisionApp.i18n.ONE_HITS_TWO_SEPARATE,
       MultipleCollisionApp.i18n.ONE_HITS_ONE_ON_WALL,
@@ -135,9 +135,9 @@ constructor(elem_ids, opt_name) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   this.addParameter(ps = new ParameterString(this, MultipleCollisionApp.en.FORMATION,
       MultipleCollisionApp.i18n.FORMATION,
       () => this.getFormation(),
@@ -235,7 +235,7 @@ makePuck() {
 * @private
 */
 addBody(body) {
-  var c = MultipleCollisionApp.massToColor(body.getMass());
+  const c = MultipleCollisionApp.massToColor(body.getMass());
   this.mySim.addBody(body);
   this.displayList.findShape(body).setFillStyle(c).setDrawCenterOfMass(true);
 };
@@ -256,14 +256,14 @@ This translates to equation:
 * @return {string} color corresponding to mass
 */
 static massToColor(mass) {
-  var logm = Math.LOG10E * Math.log((mass));
+  let logm = Math.LOG10E * Math.log((mass));
   if (logm < -1) {
     logm = -1;
   } else if (logm > 2) {
     logm = 2;
   }
-  var rgb = Math.floor(0.5 + 100 + 43 * (-logm + 2));
-  var s = rgb.toString();
+  const rgb = Math.floor(0.5 + 100 + 43 * (-logm + 2));
+  const s = rgb.toString();
   return 'rgb('+s+','+s+','+s+')';
 };
 
@@ -272,13 +272,13 @@ static massToColor(mass) {
 * @private
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
-  var distTol = this.mySim.getDistanceTol();
-  var body, body1, body2, body3, body4;
-  var idx = this.formations.indexOf(this.formation);
+  const distTol = this.mySim.getDistanceTol();
+  let body, body1, body2, body3, body4;
+  const idx = this.formations.indexOf(this.formation);
   switch (idx) {
 
     case 0: //ONE_HITS_TWO:

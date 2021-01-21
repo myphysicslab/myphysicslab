@@ -52,9 +52,9 @@ class GearsApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -6, 8, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -6, 8, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -80,9 +80,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pb = new ParameterBoolean(this, GearsConfig.en.PINNED_GEARS,
       GearsConfig.i18n.PINNED_GEARS,
       () => this.getPinnedGears(), a => this.setPinnedGears(a)));
@@ -153,7 +153,7 @@ graphSetup(body) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
@@ -170,7 +170,7 @@ config() {
   if (this.twoGears) {
     this.gearRight = GearsConfig.makeGear(2.7, [], GearsConfig.en.RIGHT_GEAR,
         GearsConfig.i18n.RIGHT_GEAR);
-    var tooth = 2*Math.PI/36;
+    const tooth = 2*Math.PI/36;
     this.gearRight.setPosition(new Vector((2 * 2.7) +0.008+0.35, 0), -tooth/5);
     this.mySim.addBody(this.gearRight);
     this.displayList.findShape(this.gearRight).setFillStyle('lightGray');
@@ -190,7 +190,7 @@ config() {
     this.gravityLaw.setGravity(0);
   } else {
     // gears freely moving, dropping onto floor
-    var zel = Walls.make(this.mySim, /*width=*/60, /*height=*/12, /*thickness=*/1.0);
+    const zel = Walls.make(this.mySim, /*width=*/60, /*height=*/12, /*thickness=*/1.0);
     this.gravityLaw.setZeroEnergyLevel(zel);
     this.gravityLaw.setGravity(3);
   }
@@ -220,7 +220,7 @@ setTurningForce(value) {
     this.mySim.removeForceLaw(this.turnForceLaw);
   }
   if (this.gearLeft) {
-    var f = new Force('turning', this.gearLeft,
+    const f = new Force('turning', this.gearLeft,
         /*location=*/this.gearLeft.getDragPoints()[0], CoordType.BODY,
         /*direction=*/new Vector(value, 0), CoordType.BODY);
     this.turnForceLaw = new ConstantForceLaw(f);

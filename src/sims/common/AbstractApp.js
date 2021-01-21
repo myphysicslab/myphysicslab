@@ -271,7 +271,7 @@ in EasyScriptParser documentation.
 * @param {!Array<!Subject>=} opt_dependent additional dependent Subjects
 */
 makeEasyScript(opt_dependent) {
-  const dependent = [ this.varsList ];
+  let dependent = [ this.varsList ];
   if (Array.isArray(opt_dependent)) {
     dependent = dependent.concat(opt_dependent);
   }

@@ -53,9 +53,9 @@ class PendulumSpringApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -4, 4, 4);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 4);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -72,13 +72,13 @@ constructor(elem_ids) {
   this.springs_ = [];
 
   // wallPivot = where in world space the pivot is
-  var wallPivotX = 2.0;
-  var wallPivotY = 0;
-  var map = this.simView.getCoordMap();
-  var pendulum = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.PENDULUM,
+  const wallPivotX = 2.0;
+  const wallPivotY = 0;
+  const map = this.simView.getCoordMap();
+  const pendulum = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.PENDULUM,
       PendulumSpringApp.i18n.PENDULUM);
-  var bodyX = 0.5*pendulum.getWidth();
-  var bodyY = 0.15*pendulum.getHeight();
+  const bodyX = 0.5*pendulum.getWidth();
+  const bodyY = 0.15*pendulum.getHeight();
   this.mySim.addBody(pendulum);
   this.displayList.findShape(pendulum).setFillStyle('#B0C4DE');
   // joints to attach upper pendulum to a fixed point.
@@ -87,7 +87,7 @@ constructor(elem_ids) {
       pendulum, /*attach_body=*/new Vector(bodyX, bodyY),
       /*normalType=*/CoordType.WORLD);
 
-  var block = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.BLOCK,
+  const block = Shapes.makeBlock2(0.3, 1.0, PendulumSpringApp.en.BLOCK,
       PendulumSpringApp.i18n.BLOCK);
   block.setPosition(new Vector(-1.2,  -2.5),  0.2);
   this.mySim.addBody(block);
@@ -109,7 +109,7 @@ constructor(elem_ids) {
       /*restLength=*/0.75, /*stiffness=*/1.0));
 
   // Walls.make also sets zero energy level for each block.
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 
   // Set the pendulum's zero energy level to a custom setting.
@@ -124,9 +124,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));
   this.watchEnergyChange(pn);
@@ -209,7 +209,7 @@ getSubjects() {
 
 /** @override */
 graphSetup(body) {
-  var bodyIdx = this.mySim.getBody('block').getVarsIndex();
+  const bodyIdx = this.mySim.getBody('block').getVarsIndex();
   this.graphLine.setXVariable(bodyIdx+0);
   this.graphLine.setYVariable(bodyIdx+2);
   this.graph.line.setXVariable(bodyIdx+0);

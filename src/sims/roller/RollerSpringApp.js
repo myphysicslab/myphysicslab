@@ -55,9 +55,9 @@ class RollerSpringApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new RollerSingleSim(/*hasSpring=*/true);
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new RollerSingleSim(/*hasSpring=*/true);
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -94,9 +94,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));
   pn = sim.getParameterNumber(RollerSingleSim.en.GRAVITY);

@@ -42,9 +42,9 @@ class PendulumApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-2, -2.2, 2, 1.5);
-  var sim = new PendulumSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-2, -2.2, 2, 1.5);
+  const sim = new PendulumSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   /** @type {!DisplayLine} */
@@ -61,7 +61,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(PendulumSim.en.LENGTH);
   this.addControl(new SliderControl(pn, 0.1, 10.1, /*multiply=*/true));
 
@@ -81,7 +81,7 @@ constructor(elem_ids) {
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 
   /** @type {!ParameterBoolean} */
-  var pb = sim.getParameterBoolean(PendulumSim.en.LIMIT_ANGLE);
+  const pb = sim.getParameterBoolean(PendulumSim.en.LIMIT_ANGLE);
   this.addControl(new CheckBoxControl(pb));
 
   this.addStandardControls();

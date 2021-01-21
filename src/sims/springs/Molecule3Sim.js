@@ -183,7 +183,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
-  var var_names = [
+  const var_names = [
       VarsList.en.TIME,
       EnergySystem.en.KINETIC_ENERGY,
       EnergySystem.en.POTENTIAL_ENERGY,
@@ -192,7 +192,7 @@ constructor(opt_name) {
       Molecule3Sim.en.FORCE+'2',
       Molecule3Sim.en.FORCE+'3'
   ];
-  var i18n_names = [
+  const i18n_names = [
       VarsList.i18n.TIME,
       EnergySystem.i18n.KINETIC_ENERGY,
       EnergySystem.i18n.POTENTIAL_ENERGY,
@@ -307,15 +307,15 @@ from that atom.
 addAtom(atom) {
   if (!this.atoms_.includes(atom)) {
     // create 4 variables in vars array for this atom
-    var names = [];
-    for (var k = 0; k<4; k++) {
+    const names = [];
+    for (let k = 0; k<4; k++) {
       names.push(this.getVarName(atom, k, /*localized=*/false));
     }
-    var localNames = [];
-    for (var k = 0; k<4; k++) {
+    const localNames = [];
+    for (let k = 0; k<4; k++) {
       localNames.push(this.getVarName(atom, k, /*localized=*/true));
     }
-    var idx = this.getVarsList().addVariables(names, localNames);
+    const idx = this.getVarsList().addVariables(names, localNames);
     this.atoms_.push(atom);
     this.getSimList().add(atom);
   }
@@ -330,7 +330,7 @@ addAtom(atom) {
 @return {string} the name of the specified variable for the given atom
 */
 getVarName(atom, index, localized) {
-  var s = atom.getName(localized)+' ';
+  let s = atom.getName(localized)+' ';
   switch (index) {
     case 0: s += 'X '+
       (localized ? Molecule3Sim.i18n.POSITION : Molecule3Sim.en.POSITION);
@@ -356,14 +356,14 @@ getVarName(atom, index, localized) {
 *     the simulation variables
 */
 initializeFromAtom(atom) {
-  var idx = this.atoms_.indexOf(atom);
+  let idx = this.atoms_.indexOf(atom);
   if (idx < 0) {
     throw "atom not found: "+atom;
   }
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   idx = Molecule3Sim.START_VAR + 4*idx;
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   va.setValue(idx, atom.getPosition().getX());
   va.setValue(idx + 1, atom.getPosition().getY());
   va.setValue(idx + 2, atom.getVelocity().getX());
@@ -418,7 +418,7 @@ cleanSlate() {
   // observing the current VarsList.  Instead, resize it for zero bodies.
   // Note this will delete any Variables that have been added to the end
   // of the VarsList.
-  var nv = this.getVarsList().numVariables();
+  const nv = this.getVarsList().numVariables();
   // set time to zero
   this.getVarsList().setValue(0, 0);
   if (nv > Molecule3Sim.START_VAR) {
@@ -434,7 +434,7 @@ cleanSlate() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -448,11 +448,11 @@ getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
   /** @type {number} */
-  var ke = 0;
+  let ke = 0;
   /** @type {number} */
-  var pe = 0;
+  let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
-  var bottom = this.walls_.getBoundsWorld().getBottom();
+  const bottom = this.walls_.getBoundsWorld().getBottom();
   this.atoms_.forEach(atom => {
     ke += atom.getKineticEnergy();
     // gravity potential = m g (y - floor)
@@ -479,10 +479,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   va.setValue(1, ei.getTranslational(), true);
@@ -490,27 +490,29 @@ modifyObjects() {
   va.setValue(3, ei.getTotalEnergy(), true);
 
   // find magnitude of force on atoms
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
-  var m = this.atoms_[0].getMass();
-  // F = m a, we have accel, so multiply by mass
-  var fx = m * rate[Molecule3Sim.START_VAR + 2];
-  var fy = m * rate[Molecule3Sim.START_VAR + 3];
-  va.setValue(4, Math.sqrt(fx*fx + fy*fy), true);
+  {
+    const m = this.atoms_[0].getMass();
+    // F = m a, we have accel, so multiply by mass
+    const fx = m * rate[Molecule3Sim.START_VAR + 2];
+    const fy = m * rate[Molecule3Sim.START_VAR + 3];
+    va.setValue(4, Math.sqrt(fx*fx + fy*fy), true);
+  }
   // force on atom 2
   if (this.atoms_.length > 1) {
-    m = this.atoms_[1].getMass();
-    fx = m * rate[Molecule3Sim.START_VAR + 6];
-    fy = m * rate[Molecule3Sim.START_VAR + 7];
+    const m = this.atoms_[1].getMass();
+    const fx = m * rate[Molecule3Sim.START_VAR + 6];
+    const fy = m * rate[Molecule3Sim.START_VAR + 7];
     va.setValue(5, Math.sqrt(fx*fx + fy*fy), true);
   } else {
     va.setValue(5, 0, true);
   }
   // force on atom 3
   if (this.atoms_.length > 2) {
-    m = this.atoms_[2].getMass();
-    fx = m * rate[Molecule3Sim.START_VAR + 10];
-    fy = m * rate[Molecule3Sim.START_VAR + 11];
+    const m = this.atoms_[2].getMass();
+    const fx = m * rate[Molecule3Sim.START_VAR + 10];
+    const fy = m * rate[Molecule3Sim.START_VAR + 11];
     va.setValue(6, Math.sqrt(fx*fx + fy*fy), true);
   } else {
     va.setValue(6, 0, true);
@@ -525,7 +527,7 @@ moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   this.atoms_.forEach((atom, i) => {
-    var idx = Molecule3Sim.START_VAR + 4*i;
+    const idx = Molecule3Sim.START_VAR + 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
   });
@@ -552,16 +554,16 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
   if (this.dragAtom_ > -1) {
-    var atom = this.atoms_[this.dragAtom_];
+    const atom = this.atoms_[this.dragAtom_];
     if (simObject != atom) {
       return;
     }
-    var p = location.subtract(offset);
-    var x = p.getX();
-    var y = p.getY();
-    var w = atom.getWidth()/2;
-    var h = atom.getHeight()/2;
-    var walls = this.walls_.getBoundsWorld();
+    const p = location.subtract(offset);
+    let x = p.getX();
+    let y = p.getY();
+    const w = atom.getWidth()/2;
+    const h = atom.getHeight()/2;
+    const walls = this.walls_.getBoundsWorld();
     // disallow drag outside of walls
     if (x < walls.getLeft() + w) {
       x = walls.getLeft() + w + 0.0001;
@@ -577,8 +579,8 @@ mouseDrag(simObject, location, offset, mouseEvent) {
     }
     // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
     //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
-    var va = this.getVarsList();
-    var idx = Molecule3Sim.START_VAR + 4*this.dragAtom_;
+    const va = this.getVarsList();
+    const idx = Molecule3Sim.START_VAR + 4*this.dragAtom_;
     va.setValue(0 + idx, x);
     va.setValue(1 + idx, y);
     va.setValue(2 + idx, 0);
@@ -610,17 +612,17 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 * @private
 */
 addCollision(collisions, atom, side, time) {
-  var c = new MoleculeCollision(atom, this.walls_, side, time);
+  const c = new MoleculeCollision(atom, this.walls_, side, time);
   collisions.push(c);
 };
 
 /** @override */
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
-  var w = this.walls_.getBoundsWorld();
+  const w = this.walls_.getBoundsWorld();
   this.atoms_.forEach(atom => {
-    var a = atom.getBoundsWorld();
-    var t = this.getTime()+stepSize;
+    const a = atom.getBoundsWorld();
+    const t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
       this.addCollision(collisions, atom, MoleculeCollision.LEFT_WALL, t);
     }
@@ -640,11 +642,11 @@ findCollisions(collisions, vars, stepSize) {
 handleCollisions(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   collisions.forEach(collision => {
-    var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = Molecule3Sim.START_VAR + 4*this.atoms_.indexOf(c.atom);
+    const c = /** @type {!MoleculeCollision} */(collision);
+    const idx = Molecule3Sim.START_VAR + 4*this.atoms_.indexOf(c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:
@@ -671,22 +673,22 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[0] = 1; // time
-  var walls = this.walls_.getBoundsWorld();
+  const walls = this.walls_.getBoundsWorld();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   this.atoms_.forEach((atom, listIdx) => {
     if (this.dragAtom_ == listIdx) {
       return;
     }
-    var idx = Molecule3Sim.START_VAR + 4*listIdx;
-    var vx = vars[idx+2];
-    var vy = vars[idx+3];
+    const idx = Molecule3Sim.START_VAR + 4*listIdx;
+    const vx = vars[idx+2];
+    const vy = vars[idx+3];
     change[idx] = vx; // Ux' = Vx
     change[idx+1] = vy; // Uy' = Vy
-    var mass = atom.getMass();
-    var bounds = atom.getBoundsWorld();
+    const mass = atom.getMass();
+    const bounds = atom.getBoundsWorld();
     // for each spring, get force from spring
-    var force = new MutableVector(0, 0);
+    const force = new MutableVector(0, 0);
     this.springs_.forEach(spr => {
       if (spr.getBody1() == atom) {
         force.add(spr.calculateForces()[0].getVector());
@@ -697,10 +699,10 @@ evaluate(vars, change, timeStep) {
     // add gravity force
     force.add(new Vector(0, -this.gravity_*mass));
     // add damping force
-    var d = new Vector(vx, vy);
+    const d = new Vector(vx, vy);
     force.add(d.multiply(-this.damping_));
 
-    var ax = force.getX()/mass;
+    let ax = force.getX()/mass;
     if (ax<0 && Math.abs(bounds.getLeft()-walls.getLeft())<this.distTol_
         && Math.abs(vx) < -ax*this.timeStep_/(2*mass)) {
       // left wall contact if (leftward force, near left wall, and low velocity)
@@ -712,7 +714,7 @@ evaluate(vars, change, timeStep) {
     }
     change[idx+2] = ax; // Vx'
 
-    var ay = force.getY()/mass;
+    let ay = force.getY()/mass;
     if (ay<0 && Math.abs(bounds.getBottom() - walls.getBottom()) < this.distTol_
         && Math.abs(vy) < -ay*this.timeStep_/(2*mass)) {
       // floor contact if (downward force, near floor, and low velocity)

@@ -66,7 +66,7 @@ y_func(t) {
     return LoopTheLoopPath.radius * Math.sin(t - 0.5 + LoopTheLoopPath.theta2)
         + LoopTheLoopPath.ycenter + LoopTheLoopPath.yoffset;
   } else {
-    var dd = t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 2;
+    const dd = t - LoopTheLoopPath.theta1 + LoopTheLoopPath.theta2 - 2;
     return dd*dd + LoopTheLoopPath.yoffset;
   }
 };

@@ -40,9 +40,9 @@ class SingleSpringApp extends AbstractApp {
 */
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-3, -2, 3, 2);
-  var sim = new SingleSpringSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-3, -2, 3, 2);
+  const sim = new SingleSpringSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim, opt_name);
 
@@ -57,7 +57,7 @@ constructor(elem_ids, opt_name) {
 
   // Demo of adding an ExpressionVariable.
   if (!Util.ADVANCED) {
-    var va = sim.getVarsList();
+    const va = sim.getVarsList();
     va.addVariable(new ExpressionVariable(va, 'sin_time', 'sin(time)',
         this.terminal, 'Math.sin(sim.getTime());'));
   }
@@ -65,7 +65,7 @@ constructor(elem_ids, opt_name) {
   this.addPlaybackControls();
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(SingleSpringSim.en.MASS);
   this.addControl(new NumericControl(pn));
 

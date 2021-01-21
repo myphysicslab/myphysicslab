@@ -120,7 +120,7 @@ constructor(elem_ids, centered) {
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
 
   /** @type {!RigidDoublePendulumSim.Parts} */
   this.parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
@@ -179,15 +179,16 @@ constructor(elem_ids, centered) {
   this.rbo.protoPolygon = new DisplayShape().setDrawCenterOfMass(true)
       .setDrawDragPoints(true);
   // move the parts horizontally so that we can see them side-by-side with other sim
-  var pivot = new Vector(this.separation, 0);
+  const pivot = new Vector(this.separation, 0);
   /** @type {!RigidDoublePendulumSim.Parts} */
   this.parts2 = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0, pivot)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0, pivot);
-  var bod = this.parts2.bodies[0];
-  this.sim2.addBody(bod);
-  this.displayList.findShape(bod).setFillStyle('#f99');
-  this.sim2.addBody(bod =this.parts2.bodies[1]);
-  this.displayList.findShape(bod).setFillStyle('#f66');
+  const bod0 = this.parts2.bodies[0];
+  this.sim2.addBody(bod0);
+  this.displayList.findShape(bod0).setFillStyle('#f99');
+  const bod1 =this.parts2.bodies[1]
+  this.sim2.addBody(bod1);
+  this.displayList.findShape(bod1).setFillStyle('#f66');
   this.sim2.addConnectors(this.parts2.joints);
   this.sim2.alignConnectors();
   this.sim2.saveInitialState();
@@ -196,8 +197,8 @@ constructor(elem_ids, centered) {
   this.sim2.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.simList2);
 
-  var angle1Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_1);
-  var angle2Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_2);
+  const angle1Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_1);
+  const angle2Name = Util.toName(RigidDoublePendulumSim.en.ANGLE_2);
   new GenericObserver(this.sim1, evt => {
     if (evt.nameEquals(Simulation.RESET)) {
       // When initial angles are changed in sim, then clock time is also reset.
@@ -208,8 +209,8 @@ constructor(elem_ids, centered) {
         evt.nameEquals(RigidDoublePendulumSim.en.ANGLE_2)) {
       // When initial angles are changed in sim, set sim2 to use same angles.
       this.sim2.reset();
-      var p1 = this.sim2.getBody('pendulum1');
-      var p2 = this.sim2.getBody('pendulum2');
+      const p1 = this.sim2.getBody('pendulum1');
+      const p2 = this.sim2.getBody('pendulum2');
       p1.setAngle(this.sim1.getAngle1());
       p2.setAngle(this.sim1.getAngle2());
       p1.setVelocity(new Vector(0,  0),  0);
@@ -251,16 +252,16 @@ constructor(elem_ids, centered) {
   this.sim1.saveInitialState();
 
   // adjust sim2 so that it matches potential energy of sim1
-  var energyInfo1 = this.sim1.getEnergyInfo();
-  var energyInfo2 = this.sim2.getEnergyInfo();
+  const energyInfo1 = this.sim1.getEnergyInfo();
+  const energyInfo2 = this.sim2.getEnergyInfo();
   this.sim2.setPEOffset(energyInfo1.getPotential() - energyInfo2.getPotential() );
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
 
   // ********* simulation controls  *************
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
@@ -319,7 +320,7 @@ constructor(elem_ids, centered) {
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
-  var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
+  const panzoom_simview = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect));
   this.layout.div_sim.appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
@@ -330,18 +331,18 @@ constructor(elem_ids, centered) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
-  var gamma1 = this.sim1.getGamma1();
-  var gamma2 = this.sim1.getGamma2();
-  var line1 = new GraphLine('GRAPH_LINE_1', this.sim1.getVarsList());
+  const gamma1 = this.sim1.getGamma1();
+  const gamma2 = this.sim1.getGamma2();
+  const line1 = new GraphLine('GRAPH_LINE_1', this.sim1.getVarsList());
   line1.setXVariable(0);
   line1.setYVariable(2);
   line1.setColor('blue');
   line1.setDrawingMode(DrawingMode.DOTS);
 
-  var line2 = new GraphLine('GRAPH_LINE_2', this.sim2.getVarsList());
+  const line2 = new GraphLine('GRAPH_LINE_2', this.sim2.getVarsList());
   line2.setXVariable(8);
   line2.setYVariable(14);
   line2.xTransform = function(x, y) { return x + gamma1; };
@@ -352,7 +353,7 @@ constructor(elem_ids, centered) {
   /** translate variable index of sim1 to equivalent variable of sim2
   * @type {function(number): number}
   */
-  var translate = v1 => {
+  const translate = v1 => {
     switch (v1) {
       case 0: return 8; // angle1
       case 1: return 9; // angle1 velocity
@@ -367,11 +368,11 @@ constructor(elem_ids, centered) {
   };
 
   // keep line2's X and Y variable in sync with line1
-  var paramY = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  var paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
+  const paramY = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   new GenericObserver(line1, evt => {
     if (evt == paramY) {
-      var yVar1 = paramY.getValue();
+      const yVar1 = paramY.getValue();
       line2.setYVariable(translate(yVar1));
       // adjust the angles of sim2 to be comparable to those of sim1
       if (yVar1 == 0) {
@@ -382,7 +383,7 @@ constructor(elem_ids, centered) {
         line2.yTransform = function(x, y) { return y; };
       }
     } else if (evt == paramX) {
-      var xVar1 = paramX.getValue();
+      const xVar1 = paramX.getValue();
       line2.setXVariable(translate(xVar1));
       // adjust the angles of sim2 to be comparable to those of sim1
       if (xVar1 == 0) {
@@ -400,20 +401,20 @@ constructor(elem_ids, centered) {
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
 
-  var timeLine1 = new GraphLine('TIME_LINE_1', this.sim1.getVarsList());
+  const timeLine1 = new GraphLine('TIME_LINE_1', this.sim1.getVarsList());
   timeLine1.setYVariable(0); // angle1
   timeLine1.setColor('blue');
   timeLine1.setDrawingMode(DrawingMode.DOTS);
-  var timeLine2 = new GraphLine('TIME_LINE_2', this.sim2.getVarsList());
+  const timeLine2 = new GraphLine('TIME_LINE_2', this.sim2.getVarsList());
   timeLine2.setYVariable(8); // angle1
   timeLine2.yTransform = function(x, y) { return y + gamma1; };
   timeLine2.setColor('red');
   timeLine2.setDrawingMode(DrawingMode.DOTS);
   // keep timeLine2's Y variable in sync with timeLine1
-  var timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
   new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY) {
-      var yVar1 = timeParamY.getValue();
+      const yVar1 = timeParamY.getValue();
       timeLine2.setYVariable(translate(yVar1));
       // adjust the angles of sim2 to be comparable to those of sim1
       if (yVar1 == 0) {
@@ -430,7 +431,7 @@ constructor(elem_ids, centered) {
       this.layout.timeGraphCanvas,
       this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
 
-  var subjects = [
+  let subjects = [
     this,
     this.sim1,
     this.sim2,
@@ -561,11 +562,11 @@ setSeparation_() {
       if (!(connector instanceof Joint)) {
         return;
       }
-      var joint = /** @type {!Joint} */(connector);
+      const joint = /** @type {!Joint} */(connector);
       if (joint.getBody1() == Scrim.getScrim()) {
         this.sim2.removeConnector(joint);
         // same joint info, except different attachment point
-        var j_new = new Joint(
+        const j_new = new Joint(
           joint.getBody1(), /*attach_body=*/new Vector(this.separation, 0),
           joint.getBody2(), /*attach_body=*/joint.getAttach2(),
           joint.getNormalType(), joint.getNormal()

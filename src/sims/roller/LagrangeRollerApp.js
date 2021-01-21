@@ -38,9 +38,9 @@ class LagrangeRollerApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new LagrangeRollerSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new LagrangeRollerSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -62,7 +62,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
 
-  var pn = sim.getParameterNumber(LagrangeRollerSim.en.GRAVITY);
+  let pn = sim.getParameterNumber(LagrangeRollerSim.en.GRAVITY);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(LagrangeRollerSim.en.MASS);
   this.addControl(new NumericControl(pn));

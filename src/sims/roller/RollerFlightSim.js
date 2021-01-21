@@ -166,7 +166,7 @@ constructor(thePath, opt_name) {
   super(opt_name);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var var_names = [
+  const var_names = [
     RollerFlightSim.en.TRACK_POSITION,
     RollerFlightSim.en.TRACK_VELOCITY,
     RollerFlightSim.en.X_POSITION,
@@ -181,7 +181,7 @@ constructor(thePath, opt_name) {
     RollerFlightSim.en.ANCHOR_X,
     RollerFlightSim.en.ANCHOR_Y
   ];
-  var i18n_names = [
+  const i18n_names = [
     RollerFlightSim.i18n.TRACK_POSITION,
     RollerFlightSim.i18n.TRACK_VELOCITY,
     RollerFlightSim.i18n.X_POSITION,
@@ -244,7 +244,7 @@ constructor(thePath, opt_name) {
   * @private
   */
   this.path_ = thePath;
-  var r = this.path_.getBoundsWorld();
+  const r = this.path_.getBoundsWorld();
   /** lowest possible y coordinate of path
   * @type {number}
   * @private
@@ -256,10 +256,10 @@ constructor(thePath, opt_name) {
   */
   this.potentialOffset_ = 0;
   // determine starting position, somewhere at top left
-  var start = new Vector(r.getLeft() + r.getWidth()*0.1,
+  const start = new Vector(r.getLeft() + r.getWidth()*0.1,
         r.getTop() - r.getHeight()*0.1);
   // find closest starting point to a certain x-y position
-  var pathPoint = this.path_.findNearestGlobal(start);
+  const pathPoint = this.path_.findNearestGlobal(start);
   /** range of x values of the path
   * @type {number}
   * @private
@@ -283,7 +283,7 @@ constructor(thePath, opt_name) {
   * @private
   */
   this.dragObj_ = null;
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   va.setValue(0, pathPoint.p);
   va.setValue(1, 0);  // velocity
   va.setValue(RollerFlightSim.TRACK_VAR, RollerFlightSim.ON_TRACK);
@@ -347,9 +347,9 @@ getClassName() {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var currentPoint = this.moveObjects(vars);
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const currentPoint = this.moveObjects(vars);
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.ON_TRACK) {
@@ -359,7 +359,7 @@ modifyObjects() {
     va.setValue(4, this.ball1_.getVelocity().getX(), true);
     va.setValue(5, this.ball1_.getVelocity().getY(), true);
   }
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   va.setValue(7, ei.getTranslational(), true);
   va.setValue(8, ei.getPotential(), true);
   va.setValue(9, ei.getTotalEnergy(), true);
@@ -396,7 +396,7 @@ updateVars() {
 moveObjects(vars) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var pathPoint = null;
+  let pathPoint = null;
   this.anchor_.setPosition(new Vector(vars[11],  vars[12]));
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.ON_TRACK) {
     pathPoint = new PathPoint(vars[0], /*calculate radius=*/true);
@@ -421,50 +421,50 @@ moveObjects(vars) {
 * @private
 */
 jumpOffTrack(pathPoint1) {
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   asserts.assert (va.getValue(RollerFlightSim.TRACK_VAR) ==
       RollerFlightSim.ON_TRACK);
   // Compare the circular acceleration a = v^2/r to the actual
   // acceleration from gravity and spring that is normal to track.
   // If not enough to hold ball on track, then switch to free flight.
-  var r = pathPoint1.radius;
+  const r = pathPoint1.radius;
   //NOTE: should check for infinite radius, but for now assume not possible
   // the accel from gravity, normal to track, is g sin(theta)
   // where theta = angle between tangent vector & gravity vector
   // (see Mathematica file for derivation)
-  var direction = pathPoint1.direction;
-  var k = pathPoint1.slope;
-  var slopeDenom = Math.sqrt(1+k*k);
+  const direction = pathPoint1.direction;
+  const k = pathPoint1.slope;
+  const slopeDenom = Math.sqrt(1+k*k);
   //NOTE: should check for infinite slope, but for now assume not possible
-  var g = this.gravity_ / slopeDenom;
+  let g = this.gravity_ / slopeDenom;
   // for positive curvature, gravity decreases radial accel
   if (r>0) {
     g = -g;
   }
-  var ar = g;  // ar = radial acceleration
+  let ar = g;  // ar = radial acceleration
 
   if (this.spring_.getStiffness() > 0) {
     // Need to figure out sign based on whether spring endpoint
     // is above or below the tangent line.
     // Tangent line is defined by: y = k*x + b.
-    var x = pathPoint1.getX();
-    var y = pathPoint1.getY();
-    var b = y - k*x;
-    var p2 = this.spring_.getEndPoint();
-    var below = (p2.getY() < k * p2.getX() + b) ? 1 : -1;
+    const x = pathPoint1.getX();
+    const y = pathPoint1.getY();
+    const b = y - k*x;
+    const p2 = this.spring_.getEndPoint();
+    const below = (p2.getY() < k * p2.getX() + b) ? 1 : -1;
     // Add in the normal component of spring force
     // it is similar to tangent calculation in diff eq, except its sin(theta).
     // Let sx, sy be the x & y components of the spring length.
-    var sv = this.spring_.getVector();
-    var costh = direction*(sv.getX() + k*sv.getY())/this.spring_.getLength();
+    const sv = this.spring_.getVector();
+    let costh = direction*(sv.getX() + k*sv.getY())/this.spring_.getLength();
     costh = costh / slopeDenom;
     // calculate sin(theta) from cos(theta)
-    var sinth = Math.sqrt(1 - costh*costh);
+    const sinth = Math.sqrt(1 - costh*costh);
     if (isNaN(sinth) || sinth > 1 || sinth < 0) {
       throw 'sin(theta) out of range '+sinth;
     }
     // Component due to spring is
-    var as = (sinth*this.spring_.getStretch() * this.spring_.getStiffness()) /
+    const as = (sinth*this.spring_.getStretch() * this.spring_.getStiffness()) /
         this.ball1_.getMass();
     // assume spring is stretched
     // if negative curve, being below tangent increases ar
@@ -477,11 +477,8 @@ jumpOffTrack(pathPoint1) {
   }
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var v = va.getValue(1);  // velocity
-  var av = v*v/r;
-  if (av<0) {
-    av = -av;  // use absolute value
-  }
+  const v = va.getValue(1);  // velocity
+  const av = Math.abs(v*v/r);
   // to switch to free flight:
   // for negative curvature, must have ar < av
   // for positive curvature, must have ar > av
@@ -489,7 +486,7 @@ jumpOffTrack(pathPoint1) {
     va.setValue(RollerFlightSim.TRACK_VAR, RollerFlightSim.OFF_TRACK);
     va.setValue(2, pathPoint1.getX(), /*continuous=*/true);
     va.setValue(3, pathPoint1.getY(), /*continuous=*/true);
-    var point2 = new PathPoint();
+    const point2 = new PathPoint();
     point2.x = pathPoint1.getX();
     this.path_.map_x_to_y_p(point2);
     // ball must not be below the track
@@ -510,7 +507,7 @@ jumpOffTrack(pathPoint1) {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -521,9 +518,9 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.ball1_.getKineticEnergy();
+  const ke = this.ball1_.getKineticEnergy();
   // gravity potential = m g y
-  var pe = this.ball1_.getMass() * this.gravity_ *
+  let pe = this.ball1_.getMass() * this.gravity_ *
       (this.ball1_.getPosition().getY() - this.lowestPoint_);
   pe += this.spring_.getPotentialEnergy();
   return new EnergyInfo(pe + this.potentialOffset_, ke);
@@ -586,13 +583,13 @@ mouseDrag(simObject, location, offset,
     mouseEvent) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
   if (simObject == this.ball1_)  {
     // are we within the x-range of the track?
     if (this.off_track(p.getX())) {  // out of x-range of track
       // find nearest point on track
-      var point1 = this.path_.findNearestGlobal(p);
+      const point1 = this.path_.findNearestGlobal(p);
       va.setValue(0, point1.p);
       va.setValue(1, 0);
       va.setValue(RollerFlightSim.TRACK_VAR, RollerFlightSim.ON_TRACK);
@@ -600,7 +597,7 @@ mouseDrag(simObject, location, offset,
     } else {  // we are within x-range
       // if below the track, then find closest point on the track
       if (p.getY() < this.path_.map_x_to_y(p.getX())) {
-        var point2 = this.path_.findNearestGlobal(p);
+        const point2 = this.path_.findNearestGlobal(p);
         va.setValue(0, point2.p);
         va.setValue(1, 0);
         va.setValue(RollerFlightSim.TRACK_VAR, RollerFlightSim.ON_TRACK);
@@ -641,12 +638,11 @@ evaluate(vars, change, timeStep) {
   }
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var sv, cosTheta;
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.ON_TRACK) {
     // calculate the slope at the given arc-length position on the curve
     // vars[0] is p = path length position.
     // do moveObjects() so that we can reference spring position directly
-    var pathPoint = this.moveObjects(vars);
+    const pathPoint = this.moveObjects(vars);
     if (pathPoint == null) {
       throw '';
     }
@@ -654,13 +650,14 @@ evaluate(vars, change, timeStep) {
     // see Mathematica file 'roller.nb' for derivation of the following
     // let k = slope of curve. Then sin(theta) = k/sqrt(1+k^2)
     // Component due to gravity is v' = - g sin(theta) = - g k/sqrt(1+k^2)
-    var k = pathPoint.slope;
-    var sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
+    const k = pathPoint.slope;
+    const sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
     // v' = - g sin(theta) - (b/m) v= - g k/sqrt(1+k^2) - (b/m) v
     change[1] = -this.gravity_ * pathPoint.direction * sinTheta
         - this.damping_ * vars[1] / this.ball1_.getMass();
     if (this.spring_.getStiffness() > 0) {
-      sv = this.spring_.getVector();
+      const sv = this.spring_.getVector();
+      let cosTheta;
       if (!isFinite(k)) {
         cosTheta = pathPoint.direction*sv.getY()/this.spring_.getLength();
       } else {
@@ -681,15 +678,15 @@ evaluate(vars, change, timeStep) {
     this.moveObjects(vars);
     change[2] = vars[4];  // Ux' = Vx
     change[3] = vars[5];  // Uy' = Vy
-    var m = this.ball1_.getMass();
+    const m = this.ball1_.getMass();
     if (this.spring_.getStiffness() > 0) {
       //xx = Ux - Sx
       //yy = Uy - Sy
       //len = Sqrt(xx^2+yy^2)
-      sv = this.spring_.getVector().multiply(-1);
-      var xx = sv.getX();
-      var yy = sv.getY();
-      var len = this.spring_.getLength();
+      const sv = this.spring_.getVector().multiply(-1);
+      const xx = sv.getX();
+      const yy = sv.getY();
+      const len = this.spring_.getLength();
       //L = len - R
       //sin(th) = xx / len
       //Vx' = -(k/m)L sin(th)
@@ -714,7 +711,7 @@ evaluate(vars, change, timeStep) {
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
   if (vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.OFF_TRACK) {
-    var c = new RollerCollision(this.ball1_, this.path_, this.getTime());
+    const c = new RollerCollision(this.ball1_, this.path_, this.getTime());
     if (c.isColliding()) {
       collisions.push(c);
     }
@@ -725,8 +722,8 @@ findCollisions(collisions, vars, stepSize) {
 handleCollisions(collisions, opt_totals) {
   //    0         1    2  3  4   5        6       7   8   9   10    11       12
   // track_p  track_v  x  y  x'  y'  track_mode  ke  pe  te  time anchorX  anchorY
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // only deal with the case where we are currently off the track
   if (collisions.length == 0 ||
       vars[RollerFlightSim.TRACK_VAR] == RollerFlightSim.ON_TRACK) {
@@ -734,12 +731,12 @@ handleCollisions(collisions, opt_totals) {
   }
   // Find slope at closest point on track.
   // Use the point of the collision as a starting guess.
-  var c = /** @type {!RollerCollision}*/(collisions[0]);
-  var m_Point = new PathPoint(c.getPathPoint().p);
+  const c = /** @type {!RollerCollision}*/(collisions[0]);
+  const m_Point = new PathPoint(c.getPathPoint().p);
   m_Point.idx = this.path_.map_p_to_index(m_Point.p);
   this.path_.findNearestLocal(new Vector(vars[2], vars[3]), m_Point);
   this.path_.map_p_to_slope(m_Point);
-  var k = m_Point.slope;
+  const k = m_Point.slope;
   // End Of Track Cludge:
   //   Beyond ends of track we just want something that doesn't crash!
   //   Otherwise have to have a whole separate model for the track
@@ -750,30 +747,25 @@ handleCollisions(collisions, opt_totals) {
     va.setValue(5, 0);
   } else {
     // modify the velocities according to track geometry
-    var cx, cy, d;
-    var vx = vars[4];
-    var vy = vars[5];
-
+    const vx = vars[4];
+    const vy = vars[5];
     // Find C = velocity component in track direction
-    d = (vx + k*vy)/(1 + k*k);
-    cx = d;
-    cy = d*k;
-    // Find N = A - C = velocity normal to track
-    var nx, ny;  // normal velocity
-    nx = vx - cx;
-    ny = vy - cy;
-    var rx, ry;  // result velocity
-    // Result = C - e*N
-    rx = cx - this.elasticity_*nx;
-    ry = cy - this.elasticity_*ny;
+    const d = (vx + k*vy)/(1 + k*k);
+    const cx = d;
+    const cy = d*k;
+    // Find normal velocity N = A - C = velocity normal to track
+    const nx = vx - cx;
+    const ny = vy - cy;
+    // result velocity = C - e*N
+    const rx = cx - this.elasticity_*nx;
+    const ry = cy - this.elasticity_*ny;
     va.setValue(4, rx);
     va.setValue(5, ry);
-
-    var nv = Math.sqrt(nx*nx + ny*ny);
+    let nv = Math.sqrt(nx*nx + ny*ny);
     c.impulse = nv * (1 + this.elasticity_) * this.ball1_.getMass();
     nv = this.elasticity_ * nv;
     c.velocity = nv;
-    var rv = Math.sqrt(rx*rx + ry*ry);
+    const rv = Math.sqrt(rx*rx + ry*ry);
     // BUG note: if bouncing straight up and down on a flat surface, then nv = rv
     // and nv/rv = 1 no matter how small nv becomes;
     // so maybe add an absolute value test too?
@@ -910,12 +902,13 @@ getStickiness() {
 @param {number} value
 */
 setStickiness(value) {
-  var v = value;
+  let v = value;
   // stickiness = 0 leads to insanity, so prevent it here
-  if (v < 0.001)
+  if (v < 0.001) {
     v = 0.001;
-  if (v > 1)
+  } else if (v > 1) {
     v = 1;
+  }
   this.stickiness_ = v;
   this.broadcastParameter(RollerFlightSim.en.STICKINESS);
 };

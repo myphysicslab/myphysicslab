@@ -45,10 +45,10 @@ class RollerFlightApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var path = new NumericalPath(new HumpPath());
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new RollerFlightSim(path);
-  var advance = new CollisionAdvance(sim);
+  const path = new NumericalPath(new HumpPath());
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new RollerFlightSim(path);
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
   /** @type {!NumericalPath} */
@@ -82,7 +82,7 @@ constructor(elem_ids) {
   this.simView.setSimRect(this.path.getBoundsWorld().scale(1.1));
 
   // change color of ball depending on whether on track or in free flight
-  var trackVar = sim.getVarsList().getVariable(6);
+  const trackVar = sim.getVarsList().getVariable(6);
   new GenericObserver(sim.getVarsList(), evt => {
     if (evt == trackVar) {
       this.ball1.setFillStyle(trackVar.getValue() > 0 ? 'blue' : 'red');
@@ -98,7 +98,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(RollerFlightSim.en.ELASTICITY);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(RollerFlightSim.en.STICKINESS);

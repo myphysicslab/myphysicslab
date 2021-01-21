@@ -106,7 +106,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
-  var var_names = [
+  const var_names = [
     Spring2DSim.en.X_POSITION,
     Spring2DSim.en.Y_POSITION,
     Spring2DSim.en.X_VELOCITY,
@@ -118,7 +118,7 @@ constructor(opt_name) {
     Spring2DSim.en.ANCHOR_X,
     Spring2DSim.en.ANCHOR_Y
   ];
-  var i18n_names = [
+  const i18n_names = [
     Spring2DSim.i18n.X_POSITION,
     Spring2DSim.i18n.Y_POSITION,
     Spring2DSim.i18n.X_VELOCITY,
@@ -130,7 +130,7 @@ constructor(opt_name) {
     Spring2DSim.i18n.ANCHOR_X,
     Spring2DSim.i18n.ANCHOR_Y
   ];
-  var va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
+  const va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
   this.setVarsList(va);
   va.setComputed(4, 5, 6);
   /**
@@ -227,9 +227,9 @@ getClassName() {
 restState() {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var fixY = vars[9] = this.anchor_.getPosition().getY();
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const fixY = vars[9] = this.anchor_.getPosition().getY();
   vars[0] = vars[8] = this.anchor_.getPosition().getX();
   vars[1] = fixY - this.spring_.getRestLength()
     - this.bob_.getMass()*this.gravity_/this.spring_.getStiffness();
@@ -242,7 +242,7 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -253,9 +253,9 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.bob_.getKineticEnergy();
-  var y = this.bob_.getPosition().getY();
-  var pe = this.gravity_ * this.bob_.getMass() * y;
+  const ke = this.bob_.getKineticEnergy();
+  const y = this.bob_.getPosition().getY();
+  let pe = this.gravity_ * this.bob_.getMass() * y;
   pe += this.spring_.getPotentialEnergy();
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
@@ -277,10 +277,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   va.setValue(4, ei.getTranslational(), true);
@@ -315,8 +315,8 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
   if (simObject == this.anchor_) {
     va.setValue(8, p.getX());
     va.setValue(9, p.getY());
@@ -346,10 +346,10 @@ evaluate(vars, change, timeStep) {
   this.moveObjects(vars);
   change[7] = 1; // time
   if (!this.isDragging_) {
-    var forces = this.spring_.calculateForces();
-    var f = forces[1];
+    const forces = this.spring_.calculateForces();
+    const f = forces[1];
     asserts.assert(f.getBody() == this.bob_);
-    var m = this.bob_.getMass();
+    const m = this.bob_.getMass();
     change[0] = vars[2]; // Ux' = Vx
     change[1] = vars[3]; // Uy' = Vy
     //Vx' = Fx / m = (- k L sin(th) - b Vx ) / m

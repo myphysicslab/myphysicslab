@@ -58,10 +58,10 @@ class DoNothingApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
-  var advance = new CollisionAdvance(sim);
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -84,9 +84,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pb = new ParameterBoolean(this, DoNothingApp.en.TIGHT_FIT,
       DoNothingApp.i18n.TIGHT_FIT,
       () => this.getTightFit(), a => this.setTightFit(a)));
@@ -147,7 +147,7 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
@@ -161,7 +161,7 @@ config() {
       .setFillStyle('rgb(200,200,200)');
   if (this.extraBlock) {
     // add an optional extra free block
-    var block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
+    const block = Shapes.makeBlock(1, 3, DoNothingApp.en.EXTRA_BLOCK,
         DoNothingApp.i18n.EXTRA_BLOCK);
     block.setPosition(new Vector(-5.5,  -4));
     this.mySim.addBody(block);
@@ -176,9 +176,9 @@ config() {
   }
   if (this.handleForce > 0) {
     // add a force to the handle
-    var handle = this.mySim.getBody('handle');
+    const handle = this.mySim.getBody('handle');
     /** @type {!ForceLaw} */
-    var f_law;
+    let f_law;
     if (this.rotateRate > 0) {
       // rotating handle force; good for long term test
       f_law = new RotatingTestForce(this.mySim, handle,
@@ -186,7 +186,7 @@ config() {
           /*magnitude=*/this.handleForce, /*rotation_rate=*/this.rotateRate);
     } else {
       // force is constant direction relative to handle; results in high speeds
-      var f = new Force('turning', handle,
+      const f = new Force('turning', handle,
           /*location=*/new Vector(0, -3), CoordType.BODY,
           /*direction=*/new Vector(this.handleForce, 0), CoordType.BODY);
       f_law = new ConstantForceLaw(f);
@@ -212,29 +212,29 @@ The handle does not interact with the fixed groove blocks.
   wiggle room for the shuttles.
 */
 static setup(sim, tightFit) {
-  var handle = Shapes.makeBlock(0.8, 6.2, DoNothingApp.en.HANDLE,
+  const handle = Shapes.makeBlock(0.8, 6.2, DoNothingApp.en.HANDLE,
       DoNothingApp.i18n.HANDLE);
   handle.setMass(0.5);
   handle.setDragPoints([new Vector(0, -2.8)]);
   sim.addBody(handle);
   // 2 shuttle pieces
-  var shuttle_width = tightFit ? 1.0 : 0.98;
-  var s1 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+1,
+  const shuttle_width = tightFit ? 1.0 : 0.98;
+  const s1 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+1,
       DoNothingApp.i18n.SHUTTLE+1);
   s1.setPosition(new Vector(0,  2.0),  Math.PI);
   sim.addBody(s1);
-  var s2 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+2,
+  const s2 = Shapes.makeBlock(shuttle_width, 2.5, DoNothingApp.en.SHUTTLE+2,
       DoNothingApp.i18n.SHUTTLE+2);
   s2.setPosition(new Vector(-2.5,  0),  Math.PI/2);
   sim.addBody(s2);
   // create 4 fixed blocks that form the grooves which the shuttles move thru
-  for (var i=0; i<2; i++) {
-    for (var j=0; j<2; j++) {
-      var size = 4;
-      var id = j + 2*i;
-      var p = Shapes.makeBlock(size, size, DoNothingApp.en.FIXED_BLOCK+id,
+  for (let i=0; i<2; i++) {
+    for (let j=0; j<2; j++) {
+      const size = 4;
+      const id = j + 2*i;
+      const p = Shapes.makeBlock(size, size, DoNothingApp.en.FIXED_BLOCK+id,
           DoNothingApp.i18n.FIXED_BLOCK+id);
-      var d = 0.507 + size/2;
+      const d = 0.507 + size/2;
       p.setPosition(new Vector(d*(1 - 2*i), d*(1 - 2*j)), 0);
       p.setMass(Util.POSITIVE_INFINITY);
       sim.addBody(p);
@@ -244,11 +244,11 @@ static setup(sim, tightFit) {
     }
   }
   // Position the handle to connect the 2 shuttle pieces.
-  var p1 = s1.getPosition();
-  var p2 = s2.getPosition();
-  var handleLength = p1.distanceTo(p2);
+  const p1 = s1.getPosition();
+  const p2 = s2.getPosition();
+  const handleLength = p1.distanceTo(p2);
   //console.log('p1 to p2 '+Util.NF5(p1.distanceTo(p2)));
-  var a = Math.atan(-p1.getY()/p2.getX());
+  const a = Math.atan(-p1.getY()/p2.getX());
   //console.log('a '+Util.NF5(a));
   handle.setAngle(-Math.PI/2 + a);
   JointUtil.attachRigidBody(sim,

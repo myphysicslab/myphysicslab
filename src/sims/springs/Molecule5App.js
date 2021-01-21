@@ -59,9 +59,9 @@ class Molecule5App extends AbstractApp {
 */
 constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new Molecule3Sim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new Molecule3Sim();
+  const advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -139,7 +139,7 @@ constructor(elem_ids, numAtoms) {
   this.displayList.add(this.residualEnergy_);
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addPlaybackControls();
   this.addParameter(pn = new ParameterNumber(this, Molecule5App.en.NUM_ATOMS,
@@ -160,7 +160,7 @@ constructor(elem_ids, numAtoms) {
   this.addControl(new NumericControl(pn));
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   this.addParameter(pb = new ParameterBoolean(this, Molecule5App.en.SHOW_NAMES,
       Molecule5App.i18n.SHOW_NAMES,
       () => this.getShowNames(),
@@ -199,8 +199,7 @@ constructor(elem_ids, numAtoms) {
     pn.setDecimalPlaces(5);
     this.addControl(new NumericControl(pn));
   }
-  var msm = Molecule5App.getMSM(6);
-  var len;
+  const msm = Molecule5App.getMSM(6);
   for (let i=0, len=msm.length; i<len; i++) {
     let idx1 = msm[i][0] + 1;
     let idx2 = msm[i][1] + 1;
@@ -235,9 +234,9 @@ constructor(elem_ids, numAtoms) {
   */
   this.ke_high_memo_ = new GenericMemo(() => {
     this.sim_.getAtoms().forEach((atom, idx) => {
-      var ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
-      var ke_pct = ke_var.getValue();
-      var dispAtom = this.displayList.findShape(atom);
+      const ke_var = this.sim_.getVarsList().getVariable('ke'+(idx+1)+' pct');
+      const ke_pct = ke_var.getValue();
+      const dispAtom = this.displayList.findShape(atom);
       if (ke_pct > this.ke_high_pct_) {
         dispAtom.setFillStyle('red');
       } else {
@@ -253,12 +252,12 @@ constructor(elem_ids, numAtoms) {
   */
   this.residualEnergy_memo_ = new GenericMemo( () => {
     if (!this.residualEnergySet_) {
-      var ei = this.sim_.getEnergyInfo();
+      const ei = this.sim_.getEnergyInfo();
       this.residualEnergySamples_.push(ei.getTranslational());
       if (this.residualEnergySamples_.length > 100) {
         this.residualEnergySamples_.shift();
       }
-      var max = array.reduce(this.residualEnergySamples_,
+      const max = array.reduce(this.residualEnergySamples_,
         function(prev, cur) {
           return Math.max(prev, cur);
         }, /*initial value=*/0);
@@ -299,12 +298,12 @@ addBody(obj) {
     return;
   }
   if (obj instanceof PointMass) {
-    var pm = /** @type {!PointMass} */(obj);
+    const pm = /** @type {!PointMass} */(obj);
     if (pm.getName().match(/^WALL/)) {
-      var walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
+      const walls = new DisplayShape(pm).setFillStyle('').setStrokeStyle('gray');
       this.displayList.add(walls);
     } else {
-      var cm = 'black';
+      let cm = 'black';
       switch (pm.getName()) {
         case 'ATOM1': cm = 'red'; break;
         case 'ATOM2': cm = 'blue'; break;
@@ -314,11 +313,11 @@ addBody(obj) {
         case 'ATOM6': cm = 'green'; break;
         default: cm = 'pink';
       }
-      var atom = new DisplayShape(pm).setFillStyle(cm);
+      const atom = new DisplayShape(pm).setFillStyle(cm);
       this.displayList.add(atom);
     }
   } else if (obj instanceof Spring || obj instanceof SpringNonLinear) {
-    var s = /** @type {!Spring} */(obj);
+    const s = /** @type {!Spring} */(obj);
     this.displayList.add(new DisplaySpring(s, this.protoSpring));
   }
 };
@@ -328,7 +327,7 @@ addBody(obj) {
 @private
 */
 removeBody(obj) {
-  var dispObj = this.displayList.find(obj);
+  const dispObj = this.displayList.find(obj);
   if (dispObj) {
     this.displayList.remove(dispObj);
   }
@@ -337,7 +336,7 @@ removeBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
@@ -351,7 +350,7 @@ observe(event) {
 * @private
 */
 config() {
-  var numAtoms = this.numAtoms_;
+  const numAtoms = this.numAtoms_;
   if (numAtoms < 1 || numAtoms > 6) {
     throw 'too many atoms '+numAtoms;
   }
@@ -364,15 +363,16 @@ config() {
     let atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
     this.sim_.addAtom(atom);
   }
-  var atoms = this.sim_.getAtoms();
+  const atoms = this.sim_.getAtoms();
   for (let i=0; i<this.msm_.length; i++) {
+    let spring;
     if (this.nonLinearSprings_) {
-      var spring = new SpringNonLinear('spring '+i,
+      spring = new SpringNonLinear('spring '+i,
         atoms[this.msm_[i][0]], Vector.ORIGIN,
         atoms[this.msm_[i][1]], Vector.ORIGIN,
         /*restLength=*/3.0, /*stiffness=*/1.0);
     } else {
-      var spring = new Spring('spring '+i,
+      spring = new Spring('spring '+i,
         atoms[this.msm_[i][0]], Vector.ORIGIN,
         atoms[this.msm_[i][1]], Vector.ORIGIN,
         /*restLength=*/3.0, /*stiffness=*/6.0);
@@ -406,20 +406,20 @@ resetResidualEnergy() {
 * @private
 */
 addKEVars()  {
-  var sim = this.sim_;
-  var va = sim.getVarsList();
+  const sim = this.sim_;
+  const va = sim.getVarsList();
   for (let i=1; i<=this.numAtoms_; i++) {
-    var nm = 'ke'+i;
+    const nm = 'ke'+i;
     va.addVariable(new FunctionVariable(va, nm, nm,
       () => {
-        var atom1 = sim.getSimList().getPointMass('atom'+i);
+        const atom1 = sim.getSimList().getPointMass('atom'+i);
         return atom1.getKineticEnergy();
       }
     ));
-    var nm2 = 'ke'+i+' pct';
+    const nm2 = 'ke'+i+' pct';
     va.addVariable(new FunctionVariable(va, nm2, nm2,
       () => {
-        var atom = sim.getSimList().getPointMass('atom'+i);
+        const atom = sim.getSimList().getPointMass('atom'+i);
         return 100*atom.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy();
       }
     ));
@@ -432,14 +432,13 @@ changes.
 * @private
 */
 broadcastAll()  {
-  for (var i=1; i<=6; i++) {
+  for (let i=1; i<=6; i++) {
     this.broadcastParameter(Molecule5App.en.MASS+' '+i);
   }
-  var msm = Molecule5App.getMSM(6);
-  var len;
-  for (i=0, len=msm.length; i<len; i++) {
-    var idx1 = msm[i][0] + 1;
-    var idx2 = msm[i][1] + 1;
+  const msm = Molecule5App.getMSM(6);
+  for (let i=0, len=msm.length; i<len; i++) {
+    const idx1 = msm[i][0] + 1;
+    const idx2 = msm[i][1] + 1;
     this.broadcastParameter(Molecule5App.en.STIFFNESS+' '+idx1+'-'+idx2);
   }
 };
@@ -477,13 +476,13 @@ static getMSM(numAtoms) {
 * @private
 */
 initialPositions(numAtoms)  {
-  var vars = this.sim_.getVarsList().getValues();
+  const vars = this.sim_.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   // arrange all masses around a circle
-  var r = 1.0; // radius
-  for (var i=0; i<numAtoms; i++) {
-    var idx = Molecule3Sim.START_VAR + 4*i;
+  const r = 1.0; // radius
+  for (let i=0; i<numAtoms; i++) {
+    const idx = Molecule3Sim.START_VAR + 4*i;
     vars[idx + 0] = r * Math.cos(i*2*Math.PI/numAtoms);
     vars[idx + 1] = r * Math.sin(i*2*Math.PI/numAtoms);
   }
@@ -518,7 +517,7 @@ setNumAtoms(value) {
 @return {number} mass of specified atom
 */
 getMass(index) {
-  var atoms = this.sim_.getAtoms();
+  const atoms = this.sim_.getAtoms();
   return (index >= 1 && index <= atoms.length) ? atoms[index-1].getMass() : 0;
 };
 
@@ -542,7 +541,7 @@ setMass(index, value) {
 @return {?Spring} spring connecting specified atoms
 */
 getSpring(index1, index2) {
-  var atoms = this.sim_.getAtoms();
+  const atoms = this.sim_.getAtoms();
   if (index2 < index1) {
     throw 'index2 must be > index1';
   }
@@ -552,8 +551,8 @@ getSpring(index1, index2) {
   if (index2 < 1 || index2 > atoms.length) {
     return null;
   }
-  var atom1 = this.sim_.getAtoms()[index1-1];
-  var atom2 = this.sim_.getAtoms()[index2-1];
+  const atom1 = this.sim_.getAtoms()[index1-1];
+  const atom2 = this.sim_.getAtoms()[index2-1];
   return array.find(this.sim_.getSprings(), spr => {
     if (spr.getBody1() == atom1 && spr.getBody2() == atom2) {
       return true;
@@ -571,7 +570,7 @@ getSpring(index1, index2) {
 @return {number} spring stiffness
 */
 getStiffness(index1, index2) {
-  var spr = this.getSpring(index1, index2);
+  const spr = this.getSpring(index1, index2);
   return spr ? spr.getStiffness() : 0;
 };
 
@@ -581,7 +580,7 @@ getStiffness(index1, index2) {
 @param {number} value spring stiffness
 */
 setStiffness(index1, index2, value) {
-  var spr = this.getSpring(index1, index2);
+  const spr = this.getSpring(index1, index2);
   if (!spr) {
     throw 'unknown spring connecting '+index1+'-'+index2;
   }
@@ -607,10 +606,10 @@ setShowNames(value) {
   if (value != this.showNames_) {
     this.showNames_ = value;
     this.sim_.getAtoms().forEach(atom => {
-      var dispAtom = this.displayList.findShape(atom);
+      const dispAtom = this.displayList.findShape(atom);
       if (value) {
         dispAtom.setNameFont('12pt sans-serif');
-        var bg = this.layout.simCanvas.getBackground();
+        const bg = this.layout.simCanvas.getBackground();
         dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
       } else {
         dispAtom.setNameFont('');

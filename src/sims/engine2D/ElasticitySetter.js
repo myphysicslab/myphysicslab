@@ -91,7 +91,7 @@ getElasticity() {
 * @return {number}
 */
 getElasticity_() {
-  var bods = this.sim_.getBodies();
+  const bods = this.sim_.getBodies();
   if (bods.length == 0) {
     return this.lastValue_;
   } else {
@@ -118,7 +118,7 @@ setElasticity(value) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.sim_ && event.nameEquals(RigidBodySim.ELASTICITY_SET)) {
-    var nowValue = this.getElasticity_();
+    const nowValue = this.getElasticity_();
     if (this.lastValue_ != nowValue) {
       // only broadcast when last value we publicly have reported is wrong
       this.lastValue_ = nowValue;

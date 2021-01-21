@@ -198,7 +198,7 @@ constructor(nm, opt_name) {
   * @private
   */
   this.nm_ = nm;
-  var va = new VarsList(this.makeVarNames(nm, /*localized=*/false),
+  const va = new VarsList(this.makeVarNames(nm, /*localized=*/false),
       this.makeVarNames(nm, /*localized=*/true), this.getName()+'_VARS');
   this.setVarsList(va);
   // variables other than time and x- and y- position and velocity are auto computed.
@@ -291,8 +291,8 @@ constructor(nm, opt_name) {
   * @private
   */
   this.atoms_ = [];
-  for (var i=0; i<nm; i++) {
-    var atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
+  for (let i=0; i<nm; i++) {
+    const atom = PointMass.makeCircle(0.5, 'atom'+(i+1)).setMass(0.5);
     this.atoms_.push(atom);
     this.getSimList().add(atom);
   }
@@ -301,10 +301,10 @@ constructor(nm, opt_name) {
   * @private
   */
   this.springs_ = [];
-  for (i=0; i<this.msm_.length; i++) {
-    var special = this.sg_.includes(i);
-    var name = (special ? 'special ' : '') + 'spring '+i;
-    var spring = new SpringNonLinear(name,
+  for (let i=0; i<this.msm_.length; i++) {
+    const special = this.sg_.includes(i);
+    const name = (special ? 'special ' : '') + 'spring '+i;
+    const spring = new SpringNonLinear(name,
       this.atoms_[this.msm_[i][0]], Vector.ORIGIN,
       this.atoms_[this.msm_[i][1]], Vector.ORIGIN,
       /*restLength=*/3.0, /*stiffness=*/1.0);
@@ -380,10 +380,10 @@ getClassName() {
 * @private
 */
 makeVarNames(nm, localized) {
-  var names = [];
+  const names = [];
   // add energy and force variables, depends on number of atoms
-  var n = nm*4 + (this.nm_ > 2 ? 7 : 6);
-  for (var i=0; i<n; i++) {
+  const n = nm*4 + (this.nm_ > 2 ? 7 : 6);
+  for (let i=0; i<n; i++) {
     names.push(this.getVariableName(i, localized));
   }
   return names;
@@ -399,8 +399,8 @@ getVariableName(idx, localized) {
   if (idx < this.nm_*4) {
     // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
     //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
-    var j = idx%4;
-    var atom = 1 + Math.floor(idx/4);
+    const j = idx%4;
+    const atom = 1 + Math.floor(idx/4);
     switch (j) {
       case 0:
         return (localized ? Molecule4Sim.i18n.X_POSITION : Molecule4Sim.en.X_POSITION)
@@ -482,8 +482,8 @@ static getSG(nm) {
 * @private
 */
 static getNSG(num_springs, sg) {
-  var nsg = [];
-  for (var i=0; i<num_springs; i++) {
+  const nsg = [];
+  for (let i=0; i<num_springs; i++) {
     if (!sg.includes(i)) {
       nsg.push(i);
     }
@@ -496,21 +496,21 @@ static getNSG(num_springs, sg) {
 * @private
 */
 initialConfig()  {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
   //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   // arrange all masses around a circle
-  var r = 1.0; // radius
-  var n = this.atoms_.length;
-  for (var i=0; i<n; i++) {
-    var rnd = 1.0 + 0.1 * this.random_.nextFloat();
+  const r = 1.0; // radius
+  const n = this.atoms_.length;
+  for (let i=0; i<n; i++) {
+    const rnd = 1.0 + 0.1 * this.random_.nextFloat();
     vars[0 + i*4] = r * Math.cos(rnd*i*2*Math.PI/n);
     vars[1 + i*4] = r * Math.sin(rnd*i*2*Math.PI/n);
   }
   this.getVarsList().setValues(vars);
   /*  rotating star for 4 masses
-  var v = 3;  // velocity
-  var l = 2;  // length of springs
+  const v = 3;  // velocity
+  const l = 2;  // length of springs
   // ball 1 at 90 degrees, vel=(-v,0)
   vars[5] = l;
   vars[6] = -v;
@@ -528,7 +528,7 @@ initialConfig()  {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -542,11 +542,11 @@ getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
   /** @type {number} */
-  var ke = 0;
+  let ke = 0;
   /** @type {number} */
-  var pe = 0;
+  let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
-  var bottom = this.walls_.getBoundsWorld().getBottom();
+  const bottom = this.walls_.getBoundsWorld().getBottom();
   this.atoms_.forEach(atom => {
     ke += atom.getKineticEnergy();
     // gravity potential = m g (y - floor)
@@ -573,34 +573,38 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
-  var n = this.nm_*4;
+  const ei = this.getEnergyInfo_(vars);
+  const n = this.nm_*4;
   va.setValue(n, ei.getTranslational(), true);
   va.setValue(n+1, ei.getPotential(), true);
   va.setValue(n+2, ei.getTotalEnergy(), true);
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   // find magnitude of force on atom 1
   this.evaluate(vars, rate, 0);
-  var m = this.atoms_[0].getMass();
-  // F = m a, we have accel, so multiply by mass
-  // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
-  //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
-  var fx = m * rate[2];
-  var fy = m * rate[3];
-  va.setValue(n+4, Math.sqrt(fx*fx + fy*fy), true);
-  // force on atom 2
-  m = this.atoms_[1].getMass();
-  fx = m * rate[6];
-  fy = m * rate[7];
-  va.setValue(n+5, Math.sqrt(fx*fx + fy*fy), true);
+  {
+    const m = this.atoms_[0].getMass();
+    // F = m a, we have accel, so multiply by mass
+    // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
+    //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
+    const fx = m * rate[2];
+    const fy = m * rate[3];
+    va.setValue(n+4, Math.sqrt(fx*fx + fy*fy), true);
+  }
+  {
+    // force on atom 2
+    const m = this.atoms_[1].getMass();
+    const fx = m * rate[6];
+    const fy = m * rate[7];
+    va.setValue(n+5, Math.sqrt(fx*fx + fy*fy), true);
+  }
   // force on atom 3
   if (this.nm_ > 2) {
-    m = this.atoms_[2].getMass();
-    fx = m * rate[10];
-    fy = m * rate[11];
+    const m = this.atoms_[2].getMass();
+    const fx = m * rate[10];
+    const fy = m * rate[11];
     va.setValue(n+6, Math.sqrt(fx*fx + fy*fy), true);
   }
 };
@@ -613,7 +617,7 @@ moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
   //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
   this.atoms_.forEach((atom, i) => {
-    var idx = 4*i;
+    const idx = 4*i;
     atom.setPosition(new Vector(vars[idx],  vars[1 + idx]));
     atom.setVelocity(new Vector(vars[2 + idx], vars[3 + idx], 0));
   });
@@ -640,16 +644,16 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
   if (this.dragAtom_ > -1) {
-    var atom = this.atoms_[this.dragAtom_];
+    const atom = this.atoms_[this.dragAtom_];
     if (simObject != atom) {
       return;
     }
-    var p = location.subtract(offset);
-    var x = p.getX();
-    var y = p.getY();
-    var w = atom.getWidth()/2;
-    var h = atom.getHeight()/2;
-    var walls = this.walls_.getBoundsWorld();
+    const p = location.subtract(offset);
+    let x = p.getX();
+    let y = p.getY();
+    const w = atom.getWidth()/2;
+    const h = atom.getHeight()/2;
+    const walls = this.walls_.getBoundsWorld();
     // disallow drag outside of walls
     if (x < walls.getLeft() + w) {
       x = walls.getLeft() + w + 0.0001;
@@ -663,18 +667,18 @@ mouseDrag(simObject, location, offset, mouseEvent) {
     if (y > walls.getTop() - h) {
       y = walls.getTop() - h - 0.0001;
     }
-    var va = this.getVarsList();
-    var idx = 4*this.dragAtom_;
+    const va = this.getVarsList();
+    const idx = 4*this.dragAtom_;
     va.setValue(idx, x);
     va.setValue(1 + idx, y);
     va.setValue(2 + idx, 0);
     va.setValue(3 + idx, 0);
     // derived energy variables are discontinuous
-    var n = this.nm_*4;
+    const n = this.nm_*4;
     va.incrSequence(n, n+1, n+2);
     this.moveObjects(va.getValues());
     /* set all velocities to zero.
-    for (var i=0; i<this.nm_; i++) {
+    for (let i=0; i<this.nm_; i++) {
       va.setValue(2 + i*4, 0);
       va.setValue(3 + i*4, 0);
     }*/
@@ -702,17 +706,17 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 * @private
 */
 addCollision(collisions, atom, side, time) {
-  var c = new MoleculeCollision(atom, this.walls_, side, time);
+  const c = new MoleculeCollision(atom, this.walls_, side, time);
   collisions.push(c);
 };
 
 /** @override */
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
-  var w = this.walls_.getBoundsWorld();
+  const w = this.walls_.getBoundsWorld();
   this.atoms_.forEach(atom => {
-    var a = atom.getBoundsWorld();
-    var t = this.getTime()+stepSize;
+    const a = atom.getBoundsWorld();
+    const t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
       this.addCollision(collisions, atom, MoleculeCollision.LEFT_WALL, t);
     }
@@ -732,11 +736,11 @@ findCollisions(collisions, vars, stepSize) {
 handleCollisions(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7      4n 4n+1 4n+2 4n+3
   //      U1x U1y V1x V1y U2x U2y V2x V2y ... KE   PE   TE time
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   collisions.forEach(collision => {
-    var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = 4*this.atoms_.indexOf(c.atom);
+    const c = /** @type {!MoleculeCollision} */(collision);
+    const idx = 4*this.atoms_.indexOf(c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:
@@ -754,7 +758,7 @@ handleCollisions(collisions, opt_totals) {
     }
   });
   // derived energy variables are discontinuous
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   va.incrSequence(n, n+1, n+2);
   return true;
 };
@@ -764,20 +768,20 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[this.nm_*4+3] = 1; // time
-  var walls = this.walls_.getBoundsWorld();
+  const walls = this.walls_.getBoundsWorld();
   this.atoms_.forEach((atom, listIdx) => {
     if (this.dragAtom_ == listIdx) {
       return;
     }
-    var idx = 4*listIdx;
-    var vx = vars[idx+2];
-    var vy = vars[idx+3];
+    const idx = 4*listIdx;
+    const vx = vars[idx+2];
+    const vy = vars[idx+3];
     change[idx] = vx; // Ux' = Vx
     change[idx+1] = vy; // Uy' = Vy
-    var mass = atom.getMass();
-    var bounds = atom.getBoundsWorld();
+    const mass = atom.getMass();
+    const bounds = atom.getBoundsWorld();
     // for each spring, get force from spring
-    var force = new MutableVector(0, 0);
+    const force = new MutableVector(0, 0);
     this.springs_.forEach(spr => {
       if (spr.getBody1() == atom) {
         force.add(spr.calculateForces()[0].getVector());
@@ -788,10 +792,10 @@ evaluate(vars, change, timeStep) {
     // add gravity force
     force.add(new Vector(0, -this.gravity_*mass));
     // add damping force
-    var d = new Vector(vx, vy);
+    const d = new Vector(vx, vy);
     force.add(d.multiply(-this.damping_));
 
-    var ax = force.getX()/mass;
+    let ax = force.getX()/mass;
     if (ax<0 && Math.abs(bounds.getLeft()-walls.getLeft())<this.distTol_
         && Math.abs(vx) < -ax*this.timeStep_/(2*mass)) {
       // left wall contact if (leftward force, near left wall, and low velocity)
@@ -803,7 +807,7 @@ evaluate(vars, change, timeStep) {
     }
     change[idx+2] = ax; // Vx'
 
-    var ay = force.getY()/mass;
+    let ay = force.getY()/mass;
     if (ay<0 && Math.abs(bounds.getBottom() - walls.getBottom()) < this.distTol_
         && Math.abs(vy) < -ay*this.timeStep_/(2*mass)) {
       // floor contact if (downward force, near floor, and low velocity)
@@ -832,7 +836,7 @@ setGravity(value) {
   this.gravity_ = value;
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.GRAVITY);
 };
@@ -885,7 +889,7 @@ setMass(value) {
   });
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n, n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.MASS);
 };
@@ -904,7 +908,7 @@ setMassSpecial(value) {
   this.atoms_[0].setMass(value);
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n, n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.MASS_SPECIAL);
 };
@@ -920,12 +924,12 @@ getLength() {
 @param {number} value spring resting length
 */
 setLength(value) {
-  for (var i=0; i<this.nsg_.length; i++) {
+  for (let i=0; i<this.nsg_.length; i++) {
     this.springs_[this.nsg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.LENGTH);
 };
@@ -941,12 +945,12 @@ getLengthSpecial() {
 @param {number} value spring resting length
 */
 setLengthSpecial(value) {
-  for (var i=0; i<this.sg_.length; i++) {
+  for (let i=0; i<this.sg_.length; i++) {
     this.springs_[this.sg_[i]].setRestLength(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.LENGTH_SPECIAL);
 };
@@ -962,12 +966,12 @@ getStiffness() {
 @param {number} value spring stiffness
 */
 setStiffness(value) {
-  for (var i=0; i<this.nsg_.length; i++) {
+  for (let i=0; i<this.nsg_.length; i++) {
     this.springs_[this.nsg_[i]].setStiffness(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.STIFFNESS);
 };
@@ -983,12 +987,12 @@ getStiffnessSpecial() {
 @param {number} value spring stiffness of special group of springs
 */
 setStiffnessSpecial(value) {
-  for (var i=0; i<this.sg_.length; i++) {
+  for (let i=0; i<this.sg_.length; i++) {
     this.springs_[this.sg_[i]].setStiffness(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.nm_*4;
+  const n = this.nm_*4;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(Molecule4Sim.en.STIFFNESS_SPECIAL);
 };

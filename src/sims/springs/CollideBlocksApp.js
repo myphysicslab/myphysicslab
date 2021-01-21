@@ -39,9 +39,9 @@ class CollideBlocksApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.5, -2, 7.5, 2);
-  var sim = new CollideBlocksSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-0.5, -2, 7.5, 2);
+  const sim = new CollideBlocksSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
 
@@ -77,7 +77,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(CollideBlocksSim.en.MASS_1);
   this.addControl(new NumericControl(pn));
   pn = sim.getParameterNumber(CollideBlocksSim.en.MASS_2);

@@ -82,10 +82,10 @@ getBodies() {
 
 /** @override */
 calculateForces() {
-  var t = this.rotation_rate_ * this.sim_.getTime();
-  var direction_body = new Vector(this.magnitude_*Math.cos(t),
+  const t = this.rotation_rate_ * this.sim_.getTime();
+  const direction_body = new Vector(this.magnitude_*Math.cos(t),
     this.magnitude_*Math.sin(t));
-  var f = new Force('rotating', this.body_,
+  const f = new Force('rotating', this.body_,
       /*location=*/this.location_body_, CoordType.BODY,
       /*direction=*/direction_body, CoordType.BODY);
   return [f];

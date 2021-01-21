@@ -44,9 +44,9 @@ class DoubleSpringApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.5, -5, 10, 5);
-  var sim = new DoubleSpringSim(/*thirdSpring=*/false);
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-0.5, -5, 10, 5);
+  const sim = new DoubleSpringSim(/*thirdSpring=*/false);
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('black');
@@ -84,9 +84,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(DoubleSpringSim.en.MASS1);
   this.addControl(new SliderControl(pn, 0.2, 20.2, /*multiply=*/true));
 
@@ -108,7 +108,7 @@ constructor(elem_ids) {
   this.addStandardControls();
 
   /** @type {!ButtonControl} */
-  var bc = new ButtonControl(DoubleSpringSim.i18n.REST_STATE,
+  const bc = new ButtonControl(DoubleSpringSim.i18n.REST_STATE,
       () => sim.restState());
   this.addControl(bc);
 

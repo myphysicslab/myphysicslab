@@ -38,17 +38,16 @@ constructor() {
 * @return {!DoubleRect} rectangle that contains all chain links, in sim coords
 */
 static makeChain(sim, options) {
-  var joint1X, joint1Y;  /* where 'lower' joint attaches, in body coords*/
-  var joint2X, joint2Y;  /* where 'upper' joint attaches, in body coords*/
-  joint1X = 0.5 * options.blockWidth;
-  joint1Y = 0.15 * options.blockHeight;
-  joint2X = 0.5 * options.blockWidth;
-  joint2Y = 0.85 * options.blockHeight;
-  var body_angle = -180;
-  var links = [];
-  var bodyi;
-  var i;
-  for (i=0; i<options.numLinks; i++) {
+  /* where 'lower' joint1 attaches, in body coords*/
+  const joint1X = 0.5 * options.blockWidth;
+  const joint1Y = 0.15 * options.blockHeight;
+  /* where 'upper' joint2 attaches, in body coords*/
+  const joint2X = 0.5 * options.blockWidth;
+  const joint2Y = 0.85 * options.blockHeight;
+  let body_angle = -180;
+  const links = [];
+  let bodyi;
+  for (let i=0; i<options.numLinks; i++) {
     bodyi = Shapes.makeBlock2(options.blockWidth, options.blockHeight,
         ChainConfig.en.CHAIN+'-'+i, ChainConfig.i18n.CHAIN+'-'+i);
     links.push(bodyi);
@@ -62,7 +61,7 @@ static makeChain(sim, options) {
     }
   }
   /* Create Joints to attach bodies together */
-  for (i=0; i<options.numLinks; i++) {
+  for (let i=0; i<options.numLinks; i++) {
     if (i == 0 && options.fixedLeft) {
       JointUtil.attachFixedPoint(sim,
         links[i], /*attach_body=*/new Vector(joint1X, joint1Y),
@@ -83,9 +82,9 @@ static makeChain(sim, options) {
   }
   sim.alignConnectors();
   /* find rectangle that contains all chain links */
-  var r = DoubleRect.EMPTY_RECT;
-  for (i=0; i<options.numLinks; i++) {
-    var body = links[i];
+  let r = DoubleRect.EMPTY_RECT;
+  for (let i=0; i<options.numLinks; i++) {
+    const body = links[i];
     body.setZeroEnergyLevel();
     r = r.union(body.getBoundsWorld());
   }

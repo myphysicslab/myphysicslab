@@ -91,7 +91,7 @@ class DangleStickSim extends AbstractODESim {
 */
 constructor(opt_name) {
   super(opt_name);
-  var var_names = [
+  const var_names = [
     DangleStickSim.en.SPRING_ANGLE,
     DangleStickSim.en.SPRING_ANGULAR_VELOCITY,
     DangleStickSim.en.SPRING_LENGTH,
@@ -100,7 +100,7 @@ constructor(opt_name) {
     DangleStickSim.en.STICK_ANGULAR_VELOCITY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     DangleStickSim.i18n.SPRING_ANGLE,
     DangleStickSim.i18n.SPRING_ANGULAR_VELOCITY,
     DangleStickSim.i18n.SPRING_LENGTH,
@@ -109,7 +109,7 @@ constructor(opt_name) {
     DangleStickSim.i18n.STICK_ANGULAR_VELOCITY,
     VarsList.i18n.TIME
   ];
-  var va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
+  const va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
   this.setVarsList(va);
   /**
   * @type {number}
@@ -210,10 +210,10 @@ getClassName() {
 * @return {undefined}
 */
 restState() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   vars[0] = vars[1] = vars[3] = vars[4] = vars[5] = 0;
-  var r = this.gravity_*(this.bob1_.getMass() + this.bob2_.getMass()) /
+  const r = this.gravity_*(this.bob1_.getMass() + this.bob2_.getMass()) /
     this.spring_.getStiffness();
   vars[2] = this.spring_.getRestLength() + r;
   va.setValues(vars);
@@ -221,18 +221,18 @@ restState() {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
   // limit angles to +/- Pi
-  var theta = Util.limitAngle(vars[0]);
+  const theta = Util.limitAngle(vars[0]);
   if (theta != vars[0]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
     va.setValue(0, theta, /*continuous=*/false);
     vars[0] = theta;
   }
-  var phi = Util.limitAngle(vars[4]);
+  const phi = Util.limitAngle(vars[4]);
   if (phi != vars[4]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
@@ -248,17 +248,17 @@ modifyObjects() {
 */
 moveObjects(vars) {
   // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
-  var theta = vars[0];
-  var phi = vars[4];
-  var cosTheta = Math.cos(theta);
-  var sinTheta = Math.sin(theta);
-  var cosPhi = Math.cos(phi);
-  var sinPhi = Math.sin(phi);
+  const theta = vars[0];
+  const phi = vars[4];
+  const cosTheta = Math.cos(theta);
+  const sinTheta = Math.sin(theta);
+  const cosPhi = Math.cos(phi);
+  const sinPhi = Math.sin(phi);
   this.bob1_.setPosition(new Vector( vars[2]*sinTheta ,  -vars[2]*cosTheta ));
   // bob1 velocity = {r θ' cos θ + r' sin θ,   −r' cos θ + r θ' sin θ }
   this.bob1_.setVelocity(new Vector(vars[2] * vars[1] * cosTheta + vars[3] * sinTheta,
       vars[2] * vars[1] * sinTheta - vars[3] * cosTheta, 0));
-  var L = this.stickLength_;
+  const L = this.stickLength_;
   this.bob2_.setPosition(new Vector(this.bob1_.getPosition().getX() + L*sinPhi,
       this.bob1_.getPosition().getY() - L*cosPhi));
   // v2 = {r θ' cos θ + r' sin θ + S φ' cos φ,   −r' cos θ + r θ' sin θ + S φ' sin φ}
@@ -280,12 +280,12 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const p = location.subtract(offset);
   if (simObject == this.bob1_) {
     // vars:  0,1,2,3,4,5:  theta,theta',r,r',phi,phi'
-    var th = Math.atan2(p.getX(), -p.getY());
+    const th = Math.atan2(p.getX(), -p.getY());
     vars[0] = th;
     vars[2] = p.length();  // r
     vars[1] = 0; // theta'
@@ -294,10 +294,10 @@ mouseDrag(simObject, location, offset, mouseEvent) {
     va.setValues(vars);
   } else if (simObject == this.bob2_) {
     // get center of mass1
-    var x1 = vars[2]*Math.sin(vars[0]);
-    var y1 = -vars[2]*Math.cos(vars[0]);
+    const x1 = vars[2]*Math.sin(vars[0]);
+    const y1 = -vars[2]*Math.cos(vars[0]);
     // get center of mass2
-    var phi = Math.atan2(p.getX() - x1, -(p.getY() - y1));
+    const phi = Math.atan2(p.getX() - x1, -(p.getY() - y1));
     vars[4] = phi;
     vars[1] = 0; // theta'
     vars[3] = 0; // r'
@@ -322,11 +322,11 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[6] = 1; // time
   if (!this.isDragging_) {
-    var m2 = this.bob2_.getMass();
-    var m1 = this.bob1_.getMass();
-    var L = this.stickLength_;
-    var k = this.spring_.getStiffness();
-    var b = this.spring_.getRestLength();
+    const m2 = this.bob2_.getMass();
+    const m1 = this.bob1_.getMass();
+    const L = this.stickLength_;
+    const k = this.spring_.getStiffness();
+    const b = this.spring_.getRestLength();
     change[0] = vars[1];
     change[2] = vars[3];
     change[4] = vars[5];
@@ -338,7 +338,7 @@ evaluate(vars, change, timeStep) {
      the variables are:  0,     1,   2,3,  4,  5:
                         theta,theta',r,r',phi,phi'
     */
-    var sum = -4*m1*(m1+m2)*vars[3]*vars[1];
+    let sum = -4*m1*(m1+m2)*vars[3]*vars[1];
     sum += 2*m1*m2*L*vars[5]*vars[5]*Math.sin(vars[4]-vars[0]);
     sum -= 2*this.gravity_*m1*(m1+m2)*Math.sin(vars[0]);
     sum += k*m2*(b-vars[2])*Math.sin(2*(vars[0]-vars[4]));

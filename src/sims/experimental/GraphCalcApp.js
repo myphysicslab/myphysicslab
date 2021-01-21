@@ -68,11 +68,11 @@ constructor(elem_ids) {
   */
   this.x = 0;
 
-  var div = GraphCalcApp.getElementById(elem_ids, 'graph_div');
+  const div = GraphCalcApp.getElementById(elem_ids, 'graph_div');
   if (div == null) {
     throw 'graph_div not found';
   }
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
   * @type {!LabCanvas}
   * @private
@@ -81,9 +81,9 @@ constructor(elem_ids) {
   this.simCanvas.setSize(800, 800);
   div.appendChild(this.simCanvas.getCanvas());
 
-  var term_output = /** @type {?HTMLInputElement} */
+  const term_output = /** @type {?HTMLInputElement} */
       (GraphCalcApp.getElementById(elem_ids, 'term_output'));
-  var term_input = /** @type {?HTMLInputElement} */
+  const term_input = /** @type {?HTMLInputElement} */
       (GraphCalcApp.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
@@ -110,7 +110,7 @@ constructor(elem_ids) {
   this.simView.setHorizAlign(HorizAlign.FULL);
   this.simView.setVerticalAlign(VerticalAlign.FULL);
   this.simCanvas.addView(this.simView);
-  var screenrect = this.simView.getScreenRect();
+  const screenrect = this.simView.getScreenRect();
   /**
   * @type {!GraphLine}
   * @private
@@ -137,8 +137,8 @@ constructor(elem_ids) {
       if (evt.nameEquals(LabView.SCREEN_RECT_CHANGED)) {
         this.graph.setScreenRect(this.simView.getScreenRect());
       } else if (evt.nameEquals(LabView.SIM_RECT_CHANGED)) {
-        var screenrect = this.simView.getScreenRect();
-        var simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
+        const screenrect = this.simView.getScreenRect();
+        const simrect = this.simView.getCoordMap().screenToSimRect(screenrect);
         this.axes.setSimRect(simrect);
       }
     }, 'adjust when screen rect changes');
@@ -164,7 +164,7 @@ static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode,
   // but indexing with a string is never renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e_id = elem_ids[elementId];
+  const e_id = elem_ids[elementId];
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
@@ -180,14 +180,14 @@ static getElementById(elem_ids, elementId) {
 */
 plot(expr, range1, range2, numPts) {
     numPts = numPts || 200;
-    var r = this.simView.getSimRect();
+    const r = this.simView.getSimRect();
     if (range1 === undefined) {
       range1 = r.getLeft();
     }
     if (range2 === undefined) {
       range2 = r.getRight();
     }
-    var incr = (range2 - range1)/numPts;
+    const incr = (range2 - range1)/numPts;
     if (incr <= 0) {
       this.terminal.println('ERROR calling plot: range2 must be greater than range1');
       return;
@@ -203,8 +203,8 @@ plot(expr, range1, range2, numPts) {
     // with terminal.addRegex (below in defineNames).
     // terminal.eval then changes 'x' to 'app.x' in the expression.
     this.x = range1;
-    var y = NaN;
-    for (var i=0; i<numPts; i++) {
+    let y = NaN;
+    for (let i=0; i<numPts; i++) {
       y = this.terminal.eval(expr, /*output=*/false);
       if (typeof y === 'number' && isFinite(y)) {
         this.vars.setValue(0, this.x, /*continuous=*/true);

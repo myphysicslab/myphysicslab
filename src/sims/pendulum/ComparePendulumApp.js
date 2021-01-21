@@ -104,7 +104,7 @@ constructor(elem_ids) {
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
-  var simCanvas = this.layout.simCanvas;
+  const simCanvas = this.layout.simCanvas;
 
   /** difference between two start angles
   * @type {number}
@@ -112,8 +112,8 @@ constructor(elem_ids) {
   this.angleDelta = 0.001;
   /** @type {!PendulumSim} */
   this.sim1 = new PendulumSim('SIM_1');
-  var startAngle = Math.PI/4;
-  var va1 = this.sim1.getVarsList();
+  const startAngle = Math.PI/4;
+  const va1 = this.sim1.getVarsList();
   va1.setValue(0, startAngle);
   this.sim1.saveInitialState();
   /** @type {!SimList} */
@@ -130,7 +130,7 @@ constructor(elem_ids) {
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(this.sim2, evt => this.sim2.modifyObjects(),
       'modifyObjects after parameter or variable change');
-  var va2 = this.sim2.getVarsList();
+  const va2 = this.sim2.getVarsList();
   va2.setValue(0, startAngle + this.angleDelta);
   this.sim2.saveInitialState();
   /** @type {!SimList} */
@@ -160,29 +160,29 @@ constructor(elem_ids) {
   /** @type {!Clock} */
   this.clock = this.simRun.getClock();
 
-  var displayRod2 = new DisplayLine(this.simList2.getConcreteLine('rod'));
+  const displayRod2 = new DisplayLine(this.simList2.getConcreteLine('rod'));
   this.displayList.add(displayRod2);
   /** @type {!PointMass} */
   this.bob2 = this.simList2.getPointMass('bob');
-  var displayBob2 = new DisplayShape(this.bob2).setFillStyle('red');
+  const displayBob2 = new DisplayShape(this.bob2).setFillStyle('red');
   this.displayList.add(displayBob2);
   displayBob2.setDragable(false);
 
   /** @type {!PointMass} */
   this.bob1 = this.simList.getPointMass('bob');
-  var displayBob = new DisplayShape(this.bob1).setFillStyle('blue');
+  const displayBob = new DisplayShape(this.bob1).setFillStyle('blue');
   this.displayList.add(displayBob);
-  var displayRod = new DisplayLine(this.simList.getConcreteLine('rod'));
+  const displayRod = new DisplayLine(this.simList.getConcreteLine('rod'));
   this.displayList.add(displayRod);
-  var displayDrive = new DisplayArc(this.simList.getArc('drive'));
+  const displayDrive = new DisplayArc(this.simList.getArc('drive'));
   this.displayList.add(displayDrive);
 
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
 
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 
@@ -225,7 +225,7 @@ constructor(elem_ids) {
   pb = CommonControls.makeShowClockParam(this.displayClock, this.statusView, this);
   this.addControl(new CheckBoxControl(pb));
 
-  var panzoom_simview = CommonControls.makePanZoomControls(this.simView,
+  const panzoom_simview = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect) );
   this.layout.div_sim.appendChild(panzoom_simview);
@@ -237,28 +237,28 @@ constructor(elem_ids) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  var bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
   this.addControl(bm);
 
   /** @type {!GraphLine} */
-  var line1 = new GraphLine('GRAPH_LINE_1', va1);
+  const line1 = new GraphLine('GRAPH_LINE_1', va1);
   line1.setXVariable(0);
   line1.setYVariable(1);
   line1.setColor('blue');
   line1.setDrawingMode(DrawingMode.DOTS);
 
   /** @type {!GraphLine} */
-  var line2 = new GraphLine('GRAPH_LINE_2', va2);
+  const line2 = new GraphLine('GRAPH_LINE_2', va2);
   line2.setXVariable(0);
   line2.setYVariable(1);
   line2.setColor('red');
   line2.setDrawingMode(DrawingMode.DOTS);
 
   // keep line2's X and Y variable in sync with line1
-  var paramY = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  var paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
-  var py2 = line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  var px2 = line2.getParameterNumber(GraphLine.en.X_VARIABLE);
+  const paramY = line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const paramX = line1.getParameterNumber(GraphLine.en.X_VARIABLE);
+  const py2 = line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const px2 = line2.getParameterNumber(GraphLine.en.X_VARIABLE);
   new GenericObserver(line1, evt => {
     if (evt == paramY) {
       py2.setValue(paramY.getValue());
@@ -272,17 +272,17 @@ constructor(elem_ids) {
       this.layout.graphCanvas,
       this.layout.graph_controls, this.layout.div_graph, this.simRun);
 
-  var timeLine1 = new GraphLine('TIME_LINE_1', va1);
+  const timeLine1 = new GraphLine('TIME_LINE_1', va1);
   timeLine1.setYVariable(0);
   timeLine1.setColor('blue');
   timeLine1.setDrawingMode(DrawingMode.DOTS);
-  var timeLine2 = new GraphLine('TIME_LINE_2', va2);
+  const timeLine2 = new GraphLine('TIME_LINE_2', va2);
   timeLine2.setYVariable(0);
   timeLine2.setColor('red');
   timeLine2.setDrawingMode(DrawingMode.DOTS);
   // keep timeLine2's Y variable in sync with timeLine1
-  var timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  var time_py2 = timeLine2.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const timeParamY = timeLine1.getParameterNumber(GraphLine.en.Y_VARIABLE);
+  const time_py2 = timeLine2.getParameterNumber(GraphLine.en.Y_VARIABLE);
   new GenericObserver(timeLine1, evt => {
     if (evt == timeParamY) {
       time_py2.setValue(timeParamY.getValue());
@@ -296,7 +296,7 @@ constructor(elem_ids) {
   new GenericObserver(this.sim1, evt => {
     if (evt instanceof ParameterNumber) {
       // match the parameters on sim2 to those of sim
-      var pn = this.sim2.getParameterNumber(evt.getName());
+      const pn = this.sim2.getParameterNumber(evt.getName());
       pn.setValue(evt.getValue());
     } else if (evt.nameEquals(EventHandler.START_DRAG)) {
       // prevent sim2 from calculating ODE while dragging
@@ -322,7 +322,7 @@ constructor(elem_ids) {
     }
   }, 'sim2 follows sim1 when mouse dragging');
 
-  var subjects = [
+  let subjects = [
     this,
     this.sim1,
     this.sim2,
@@ -435,7 +435,7 @@ setAngleDelta(value) {
   if (this.angleDelta != value) {
     this.angleDelta = value;
     this.simRun.reset();
-    var startAngle = this.sim1.getVarsList().getValue(0);
+    const startAngle = this.sim1.getVarsList().getValue(0);
     this.sim2.getVarsList().setValue(0, startAngle + this.angleDelta);
     this.sim2.saveInitialState();
     this.broadcastParameter(ComparePendulumApp.en.ANGLE_DELTA);

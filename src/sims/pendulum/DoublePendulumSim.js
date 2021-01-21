@@ -103,7 +103,7 @@ constructor(opt_name) {
   super(opt_name);
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  var var_names = [
+  const var_names = [
     DoublePendulumSim.en.ANGLE_1,
     DoublePendulumSim.en.ANGLE_1_VELOCITY,
     DoublePendulumSim.en.ANGLE_2,
@@ -115,7 +115,7 @@ constructor(opt_name) {
     EnergySystem.en.TOTAL_ENERGY,
     VarsList.en.TIME
   ];
-  var i18n_names = [
+  const i18n_names = [
     DoublePendulumSim.i18n.ANGLE_1,
     DoublePendulumSim.i18n.ANGLE_1_VELOCITY,
     DoublePendulumSim.i18n.ANGLE_2,
@@ -226,9 +226,9 @@ getClassName() {
 restState() {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  for (var i=0; i<4; i++) {
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  for (let i=0; i<4; i++) {
     vars[i] = 0;
   }
   va.setValues(vars);
@@ -237,7 +237,7 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -248,14 +248,14 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var L1 = this.rod1Length_;
-  var L2 = this.rod2Length_;
-  var ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
+  const L1 = this.rod1Length_;
+  const L2 = this.rod2Length_;
+  const ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
   // lowest point that bob1 can be is -L1, define that as zero potential energy
   // lowest point that bob2 can be is -L1 -L2
-  var y1 = this.bob1_.getPosition().getY();
-  var y2 = this.bob2_.getPosition().getY();
-  var pe = this.gravity_ * this.bob1_.getMass()*(y1 - -L1)
+  const y1 = this.bob1_.getPosition().getY();
+  const y2 = this.bob2_.getPosition().getY();
+  const pe = this.gravity_ * this.bob1_.getMass()*(y1 - -L1)
          + this.gravity_ * this.bob2_.getMass()*(y2 - (-L1 -L2));
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
@@ -277,15 +277,15 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   // limit the pendulum angle to +/- Pi
-  var theta1 = Util.limitAngle(vars[0]);
+  const theta1 = Util.limitAngle(vars[0]);
   if (theta1 != vars[0]) {
     this.getVarsList().setValue(0, theta1, /*continuous=*/false);
     vars[0] = theta1;
   }
-  var theta2 = Util.limitAngle(vars[2]);
+  const theta2 = Util.limitAngle(vars[2]);
   if (theta2 != vars[2]) {
     this.getVarsList().setValue(2, theta2, /*continuous=*/false);
     vars[2] = theta2;
@@ -294,11 +294,11 @@ modifyObjects() {
   // update the variables that track energy
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  var rate = new Array(vars.length);
+  const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   vars[4] = rate[1];
   vars[5] = rate[3];
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[6] = ei.getTranslational();
   vars[7] = ei.getPotential();
   vars[8] = ei.getTotalEnergy();
@@ -312,24 +312,24 @@ modifyObjects() {
 moveObjects(vars) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  var theta1 = vars[0];
-  var sinTheta1 = Math.sin(theta1);
-  var cosTheta1 = Math.cos(theta1);
-  var theta2 = vars[2];
-  var sinTheta2 = Math.sin(theta2);
-  var cosTheta2 = Math.cos(theta2);
-  var L1 = this.rod1Length_;
-  var L2 = this.rod2Length_;
-  var x1 = L1*sinTheta1;
-  var y1 = -L1*cosTheta1;
-  var x2 = x1 + L2*sinTheta2;
-  var y2 = y1 - L2*cosTheta2;
+  const theta1 = vars[0];
+  const sinTheta1 = Math.sin(theta1);
+  const cosTheta1 = Math.cos(theta1);
+  const theta2 = vars[2];
+  const sinTheta2 = Math.sin(theta2);
+  const cosTheta2 = Math.cos(theta2);
+  const L1 = this.rod1Length_;
+  const L2 = this.rod2Length_;
+  const x1 = L1*sinTheta1;
+  const y1 = -L1*cosTheta1;
+  const x2 = x1 + L2*sinTheta2;
+  const y2 = y1 - L2*cosTheta2;
   this.bob1_.setPosition(new Vector(x1,  y1));
   this.bob2_.setPosition(new Vector(x2,  y2));
-  var v1x = vars[1]*L1*cosTheta1;
-  var v1y = vars[1]*L1*sinTheta1;
-  var v2x = v1x + vars[3]*L2*cosTheta2;
-  var v2y = v1y + vars[3]*L2*sinTheta2;
+  const v1x = vars[1]*L1*cosTheta1;
+  const v1y = vars[1]*L1*sinTheta1;
+  const v2x = v1x + vars[3]*L2*cosTheta2;
+  const v2y = v1y + vars[3]*L2*sinTheta2;
   this.bob1_.setVelocity(new Vector(v1x, v1y));
   this.bob2_.setVelocity(new Vector(v2x, v2y));
   this.rod1_.setStartPoint(Vector.ORIGIN);
@@ -354,9 +354,9 @@ mouseDrag(simObject, location, offset,
     mouseEvent) {
   //   0        1       2        3        4      5      6   7   8    9
   // theta1, theta1', theta2, theta2', accel1, accel2, KE, PE, TE, time
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const p = location.subtract(offset);
   if (simObject == this.bob1_) {
     vars[0] = Math.atan2(p.getX(), -p.getY());
     vars[1] = 0;
@@ -387,19 +387,19 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[9] = 1; // time
   if (!this.isDragging_) {
-    var th1 = vars[0];
-    var dth1 = vars[1];
-    var th2 = vars[2];
-    var dth2 = vars[3];
-    var m2 = this.bob2_.getMass();
-    var m1 = this.bob1_.getMass();
-    var L1 = this.rod1Length_;
-    var L2 = this.rod2Length_;
-    var g = this.gravity_;
+    const th1 = vars[0];
+    const dth1 = vars[1];
+    const th2 = vars[2];
+    const dth2 = vars[3];
+    const m2 = this.bob2_.getMass();
+    const m1 = this.bob1_.getMass();
+    const L1 = this.rod1Length_;
+    const L2 = this.rod2Length_;
+    const g = this.gravity_;
 
     change[0] = dth1;
 
-    var num = -g*(2*m1+m2)*Math.sin(th1);
+    let num = -g*(2*m1+m2)*Math.sin(th1);
     num = num - g*m2*Math.sin(th1-2*th2);
     num = num - 2*m2*dth2*dth2*L2*Math.sin(th1-th2);
     num = num - m2*dth1*dth1*L1*Math.sin(2*(th1-th2));

@@ -48,9 +48,9 @@ class CollideSpringApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6.4, -2, 6.4, 2);
-  var sim = new CollideSpringSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6.4, -2, 6.4, 2);
+  const sim = new CollideSpringSim();
+  const advance = new SimpleAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -94,7 +94,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addParameter(pn = new ParameterNumber(this, CollideSpringSim.en.NUM_BLOCKS,
       CollideSpringSim.i18n.NUM_BLOCKS,
@@ -167,11 +167,11 @@ addBody(obj) {
     return;
   }
   if (obj instanceof PointMass) {
-    var rm = /** @type {!PointMass} */(obj);
-    var proto = rm.getName().match(/^WALL/) ? this.protoWall : this.protoBlock;
+    const rm = /** @type {!PointMass} */(obj);
+    const proto = rm.getName().match(/^WALL/) ? this.protoWall : this.protoBlock;
     this.displayList.add(new DisplayShape(rm, proto));
   } else if (obj instanceof Spring) {
-    var s = /** @type {!Spring} */(obj);
+    const s = /** @type {!Spring} */(obj);
     this.displayList.add(new DisplaySpring(s, this.protoSpring));
   }
 };
@@ -179,11 +179,11 @@ addBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

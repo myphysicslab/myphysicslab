@@ -128,7 +128,7 @@ constructor(hasSpring, opt_name) {
   super(opt_name);
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
-  var var_names = [
+  const var_names = [
     LagrangeRollerSim.en.X_POSITION,
     LagrangeRollerSim.en.X_VELOCITY,
     LagrangeRollerSim.en.POSITION,
@@ -140,7 +140,7 @@ constructor(hasSpring, opt_name) {
     LagrangeRollerSim.en.Y_POSITION,
     LagrangeRollerSim.en.Y_VELOCITY
   ];
-  var i18n_names = [
+  const i18n_names = [
     LagrangeRollerSim.i18n.X_POSITION,
     LagrangeRollerSim.i18n.X_VELOCITY,
     LagrangeRollerSim.i18n.POSITION,
@@ -186,8 +186,8 @@ constructor(hasSpring, opt_name) {
   * @private
   */
   this.dragObj_ = null;
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   vars[0] = 3;
   vars[1] = 0;
   vars[2] = this.path_.map_x_to_p(vars[0]);
@@ -234,17 +234,17 @@ getPath() {
 modifyObjects() {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   // get variables, but get NaN for the many variables computed in modifyObjects()
-  var vars = va.getValues(/*computed=*/false);
+  const vars = va.getValues(/*computed=*/false);
   this.moveObjects(vars);
-  var x = vars[0];
+  const x = vars[0];
   vars[2] = this.path_.map_x_to_p(x);
   // update track velocity
   // ds/dt = sqrt(1 + (-(7/3) x + (2/3) x^3)^2) v
-  var d = -(7/3)*x + (2/3)*x*x*x;
+  const d = -(7/3)*x + (2/3)*x*x*x;
   vars[3] = Math.sqrt(1 + d*d)*vars[1];
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   vars[4] = ei.getTranslational();
   vars[5] = ei.getPotential();
   vars[6] = ei.getTotalEnergy();
@@ -260,15 +260,15 @@ modifyObjects() {
 moveObjects(vars) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
-  var x = vars[0];
-  var x2 = x*x;
-  var x3 = x2*x;
-  var x4 = x3*x;
+  const x = vars[0];
+  const x2 = x*x;
+  const x3 = x2*x;
+  const x4 = x3*x;
   //  From equation of HumpPath:   y = 3 - (7/6) x^2 + (1/6) x^4
-  var y = 3 - (7/6)*x2 + (1/6)*x4;
+  const y = 3 - (7/6)*x2 + (1/6)*x4;
   this.ball1_.setPosition(new Vector(x,  y));
   //  dy/dt = dy/dx * dx/dt = (-(7/3) x + (2/3) x^3) * dx/dt
-  var yp = (-(7/3)*x + (2/3)*x3) * vars[1];
+  const yp = (-(7/3)*x + (2/3)*x3) * vars[1];
   this.ball1_.setVelocity(new Vector(vars[1], yp));
 };
 
@@ -276,7 +276,7 @@ moveObjects(vars) {
 getEnergyInfo() {
   this.modifyObjects();
   // get variables including the many variables computed in modifyObjects()
-  var vars = this.getVarsList().getValues(/*computed=*/true);
+  const vars = this.getVarsList().getValues(/*computed=*/true);
   return this.getEnergyInfo_(vars);
 };
 
@@ -289,13 +289,13 @@ getEnergyInfo_(vars) {
   // 0  1   2   3   4  5   6   7     8  9
   // x, x', s, s', ke, pe, te, time, y, y'
   // kinetic energy is 1/2 m v^2
-  var ke = 0.5 * this.ball1_.getMass() * vars[3] * vars[3];
-  var ke2 = this.ball1_.getKineticEnergy();
+  const ke = 0.5 * this.ball1_.getMass() * vars[3] * vars[3];
+  const ke2 = this.ball1_.getKineticEnergy();
   if (Util.veryDifferent(ke, ke2)) {
     throw 'kinetic energy calcs differ '+ke+' vs '+ke2;
   }
   // gravity potential = m g y
-  var pe = this.ball1_.getMass() * this.gravity_ *
+  const pe = this.ball1_.getMass() * this.gravity_ *
       (this.ball1_.getPosition().getY() - this.lowestPoint_);
   return new EnergyInfo(pe + this.potentialOffset_, ke);
 };
@@ -326,14 +326,14 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var p = location.subtract(offset);
+  const p = location.subtract(offset);
   if (simObject == this.ball1_)  {
     /** @type {!PathPoint} */
-    var pathPoint = this.path_.findNearestGlobal(p);
+    const pathPoint = this.path_.findNearestGlobal(p);
     // 0  1   2   3   4  5   6   7     8  9
     // x, x', s, s', ke, pe, te, time, y, y'
-    var va = this.getVarsList();
-    var vars = va.getValues();
+    const va = this.getVarsList();
+    const vars = va.getValues();
     vars[0] = pathPoint.x;
     vars[1] = 0;
     vars[2] = pathPoint.p;
@@ -358,21 +358,21 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[7] = 1; // time changes at a rate of 1 by definition.
   if (this.dragObj_ != this.ball1_) {
-    var x = vars[0];
-    var x2 = x*x;
-    var v = vars[1];
+    const x = vars[0];
+    const x2 = x*x;
+    const v = vars[1];
     change[0] = v;  // x' = v
     //      -(x * (-7 + 2*x^2) * (3*g + (-7 + 6*x^2) * v^2))
     // v' = ------------------------------------------------
     //             (9 + 49*x^2 - 28*x^4 + 4*x^6)
-    var r = -(x * (-7 + 2*x2) * (3*this.gravity_ + (-7 + 6*x2)* v*v));
+    const r = -(x * (-7 + 2*x2) * (3*this.gravity_ + (-7 + 6*x2)* v*v));
     change[1] = r/(9 + 49*x2 - 28*x2*x2 + 4*x2*x2*x2);
     // integrate position = s
     // ds/dt = (ds/dx) (dx/dt)
     // s = integral (ds/dt) dt = integral (ds/dx) (dx/dt) dt
     // ds/dx = sqrt(1 + (dy/dx)^2)
     // ds/dt = sqrt(1 + (-(7/3) x + (2/3) x^3)^2) v
-    //var d = -(7/3)*x + (2/3)*x2*x;
+    //const d = -(7/3)*x + (2/3)*x2*x;
     //change[2] = Math.sqrt(1 + d*d) * v;
     // This wasn't working in Dec 2020. Try to do it via pathPoint instead,
     // inside of modifyObjects().

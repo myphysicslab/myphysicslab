@@ -158,7 +158,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
-  var var_names = [
+  const var_names = [
     Molecule1Sim.en.X1_POSITION,
     Molecule1Sim.en.Y1_POSITION,
     Molecule1Sim.en.X1_VELOCITY,
@@ -172,7 +172,7 @@ constructor(opt_name) {
     EnergySystem.en.POTENTIAL_ENERGY,
     EnergySystem.en.TOTAL_ENERGY
   ];
-  var i18n_names = [
+  const i18n_names = [
     Molecule1Sim.i18n.X1_POSITION,
     Molecule1Sim.i18n.Y1_POSITION,
     Molecule1Sim.i18n.X1_VELOCITY,
@@ -186,7 +186,7 @@ constructor(opt_name) {
     EnergySystem.i18n.POTENTIAL_ENERGY,
     EnergySystem.i18n.TOTAL_ENERGY
   ];
-  var va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
+  const va = new VarsList(var_names, i18n_names, this.getName()+'_VARS');
   this.setVarsList(va);
   va.setComputed(9, 10, 11);
   /** true when dragging atom1
@@ -320,7 +320,7 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -331,9 +331,9 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.atom1_.getKineticEnergy() + this.atom2_.getKineticEnergy();
-  var bottom = this.walls_.getBoundsWorld().getBottom();
-  var pe = this.gravity_ * this.atom1_.getMass() *
+  const ke = this.atom1_.getKineticEnergy() + this.atom2_.getKineticEnergy();
+  const bottom = this.walls_.getBoundsWorld().getBottom();
+  let pe = this.gravity_ * this.atom1_.getMass() *
       (this.atom1_.getPosition().getY() - (bottom + this.atom1_.getHeight()/2));
   pe += this.gravity_ * this.atom2_.getMass() *
       (this.atom2_.getPosition().getY() - (bottom + this.atom2_.getHeight()/2));
@@ -358,10 +358,10 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
   va.setValue(9, ei.getTranslational(), true);
@@ -405,13 +405,13 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
-  var x = p.getX();
-  var y = p.getY();
-  var w = (simObject==this.atom1_) ? this.atom1_.getWidth() : this.atom2_.getWidth();
-  var h = (simObject==this.atom1_) ? this.atom1_.getHeight() : this.atom2_.getHeight();
-  var walls = this.walls_.getBoundsWorld();
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
+  let x = p.getX();
+  let y = p.getY();
+  const w = (simObject==this.atom1_) ? this.atom1_.getWidth() : this.atom2_.getWidth();
+  const h = (simObject==this.atom1_) ? this.atom1_.getHeight() : this.atom2_.getHeight();
+  const walls = this.walls_.getBoundsWorld();
   // disallow drag outside of walls
   if (x < walls.getLeft() + w/2) {
     x = walls.getLeft() + w/2 + 0.0001;
@@ -461,17 +461,17 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
 * @private
 */
 addCollision(collisions, atom, side, time) {
-  var c = new MoleculeCollision(atom, this.walls_, side, time);
+  const c = new MoleculeCollision(atom, this.walls_, side, time);
   collisions.push(c);
 };
 
 /** @override */
 findCollisions(collisions, vars, stepSize) {
   this.moveObjects(vars);
-  var w = this.walls_.getBoundsWorld();
+  const w = this.walls_.getBoundsWorld();
   this.atoms_.forEach(atom => {
-    var a = atom.getBoundsWorld();
-    var t = this.getTime()+stepSize;
+    const a = atom.getBoundsWorld();
+    const t = this.getTime()+stepSize;
     if (a.getLeft() < w.getLeft()) {
       this.addCollision(collisions, atom, MoleculeCollision.LEFT_WALL, t);
     }
@@ -491,11 +491,11 @@ findCollisions(collisions, vars, stepSize) {
 handleCollisions(collisions, opt_totals) {
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   collisions.forEach(collision => {
-    var c = /** @type {!MoleculeCollision} */(collision);
-    var idx = 4*this.atoms_.indexOf(c.atom);
+    const c = /** @type {!MoleculeCollision} */(collision);
+    const idx = 4*this.atoms_.indexOf(c.atom);
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:
@@ -524,19 +524,19 @@ evaluate(vars, change, timeStep) {
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
   change[8] = 1; // time
-  var forces = this.spring_.calculateForces();
-  var walls = this.walls_.getBoundsWorld();
+  const forces = this.spring_.calculateForces();
+  const walls = this.walls_.getBoundsWorld();
 
   if (!this.dragAtom1_) {
-    var sf1 = forces[0];
+    const sf1 = forces[0];
     asserts.assert(sf1.getBody() == this.atom1_);
-    var m1 = this.atom1_.getMass();
-    var b1 = this.atom1_.getBoundsWorld();
+    const m1 = this.atom1_.getMass();
+    const b1 = this.atom1_.getBoundsWorld();
     change[0] = vars[2]; // Ux' = Vx
     change[1] = vars[3]; // Uy' = Vy
 
     // V1x' = (k/m1) L sin(th)
-    var r = sf1.getVector().getX() / m1;
+    let r = sf1.getVector().getX() / m1;
     if (r<0 && Math.abs(b1.getLeft()-walls.getLeft())<this.distTol_
         && Math.abs(vars[2])<-r*this.timeStep_/(2*m1)) {
       // left wall contact if (leftward force, near left wall, and low velocity)
@@ -563,15 +563,15 @@ evaluate(vars, change, timeStep) {
   }
 
   if (!this.dragAtom2_) {
-    var sf2 = forces[1];
+    const sf2 = forces[1];
     asserts.assert(sf2.getBody() == this.atom2_);
-    var m2 = this.atom2_.getMass();
-    var b2 = this.atom2_.getBoundsWorld();
+    const m2 = this.atom2_.getMass();
+    const b2 = this.atom2_.getBoundsWorld();
     change[4] = vars[6]; // Ux' = Vx
     change[5] = vars[7]; // Uy' = Vy
 
     // V2x'
-    r = sf2.getVector().getX() / m2;
+    let r = sf2.getVector().getX() / m2;
     if (r<0 && Math.abs(b2.getLeft() - walls.getLeft())<this.distTol_
         && Math.abs(vars[6])<-r*this.timeStep_/(2*m2)) {
       // left wall contact if (leftward force, near left wall, and low velocity)

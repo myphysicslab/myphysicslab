@@ -52,9 +52,9 @@ class DoublePendulum2App extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -83,21 +83,21 @@ constructor(elem_ids) {
   /** @type {!DisplayShape} */
   this.protoBlock = new DisplayShape().setStrokeStyle('lightGray')
       .setFillStyle('').setThickness(3);
-  var b1 = new DisplayShape(this.block1, this.protoBlock);
+  const b1 = new DisplayShape(this.block1, this.protoBlock);
   this.displayList.add(b1);
   this.mySim.addBody(this.block1);
-  var b2 = new DisplayShape(this.block2, this.protoBlock);
+  const b2 = new DisplayShape(this.block2, this.protoBlock);
   this.displayList.add(b2);
   this.mySim.addBody(this.block2);
-  var b3 = new DisplayShape(this.block3, this.protoBlock).setStrokeStyle('orange');
+  const b3 = new DisplayShape(this.block3, this.protoBlock).setStrokeStyle('orange');
   this.displayList.add(b3);
   this.mySim.addBody(this.block3);
 
   // demonstrate using an image with DisplayShape.
-  var img = /** @type {!HTMLImageElement} */(document.getElementById('tipper'));
+  const img = /** @type {!HTMLImageElement} */(document.getElementById('tipper'));
   if (goog.isObject(img)) {
     b3.setImage(img);
-    var at = AffineTransform.IDENTITY;
+    let at = AffineTransform.IDENTITY;
     // See notes in DisplayShape:  the origin here is at top left corner
     // of bounding rectangle, and we are in semi-screen coords, except rotated
     // along with the body.  Kind of 'body-screen' coords.
@@ -111,7 +111,7 @@ constructor(elem_ids) {
   }
 
   // draw a gradient for block2, and demo some fancy name options
-  var cg = this.layout.simCanvas.getContext().createLinearGradient(-1, -1, 1, 1);
+  const cg = this.layout.simCanvas.getContext().createLinearGradient(-1, -1, 1, 1);
   if (cg) {
     cg.addColorStop(0, '#87CEFA'); // light blue
     cg.addColorStop(1, 'white');
@@ -124,7 +124,7 @@ constructor(elem_ids) {
   // draw pattern of repeating trucks for block1
   if (goog.isObject(img)) {
     b1.setImageDraw(function(/** !CanvasRenderingContext2D*/context) {
-      var pat = context.createPattern(img, 'repeat');
+      const pat = context.createPattern(img, 'repeat');
       if (pat != null) {
         context.fillStyle = pat;
         context.fill();
@@ -144,11 +144,11 @@ constructor(elem_ids) {
   /* move the bodies so their joints line up over each other. */
   this.mySim.alignConnectors();
 
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
 
   /* demonstrate using ChainConfig.makeChain
-  var options = {
+  const options = {
     wallPivotX: -7,
     wallPivotY: 10,
     fixedLeft: true,
@@ -177,7 +177,7 @@ constructor(elem_ids) {
   this.mySim.addForceLaw(this.thrustForce2);
 
   this.addPlaybackControls();
-  var pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
+  let pn = this.gravityLaw.getParameterNumber(GravityLaw.en.GRAVITY);
   this.addControl(new NumericControl(pn));
   this.watchEnergyChange(pn);
 

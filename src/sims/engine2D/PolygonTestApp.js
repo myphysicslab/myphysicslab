@@ -51,9 +51,9 @@ class PolygonTestApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -4, 4, 4);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 4);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -75,7 +75,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, PolygonTestApp.en.NUM_BODIES,
       PolygonTestApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -133,17 +133,17 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!RigidBody} */
-  var p;
+  let p;
   if (this.numBods >= 1) {
     // rectangle with one circular edge
     p = new Polygon(PolygonTestApp.en.ROUND_CORNER, PolygonTestApp.i18n.ROUND_CORNER);
@@ -165,7 +165,7 @@ config() {
   }
   if (this.numBods >= 2) {
     // small triangular pie wedge with one circular edge
-    var r = 1.5;
+    const r = 1.5;
     p = new Polygon(PolygonTestApp.en.PIE_WEDGE, PolygonTestApp.i18n.PIE_WEDGE);
     p.startPath(new ConcreteVertex(new Vector(0, 0)));
     p.addStraightEdge(new Vector(r, 0), /*outsideIsUp=*/false);

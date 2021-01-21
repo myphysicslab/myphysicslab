@@ -159,12 +159,12 @@ updateCollision(time) {
   // Assume that the track does not loop.
   // Then if the ball is below the track there has been a collision.
   this.pathPoint_ = new PathPoint();
-  var pos = this.ball_.getPosition();
+  const pos = this.ball_.getPosition();
   this.pathPoint_.x = pos.getX();
   this.path_.map_x_to_y_p(this.pathPoint_);
   this.path_.map_p_to_slope(this.pathPoint_);
   this.distance_ = pos.getY() - this.pathPoint_.getY();
-  var normal = this.pathPoint_.getNormal();
+  const normal = this.pathPoint_.getNormal();
   this.velocity = this.ball_.getVelocity().dotProduct(normal);
 };
 

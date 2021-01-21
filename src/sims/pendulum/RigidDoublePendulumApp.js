@@ -46,11 +46,11 @@ class RigidDoublePendulumApp extends AbstractApp {
 constructor(elem_ids, centered) {
   Util.setErrorHandler();
   /** @type {!RigidDoublePendulumSim.Parts} */
-  var parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
+  const parts = centered ? RigidDoublePendulumSim.makeCentered(0.25 * Math.PI, 0)
         : RigidDoublePendulumSim.makeOffset(0.25 * Math.PI, 0);
-  var simRect = new DoubleRect(-2, -2, 2, 2);
-  var sim = new RigidDoublePendulumSim(parts);
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-2, -2, 2, 2);
+  const sim = new RigidDoublePendulumSim(parts);
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/null, /*energySystem=*/sim);
 
   // This Observer ensures that when initial angles are changed in sim, then clock
@@ -79,7 +79,7 @@ constructor(elem_ids, centered) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(RigidDoublePendulumSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 

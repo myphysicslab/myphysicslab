@@ -213,9 +213,9 @@ getClassName() {
 * @private
 */
 makeVarNames(numBlocks, localized) {
-  var names = [];
-  var n = numBlocks*2 + 4;
-  for (var i=0; i<n; i++) {
+  const names = [];
+  const n = numBlocks*2 + 4;
+  for (let i=0; i<n; i++) {
     names.push(this.getVariableName(i, numBlocks, localized));
   }
   return names;
@@ -232,8 +232,8 @@ getVariableName(idx, numBlocks, localized) {
   if (idx < numBlocks*2) {
   // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
-    var j = idx%2;
-    var block = 1 + Math.floor(idx/2);
+    const j = idx%2;
+    const block = 1 + Math.floor(idx/2);
     switch (j) {
       case 0:
         return (localized ?
@@ -277,42 +277,46 @@ config(numBlocks, startPosition, startGap)  {
   this.springs_.length = 0;
   this.getSimList().add(this.wall1_);
   this.getSimList().add(this.wall2_);
-  var va = this.getVarsList();
+  const va = this.getVarsList();
   va.deleteVariables(0, va.numVariables());
   va.addVariables(this.makeVarNames(numBlocks, /*localized=*/false),
       this.makeVarNames(numBlocks,  /*localized=*/true));
-  var left = this.wall1_.getPosition();
-  var right = this.wall2_.getPosition();
-  for (var i=0; i<numBlocks; i++) {
-    var block = PointMass.makeSquare(this.blockWidth_, 'block_'+(i+1));
+  const left = this.wall1_.getPosition();
+  const right = this.wall2_.getPosition();
+  for (let i=0; i<numBlocks; i++) {
+    const block = PointMass.makeSquare(this.blockWidth_, 'block_'+(i+1));
     block.setMass(this.mass_);
     this.blocks_.push(block);
   }
   this.getSimList().addAll(this.blocks_);
-  var spring = new Spring('spring_0',
-      this.wall1_, new Vector(this.wall1_.getRightBody(), 0),
-      this.blocks_[0], new Vector(-this.blockWidth_/2, 0),
-       this.restLength_, this.stiffness_, /*compressOnly=*/ true);
-  spring.setDamping(this.springDamping_);
-  this.springs_.push(spring);
-  for (i=0; i<numBlocks-1; i++) {
-    spring = new Spring('spring_'+i,
+  {
+    const spring = new Spring('spring_0',
+        this.wall1_, new Vector(this.wall1_.getRightBody(), 0),
+        this.blocks_[0], new Vector(-this.blockWidth_/2, 0),
+         this.restLength_, this.stiffness_, /*compressOnly=*/ true);
+    spring.setDamping(this.springDamping_);
+    this.springs_.push(spring);
+  }
+  for (let i=0; i<numBlocks-1; i++) {
+    const spring = new Spring('spring_'+i,
         this.blocks_[i], new Vector(this.blockWidth_/2, 0),
         this.blocks_[i+1], new Vector(-this.blockWidth_/2, 0),
         this.restLength_, this.stiffness_, /*compressOnly=*/ true);
     spring.setDamping(this.springDamping_);
     this.springs_.push(spring);
   }
-  spring = new Spring('spring_'+numBlocks,
-      this.blocks_[numBlocks-1], new Vector(this.blockWidth_/2, 0),
-      this.wall2_, new Vector(this.wall2_.getLeftBody(), 0),
-      this.restLength_, this.stiffness_, /*compressOnly=*/ true);
-  spring.setDamping(this.springDamping_);
-  this.springs_.push(spring);
+  {
+    const spring = new Spring('spring_'+numBlocks,
+        this.blocks_[numBlocks-1], new Vector(this.blockWidth_/2, 0),
+        this.wall2_, new Vector(this.wall2_.getLeftBody(), 0),
+        this.restLength_, this.stiffness_, /*compressOnly=*/ true);
+    spring.setDamping(this.springDamping_);
+    this.springs_.push(spring);
+  }
   this.getSimList().addAll(this.springs_);
   // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
-  var vars = va.getValues();
+  const vars = va.getValues();
   vars[0] = this.wall1_.getRightWorld() + this.restLength_ + this.blockWidth_/2
       + startGap;
   vars[1] = 3; // starting velocity of block_1
@@ -351,7 +355,7 @@ config(numBlocks, startPosition, startGap)  {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -365,9 +369,9 @@ getEnergyInfo_(vars) {
   // We assume that modifyObjects() has been called so the objects have
   // position and velocity corresponding to the vars[] array.
   /** @type {number} */
-  var ke = 0;
+  let ke = 0;
   /** @type {number} */
-  var pe = 0;
+  let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   this.blocks_.forEach(block => ke += block.getKineticEnergy());
   return new EnergyInfo(pe + this.potentialOffset_, ke);
@@ -390,11 +394,11 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
-  var ei = this.getEnergyInfo_(vars);
-  var n = this.blocks_.length*2;
+  const ei = this.getEnergyInfo_(vars);
+  const n = this.blocks_.length*2;
   va.setValue(n, ei.getTranslational(), true);
   va.setValue(n+1, ei.getPotential(), true);
   va.setValue(n+2, ei.getTotalEnergy(), true);
@@ -408,7 +412,7 @@ moveObjects(vars) {
   // vars: 0   1   2   3   4   5   6   7   8    9
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   this.blocks_.forEach((block, i) => {
-    var idx = 2*i;
+    const idx = 2*i;
     block.setPosition(new Vector(vars[idx],  0));
     block.setVelocity(new Vector(vars[1 + idx], 0, 0));
   });
@@ -435,7 +439,7 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 
 /** @override */
 mouseDrag(simObject, location, offset, mouseEvent) {
-  var p = location.subtract(offset);
+  const p = location.subtract(offset);
   if (simObject == this.wall1_) {
     this.wall1_.setPosition(p);
   } else if (simObject == this.wall2_) {
@@ -466,11 +470,11 @@ evaluate(vars, change, timeStep) {
   //      U0  V0  U1  V1  U2  U3  KE  PE  TE time
   change[this.blocks_.length*2+3] = 1; // time
   this.blocks_.forEach((block, listIdx) => {
-    var idx = 2*listIdx;
+    const idx = 2*listIdx;
     change[idx] = vars[idx+1]; // U' = V
-    var mass = block.getMass();
+    const mass = block.getMass();
     // for each spring, get force from spring,
-    var force = new MutableVector(0, 0);
+    const force = new MutableVector(0, 0);
     this.springs_.forEach(spr => {
       if (spr.getBody1() == block) {
         force.add(spr.calculateForces()[0].getVector());
@@ -532,11 +536,11 @@ getMass() {
 */
 setMass(value) {
   this.mass_ = value;
-  var mass = this.mass_/this.blocks_.length;
+  const mass = this.mass_/this.blocks_.length;
   this.blocks_.forEach(block => block.setMass(mass));
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.blocks_.length*2;
+  const n = this.blocks_.length*2;
   this.getVarsList().incrSequence(n, n+1, n+2);
   this.broadcastParameter(CollideSpringSim.en.MASS);
 };
@@ -553,12 +557,12 @@ getLength() {
 */
 setLength(value) {
   this.restLength_ = value;
-  for (var i=0; i<this.springs_.length; i++) {
+  for (let i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.blocks_.length*2;
+  const n = this.blocks_.length*2;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(CollideSpringSim.en.SPRING_LENGTH);
 };
@@ -575,12 +579,12 @@ getStiffness() {
 */
 setStiffness(value) {
   this.stiffness_ = value;
-  for (var i=0; i<this.springs_.length; i++) {
+  for (let i=0; i<this.springs_.length; i++) {
     this.springs_[i].setStiffness(value);
   }
   // discontinuous change in energy
   // vars[n] = KE, vars[n+1] = PE, vars[n+2] = TE
-  var n = this.blocks_.length*2;
+  const n = this.blocks_.length*2;
   this.getVarsList().incrSequence(n+1, n+2);
   this.broadcastParameter(CollideSpringSim.en.SPRING_STIFFNESS);
 };

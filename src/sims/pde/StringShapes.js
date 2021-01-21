@@ -79,7 +79,7 @@ getClassName() {
 
 /** @override */
 position(x) {
-  var middle = this.length_/2;
+  const middle = this.length_/2;
   return (x >= middle-this.w_ && x <= middle+this.w_) ? 0.1 : 0.0;
 };
 

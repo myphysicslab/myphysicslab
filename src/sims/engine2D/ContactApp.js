@@ -56,11 +56,11 @@ class ContactApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4.5, -3.6, 3.1, 4);
-  var sim = new ContactSim();
+  const simRect = new DoubleRect(-4.5, -3.6, 3.1, 4);
+  const sim = new ContactSim();
   // Try different ExtraAccel values here. Can also do this in Terminal.
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
-  var advance = new CollisionAdvance(sim);
+  const advance = new CollisionAdvance(sim);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
@@ -87,7 +87,7 @@ constructor(elem_ids) {
   this.addPlaybackControls();
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, ContactApp.en.NUM_BODIES,
       ContactApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -150,7 +150,7 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
@@ -158,10 +158,10 @@ config() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!RigidBody} */
-  var p;
+  let p;
   this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   if (this.numBods >= 1) {
     p = Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/1,
@@ -237,7 +237,7 @@ getMass1() {
 setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
-    var body1 = this.mySim.getBody(ContactApp.en.BLOCK+'1');
+    const body1 = this.mySim.getBody(ContactApp.en.BLOCK+'1');
     body1.setMass(value);
     this.broadcastParameter(ContactApp.en.MASS1);
   }

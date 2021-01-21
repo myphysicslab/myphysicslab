@@ -48,9 +48,9 @@ class RigidBodyApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -4, 4, 4);
-  var sim = new RigidBodySim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 4);
+  const sim = new RigidBodySim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!RigidBodySim} */
   this.mySim = sim;
@@ -82,7 +82,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, RigidBodyApp.en.NUM_BODIES,
       RigidBodyApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -176,7 +176,7 @@ static makeBlock(num) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.springs_ = [];
@@ -188,7 +188,7 @@ config() {
 
   make_blocks:
   if (this.numBods >= 1) {
-    var p1 = RigidBodyApp.makeBlock(1);
+    const p1 = RigidBodyApp.makeBlock(1);
     p1.setPosition(new Vector(-3.3,  0),  0);
     p1.setVelocity(new Vector(0.3858,  -0.3608),  -0.3956);
     p1.setMass(this.mass1);
@@ -205,7 +205,7 @@ config() {
     if (this.numBods < 2) {
       break make_blocks;
     }
-    var p2 = RigidBodyApp.makeBlock(2);
+    const p2 = RigidBodyApp.makeBlock(2);
     p2.setPosition(new Vector(-2.2,  0),  0);
     p2.setVelocity(new Vector(0.26993,  -0.01696),  -0.30647);
     this.mySim.addBody(p2);
@@ -225,7 +225,7 @@ config() {
     if (this.numBods < 3) {
       break make_blocks;
     }
-    var p3 = RigidBodyApp.makeBlock(3);
+    const p3 = RigidBodyApp.makeBlock(3);
     p3.setPosition(new Vector(2.867,  -0.113),  0);
     p3.setVelocity(new Vector(-0.29445,  -0.11189),  -0.23464);
     this.mySim.addBody(p3);
@@ -238,7 +238,7 @@ config() {
     if (this.numBods < 4) {
       break make_blocks;
     }
-    var p4 = RigidBodyApp.makeBlock(4);
+    const p4 = RigidBodyApp.makeBlock(4);
     p4.setPosition(new Vector(1.36,  2.5),  -Math.PI/4);
     p4.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p4);
@@ -251,7 +251,7 @@ config() {
     if (this.numBods < 5) {
       break make_blocks;
     }
-    var p5 = RigidBodyApp.makeBlock(5);
+    const p5 = RigidBodyApp.makeBlock(5);
     p5.setPosition(new Vector(-2,  2.5),  Math.PI/2+0.1);
     this.mySim.addBody(p5);
     this.addSpring(new Spring('spring 6',
@@ -263,7 +263,7 @@ config() {
     if (this.numBods >= 6) {
       break make_blocks;
     }
-    var p6 = RigidBodyApp.makeBlock(6);
+    const p6 = RigidBodyApp.makeBlock(6);
     p6.setPosition(new Vector(0.08,  0.127),  0.888);
     this.mySim.addBody(p6);
     this.addSpring(new Spring('spring 7',
@@ -292,7 +292,7 @@ getMass1() {
 setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
-    var body1 = this.mySim.getBody(RigidBodyApp.en.BLOCK+'1');
+    const body1 = this.mySim.getBody(RigidBodyApp.en.BLOCK+'1');
     body1.setMass(value);
     this.broadcastParameter(RigidBodyApp.en.MASS1);
   }

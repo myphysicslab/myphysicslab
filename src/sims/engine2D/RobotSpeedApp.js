@@ -57,11 +57,11 @@ class RobotSpeedApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-50, -10, 50, 10);
-  var sim = new ContactSim();
+  const simRect = new DoubleRect(-50, -10, 50, 10);
+  const sim = new ContactSim();
   // Try different ExtraAccel values here. Can also do this in Terminal.
   //this.mySim.setExtraAccel(ExtraAccel.VELOCITY);
-  var advance = new CollisionAdvance(sim);
+  const advance = new CollisionAdvance(sim);
   //advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
@@ -96,7 +96,7 @@ constructor(elem_ids) {
   this.addPlaybackControls();
 
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addParameter(pn = new ParameterNumber(this, RobotSpeedApp.en.THRUST,
       RobotSpeedApp.i18n.THRUST,
@@ -121,8 +121,8 @@ constructor(elem_ids) {
   this.addURLScriptButton();
   this.config();
   this.setThrust(10);
-  var r = this.robot;
-  var sr = this.simRun;
+  const r = this.robot;
+  const sr = this.simRun;
   /** @type {!GenericMemo} */
   this.memo = new GenericMemo(() => {
     if (r.getPosition().getX() > 40) {
@@ -168,7 +168,7 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
@@ -176,7 +176,7 @@ config() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   //this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   this.robot = Shapes.makeBlock(10, 3, RobotSpeedApp.en.ROBOT, RobotSpeedApp.i18n.ROBOT);
@@ -206,7 +206,7 @@ getMass1() {
 setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
-    var body1 = this.mySim.getBody(RobotSpeedApp.en.ROBOT);
+    const body1 = this.mySim.getBody(RobotSpeedApp.en.ROBOT);
     body1.setMass(value);
     this.broadcastParameter(RobotSpeedApp.en.MASS1);
   }
@@ -225,7 +225,7 @@ getThrust() {
 setThrust(value) {
   this.thrust = value;
   if (this.robot != null) {
-    var f = new Force('robot_force', this.robot, Vector.ORIGIN, CoordType.BODY, new Vector(value, 0), CoordType.BODY);
+    const f = new Force('robot_force', this.robot, Vector.ORIGIN, CoordType.BODY, new Vector(value, 0), CoordType.BODY);
     this.cfl.setForce(f);
   }
   this.broadcastParameter(RobotSpeedApp.en.THRUST);

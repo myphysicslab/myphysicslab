@@ -43,9 +43,9 @@ class MutualAttractApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -65,10 +65,10 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
-  var choices = [];
-  var values = [];
-  for (var i=2; i<=6; i++) {
+  let pn;
+  const choices = [];
+  const values = [];
+  for (let i=2; i<=6; i++) {
     choices.push(i+' '+MutualAttractApp.i18n.OBJECTS);
     values.push(i);
   }
@@ -131,7 +131,7 @@ makeBody() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
@@ -139,9 +139,9 @@ config() {
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var v = 0.6;
-  for (var i=0; i<this.numBods; i++) {
-    var body;
+  const v = 0.6;
+  for (let i=0; i<this.numBods; i++) {
+    let body;
     switch (i) {
     case 0:
       body = this.makeBody();

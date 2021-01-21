@@ -61,10 +61,10 @@ constructor(elem_ids) {
   Util.setErrorHandler();
   super('APP');
   Util.setImagesDir(elem_ids['images_dir']);
-  var div_sim = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
+  const div_sim = BlankSlateApp.getElementById(elem_ids, 'sim_canvas');
   // 'relative' allows absolute positioning of icon controls over the canvas
   div_sim.style.position = 'relative';
-  var canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
+  const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   /**
   * @type {!LabCanvas}
   * @private
@@ -77,9 +77,9 @@ constructor(elem_ids) {
   */
   this.sim_controls = BlankSlateApp.getElementById(elem_ids, 'sim_controls');
 
-  var term_output = /** @type {!HTMLInputElement} */
+  const term_output = /** @type {!HTMLInputElement} */
       (BlankSlateApp.getElementById(elem_ids, 'term_output'));
-  var term_input = /** @type {!HTMLInputElement} */
+  const term_input = /** @type {!HTMLInputElement} */
       (BlankSlateApp.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
@@ -111,15 +111,15 @@ constructor(elem_ids) {
   */
   this.simCtrl = new SimController(this.simCanvas, /*eventHandler=*/null,
       /*panModifier=*/{alt:false, control:false, meta:false, shift:false});
-  var panzoom = CommonControls.makePanZoomControls(this.simView,
+  const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect) );
   div_sim.appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(true);
-  var zoomCtrl = new CheckBoxControl(this.panZoomParam);
-  var element = zoomCtrl.getElement();
+  const zoomCtrl = new CheckBoxControl(this.panZoomParam);
+  const element = zoomCtrl.getElement();
   element.style.display = 'block';
   this.sim_controls.appendChild(element);
 
@@ -129,7 +129,7 @@ constructor(elem_ids) {
   * @private
   */
   this.timer = new Timer();
-  var callback = () => this.simCanvas.paint();
+  const callback = () => this.simCanvas.paint();
   this.timer.setCallBack(callback);
   this.timer.startFiring();
 };
@@ -144,7 +144,7 @@ static getElementById(elem_ids, elementId) {
   // note:  Google Closure Compiler will rename properties in advanced mode.
   // Therefore, we need to get the property with a string which is not renamed.
   // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  var e = document.getElementById(elem_ids[elementId]);
+  const e = document.getElementById(elem_ids[elementId]);
   if (!goog.isObject(e)) {
     throw 'elementId not found: '+elementId;
   }

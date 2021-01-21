@@ -134,7 +134,7 @@ getImpulse() {
 
 /** @override */
 getVelocity() {
-  var v = this.atom.getVelocity();
+  const v = this.atom.getVelocity();
   // Returns the relative normal velocity between the two collision points.
   // Negative velocity means colliding, positive means separating.
   switch (this.side) {
@@ -178,8 +178,8 @@ setNeedsHandling(needsHandling) {
 
 /** @override */
 updateCollision(time) {
-  var a = this.atom.getBoundsWorld();
-  var w = this.wall.getBoundsWorld();
+  const a = this.atom.getBoundsWorld();
+  const w = this.wall.getBoundsWorld();
   switch (this.side) {
     case MoleculeCollision.TOP_WALL:
       this.distance_ = w.getTop() - a.getTop();

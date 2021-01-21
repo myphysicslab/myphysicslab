@@ -45,9 +45,9 @@ class RobotSpeedApp extends AbstractApp {
 */
 constructor(elem_ids, opt_name) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-0.7, -0.4, 2.5, 1.3);
-  var sim = new RobotSpeedSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-0.7, -0.4, 2.5, 1.3);
+  const sim = new RobotSpeedSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/null,
       /*energySystem=*/null, opt_name);
 
@@ -55,7 +55,7 @@ constructor(elem_ids, opt_name) {
   this.ramp = new DisplayShape(this.simList.getPointMass('ramp'))
       .setFillStyle('black');
   this.displayList.add(this.ramp);
-  var bot = this.simList.getPointMass('robot');
+  const bot = this.simList.getPointMass('robot');
   /** @type {!DisplayShape} */
   this.robot = new DisplayShape(bot).setFillStyle('lightGray')
       .setDrawCenterOfMass(true);
@@ -69,7 +69,7 @@ constructor(elem_ids, opt_name) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn = sim.getParameterNumber(RobotSpeedSim.en.DIAMETER);
+  let pn = sim.getParameterNumber(RobotSpeedSim.en.DIAMETER);
   this.addControl(new NumericControl(pn));
   this.graph.addControl(new NumericControl(pn));
   this.timeGraph.addControl(new NumericControl(pn));
@@ -98,11 +98,11 @@ constructor(elem_ids, opt_name) {
   this.graph.addControl(new NumericControl(pn));
   this.timeGraph.addControl(new NumericControl(pn));
 
-  var sr = this.simRun;
+  const sr = this.simRun;
   // pause simulation when bot goes too far in either direction
   /** @type {!GenericMemo} */
   this.memo = new GenericMemo(() => {
-    var p = bot.getPosition().getX();
+    const p = bot.getPosition().getX();
     if (p < -0.5 || p > 6)
       sr.pause();
   });
@@ -149,21 +149,21 @@ defineNames(myName) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.sim.getSimList()) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       if (this.displayList.find(obj) != null) {
         // we already have a DisplayObject for this SimObject, don't add a new one.
         return;
       }
       if (obj instanceof Force) {
-        var line = /** @type {!Force} */(obj);
-        var dl = new DisplayLine(line).setThickness(1);
+        const line = /** @type {!Force} */(obj);
+        const dl = new DisplayLine(line).setThickness(1);
         dl.setColor('blue');
         dl.setZIndex(10);
         this.displayList.add(dl);
       }
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

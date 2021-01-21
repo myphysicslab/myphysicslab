@@ -48,9 +48,9 @@ class ImpulseApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-4, -4, 4, 4);
-  var sim = new ImpulseSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 4);
+  const sim = new ImpulseSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ImpulseSim} */
   this.mySim = sim;
@@ -75,7 +75,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, ImpulseApp.en.NUM_BODIES,
       ImpulseApp.i18n.NUM_BODIES,
       () => this.getNumBodies(), a => this.setNumBodies(a))
@@ -147,17 +147,17 @@ static makeBlock(num) {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.mySim.addForceLaw(this.gravityLaw);
   this.gravityLaw.connect(this.mySim.getSimList());
-  var zel = Walls.make2(this.mySim, this.simView.getSimRect());
+  const zel = Walls.make2(this.mySim, this.simView.getSimRect());
   this.gravityLaw.setZeroEnergyLevel(zel);
   /** @type {!RigidBody} */
-  var p;
+  let p;
   this.rbo.protoPolygon.setNameFont('10pt sans-serif');
   if (this.numBods >= 1) {
     p = ImpulseApp.makeBlock(1);
@@ -260,7 +260,7 @@ getMass1() {
 setMass1(value) {
   if (this.mass1 != value) {
     this.mass1 = value;
-    var body1 = this.mySim.getBody(ImpulseApp.en.BLOCK+'1');
+    const body1 = this.mySim.getBody(ImpulseApp.en.BLOCK+'1');
     body1.setMass(value);
     this.broadcastParameter(ImpulseApp.en.MASS1);
   }

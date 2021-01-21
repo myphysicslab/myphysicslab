@@ -91,25 +91,25 @@ getClassName() {
 
 /** @override */
 calculateForces() {
-  var point1 = this.getStartPoint();
-  var point2 = this.getEndPoint();
-  var v = point2.subtract(point1);
-  var len = v.length();
-  var body1 = this.getBody1();
-  var body2 = this.getBody2();
-  var m1 = body1.getMass();
-  var m2 = body2.getMass();
-  var S = this.getStiffness();
-  var G = this.attract_;
+  const point1 = this.getStartPoint();
+  const point2 = this.getEndPoint();
+  const v = point2.subtract(point1);
+  const len = v.length();
+  const body1 = this.getBody1();
+  const body2 = this.getBody2();
+  const m1 = body1.getMass();
+  const m2 = body2.getMass();
+  const S = this.getStiffness();
+  const G = this.attract_;
   // force on body 1 is in direction of v
-  var sf = G*m1*m2/(len*len) - S*Math.pow(len, -3)
-  var fx = sf * (v.getX() / len);
-  var fy = sf * (v.getY() / len);
-  var f = new Vector(fx, fy, 0);
+  const sf = G*m1*m2/(len*len) - S*Math.pow(len, -3)
+  const fx = sf * (v.getX() / len);
+  const fy = sf * (v.getY() / len);
+  let f = new Vector(fx, fy, 0);
   if (this.getDamping() != 0) {
-      var v1 = body1.getVelocity(this.getAttach1());
-      var v2 = body2.getVelocity(this.getAttach2());
-      var df = v1.subtract(v2).multiply(-this.getDamping());
+      const v1 = body1.getVelocity(this.getAttach1());
+      const v2 = body2.getVelocity(this.getAttach2());
+      const df = v1.subtract(v2).multiply(-this.getDamping());
       f = f.add(df);
   }
   return [ new Force('spring', body1,
@@ -122,7 +122,7 @@ calculateForces() {
 
 /** @override */
 getPotentialEnergy() {
-  var len = this.getLength();
+  const len = this.getLength();
   return this.potentialEnergy(len) - this.minPE_;
 };
 
@@ -131,10 +131,10 @@ getPotentialEnergy() {
 @return {number} potential energy
 */
 potentialEnergy(len) {
-  var m1 = this.getBody1().getMass();
-  var m2 = this.getBody2().getMass();
-  var S = this.getStiffness();
-  var G = this.attract_;
+  const m1 = this.getBody1().getMass();
+  const m2 = this.getBody2().getMass();
+  const S = this.getStiffness();
+  const G = this.attract_;
   return -G*m1*m2/len + (S/2)/(len*len);
 };
 
@@ -142,10 +142,10 @@ potentialEnergy(len) {
 @return {number} length of spring that has minimum potential energy
 */
 minPELen() {
-  var m1 = this.getBody1().getMass();
-  var m2 = this.getBody2().getMass();
-  var S = this.getStiffness();
-  var G = this.attract_;
+  const m1 = this.getBody1().getMass();
+  const m2 = this.getBody2().getMass();
+  const S = this.getStiffness();
+  const G = this.attract_;
   return S/(G*m1*m2);
 };
 

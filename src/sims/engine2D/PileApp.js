@@ -80,9 +80,9 @@ class PileApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-3, -0.2, 3, 5.2);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-3, -0.2, 3, 5.2);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, 'PILE_APP');
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -121,9 +121,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   this.addParameter(pn = new ParameterNumber(this, PileConfig.en.NUM_BLOCKS,
       PileConfig.i18n.NUM_BLOCKS,
       () => this.getNumBlocks(), a => this.setNumBlocks(a))
@@ -172,7 +172,7 @@ constructor(elem_ids) {
   this.addStandardControls();
 
   /** @type {!ButtonControl} */
-  var c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
+  let c = new ButtonControl(PileConfig.i18n.REBUILD, () => this.config());
   this.addControl(c);
 
   c = new ButtonControl(PileConfig.i18n.ADD_BLOCK, () => this.addBlock());
@@ -219,7 +219,7 @@ config() {
   //this.buildRNG = new RandomLCG(594074265);
   //console.log('buildRNG.getSeed()='+this.buildRNG.getSeed());
   this.randomSeed = this.buildRNG.getSeed();
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   Polygon.ID = 1;
   this.advance.reset();
@@ -232,15 +232,15 @@ config() {
   } else {
     this.clock.removeTask(this.task);
   }
-  var blocks = [];
+  const blocks = [];
   if (this.twoPiles) {
     this.zeroEnergyLevel = PileConfig.makeDoubleVPit(this.mySim, 5);
     array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, this.numBlocks,
          -7, 10, this.buildRNG, /*rightAngle=*/this.squareBlocks));
   } else {
     this.zeroEnergyLevel = PileConfig.makeVPit(this.mySim, 9.348706704297266);
-    var half = Math.floor(this.numBlocks/2);
-    var rest = this.numBlocks-half;
+    const half = Math.floor(this.numBlocks/2);
+    const rest = this.numBlocks-half;
     array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, rest, -9.9, 19,
         this.buildRNG, /*rightAngle=*/this.squareBlocks));
     array.extend(blocks, PileConfig.makeRandomBlocks(this.mySim, half, -9, 16,
@@ -249,9 +249,9 @@ config() {
   this.gravityLaw.setZeroEnergyLevel(this.zeroEnergyLevel);
 
   if (this.connectedBlocks) {
-    var connect = PileConfig.makeConnectedBlocks(this.mySim, 3, /*y=*/21, /*angle=*/0);
+    const connect = PileConfig.makeConnectedBlocks(this.mySim, 3, /*y=*/21, /*angle=*/0);
     /* thrust forces are operated by pressing keys like up/down/left/right arrows */
-    var thrustForce1 = SixThrusters.make(10.0, connect[0]);
+    const thrustForce1 = SixThrusters.make(10.0, connect[0]);
     this.rbeh.setThrusters(thrustForce1, 'right');
     this.mySim.addForceLaw(thrustForce1);
     array.extend(blocks, connect);
@@ -274,7 +274,7 @@ config() {
 * @return {undefined}
 */
 addBlock() {
-  var b = this.squareBlocks ? Shapes.makeBlock(1, 1) :
+  const b = this.squareBlocks ? Shapes.makeBlock(1, 1) :
       Shapes.makeRandomPolygon(/*sides=*/4, /*radius=*/0.7);
   b.setPosition(new Vector(0,  10));
   this.mySim.addBody(b);

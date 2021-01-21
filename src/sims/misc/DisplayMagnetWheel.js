@@ -57,21 +57,21 @@ toStringShort() {
 
 /** @override */
 contains(p_world) {
-  var p_body = this.wheel_.worldToBody(p_world);
+  const p_body = this.wheel_.worldToBody(p_world);
   return this.wheel_.getBoundsBody().contains(p_body);
 };
 
 /** @override */
 draw(context, map) {
-  var r = this.wheel_.getRadius();
+  const r = this.wheel_.getRadius();
   context.save();
   /** @type {!AffineTransform} */
-  var sim_to_screen = map.getAffineTransform(); // sim to screen transform
+  const sim_to_screen = map.getAffineTransform(); // sim to screen transform
   // sim_to_screen_units = scaling factor to go from sim units to screen units (pixels)
-  var sim_to_screen_units = 1/map.getScaleX();
+  const sim_to_screen_units = 1/map.getScaleX();
 
   // draw in body coords (rotated by angle of wheel).
-  var body_to_screen =
+  const body_to_screen =
       sim_to_screen.concatenate(this.wheel_.bodyToWorldTransform());
   body_to_screen.setTransform(context);
 
@@ -94,12 +94,12 @@ draw(context, map) {
   context.stroke();
 
   // draw each magnet
-  var mr = 0.1*r;  // radius of the little magnet circle
-  var magnets = this.wheel_.getMagnets();
-  for (var i=0, n=magnets.length; i<n; i++) {
-    var c = magnets[i]; // center of the magnet
-    var x = c.getX();
-    var y = c.getY();
+  const mr = 0.1*r;  // radius of the little magnet circle
+  const magnets = this.wheel_.getMagnets();
+  for (let i=0, n=magnets.length; i<n; i++) {
+    const c = magnets[i]; // center of the magnet
+    const x = c.getX();
+    const y = c.getY();
     //console.log('magnet '+i+' '+c.toString());
     context.beginPath();
     if (typeof context.ellipse === 'function') {
@@ -118,8 +118,8 @@ draw(context, map) {
 
   // draw the fixed magnet
   sim_to_screen.setTransform(context);  // draw in world coords
-  var fm = this.wheel_.getFixedMagnet();
-  var fmr = 0.1*r;  // radius of the fixed magnet circle
+  const fm = this.wheel_.getFixedMagnet();
+  const fmr = 0.1*r;  // radius of the fixed magnet circle
   context.beginPath();
   if (typeof context.ellipse === 'function') {
     context.moveTo(fmr + fm.getX(), fm.getY());

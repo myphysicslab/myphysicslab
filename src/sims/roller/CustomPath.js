@@ -108,7 +108,7 @@ setYEquation(value) {
 /** @override */
 x_func(t) {
   window['t'] = t;
-  var r = eval('"use strict"; '+this.equationX_);
+  const r = eval('"use strict"; '+this.equationX_);
   if (typeof r === 'number' && isFinite(r)) {
     return r;
   } else {
@@ -119,7 +119,7 @@ x_func(t) {
 /** @override */
 y_func(t) {
   window['t'] = t;
-  var r = eval('"use strict"; '+this.equationY_);
+  const r = eval('"use strict"; '+this.equationY_);
   if (typeof r === 'number' && isFinite(r)) {
     return r;
   } else {

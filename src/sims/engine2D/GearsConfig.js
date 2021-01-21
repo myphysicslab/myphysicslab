@@ -44,7 +44,7 @@ constructor() {
 * @return {!Polygon}
 */
 static makeGear(radius, startEdges, opt_name, opt_localName) {
-  var p = new Polygon(opt_name, opt_localName);
+  const p = new Polygon(opt_name, opt_localName);
   GearsConfig.addGear(p, radius, 0.3, 36, 30, 30, startEdges);
   p.finish();
   p.setMomentAboutCM(radius*radius/2);
@@ -74,40 +74,40 @@ between the up-slope and down-slope.
 */
 static addGear(p, r1, depth, numTeeth, outPercent, inPercent, startEdges) {
   // calculate the small angle fraction corresponding to each of the 4 tooth edges
-  var wholeTooth = 2 * Math.PI / numTeeth;
-  var upSlope = wholeTooth * (100.0 - outPercent - inPercent) / 200.0;
-  var downSlope = upSlope;
-  var outEdge = wholeTooth * outPercent/100.0;
-  var inEdge = wholeTooth * inPercent/100.0;
+  const wholeTooth = 2 * Math.PI / numTeeth;
+  const upSlope = wholeTooth * (100.0 - outPercent - inPercent) / 200.0;
+  const downSlope = upSlope;
+  const outEdge = wholeTooth * outPercent/100.0;
+  const inEdge = wholeTooth * inPercent/100.0;
   // the original inside and outside points are in_0 and out_0
-  var in_0 = new Vector(r1, 0);
-  var out_0 = new Vector(r1+depth, 0);
+  const in_0 = new Vector(r1, 0);
+  const out_0 = new Vector(r1+depth, 0);
   // The current inside & outside points are in and out.
   // We rotate in_0 and out_0 to produce in and out.
-  var in1 = in_0;
+  let in1 = in_0;
   p.startPath(new ConcreteVertex(new Vector(in1.getX(), in1.getY())));
-  for (var i=0; i<numTeeth; i++) {
-    var toothAngle = i * wholeTooth;
+  for (let i=0; i<numTeeth; i++) {
+    const toothAngle = i * wholeTooth;
     // the up-slope edge, from in1 to out1
-    var out1 = out_0.rotate(toothAngle + upSlope);
-    var outsideIsUp;
+    const out1 = out_0.rotate(toothAngle + upSlope);
+    let outsideIsUp;
     if (Math.abs(in1.getX() - out1.getX()) < 1e-3)
       outsideIsUp = out1.getY() > in1.getY();
     else
       outsideIsUp = in1.getX() > out1.getX();
-    var e = p.addStraightEdge(out1, outsideIsUp);
+    const e = p.addStraightEdge(out1, outsideIsUp);
     if (i==0) {
       startEdges.push(e);
     }
     // the out-edge, from out1 to out2
-    var out2 = out_0.rotate(toothAngle + upSlope + outEdge);
+    const out2 = out_0.rotate(toothAngle + upSlope + outEdge);
     if (Math.abs(out2.getX() - out1.getX()) < 1e-3)
       outsideIsUp = out2.getY() > out1.getY();
     else
       outsideIsUp = out2.getX() < out1.getX();
     p.addStraightEdge(out2, outsideIsUp);
     // the down-slope edge, from out2 to in2
-    var in2 = in_0.rotate(toothAngle + upSlope + outEdge + downSlope);
+    const in2 = in_0.rotate(toothAngle + upSlope + outEdge + downSlope);
     if (Math.abs(out2.getX() - in2.getX()) < 1e-3)
       outsideIsUp = out2.getY() > in2.getY() ? false : true;
     else

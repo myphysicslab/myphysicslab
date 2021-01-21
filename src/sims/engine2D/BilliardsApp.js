@@ -58,9 +58,9 @@ class BilliardsApp extends Engine2DApp {
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new ContactSim();
-  var advance = new CollisionAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new ContactSim();
+  const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
@@ -81,9 +81,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   this.addParameter(pn = new ParameterNumber(this, BilliardsApp.en.FORMATION,
       BilliardsApp.i18n.FORMATION,
       () => this.getFormation(), a => this.setFormation(a),
@@ -146,7 +146,7 @@ getSubjects() {
 * @return {undefined}
 */
 config() {
-  var elasticity = this.elasticity.getElasticity();
+  const elasticity = this.elasticity.getElasticity();
   this.mySim.cleanSlate();
   this.advance.reset();
   BilliardsApp.make(this.mySim, this.displayList, this.formation, this.offset,
@@ -168,11 +168,11 @@ config() {
 * @param {number} speed initial velocity of cue ball
 */
 static make(sim, displayList, formation, offset, speed) {
-  var r = 0.5;
-  var x1 = (2*r + sim.getDistanceTol()/2 + offset) * Math.sqrt(3)/2.0;
+  const r = 0.5;
+  const x1 = (2*r + sim.getDistanceTol()/2 + offset) * Math.sqrt(3)/2.0;
   switch (formation) {
     case Formation.ONE_HITS_SIX:
-      var body = BilliardsApp.makeBall(4, r);
+      let body = BilliardsApp.makeBall(4, r);
       body.setPosition(new Vector(2*x1,  0),  0);
       sim.addBody(body);
       displayList.findShape(body).setFillStyle('aqua');
@@ -189,23 +189,23 @@ static make(sim, displayList, formation, offset, speed) {
 
       // INTENTIONAL FALL THRU to next case
     case Formation.ONE_HITS_THREE:
-      var body0 = BilliardsApp.makeBall(0, r);
+      const body0 = BilliardsApp.makeBall(0, r);
       body0.setPosition(new Vector(-BilliardsApp.WALL_DISTANCE+1,  0),  0);
       body0.setVelocity(new Vector(speed,  0),  0);
       sim.addBody(body0);
       displayList.findShape(body0).setStrokeStyle('black').setFillStyle('white');
 
-      var body1 = BilliardsApp.makeBall(1, r);
+      const body1 = BilliardsApp.makeBall(1, r);
       body1.setPosition(new Vector(0,  0),  0);
       sim.addBody(body1);
       displayList.findShape(body1).setFillStyle('red');
 
-      var body2 = BilliardsApp.makeBall(2, r);
+      const body2 = BilliardsApp.makeBall(2, r);
       body2.setPosition(new Vector(x1, r + sim.getDistanceTol()/4 + offset/2), 0);
       sim.addBody(body2);
       displayList.findShape(body2).setFillStyle('green');
 
-      var body3 = BilliardsApp.makeBall(3, r);
+      const body3 = BilliardsApp.makeBall(3, r);
       body3.setPosition(new Vector(x1, -r - sim.getDistanceTol()/4 - offset/2), 0);
       sim.addBody(body3);
       displayList.findShape(body3).setFillStyle('blue');
@@ -213,7 +213,7 @@ static make(sim, displayList, formation, offset, speed) {
     default:
       throw '';
   }
-  var sz = 2 * BilliardsApp.WALL_DISTANCE;
+  const sz = 2 * BilliardsApp.WALL_DISTANCE;
   Walls.make(sim, /*width=*/sz, /*height=*/sz, /*thickness=*/1.0);
 };
 
@@ -284,7 +284,7 @@ BilliardsApp.Formation = {
   ONE_HITS_THREE: 0,
   ONE_HITS_SIX: 1
 };
-var Formation = BilliardsApp.Formation;
+const Formation = BilliardsApp.Formation;
 
 /**
 * @type {number}

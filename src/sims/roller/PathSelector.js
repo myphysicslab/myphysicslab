@@ -52,16 +52,16 @@ constructor(hasPath, paths) {
   * @private
   */
   this.paths_ = paths;
-  var path = this.hasPath_.getPath();
+  const path = this.hasPath_.getPath();
   /**
   * @type {string}
   * @private
   */
   this.pathName_ = path != null ? path.getName() : '';
   // make array of path name strings for the PATH parameter
-  var names = paths.map(p => p.getName());
-  var localNames = paths.map(p => p.getName(/*localized=*/true));
-  var ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
+  const names = paths.map(p => p.getName());
+  const localNames = paths.map(p => p.getName(/*localized=*/true));
+  const ps = new ParameterString(this, PathSelector.en.PATH, PathSelector.i18n.PATH,
       () => this.getPathName(), a => this.setPathName(a),
       localNames, names);
   // the input function allows passing in lowercase path names.
@@ -103,8 +103,8 @@ getPathName() {
 setPathName(value) {
   value = Util.toName(value);
   if (value != this.pathName_) {
-    for (var i=0, len=this.paths_.length; i<len; i++) {
-      var path = this.paths_[i];
+    for (let i=0, len=this.paths_.length; i<len; i++) {
+      const path = this.paths_[i];
       if (path.nameEquals(value)) {
         this.hasPath_.setPath(new NumericalPath(path));
         this.pathName_ = path.getName();
@@ -121,8 +121,8 @@ has changed, or the start and finish parameter values have changed.
 * @return {undefined}
 */
 update() {
-  for (var i=0, len=this.paths_.length; i<len; i++) {
-    var path = this.paths_[i];
+  for (let i=0, len=this.paths_.length; i<len; i++) {
+    const path = this.paths_[i];
     if (path.nameEquals(this.pathName_)) {
       this.hasPath_.setPath(new NumericalPath(path));
       this.broadcastParameter(PathSelector.en.PATH);

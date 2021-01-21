@@ -93,7 +93,7 @@ constructor(opt_name) {
   super(opt_name);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  var var_names = [
+  const var_names = [
     Double2DSpringSim.en.X_POSITION+'-1',
     Double2DSpringSim.en.Y_POSITION+'-1',
     Double2DSpringSim.en.X_POSITION+'-2',
@@ -109,7 +109,7 @@ constructor(opt_name) {
     Double2DSpringSim.en.ANCHOR_X,
     Double2DSpringSim.en.ANCHOR_Y
   ];
-  var i18n_names = [
+  const i18n_names = [
     Double2DSpringSim.i18n.X_POSITION+'-1',
     Double2DSpringSim.i18n.Y_POSITION+'-1',
     Double2DSpringSim.i18n.X_POSITION+'-2',
@@ -215,7 +215,7 @@ constructor(opt_name) {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   // perturb slightly to get some initial motion
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   vars[0] += 0.5;
   vars[1] -= 0.5;
   this.getVarsList().setValues(vars);
@@ -248,14 +248,14 @@ getClassName() {
 restState() {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  var m1 = this.bob1_.getMass();
-  var m2 = this.bob2_.getMass();
-  var k1 = this.spring1_.getStiffness();
-  var k2 = this.spring2_.getStiffness();
-  var r1 = this.spring1_.getRestLength();
-  var r2 = this.spring2_.getRestLength();
-  var fixY = this.topMass_.getPosition().getY();
-  var vars = this.getVarsList().getValues();
+  const m1 = this.bob1_.getMass();
+  const m2 = this.bob2_.getMass();
+  const k1 = this.spring1_.getStiffness();
+  const k2 = this.spring2_.getStiffness();
+  const r1 = this.spring1_.getRestLength();
+  const r2 = this.spring2_.getRestLength();
+  const fixY = this.topMass_.getPosition().getY();
+  const vars = this.getVarsList().getValues();
   vars[13] = fixY
   // x1 & x2 position
   vars[0] = vars[2] = vars[12] = this.topMass_.getPosition().getX();
@@ -276,7 +276,7 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -287,8 +287,8 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
-  var pe = this.gravity_*this.bob1_.getMass()*this.bob1_.getPosition().getY();
+  const ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
+  let pe = this.gravity_*this.bob1_.getMass()*this.bob1_.getPosition().getY();
   pe += this.gravity_*this.bob2_.getMass()*this.bob2_.getPosition().getY();
   pe += this.spring1_.getPotentialEnergy();
   pe += this.spring2_.getPotentialEnergy();
@@ -312,12 +312,12 @@ setPEOffset(value) {
 
 /** @override */
 modifyObjects() {
-  var va = this.getVarsList();
-  var vars = va.getValues();
+  const va = this.getVarsList();
+  const vars = va.getValues();
   this.moveObjects(vars);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  var ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars);
   va.setValue(8, ei.getTranslational(), true);
   va.setValue(9, ei.getPotential(), true);
   va.setValue(10, ei.getTotalEnergy(), true);
@@ -356,17 +356,17 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
   if (simObject == this.topMass_) {
     va.setValue(12, p.getX());
     va.setValue(13, p.getY());
   } else if (this.dragBlock_ >= 0 && this.dragBlock_ <= 1) {
-    var block = this.dragBlock_ == 0 ? this.bob1_ : this.bob2_;
+    const block = this.dragBlock_ == 0 ? this.bob1_ : this.bob2_;
     if (simObject != block) {
       return;
     }
-    var idx = 2*this.dragBlock_;
+    const idx = 2*this.dragBlock_;
     va.setValue(idx, p.getX());
     va.setValue(idx + 1, p.getY());
     va.setValue(idx + 4, 0); // velocity
@@ -391,14 +391,14 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   this.moveObjects(vars);
   change[11] = 1; // time
-  var forces1 = this.spring1_.calculateForces();
-  var f12 = forces1[1].getVector();
-  var forces2 = this.spring2_.calculateForces();
-  var f21 = forces2[0].getVector();
-  var f22 = forces2[1].getVector();
-  var m1 = this.bob1_.getMass();
-  var m2 = this.bob2_.getMass();
-  var b = this.damping_;
+  const forces1 = this.spring1_.calculateForces();
+  const f12 = forces1[1].getVector();
+  const forces2 = this.spring2_.calculateForces();
+  const f21 = forces2[0].getVector();
+  const f22 = forces2[1].getVector();
+  const m1 = this.bob1_.getMass();
+  const m2 = this.bob2_.getMass();
+  const b = this.damping_;
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
   if (this.dragBlock_ != 0) {
@@ -488,7 +488,7 @@ getLength() {
 @param {number} value spring resting length
 */
 setLength(value) {
-  for (var i=0; i<this.springs_.length; i++) {
+  for (let i=0; i<this.springs_.length; i++) {
     this.springs_[i].setRestLength(value);
   }
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
@@ -509,7 +509,7 @@ getStiffness() {
 @param {number} value spring stiffness
 */
 setStiffness(value) {
-  for (var i=0; i<this.springs_.length; i++) {
+  for (let i=0; i<this.springs_.length; i++) {
     this.springs_[i].setStiffness(value);
   }
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY

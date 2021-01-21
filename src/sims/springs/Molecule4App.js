@@ -46,12 +46,12 @@ class Molecule4App extends AbstractApp {
 */
 constructor(elem_ids, numAtoms) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-8, -8, 8, 8);
-  var sim = new Molecule4Sim(numAtoms);
+  const simRect = new DoubleRect(-8, -8, 8, 8);
+  const sim = new Molecule4Sim(numAtoms);
   // cludge: this makes the potential energy not so large.
   sim.setPEOffset(0);
   sim.setPEOffset(5 - 0.38559373 -sim.getEnergyInfo().getPotential());
-  var advance = new CollisionAdvance(sim);
+  const advance = new CollisionAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -75,35 +75,35 @@ constructor(elem_ids, numAtoms) {
   this.displayList.add(this.walls);
   this.simList.toArray().forEach(simObj => {
     if (simObj instanceof SpringNonLinear) {
-      var s = /** @type {!SpringNonLinear} */(simObj);
-      var proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
+      const s = /** @type {!SpringNonLinear} */(simObj);
+      const proto = s.getName().match(/^SPECIAL/) ? this.protoSpecialSpring :
           this.protoSpring;
       this.displayList.add(new DisplaySpring(s, proto));
     }
   });
   /** @type {!Array<!DisplayShape>} */
   this.atoms = [];
-  var cm = ['red', 'blue', 'magenta', 'orange', 'gray', 'green'];
-  for (var i=0; i<this.numAtoms; i++) {
-    var atom = new DisplayShape(this.simList.getPointMass('atom'+(i+1)))
+  const cm = ['red', 'blue', 'magenta', 'orange', 'gray', 'green'];
+  for (let i=0; i<this.numAtoms; i++) {
+    const atom = new DisplayShape(this.simList.getPointMass('atom'+(i+1)))
         .setFillStyle(cm[i]);
     this.atoms.push(atom);
     this.displayList.add(atom);
   }
   // add variables for kinetic energy of atoms 1, 2, 3
-  var va = sim.getVarsList();
-  var atom1 = sim.getSimList().getPointMass('atom1');
+  const va = sim.getVarsList();
+  const atom1 = sim.getSimList().getPointMass('atom1');
   va.addVariable(new FunctionVariable(va, 'ke1', 'ke1',
     () => atom1.getKineticEnergy()));
   va.addVariable(new FunctionVariable(va, 'ke1 pct', 'ke1 pct',
     () => 100*atom1.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy()));
-  var atom2 = sim.getSimList().getPointMass('atom2');
+  const atom2 = sim.getSimList().getPointMass('atom2');
   va.addVariable(new FunctionVariable(va, 'ke2', 'ke2',
     () => atom2.getKineticEnergy()));
   va.addVariable(new FunctionVariable(va, 'ke2 pct', 'ke2 pct',
     () => 100*atom2.getKineticEnergy()/sim.getEnergyInfo().getTotalEnergy()));
   if (numAtoms > 2) {
-    var atom3 = sim.getSimList().getPointMass('atom3');
+    const atom3 = sim.getSimList().getPointMass('atom3');
     va.addVariable(new FunctionVariable(va, 'ke3', 'ke3',
       () => atom3.getKineticEnergy()));
     va.addVariable(new FunctionVariable(va, 'ke3 pct', 'ke3 pct',
@@ -112,7 +112,7 @@ constructor(elem_ids, numAtoms) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(Molecule4Sim.en.GRAVITY);
   this.addControl(new NumericControl(pn));
 

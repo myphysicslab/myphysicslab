@@ -43,31 +43,31 @@ constructor() {
 @return {number} suggested zero energy level for blocks
 */
 static makeVPit(sim, opt_offset) {
-  var offset = opt_offset !== undefined ? opt_offset : 0;
-  var p1 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
+  const offset = opt_offset !== undefined ? opt_offset : 0;
+  const p1 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.LEFT,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.LEFT);
   p1.setPosition(new Vector(-5,  -5+offset),  -Math.PI/4);
   p1.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p1);
-  var p2 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
+  const p2 = Shapes.makeWall(15.3, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.RIGHT,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.RIGHT);
   p2.setPosition(new Vector(5,  -5+offset),  Math.PI/4);
   p2.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p2);
-  var p3 = Shapes.makeWall(1, 15, Shapes.LEFT_EDGE, Walls.en.WALL_RIGHT,
+  const p3 = Shapes.makeWall(1, 15, Shapes.LEFT_EDGE, Walls.en.WALL_RIGHT,
       Walls.i18n.WALL_RIGHT);
   p3.setPosition(new Vector(10.5,  7.5+offset),  0);
   p3.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p3);
-  var p4 = Shapes.makeWall(1, 15, Shapes.RIGHT_EDGE, Walls.en.WALL_LEFT,
+  const p4 = Shapes.makeWall(1, 15, Shapes.RIGHT_EDGE, Walls.en.WALL_LEFT,
       Walls.i18n.WALL_LEFT);
   p4.setPosition(new Vector(-10.5,  7.5+offset),  0);
   p4.setMass(Util.POSITIVE_INFINITY);
   sim.addBody(p4);
   // set each wall to not collide with any other wall
-  var walls = [p1, p2, p3, p4];
+  const walls = [p1, p2, p3, p4];
   walls.forEach(w => w.addNonCollide(walls));
   // return lowest possible point
   return p1.bodyToWorld(new Vector(15.3/2 - 1, 0.5)).getY();
@@ -79,15 +79,15 @@ static makeVPit(sim, opt_offset) {
 @return {number} suggested zero energy level for blocks
 */
 static makeDoubleVPit(sim, opt_offset) {
-  var offset = opt_offset !== undefined ? opt_offset : 0;
-  var walls = [];
-  var b = 1.0/(2*Math.sqrt(2.0));  // to get center of block, = 1 / (2 * sqrt(2))
-  var h = -2.5 - b;
-  var len = Math.sqrt(2*5*5);
-  var w = Shapes.makeWall(len, 1, Shapes.TOP_EDGE,
+  const offset = opt_offset !== undefined ? opt_offset : 0;
+  const walls = [];
+  const b = 1.0/(2*Math.sqrt(2.0));  // to get center of block, = 1 / (2 * sqrt(2))
+  const h = -2.5 - b;
+  const len = Math.sqrt(2*5*5);
+  let w = Shapes.makeWall(len, 1, Shapes.TOP_EDGE,
       Walls.en.WALL_BOTTOM + '_' + PileConfig.en.LEFT+1,
       Walls.i18n.WALL_BOTTOM + '_' + PileConfig.i18n.LEFT+1);
-  var w1 = w;
+  const w1 = w;
   w.setPosition(new Vector(-7.5 - b,  h+offset),  -Math.PI/4);
   walls.push(w);
   w = Shapes.makeWall(len, 1, Shapes.TOP_EDGE,
@@ -132,23 +132,23 @@ the given rectangle.
 @param {number} limit maximum number of blocks to make
 */
 static makeUniformBlocks(sim, rect, circular, size, buffer, limit) {
-  var row = 0;
-  var col = 0;
-  var index = 0;
+  let row = 0;
+  let col = 0;
+  let index = 0;
   while (true) {
-    var y = rect.getBottom() + size + buffer + row * 2 * size
+    const y = rect.getBottom() + size + buffer + row * 2 * size
         + row * buffer;
     if (y + size + buffer > rect.getTop()) {
       break;
     }
     while (true) {
-      var x = buffer + size + rect.getLeft() + col * 2 * size
+      const x = buffer + size + rect.getLeft() + col * 2 * size
           + col*buffer;
       if (x + size + buffer > rect.getRight()) {
         break;
       }
-      var p;
-      var id = index++;
+      let p;
+      const id = index++;
       if (circular) {
         p = Shapes.makeBall(size);
       } else {
@@ -181,25 +181,25 @@ side.
 */
 static makeRandomBlocks(sim, n, x, y, random, rightAngle) {
   rightAngle = rightAngle !== undefined ? rightAngle : true;
-  var bods = [];
-  for (var i=0; i<n; i++) {
-    var width = 0.2+ random.nextFloat();
-    var height = 0.2+ random.nextFloat();
-    var angle = Math.PI * random.nextFloat();
+  const bods = [];
+  for (let i=0; i<n; i++) {
+    const width = 0.2+ random.nextFloat();
+    const height = 0.2+ random.nextFloat();
+    const angle = Math.PI * random.nextFloat();
     // this is here only to preserve test results (legacy code)
-    var unusedColor = PileConfig.getRandomColor(random);
-    var p;
+    const unusedColor = PileConfig.getRandomColor(random);
+    let p;
     if (rightAngle) {
       p = Shapes.makeBlock(width, height);
     } else {
       p = Shapes.makeRandomPolygon(/*sides=*/4,
          /*radius=*/Math.sqrt(width*width+height*height)/2);
     }
-    var cmx = width*random.nextFloat()/4;
-    var cmy = height*random.nextFloat()/4;
+    let cmx = width*random.nextFloat()/4;
+    let cmy = height*random.nextFloat()/4;
     // ensure the center of mass is within the body, and not right at an edge
-    var xmin = 0.9*width/2.0;
-    var ymin = 0.9*height/2.0;
+    const xmin = 0.9*width/2.0;
+    const ymin = 0.9*height/2.0;
     if (cmx < -xmin) {
       cmx = -xmin;
     } else if (cmx > xmin) {
@@ -212,7 +212,7 @@ static makeRandomBlocks(sim, n, x, y, random, rightAngle) {
     p.setCenterOfMass(cmx, cmy);
     // set temp position to (x, y), but only to find how much we need to move it
     p.setPosition(new Vector(x,  y),  angle);
-    var left = p.getLeftWorld();
+    const left = p.getLeftWorld();
     // set actual position so that left is at x
     p.setPosition(new Vector(x + (x-left), y), angle);
     // set x to left position for next block
@@ -234,11 +234,11 @@ situations with redundant joints can be handled correctly.
 @return {!Array<!Polygon>} array containing the two blocks
 */
 static makeConnectedBlocks(sim, x, y, angle) {
-  var p1 = Shapes.makeBlock(1.0, 1.0);
+  const p1 = Shapes.makeBlock(1.0, 1.0);
   p1.setMass(0.6);
   p1.setPosition(new Vector(x,  y),  angle);
   sim.addBody(p1);
-  var p2 = Shapes.makeBlock(0.9, 1.1);
+  const p2 = Shapes.makeBlock(0.9, 1.1);
   p2.setMass(0.6);
   p2.setPosition(new Vector(x,  y),  angle);
   sim.addBody(p2);
@@ -260,11 +260,11 @@ static makeConnectedBlocks(sim, x, y, angle) {
 */
 static getRandomColor(random) {
   random = random || PileConfig.randomColor_;
-  var colors = new Array(3);
-  var nearWhite = true;
-  for (var i=0; i<3; i++) {
+  const colors = new Array(3);
+  let nearWhite = true;
+  for (let i=0; i<3; i++) {
     // bias the color to be brighter
-    var c = Math.min(1, Math.max(0, 0.1 + 1.5 * random.nextFloat()));
+    const c = Math.min(1, Math.max(0, 0.1 + 1.5 * random.nextFloat()));
     if (c < 0.9) {
       nearWhite = false;
     }

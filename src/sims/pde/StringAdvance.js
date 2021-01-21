@@ -45,8 +45,8 @@ toStringShort() {
 
 /** @override */
 advance(opt_timeStep, opt_memoList) {
-  var timeStep = opt_timeStep !== undefined ? opt_timeStep : this.getTimeStep();
-  var startTime = this.getTime();
+  const timeStep = opt_timeStep !== undefined ? opt_timeStep : this.getTimeStep();
+  const startTime = this.getTime();
   while (this.getTime() < startTime + timeStep) {
     this.sim_.advance();
   }

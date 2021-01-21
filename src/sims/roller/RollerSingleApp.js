@@ -59,9 +59,9 @@ class RollerSingleApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-6, -6, 6, 6);
-  var sim = new RollerSingleSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-6, -6, 6, 6);
+  const sim = new RollerSingleSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
   this.layout.simCanvas.setBackground('white');
@@ -94,9 +94,9 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   /** @type {!ParameterString} */
-  var ps;
+  let ps;
   ps = this.pathSelect.getParameterString(PathSelector.en.PATH);
   this.addControl(new ChoiceControl(ps));
   pn = sim.getParameterNumber(RollerSingleSim.en.GRAVITY);
@@ -219,7 +219,7 @@ the parameter is `t`.
 */
 setXEquation(value) {
   // test this by entering equation like: 'window'
-  var oldValue = this.getXEquation();
+  const oldValue = this.getXEquation();
   try {
     // test this by entering equations like: '3/0' or 'Math.log(-t)'.
     this.customPath_.setXEquation(value);
@@ -239,7 +239,7 @@ the parameter is `t`.
 * @param {string} value the parameteric Y equation defining the path
 */
 setYEquation(value) {
-  var oldValue = this.getYEquation();
+  const oldValue = this.getYEquation();
   try {
     this.customPath_.setYEquation(value);
     this.pathSelect.setPathName(this.customPath_.getName());

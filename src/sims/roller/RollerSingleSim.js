@@ -51,7 +51,7 @@ constructor(hasSpring, opt_name) {
   super(opt_name);
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
-  var var_names = [
+  const var_names = [
     RollerSingleSim.en.POSITION,
     RollerSingleSim.en.VELOCITY,
     VarsList.en.TIME,
@@ -63,7 +63,7 @@ constructor(hasSpring, opt_name) {
     RollerSingleSim.en.ANCHOR_X,
     RollerSingleSim.en.ANCHOR_Y
   ];
-  var i18n_names = [
+  const i18n_names = [
     RollerSingleSim.i18n.POSITION,
     RollerSingleSim.i18n.VELOCITY,
     VarsList.i18n.TIME,
@@ -196,8 +196,8 @@ getPath() {
 setPath(path) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
-  var simList = this.getSimList();
-  var oldPath = this.path_;
+  const simList = this.getSimList();
+  const oldPath = this.path_;
   if (oldPath != null) {
     simList.remove(oldPath);
   }
@@ -205,8 +205,8 @@ setPath(path) {
   if (0 == 1 && Util.DEBUG)
     console.log('RollerSingleSim.setPath path='+path);
   simList.add(path);
-  var r = path.getBoundsWorld();
-  var va = this.getVarsList();
+  const r = path.getBoundsWorld();
+  const va = this.getVarsList();
   if (this.hasSpring_) {
     // set initial anchor position at top left of path bounds
     va.setValue(8, r.getLeft() + r.getWidth()*0.2); // anchorX
@@ -214,7 +214,7 @@ setPath(path) {
   }
   this.lowestPoint_ = r.getBottom();
   // find closest starting point to a certain x-y position on screen
-  var start = new Vector(r.getLeft() + r.getWidth()*0.1, r.getTop() -r.getHeight()*0.1);
+  const start = new Vector(r.getLeft() + r.getWidth()*0.1, r.getTop() -r.getHeight()*0.1);
   this.pathPoint_ = path.findNearestGlobal(start);
   va.setValue(0, this.pathPoint_.p); // p
   va.setValue(1, 0); // v
@@ -228,17 +228,17 @@ modifyObjects() {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
   if (this.path_ != null) {
-    var va = this.getVarsList();
-    var vars = va.getValues();
+    const va = this.getVarsList();
+    const vars = va.getValues();
     this.moveObjects(vars);
-    var p = this.path_.mod_p(vars[0]);
+    const p = this.path_.mod_p(vars[0]);
     if (p != vars[0]) {
       vars[0] = p;
       va.setValue(0, p);
     }
     va.setValue(3, this.path_.map_p_to_x(vars[0]), true);
     va.setValue(4, this.path_.map_p_to_y(vars[0]), true);
-    var ei = this.getEnergyInfo_(vars);
+    const ei = this.getEnergyInfo_(vars);
     va.setValue(5, ei.getTranslational(), true);
     va.setValue(6, ei.getPotential(), true);
     va.setValue(7, ei.getTotalEnergy(), true);
@@ -265,7 +265,7 @@ moveObjects(vars) {
 
 /** @override */
 getEnergyInfo() {
-  var vars = this.getVarsList().getValues();
+  const vars = this.getVarsList().getValues();
   this.moveObjects(vars);
   return this.getEnergyInfo_(vars);
 };
@@ -276,9 +276,9 @@ getEnergyInfo() {
 * @private
 */
 getEnergyInfo_(vars) {
-  var ke = this.ball1_.getKineticEnergy();
+  const ke = this.ball1_.getKineticEnergy();
   // gravity potential = m g y
-  var pe = this.ball1_.getMass() * this.gravity_ *
+  let pe = this.ball1_.getMass() * this.gravity_ *
       (this.ball1_.getPosition().getY() - this.lowestPoint_);
   if (this.hasSpring_) {
     pe += this.spring_.getPotentialEnergy();
@@ -316,8 +316,8 @@ startDrag(simObject, location, offset, dragBody, mouseEvent) {
 mouseDrag(simObject, location, offset, mouseEvent) {
   // 0  1    2   3  4   5   6   7     8        9
   // p  v  time  x  y  ke  pe  te  anchorX  anchorY
-  var va = this.getVarsList();
-  var p = location.subtract(offset);
+  const va = this.getVarsList();
+  const p = location.subtract(offset);
   if (simObject == this.ball1_ && this.path_ != null)  {
     this.pathPoint_ = this.path_.findNearestGlobal(p);
     va.setValue(0, this.pathPoint_.p);
@@ -354,13 +354,13 @@ evaluate(vars, change, timeStep) {
     // see Mathematica file 'roller.nb' for derivation of the following
     // let k = slope of curve. Then sin(theta) = k/sqrt(1+k^2)
     // Component due to gravity is v' = - g sin(theta) = - g k/sqrt(1+k^2)
-    var k = this.pathPoint_.slope;
-    var sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
+    const k = this.pathPoint_.slope;
+    const sinTheta = isFinite(k) ? k/Math.sqrt(1+k*k) : 1;
     // v' = - g sin(theta) - (b/m) v= - g k/sqrt(1+k^2) - (b/m) v
     change[1] = -this.gravity_ * this.pathPoint_.direction * sinTheta
         - this.damping_ * vars[1] / this.ball1_.getMass();
     if (this.hasSpring_) {
-      var tangent ;
+      let tangent;
       if (!isFinite(k)) {
         tangent = new Vector(0, k>0 ? 1 : -1, 0);
       } else {
@@ -369,9 +369,9 @@ evaluate(vars, change, timeStep) {
         if (tangent == null)
           throw '';
       }
-      var force = this.spring_.calculateForces()[0];
+      const force = this.spring_.calculateForces()[0];
       asserts.assert( force.getBody() == this.ball1_);
-      var f = force.getVector();
+      const f = force.getVector();
       change[1] += f.dotProduct(tangent) / this.ball1_.getMass();
     }
   }

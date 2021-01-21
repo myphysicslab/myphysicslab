@@ -58,10 +58,10 @@ constructor(elem_ids, numAtoms, attachRight) {
   Util.setErrorHandler();
   numAtoms = typeof numAtoms === 'number' ? numAtoms : 10;
   attachRight = attachRight !== undefined ? attachRight : true;
-  var simRect = new DoubleRect(-6.4, -6, 6.4, 6);
-  var sim = new ChainOfSpringsSim();
+  const simRect = new DoubleRect(-6.4, -6, 6.4, 6);
+  const sim = new ChainOfSpringsSim();
   sim.makeChain(numAtoms, attachRight);
-  var advance = new SimpleAdvance(sim);
+  const advance = new SimpleAdvance(sim);
 
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim, /*energySystem=*/sim);
 
@@ -89,9 +89,9 @@ constructor(elem_ids, numAtoms, attachRight) {
 
   this.addPlaybackControls();
   /** @type {!ParameterBoolean} */
-  var pb;
+  let pb;
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
 
   this.addParameter(pn = new ParameterNumber(this, ChainOfSpringsSim.en.NUM_LINKS,
       ChainOfSpringsSim.i18n.NUM_LINKS,
@@ -128,7 +128,7 @@ constructor(elem_ids, numAtoms, attachRight) {
   this.addStandardControls();
 
   /** @type {!ButtonControl} */
-  var bc = new ButtonControl(ChainOfSpringsSim.i18n.STRAIGHT_LINE,
+  const bc = new ButtonControl(ChainOfSpringsSim.i18n.STRAIGHT_LINE,
       () => this.mySim.straightLine());
   this.addControl(bc);
 
@@ -167,11 +167,11 @@ addBody(obj) {
     return;
   }
   if (obj instanceof PointMass) {
-    var pm = /** @type {!PointMass} */(obj);
-    var proto = pm.getShape() == ShapeType.OVAL ? this.protoMass : this.protoAnchor;
+    const pm = /** @type {!PointMass} */(obj);
+    const proto = pm.getShape() == ShapeType.OVAL ? this.protoMass : this.protoAnchor;
     this.displayList.add(new DisplayShape(pm, proto));
   } else if (obj instanceof Spring) {
-    var s = /** @type {!Spring} */(obj);
+    const s = /** @type {!Spring} */(obj);
     this.displayList.add(new DisplaySpring(s, this.protoSpring));
   }
 };
@@ -179,11 +179,11 @@ addBody(obj) {
 /** @override */
 observe(event) {
   if (event.getSubject() == this.simList) {
-    var obj = /** @type {!SimObject} */ (event.getValue());
+    const obj = /** @type {!SimObject} */ (event.getValue());
     if (event.nameEquals(SimList.OBJECT_ADDED)) {
       this.addBody(obj);
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
-      var d = this.displayList.find(obj);
+      const d = this.displayList.find(obj);
       if (d != null) {
         this.displayList.remove(d);
       }

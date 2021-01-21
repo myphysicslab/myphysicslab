@@ -38,7 +38,7 @@ constructor(opt_name) {
   super(opt_name);
   // 0  1    2     3       4          5
   // x, v, time, rpm, wheel_force, gravity
-  var var_names = [
+  const var_names = [
     RobotSpeedSim.en.POSITION,
     RobotSpeedSim.en.VELOCITY,
     VarsList.en.TIME,
@@ -46,7 +46,7 @@ constructor(opt_name) {
     RobotSpeedSim.en.ENGINE_FORCE,
     RobotSpeedSim.en.GRAVITY_FORCE
   ];
-  var i18n_names = [
+  const i18n_names = [
     RobotSpeedSim.i18n.POSITION,
     RobotSpeedSim.i18n.VELOCITY,
     VarsList.i18n.TIME,
@@ -223,21 +223,21 @@ reset() {
 modifyObjects() {
   // 0  1    2     3       4          5
   // x, v, time, rpm, wheel_force, gravity
-  var va = this.getVarsList();
-  var vars = va.getValues();
-  var p = this.map_p_to_vector(vars[0]);
-  var cs = Math.cos(this.slope_);
-  var ss = Math.sin(this.slope_);
+  const va = this.getVarsList();
+  const vars = va.getValues();
+  const p = this.map_p_to_vector(vars[0]);
+  const cs = Math.cos(this.slope_);
+  const ss = Math.sin(this.slope_);
   // this represents doing the rotation (about origin), then translation
-  var at = new AffineTransform(cs, ss, -ss, cs, p.getX(), p.getY());
+  const at = new AffineTransform(cs, ss, -ss, cs, p.getX(), p.getY());
   this.robot_.setPosition(p);
   this.robot_.setAngle(this.slope_);
   // Transform wheels to position and angle of robot.
   this.wheelf_.setPosition(at.transform(this.vwf_));
   this.wheelr_.setPosition(at.transform(this.vwr_));
   // Display normal force at each wheel.
-  var n = new Vector(-ss, cs);
-  var f = new Force('normal_f', this.wheelf_,
+  const n = new Vector(-ss, cs);
+  let f = new Force('normal_f', this.wheelf_,
         this.wheelf_.getPosition(), CoordType.WORLD,
         n.multiply(0.1 * this.Nf_), CoordType.WORLD);
   // Add force to SimList, so that it can be displayed.
@@ -263,7 +263,7 @@ modifyObjects() {
   // let distance travelled = x
   // the wheel rotates in opposite direction
   // rotations = -x / (2 pi r)
-  var a = -vars[0] / (2 * Math.PI * this.radius_);
+  let a = -vars[0] / (2 * Math.PI * this.radius_);
   // ignore multiple rotations, only want fraction from 0 to 1
   a = a - Math.floor(a);
   // convert rotations to angle in radians
@@ -273,8 +273,8 @@ modifyObjects() {
   // vector from body center to center of ramp is (2.5, -0.075 -0.045 -0.0125)
   // Measure vertical from bottom of wheel, then go half ramp height down more.
   // But we only rotate the ramp, it doesn't move with the body.
-  at = new AffineTransform(cs, ss, -ss, cs, 0, 0);
-  this.ramp_.setPosition(at.transform(2.5, -0.075 -this.radius_
+  const at2 = new AffineTransform(cs, ss, -ss, cs, 0, 0);
+  this.ramp_.setPosition(at2.transform(2.5, -0.075 -this.radius_
       - 0.5*this.ramp_.getHeight()));
   this.ramp_.setAngle(this.slope_);
   // change linear velocity to rpm.  One revolution is 2 pi radius.
@@ -299,11 +299,11 @@ evaluate(vars, change, timeStep) {
   // Motor delivers torque based on current rpm, linear relationship.
   // Find current rpm, based on wheel radius of 45 mm.
   // vars[1] is velocity in meters / second
-  var rpm = vars[1]*60 / (2*Math.PI*this.radius_);
+  const rpm = vars[1]*60 / (2*Math.PI*this.radius_);
   // ultra planetary 2 cartridge (20:1). Free speed rpm = 317. Stall torque = 1.98 N m
   // equation for torque given rpm = x
   // torque (x) = (-1.98 Nm / 317 rpm) * x + 1.98 Nm
-  var t = (-this.torque_/this.freeSpeed_)*rpm + this.torque_;
+  let t = (-this.torque_/this.freeSpeed_)*rpm + this.torque_;
   // limit torque at extremes
   if (rpm < 0) {
     // or maybe zero torque when rpm is negative?
@@ -312,10 +312,10 @@ evaluate(vars, change, timeStep) {
     t = 0;
   }
   // torque = force x radius;  force = torque / radius
-  var f = t/this.radius_;
+  let f = t/this.radius_;
   if (this.limitTorque_) {
     // limit force by coef static friction * normal force
-    var limit = this.friction_ * this.Nr_;
+    const limit = this.friction_ * this.Nr_;
     if (f > limit) {
       f = limit;
     }
@@ -323,7 +323,7 @@ evaluate(vars, change, timeStep) {
   this.engineForce_ = f;
   this.gravityForce_ = -this.mass_ * 9.81;
   // gravity force in direction of slope
-  var g = this.gravityForce_ * Math.sin(this.slope_);
+  const g = this.gravityForce_ * Math.sin(this.slope_);
   this.gravityRampForce_ = g;
   // acceleration = force/mass
   change[1] = (f + g) / this.mass_;
@@ -336,7 +336,7 @@ evaluate(vars, change, timeStep) {
 * @return {!Vector} location of that point on track
 */
 map_p_to_vector(p) {
-  var s = this.slope_;
+  const s = this.slope_;
   return this.start_.add(new Vector(p*Math.cos(s), p*Math.sin(s)));
 };
 
@@ -460,7 +460,7 @@ setCenterOfMass(value) {
   // front wheel is at x = 0.125 in body coords. Corresponds to 0
   this.robot_.setCenterOfMass(0.125 - (value/100)*0.25, 0);
   // Find vector from robot center of mass to each wheel, in body coords.
-  var cm = this.robot_.getCenterOfMassBody();
+  const cm = this.robot_.getCenterOfMassBody();
   this.vwf_ = new Vector(0.125, -0.075).subtract(cm);
   this.vwr_ = new Vector(-0.125, -0.075).subtract(cm);
   this.broadcastParameter(RobotSpeedSim.en.CENTER_OF_MASS);

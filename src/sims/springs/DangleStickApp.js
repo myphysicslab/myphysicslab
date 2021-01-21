@@ -41,9 +41,9 @@ class DangleStickApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  var simRect = new DoubleRect(-4, -4, 4, 2);
-  var sim = new DangleStickSim();
-  var advance = new SimpleAdvance(sim);
+  const simRect = new DoubleRect(-4, -4, 4, 2);
+  const sim = new DangleStickSim();
+  const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/null);
 
@@ -65,7 +65,7 @@ constructor(elem_ids) {
 
   this.addPlaybackControls();
   /** @type {!ParameterNumber} */
-  var pn;
+  let pn;
   pn = sim.getParameterNumber(DangleStickSim.en.GRAVITY);
   this.addControl(new SliderControl(pn, 0, 20, /*multiply=*/false));
 
