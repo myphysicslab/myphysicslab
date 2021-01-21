@@ -1248,7 +1248,7 @@ this will return just `foo = 3;` and add a regexp that replaces `foo` by `z.foo`
 * @private
 */
 replaceVar(script) {
-  const m = script.match(/^\s*(var|let)\s+(\w[\w_\d]*)(.*)/);
+  const m = script.match(/^\s*(var|let|const)\s+(\w[\w_\d]*)(.*)/);
   if (m) {
     // suppose the script was 'var foo = 3;'
     // Add a regexp that replaces 'foo' with 'z.foo', and remove 'var' from script

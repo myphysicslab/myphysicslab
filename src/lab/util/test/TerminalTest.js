@@ -272,6 +272,9 @@ static testTerminal3() {
   assertEquals(30, t.eval('5 * \n 6'));
   // Following is because of JavaScript's "optional semicolon" policy
   assertEquals(6, t.eval('5 \n 6'));
+  assertEquals(99, t.eval('const foobar2=99'));
+  assertEquals(99, t.eval('foobar2'));
+  assertEquals(99, t.eval('z.foobar2'));
   delete window.terminal;
 };
 
