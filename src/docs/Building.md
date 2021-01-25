@@ -960,7 +960,7 @@ Closure Compiler has many options, but the most important is
 [compilation_level](https://developers.google.com/closure/compiler/docs/compilation_levels)
 which can be set to:
 
-1. **WHITESPACE_ONLY** removes comments and whitespace (this level is rarely used).
+1. **WHITESPACE_ONLY** removes comments and whitespace (useful for debugging).
 
 2. **SIMPLE**  minimizes local variables; removes comments and whitespace.
 
@@ -1037,6 +1037,7 @@ specify `COMPILE_LEVEL=debug`. It is created by using the
 [depswriter.py](https://developers.google.com/closure/library/docs/depswriter) tool
 which is supplied in [Closure Library][Closure Library References].
 
+See also the section below [Generating closure-library's deps.js][].
 
 To run, for example, [DoubleSpringApp](myphysicslab.sims.springs.DoubleSpringApp.html)
 from source code:
@@ -1087,6 +1088,25 @@ optional.
 See also:
 [Debugging Uncompiled Source Code](https://github.com/google/closure-compiler/wiki/Debugging-Uncompiled-Source-Code).
 
+### Generating closure-library's deps.js
+
+When running from uncompiled source code, there is an extra step needed to generate the closure-library's `deps.js` file.
+
+To initially download closure-library, use `git checkout`.
+
+    git checkout https://github.com/google/closure-library
+
+You will then need to install [npm](https://www.npmjs.com/get-npm). Go to the
+closure-library directory and run
+
+    npm install
+
+Thereafter, whenever you update closure-library, run this command to update the `closure/goog/deps.js` file
+
+    npm run gen_deps_js
+
+See also:
+[unable to generate deps.js](https://github.com/google/closure-library/issues/1109#)
 
 ## Global Variable Usage
 
