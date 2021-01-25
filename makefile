@@ -15,29 +15,32 @@
 # Build process explanation:
 #
 # ** source files **
-# Consider for example the simulation src/sims/springs/Spring1App.js.  There are also
-# the accompanying files Spring1.js, and Spring1App.html in that directory.
-# When building, we are only concerned with the "App" files: Spring1App.js and 
-# Spring1App.html.  Those will include whatever other files they need, and the closure
-# compiler will handle all of the dependencies.
+# Consider the simulation src/sims/springs/SingleSpringApp.js. There are also
+# the accompanying files SingleSpringSim.js, and SingleSpringApp.html in that directory.
+# When building, we are only concerned with the "App" files: SingleSpringApp.js and
+# SingleSpringApp.html. Those will include whatever other files they need, and the
+# closure compiler will handle all of the dependencies.
 #
 # ** run in uncompiled mode **
-# You can run Spring1App.html directly from the source directory and it will run
+# You can run SingleSpringApp.html directly from the source directory and it will run
 # in uncompiled mode from the set of source files.  Note that the dependency file
 # build/deps.js is required in uncompiled mode. This will run with the default locale
 # setting, though locale can be changed in the html file via goog.define.
+# Also, you will need to generate the deps.js for closure-library using the command
+# `npm run gen_deps_js` within the closure-library directory. The first time you
+# download closure-library, you need to do `npm install` beforehand.
 #
 # ** compile javascript **
-# We compile Spring1App.js via the compile_js script to create localized (english,
+# We compile SingleSpringApp.js via the compile_js script to create localized (english,
 # german, etc.) versions, these are put in the corresponding build directory at
-# for example build/sims/springs/Spring1App-de.js.
+# for example build/sims/springs/SingleSpringApp-de.js.
 # To see compiler options:
 #    java -jar ../javascript/closure-compiler/build/compiler.jar --help
 #
 # ** process html **
-# We process Spring1App.html to create versions that load the compiled javascript 
+# We process SingleSpringApp.html to create versions that load the compiled javascript
 # in english or german via prep_html.pl. These are put in the corresponding
-# build directory at for example build/sims/springs/Spring1App-de.html.
+# build directory at for example build/sims/springs/SingleSpringApp-de.html.
 #
 # ** prerequisites **
 # This makefile attempts to reduce recompiling files when not needed by specifying
@@ -417,8 +420,8 @@ $(BUILD_DIR)/deps.js : $(src_js)
 # $(BUILD_DIR)/sims/pendulum/PendulumApp*.js : src/sims/pendulum/PendulumSim.js
 # would expand to
 #  : src/sims/pendulum/PendulumSim.js
-# Therefore, the following prerequisites rules only "fire" when the app already
-# exists. This turns out OK because the app is going to built anyway, since it doesn't
+# Therefore, the following prerequisite rules only "fire" when the app already
+# exists. This turns out OK because the app is going to built anyway, when it doesn't
 # exist.  If it does exist, then that rule will be valid (the wildcard expands to the
 # file we are trying to build) which will cause the app to be rebuilt if the sim file
 # is newer.
