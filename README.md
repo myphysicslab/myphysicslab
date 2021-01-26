@@ -37,12 +37,15 @@ To build from source code the required tools are
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
-    code. Use `git checkout` to get a copy into your environment.
+    code. You can download a zip file from their github page or use
+    `git clone https://github.com/google/closure-library.git`.
 
 Once the prerequisites are on your system, follow these steps:
 
 1. Download the myPhysicsLab source code from
-    <https://github.com/myphysicslab/myphysicslab>.
+    <https://github.com/myphysicslab/myphysicslab>. You can download a zip file
+    from that github page, or use
+    `git clone https://github.com/myphysicslab/myphysicslab.git`
 
 2. Copy the file `sampleConfig.mk` to `myConfig.mk` and edit `myConfig.mk` to
     specify location of Closure Compiler in the `CLOSURE_COMPILER` variable.

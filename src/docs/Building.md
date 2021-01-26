@@ -1090,18 +1090,21 @@ See also:
 
 ### Generating closure-library's deps.js
 
-When running from uncompiled source code, there is an extra step needed to generate the closure-library's `deps.js` file.
+When running from uncompiled source code, there is an extra step needed to generate
+the closure-library's `deps.js` file.
 
-To initially download closure-library, use `git checkout`.
+To initially download closure-library, you can download a zip file from their github
+page at <https://github.com/google/closure-library/>, or use `git clone`.
 
-    git checkout https://github.com/google/closure-library
+    git clone https://github.com/google/closure-library.git
 
 You will then need to install [npm](https://www.npmjs.com/get-npm). Go to the
 closure-library directory and run
 
     npm install
 
-Thereafter, whenever you update closure-library, run this command to update the `closure/goog/deps.js` file
+Thereafter, whenever you update closure-library, run this command to update the
+`closure/goog/deps.js` file
 
     npm run gen_deps_js
 
