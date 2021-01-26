@@ -44,7 +44,7 @@ class DoubleSpringApp extends AbstractApp {
 */
 constructor(elem_ids) {
   Util.setErrorHandler();
-  const simRect = new DoubleRect(-0.5, -5, 10, 5);
+  const simRect = new DoubleRect(-4, -7, 12, 7);
   const sim = new DoubleSpringSim(/*thirdSpring=*/false);
   const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
@@ -54,7 +54,7 @@ constructor(elem_ids) {
   /** @type {!DisplayShape} */
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
   /** @type {!DisplayShape} */
-  this.protoBlock = new DisplayShape().setFillStyle('blue');
+  this.protoBlock = new DisplayShape().setFillStyle('#00fc');
   /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
       .setColorExpanded('#6f6');
@@ -78,6 +78,7 @@ constructor(elem_ids) {
   this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
   /** @type {!DisplayShape} */
   this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
+  this.block2.setFillStyle('#ff0000cc');
   this.displayList.add(this.block1);
   this.displayList.add(this.block2);
   sim.saveInitialState();
@@ -114,6 +115,7 @@ constructor(elem_ids) {
 
   this.makeEasyScript();
   this.addURLScriptButton();
+  this.getParameterBoolean('PAN_ZOOM').setValue(true);
 };
 
 /** @override */
