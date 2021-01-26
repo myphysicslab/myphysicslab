@@ -414,12 +414,22 @@ evaluate(vars, change, timeStep) {
   Util.zeroArray(change);
   change[9] = 1.0;  // time
   this.moveObjects(vars);
+  // find which springs are "reversed" from usual position.  Set a variable to 1 or -1
+  // accordingly to reverse the direction that the spring force is acting.
+  const U1 = vars[0];
+  const U2 = vars[1];
+  // if block1 is left of the left wall
+  const S1 = U1 < this.wall1_.getPosition().getX() + this.wall1_.getWidth()/2 ? -1 : 1;
+  // if block2 is left of block1
+  const S2 = U2 < U1 ? -1 : 1;
+  // if block2 is right of the right wall
+  const S3 = U2 > this.wall2_.getPosition().getX() - this.wall2_.getWidth()/2 ? -1 : 1;
   if (this.dragBlock_ != 0) {
     // u1' = v1
     change[0] = vars[2];
     // v1' = F1/m1 = (-k1 L1 + k2 L2 - b v1) / m1
-    change[2] = (-this.spring1_.getStiffness()*this.spring1_.getStretch()
-        + this.spring2_.getStiffness()*this.spring2_.getStretch()
+    change[2] = (-S1*this.spring1_.getStiffness()*this.spring1_.getStretch()
+        + S2*this.spring2_.getStiffness()*this.spring2_.getStretch()
         - this.damping_*vars[2]
         ) / this.block1_.getMass();
   }
@@ -427,8 +437,8 @@ evaluate(vars, change, timeStep) {
     // u2' = v2
     change[1] = vars[3];
     // v2' = F2/m2 = (-k2 L2 + k3 L3 - b v2) / m2
-    change[3] = (-this.spring2_.getStiffness()*this.spring2_.getStretch()
-        + this.spring3_.getStiffness()*this.spring3_.getStretch()
+    change[3] = (-S2*this.spring2_.getStiffness()*this.spring2_.getStretch()
+        + S3*this.spring3_.getStiffness()*this.spring3_.getStretch()
         - this.damping_*vars[3]
         ) / this.block2_.getMass();
   }
