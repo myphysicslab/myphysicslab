@@ -318,8 +318,8 @@ contains(p_world) {
   return this.massObject_.getBoundsBody().contains(p_body);
 };
 
-/** Whether the given color is a dark color. Used to decide what color to
-* draw over this color.  Returns `false` for empty string.
+/** Whether the given color is a dark color. Used to decide whether to draw over this
+* color with black or white.  Returns `false` for empty string.
 * @param {*} color a CSS color specification, or empty string, or gradient or pattern
 * @return {boolean} whether the color is dark
 * @private
@@ -335,12 +335,28 @@ static darkColor(color) {
   const m = color.match(/^rgba\((.*),\s*\d*\.?\d+\)/);
   if (m != null) {
     color = 'rgb('+m[1]+')';
+  } else {
+    // Match a 4 digit hexadecimal color with alpha like #0ff8
+    const m = color.match(/^(#[0-9a-hA-H]{3})[0-9a-hA-H]$/);
+    if (m != null) {
+      color = m[1];
+    } else {
+      // Match an 8 digit hexadecimal color with alpha like #00ffff88
+      const m = color.match(/^(#[0-9a-hA-H]{6})[0-9a-hA-H]{2}$/);
+      if (m != null) {
+        color = m[1];
+      }
+    }
   }
   const c = gcolor.parse(color);
-  const hsb = gcolor.hexToHsv(c.hex);
-  // decide if its a dark color by looking at the saturation and brightness
-  // low brightness  OR  (high saturation AND close to blue)
-  return hsb[2] < 0.65 || hsb[1] > 0.57 && Math.abs(hsb[0] - 0.677) < 0.11;
+  // HSV color representation. An array containing three elements [h, s, v]:
+  // h (hue) must be an integer in [0, 360], cyclic.
+  // s (saturation) must be a number in [0, 1].
+  // v (value/brightness) must be an integer in [0, 255].
+  const hsv = gcolor.hexToHsv(c.hex);
+  // decide if its a dark color by looking at the saturation and value (brightness)
+  // low value  OR  (high saturation AND close to blue)
+  return hsv[2] < 167 || hsv[1] > 0.57 && Math.abs(hsv[0] - 240) < 40;
 };
 
 /** @override */
