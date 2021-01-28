@@ -3,11 +3,6 @@ Title: ContactSim Math
 
 [Baraff_94]: ./Baraff_Fast_Contact_Force_94.pdf
 
-<!-- Copyright 2016 Erik Neumann. All Rights Reserved.
-* Use of this source code is governed by the Apache License, Version 2.0.
-* See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
--->
-
 [myPhysicsLab Documentation](index.html)
 
 # ContactSim Math

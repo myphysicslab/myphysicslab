@@ -5,11 +5,6 @@ Title: Architecture of myPhysicsLab
 [Model_Classes]: ./Overview_Model_Classes.svg
 [Subject_Observer_Classes]: ./Overview_Subject_Observer_Classes.svg
 
-<!-- Copyright 2016 Erik Neumann. All Rights Reserved.
-* Use of this source code is governed by the Apache License, Version 2.0.
-* See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
--->
-
 [myPhysicsLab Documentation](index.html)
 
 # myPhysicsLab Architecture

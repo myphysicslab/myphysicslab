@@ -3,11 +3,6 @@ Title: Building myPhysicsLab
 
 [Build_Process]: ./Overview_Build_Process.svg
 
-<!-- Copyright 2016 Erik Neumann. All Rights Reserved.
-* Use of this source code is governed by the Apache License, Version 2.0.
-* See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
--->
-
 [myPhysicsLab Documentation](index.html)
 
 # Building myPhysicsLab Software
@@ -106,16 +101,22 @@ To build from source code the required tools are
 
 + [GNU Make](https://www.gnu.org/software/make/)
 
-+ [Closure Compiler](https://github.com/google/closure-compiler).
++ [Closure Compiler](https://github.com/google/closure-compiler) Note that you don't
+    need to install Maven or NPM. Just go to their Maven repository, click on the
+    version you want, then click on the jar file to download it. myPhysicsLab compiles
+    with closure-compiler release v20210106.
 
 + [Closure Library](https://github.com/google/closure-library) is a separate
     download from Closure Compiler. It is a collection of JavaScript source
-    code.
+    code. You can download a zip file from their github page or use
+    `git clone https://github.com/google/closure-library.git`.
 
 Once the prerequisites are on your system, follow these steps:
 
-0. Download the myPhysicsLab source code from
-    <https://github.com/myphysicslab/myphysicslab>.
+1. Download the myPhysicsLab source code from
+    <https://github.com/myphysicslab/myphysicslab>. You can download a zip file
+    from that github page, or use
+    `git clone https://github.com/myphysicslab/myphysicslab.git`
 
 2. Copy the file `sampleConfig.mk` to `myConfig.mk` and edit `myConfig.mk` to
     specify location of Closure Compiler in the `CLOSURE_COMPILER` variable.
@@ -123,7 +124,7 @@ Once the prerequisites are on your system, follow these steps:
 3. Create a **symbolic link** to `closure-library` in the directory that has
     the `makefile`. Example of how to create the symbolic link:
 
-        $ ln -s ../closure-library/ closure-library
+        $ ln -s ../closure-library/closure/ closure-library
 
 4. Execute `make` at the command line. (Set your directory to where the `makefile` is).
     This will compile all applications and tests in all language versions (using the
@@ -1070,7 +1071,7 @@ different in the uncompiled case versus the compiled case.
     to be loaded first). Here is an example from
     `debug/sims/springs/DoubleSpringApp-de.html`:
 
-        <script src='../../../closure-library/closure/goog/base.js'></script>
+        <script src='../../../closure-library/goog/base.js'></script>
         <script src='../../deps.js'></script>
         <script>
           goog.define('goog.LOCALE', 'de');
@@ -1108,8 +1109,23 @@ Thereafter, whenever you update closure-library, run this command to update the
 
     npm run gen_deps_js
 
+Note that after doing `npm install` there will be two versions within the closure-library directory:
+
++ closure-library/node_modules/google-closure-library/
++ closure-library/closure/goog/
+
+Therefore it is important that the symbolic link to `closure-library` that is made in
+the myphysicslab directory, that this go to only one of those two versions. In fact, it
+needs to be a link to `closure-library/closure/` so that we are also able to run the
+python program to generate the myphysicslab `deps.js` file. The makefile calls that
+python program with this command:
+
+    python ./closure-library/bin/build/depswriter.py \
+    --root_with_prefix="src ../../src" > $@
+
 See also:
-[unable to generate deps.js](https://github.com/google/closure-library/issues/1109#)
++ [unable to generate deps.js](https://github.com/google/closure-library/issues/1109#)
++ [many compile errors after `npm install`](https://github.com/google/closure-library/issues/1111)
 
 ## Global Variable Usage
 
