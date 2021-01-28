@@ -399,18 +399,18 @@ lab_js := $(shell find src/lab -name '*.js')
 #
 # Note that the --root_with_prefix option assumes there is a symlink for
 # closure-library in the simlab directory. See Environment Setup in Overview.md.
-# The --root_with_prefix option contains the path back to the jssimlab/src
+# The --root_with_prefix option contains the path back to the myphysicslab/src
 # directory from closure-library/closure/bin -- but via the symbolic link
 # to closure-library.
 # For example, here is a file reference (split into two lines) generated within
 # goog.importScript_ when running from source code:
-# file:///Users/erikn/Documents/Programming/jssimlab/closure-library/closure/
-# goog/../../../src/lab/util/GenericVector.js
+# file:///Users/erikn/Documents/Programming/myphysicslab/closure-library/closure
+# /../../src/lab/util/GenericVector.js
 
 $(BUILD_DIR)/deps.js : $(src_js)
 	@mkdir -v -p $(dir $@)
-	python ./closure-library/closure/bin/build/depswriter.py \
-	--root_with_prefix="src ../../../src" > $@
+	python ./closure-library/bin/build/depswriter.py \
+	--root_with_prefix="src ../../src" > $@
 
 # Note on using wildcard (*) for prerequisites.
 # Wildcards are automatically expanded by make whenever a wildcard appears in a target,
@@ -713,8 +713,8 @@ docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) dossier_config.json 
 # Following are Dossier commands using configuration flags instead of config.json
 # These were used to figure out Dossier issue #96 "Dossier not generating docs when
 # excludes are specified".
-#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`closure/goog
-#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`closure/goog --exclude "src/lab/util/test"
+#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`goog
+#	java -jar $(DOSSIER) --source "src/lab/util/*.js" --output docs2 --closure_library_dir `readlink closure-library`goog --exclude "src/lab/util/test"
 
 apps-en: $(BUILD_DIR)/index-en.html $(addsuffix -en.html,$(bld_apps))
 

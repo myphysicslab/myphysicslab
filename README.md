@@ -53,7 +53,7 @@ Once the prerequisites are on your system, follow these steps:
 3. Create a **symbolic link** to `closure-library` in the directory that has
     the `makefile`. Example of how to create the symbolic link:
 
-        $ ln -s ../closure-library/ closure-library
+        $ ln -s ../closure-library/closure/ closure-library
 
 4. Execute `make` at the command line. (Set your directory to where the `makefile` is).
     This will compile all applications and tests in all language versions (using the

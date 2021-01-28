@@ -18,9 +18,9 @@
 dbg=""
 
 # check if closure-library link exists
-if [ ! -f ./closure-library/closure/goog/array/array.js ]; then
+if [ ! -f ./closure-library/goog/array/array.js ]; then
 	echo "$0 ERROR: cannot find closure-library. Create a symbolic link with a command like:"
-	echo "       ln -s ../closure-library/ closure-library"
+	echo "       ln -s ../closure-library/closure/ closure-library"
 	exit 1
 fi
 
