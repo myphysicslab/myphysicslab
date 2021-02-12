@@ -1,5 +1,6 @@
 CSS: ./Overview_2.css
 Title: Building myPhysicsLab
+HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1">
 
 [Build_Process]: ./Overview_Build_Process.svg
 

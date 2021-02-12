@@ -1,6 +1,14 @@
 /* adapted from dossier.css; with following modifications:
   body: margin, background, max-width.
   code: font-size
+  img {
+    max-width: 100%;
+    display: block;
+  }
+The img tag solves some Google "mobile-friendly"  tests. It ensures images are not wider
+than then screen,and therefore  prevents the entire page from being  shrunk to fit. That
+shrinking causes errors like "Text too small  to read" and "Clickable elements too close
+together"
 */
 @import url(https://fonts.googleapis.com/css?family=Lato:400, 700, 400italic, 700italic|Inconsolata);
 * {
@@ -29,6 +37,10 @@ body a[id], body .property, body .function {
 }
 body a[id] {
     display: inline-block;
+}
+img {
+  max-width: 100%;
+  display: block;
 }
 a, a:visited {
     color: #66f;

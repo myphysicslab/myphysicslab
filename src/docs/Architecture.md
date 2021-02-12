@@ -1,5 +1,6 @@
 CSS: ./Overview_2.css
 Title: Architecture of myPhysicsLab
+HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1">
 
 [MVC_arch]: ./Overview_Architecture_MVC.svg
 [Model_Classes]: ./Overview_Model_Classes.svg

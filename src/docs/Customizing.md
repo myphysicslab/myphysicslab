@@ -1,5 +1,6 @@
 CSS: ./Overview_2.css
 Title: Customizing myPhysicsLab
+HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1">
 
 [myPhysicsLab Documentation](index.html)
 

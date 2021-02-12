@@ -1,5 +1,6 @@
 CSS: ./Overview_2.css
 Title: ContactSim Math
+HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1">
 
 [Baraff_94]: ./Baraff_Fast_Contact_Force_94.pdf
 

@@ -1,5 +1,6 @@
 CSS: ./Overview_2.css
 Title: 2D Physics Engine Overview
+HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1">
 
 [Baraff_94]: ./Baraff_Fast_Contact_Force_94.pdf
 
