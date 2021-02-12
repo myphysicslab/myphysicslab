@@ -78,7 +78,7 @@ constructor(elem_ids) {
   this.block1 = new DisplayShape(this.simList.getPointMass('block1'), this.protoBlock);
   /** @type {!DisplayShape} */
   this.block2 = new DisplayShape(this.simList.getPointMass('block2'), this.protoBlock);
-  this.block2.setFillStyle('#ff0000cc');
+  this.block2.setFillStyle('#ff00ffcc');
   this.displayList.add(this.block1);
   this.displayList.add(this.block2);
   sim.saveInitialState();
