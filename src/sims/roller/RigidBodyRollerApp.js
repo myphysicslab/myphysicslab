@@ -212,8 +212,8 @@ config() {
   this.mySim.addForceLaw(this.dampingLaw);
   this.dampingLaw.connect(this.mySim.getSimList());
   this.simList.add(this.path);
-  this.block.setPosition(new Vector(-4,  4),  Math.PI/4);
-  this.block.setVelocity(new Vector(0,  0),  0);
+  this.block.setPosition(new Vector(-4, 4), Math.PI/4);
+  this.block.setVelocity(new Vector(0, 0), 0);
   this.mySim.addBody(this.block);
   this.displayList.findShape(this.block).setFillStyle('rgba(51,204,255,0.5)')
       .setDrawCenterOfMass(true).setDrawDragPoints(true);
