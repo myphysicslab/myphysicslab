@@ -343,6 +343,9 @@ reset() {
 
 /** @override */
 saveInitialState() {
+  // Remember the current position of RigidBodys. These may have been moved
+  // by the user dragging them, or executing a script in Terminal to set their
+  // position or velocity.
   this.getBodies().map(b => this.initializeFromBody(b));
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));

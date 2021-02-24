@@ -115,7 +115,6 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
-  this.terminal.setAfterEval( () => sim.modifyObjects() );
   // Ensure that changes to parameters or variables cause display to update
   new GenericObserver(sim, evt => sim.modifyObjects(),
       'modifyObjects after parameter or variable change');
@@ -187,6 +186,17 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   /** @type {!EasyScriptParser} */
   this.easyScript;
+
+  // Whenever the clock resumes (simulation starts running), copy position and
+  // velocity info from RigidBodys into sim variables.
+  // This allows user to move objects when paused, either by executing scripts
+  // in Terminal, or by dragging with mouse.  User can set velocity with scripts.
+  this.clockObs = new GenericObserver(this.clock, evt => {
+      if (evt.nameEquals(Clock.CLOCK_RESUME)) {
+        this.sim.getBodies().map(b => this.sim.initializeFromBody(b));
+      }
+  });
+
 };
 
 /** @override */
