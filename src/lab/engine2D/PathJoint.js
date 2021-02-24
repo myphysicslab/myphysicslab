@@ -126,7 +126,32 @@ align() {
   this.ppt_ = this.path_.findNearestGlobal(attach_world);
   this.path_.map_p_to_slope(this.ppt_);
   // move body to align over that point
-  this.body_.alignTo(/*p_body=*/this.attach_body_, /*p_world=*/this.ppt_);
+  this.body_.alignTo(this.attach_body_, this.ppt_);
+};
+
+/** Aligns two attachment points on the body to be on the path.
+@param {!Vector} b2 the second attachment point on the RigidBody in body coordinates
+*/
+align2(b2) {
+  const b1 = this.attach_body_;
+  const x = b1.distanceTo(b2);
+  // calculate angle beta of vector b1 - b2
+  const beta = b1.subtract(b2).getAngle();
+  // align b1 with path
+  this.align();
+  const p1 = this.body_.bodyToWorld(this.attach_body_);
+  // find point on path nearest to b2
+  let p2 = this.body_.bodyToWorld(b2);
+  const ppt = this.path_.findNearestGlobal(p2);
+  p2 = new Vector(ppt.x, ppt.y);
+  // find point on path that is distance x away from p1.  Start with p2.
+  p2 = this.path_.findPointByDistance(p1, p2, x);
+  // calculate angle alpha of vector p1 - p2
+  const alpha = p1.subtract(p2).getAngle();
+  // calculate angle theta so that points on body b1, b2 align over p1, p2
+  const theta = alpha - beta;
+  // set body to that angle, but keep b1, p1 aligned
+  this.body_.alignTo(b1, p1, theta);
 };
 
 /** Returns the attachment point on the RigidBody in body coordinates.

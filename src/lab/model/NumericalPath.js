@@ -580,6 +580,43 @@ findNearestLocal(target, ppt) {
   ppt.idx = k_int;
  }
 
+/** Finds point p2 on the path that is a given distance from given point p1.
+We start the search by finding the point on the path nearest to given point p2.
+The initial location of p2 determines which side of the path of p1 we find p2 on.
+@param {!Vector} p1 the fixed point
+@param {!Vector} p2 starting location for the search
+@param {number} x the desired distance between p1 and p2.
+@return {!Vector} a point on on the path that is distance x from p1.
+*/
+findPointByDistance(p1, p2, x) {
+  const ppt = this.findNearestGlobal(p1);
+  this.findNearestLocal(p1, ppt);
+  // p-value of p1
+  const p1p = ppt.p;
+  this.findNearestLocal(p2, ppt);
+  // p-value of p2
+  let p2p = ppt.p;
+  // sign tells whether p-values are bigger or smaller at p2 compared to p1
+  p2 = this.map_p_to_vector(p2p);
+  let dist = p1.distanceTo(p2);
+  debugger;
+  if (dist < 1E-6) {
+    // both points were mapped to same point on the path. Arbitrarily pick a direction.
+    p2p = p1p + x;
+    p2 = this.map_p_to_vector(p2p);
+    dist = p1.distanceTo(p2);
+  }
+  let err = dist - x;
+  const sign = p2p > p1p ? 1 : -1;
+  while (Math.abs(err) > 1e-10) {
+    p2p = p1p + (x/dist)*(p2p - p1p);
+    p2 = this.map_p_to_vector(p2p);
+    dist = p1.distanceTo(p2);
+    err = dist - x;
+  }
+  return p2;
+}
+
 /** @override */
 getBoundsWorld() {
   return this.bounds;
