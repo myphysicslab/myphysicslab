@@ -110,6 +110,9 @@ toString() {
       +', cm_body_: '+this.cm_body_
       +', zeroEnergyLevel_: '+Util.NF(this.zeroEnergyLevel_)
       +', moment_: '+Util.NF(this.moment_)
+      +', dragPts_: ['
+      +this.dragPts_.map(p => p.toString())
+      +']'
       +'}';
 };
 
@@ -168,8 +171,9 @@ getBottomWorld() {
   let min = Util.POSITIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
     const p = this.bodyToWorld(v);
-    if (p.getY() < min)
+    if (p.getY() < min) {
       min = p.getY();
+    }
   });
   return min;
 };
@@ -225,8 +229,9 @@ getLeftWorld() {
   let min = Util.POSITIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
     const p = this.bodyToWorld(v);
-    if (p.getX() < min)
+    if (p.getX() < min) {
       min = p.getX();
+    }
   });
   return min;
 };
@@ -252,8 +257,9 @@ getRightWorld() {
   let max = Util.NEGATIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
     const p = this.bodyToWorld(v);
-    if (p.getX() > max)
+    if (p.getX() > max) {
       max = p.getX();
+    }
   });
   return max;
 };
@@ -266,8 +272,9 @@ getTopWorld() {
   let max = Util.NEGATIVE_INFINITY;
   this.getVerticesBody().forEach(v => {
     const p = this.bodyToWorld(v);
-    if (p.getY() > max)
+    if (p.getY() > max) {
       max = p.getY();
+    }
   });
   return max;
 };
@@ -282,7 +289,7 @@ getVelocity(p_body) {
   if (p_body !== undefined) {
     const r = this.rotateBodyToWorld(Vector.clone(p_body).subtract(this.cm_body_));
     return new Vector(this.velocity_.getX() - r.getY()*this.angular_velocity_,
-                    this.velocity_.getY() + r.getX()*this.angular_velocity_);
+        this.velocity_.getY() + r.getX()*this.angular_velocity_);
   } else {
     return this.velocity_;
   }
@@ -312,8 +319,8 @@ momentum() {
   result[0] = this.mass_*this.velocity_.getX();
   result[1] = this.mass_*this.velocity_.getY();
   result[2] = this.momentAboutCM()*this.angular_velocity_
-    + this.mass_*(this.loc_world_.getX()*this.velocity_.getY()
-    - this.loc_world_.getY()*this.velocity_.getX());
+      + this.mass_*(this.loc_world_.getX()*this.velocity_.getY()
+      - this.loc_world_.getY()*this.velocity_.getX());
   return result;
 };
 
@@ -398,8 +405,7 @@ setVelocity(velocity_world, angular_velocity) {
 
 /** @override */
 setZeroEnergyLevel(height) {
-  this.zeroEnergyLevel_ = height !== undefined ? height :
-    this.loc_world_.getY();
+  this.zeroEnergyLevel_ = height !== undefined ? height : this.loc_world_.getY();
   return this;
 };
 
