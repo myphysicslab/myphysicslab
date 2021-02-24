@@ -1422,8 +1422,8 @@ static stdRegex(terminal) {
 
   terminal.addRegex('CollisionAdvance|ConcreteVariable|ConcreteLine|ConstantForceLaw'
       +'|CoordType|DampingLaw|EulersMethod|ExpressionVariable|Force|FunctionVariable'
-      +'|GravityLaw|Gravity2Law'
-      +'|MassObject|ModifiedEuler|NumericalPath|PointMass'
+      +'|GravityLaw|Gravity2Law|MassObject|ModifiedEuler'
+      +'|NumericalPath|ParametricPath|OvalPath|PointMass'
       +'|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
       'mpl$$lab$$model$$', /*addToVars=*/false);
 
@@ -1434,7 +1434,7 @@ static stdRegex(terminal) {
        'mpl$$lab$$view$$', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge|CollisionHandling|ContactSim'
-       +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|Polygon'
+       +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|JointUtil|PathJoint|Polygon'
        +'|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
        +'|ThrusterSet|Vertex|Walls',
        'mpl$$lab$$engine2D$$', /*addToVars=*/false);
