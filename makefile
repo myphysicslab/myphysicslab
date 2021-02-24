@@ -1,4 +1,4 @@
-# makefile for jssimlab: the javascript version of myphysicslab
+# makefile for myphysicslab
 #
 # Copyright 2016 Erik Neumann. All Rights Reserved.
 # Use of this source code is governed by the Apache License, Version 2.0.
