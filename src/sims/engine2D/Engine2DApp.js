@@ -115,9 +115,6 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
-  // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(sim, evt => sim.modifyObjects(),
-      'modifyObjects after parameter or variable change');
   sim.setShowForces(false);
   /** @type {!SimList} */
   this.simList = sim.getSimList();
