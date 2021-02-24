@@ -343,6 +343,7 @@ reset() {
 
 /** @override */
 saveInitialState() {
+  this.getBodies().map(b => this.initializeFromBody(b));
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
@@ -458,10 +459,7 @@ getBody(numOrName) {
   let bod = null;
   if (typeof numOrName === 'string') {
     const bodName = Util.toName(numOrName);
-    bod = array.find(this.bods_,
-      function(body, index, array) {
-        return body.getName() == bodName;
-      });
+    bod = array.find(this.bods_, body => body.getName() == bodName);
   } else {
     const bodNum = numOrName;
     if (bodNum < this.bods_.length && bodNum >= 0) {
