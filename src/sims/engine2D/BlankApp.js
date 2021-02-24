@@ -45,6 +45,7 @@ const Gravity2Law = goog.require('myphysicslab.lab.model.Gravity2Law');
 const GravityLaw = goog.require('myphysicslab.lab.model.GravityLaw');
 const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
 const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
+const JointUtil = goog.require('myphysicslab.lab.engine2D.JointUtil');
 const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
 const Line = goog.require('myphysicslab.lab.model.Line');
 const ModifiedEuler = goog.require('myphysicslab.lab.model.ModifiedEuler');
@@ -71,6 +72,20 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 const VerticalAlign = goog.require('myphysicslab.lab.view.VerticalAlign');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 
+const CardioidPath = goog.require('myphysicslab.sims.roller.CardioidPath');
+const CirclePath = goog.require('myphysicslab.sims.roller.CirclePath');
+const DisplayPath = goog.require('myphysicslab.lab.view.DisplayPath');
+const FlatPath = goog.require('myphysicslab.sims.roller.FlatPath');
+const HumpPath = goog.require('myphysicslab.sims.roller.HumpPath');
+const LemniscatePath = goog.require('myphysicslab.sims.roller.LemniscatePath');
+const LoopTheLoopPath = goog.require('myphysicslab.sims.roller.LoopTheLoopPath');
+const NumericalPath = goog.require('myphysicslab.lab.model.NumericalPath');
+const OvalPath = goog.require('myphysicslab.sims.roller.OvalPath');
+const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
+const PathEndPoint = goog.require('myphysicslab.lab.engine2D.PathEndPoint');
+const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
+
 /** Intended for scripting, this provides a ContactSim with no RigidBody objects or
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as
 a URL-script; see {@link Terminal}.
@@ -90,6 +105,9 @@ constructor(elem_ids) {
   //this.addStandardControls();
   this.makeEasyScript();
   this.graphSetup();
+  this.terminal.addRegex('CardioidPath|CirclePath|DisplayPath|FlatPath|HumpPath'+
+      '|LemniscatePath|LoopTheLoopPath|OvalPath|SpiralPath',
+     'mpl$$sims$$roller$$', /*addToVars=*/false);
 };
 
 /** @override */
@@ -101,6 +119,12 @@ toString() {
 /** @override */
 getClassName() {
   return 'BlankApp';
+};
+
+/** @override */
+start() {
+  this.simRun.pause();
+  this.simRun.startFiring();
 };
 
 } // end class
