@@ -430,14 +430,21 @@ addConnector(connector, follow) {
     // avoid adding a Connector twice
     return;
   }
+  const errMsg = 'body not yet added to simulation ';
+  // ensure the body has been added to simulation already.
   const b1 = connector.getBody1();
-  if (!(array.contains(this.bods_, b1) || b1 instanceof Scrim)) {
-    throw 'body not found '+b1;
+  if (!(b1 instanceof Scrim)) {
+    if (!this.bods_.includes(/**@type {!Polygon}*/(b1))) {
+      throw errMsg + b1;
+    }
   }
   const b2 = connector.getBody2();
-  if (!(array.contains(this.bods_, b2) || b2 instanceof Scrim)) {
-    throw 'body not found '+b2;
+  if (!(b2 instanceof Scrim)) {
+    if (!this.bods_.includes(/**@type {!Polygon}*/(b2))) {
+      throw errMsg + b2;
+    }
   }
+  // if follow === null then add at front of list
   if (follow === null) {
     this.connectors_.unshift(connector);
   } else if (follow != null) {
@@ -447,6 +454,7 @@ addConnector(connector, follow) {
     }
     array.insertAt(this.connectors_, connector, idx+1);
   } else {
+    // if follow === undefined, add at end of list
     this.connectors_.push(connector);
   }
   this.getSimList().add(connector);
@@ -454,13 +462,10 @@ addConnector(connector, follow) {
 
 /** Adds the set of Connectors.  Note that the ordering of the Connectors is
 important because the Connectors are aligned in list order.
-* @param {!Array<!Connector>} connectors set of Connectors
-* to add
+* @param {!Array<!Connector>} connectors set of Connectors to add
 */
 addConnectors(connectors) {
-  for (let i=0,len=connectors.length; i<len; i++) {
-    this.addConnector(connectors[i]);
-  }
+  connectors.map(c => this.addConnector(c));
 };
 
 /** Removes the Connector from the list of active Connectors. If the Connector is
@@ -489,14 +494,9 @@ list of Connectors is significant because the Connectors are aligned in list ord
 * @return {undefined}
 */
 alignConnectors() {
-  for (let i=0, len=this.connectors_.length; i<len; i++) {
-    const connector = this.connectors_[i];
-    connector.align();
-  }
-  for (let j=0, blen=this.bods_.length; j<blen; j++) {
-    // update the vars[] array using current body position & velocity
-    this.initializeFromBody(this.bods_[j]);
-  }
+  this.connectors_.map(c => c.align())
+  // update the vars[] array using current body position & velocity
+  this.bods_.map(b => this.initializeFromBody(b));
 };
 
 /** For debugging, returns the number of contacts in the biggest subset of contacts
@@ -541,9 +541,10 @@ evaluate(vars, change, timeStep) {
     // remove a contact that is connected.
     /** @type {!Array<!RigidBodyCollision>} */
     const subset = ContactSim.SUBSET_COLLISIONS ?
-          UtilityCollision.subsetCollisions1(contactsFound) : contactsFound;
-    if (subset.length > maxContacts)
+        UtilityCollision.subsetCollisions1(contactsFound) : contactsFound;
+    if (subset.length > maxContacts) {
       maxContacts = subset.length;
+    }
     this.calcContactForces(vars, change, subset);
     if (subset.length == contactsFound.length) {
       // all contacts have been treated.
@@ -551,9 +552,7 @@ evaluate(vars, change, timeStep) {
     } else {
       // remove all of subset from contactsFound, continue with remaining that
       // are left in contactsFound.
-      for (let i=0, len=subset.length; i<len; i++) {
-        array.remove(contactsFound, subset[i]);
-      }
+      subset.map(s => array.remove(contactsFound, s));
     }
   }
   this.numContacts_ = maxContacts;
