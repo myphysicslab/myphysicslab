@@ -215,8 +215,6 @@ constructor(elem_ids, centered) {
       p2.setAngle(this.sim1.getAngle2());
       p1.setVelocity(new Vector(0,  0),  0);
       p2.setVelocity(new Vector(0,  0),  0);
-      this.sim2.initializeFromBody(p1);
-      this.sim2.initializeFromBody(p2);
       this.sim2.alignConnectors();
       this.sim2.saveInitialState();
     }

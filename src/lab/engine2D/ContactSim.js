@@ -495,8 +495,6 @@ list of Connectors is significant because the Connectors are aligned in list ord
 */
 alignConnectors() {
   this.connectors_.map(c => c.align())
-  // update the vars[] array using current body position & velocity
-  this.bods_.map(b => this.initializeFromBody(b));
 };
 
 /** For debugging, returns the number of contacts in the biggest subset of contacts

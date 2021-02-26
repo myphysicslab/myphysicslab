@@ -96,12 +96,6 @@ which case the first body is aligned to the second). The second body is moved so
 its attach point is at same position as the first body's attach point. The angle of the
 second body is not changed.
 
-NOTE: `align()` only changes the position of the RigidBody, you may need to call
-{@link myphysicslab.lab.engine2D.RigidBodySim#initializeFromBody} after this to update the
-simulation variables. The method
-{@link myphysicslab.lab.engine2D.ContactSim#alignConnectors} does the `initializeFromBody` step
-automatically.
-
 ### Implementation Note: Separate Impact Points
 
 Each side of the Joint has its own impact point and `R` vector; these are `impact,

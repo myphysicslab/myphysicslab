@@ -200,7 +200,6 @@ static pendulum_rope_bounce_setup(sim, advance) {
     b1.setZeroEnergyLevel();
     // move to starting position (only the angle matters)
     b1.setPosition(new Vector(-2,  0),  Math.PI/4);
-    sim.initializeFromBody(b1);
   }
   var g = new GravityLaw(10.0, sim.getSimList());
   sim.addForceLaw(g);

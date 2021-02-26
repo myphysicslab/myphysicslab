@@ -37,13 +37,6 @@ addCollision(collisions, time, accuracy) {}
 
 /** Aligns the RigidBodys connected by this Connector. See the documentation for the
 particular Connector for how the alignment is done.
-
-NOTE: this method only changes the position of a RigidBody, you may need to call
-{@link RigidBodySim#initializeFromBody} after this to update
-the simulation variables.
-The method {@link myphysicslab.lab.engine2D.ContactSim#alignConnectors} does the
-`initializeFromBody` step automatically.
-
 @return {undefined}
 */
 align() {}

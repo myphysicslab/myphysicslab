@@ -176,7 +176,6 @@ static makeBlockPendulum(sim, testConfig, normalType) {
       // set to result of what handle collision would do
       p1.setVelocity(new Vector(6.4864865,  0),  3.2432432);
     }
-    sim.initializeFromBody(p1);
   }
 
 };
@@ -460,7 +459,6 @@ static two_blocks_4_joints_setup(sim, advance) {
   JointTest.buildJointTest(sim, JointTestConfig.TWO_BLOCKS_4_JOINTS, CoordType.BODY);
   const body1 = sim.getBody('connect1');
   body1.setVelocity(new Vector(0,  0),  6);
-  sim.initializeFromBody(body1);
   const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);
@@ -489,7 +487,6 @@ static two_blocks_2_dbl_joint_setup(sim, advance) {
   const body1 = sim.getBody('connect1');
   body1.setVelocity(new Vector(0,  0),  6);
   sim.setElasticity(0.8);
-  sim.initializeFromBody(body1);
   const collisions = [];
   sim.findCollisions(collisions, sim.getVarsList().getValues(), 0);
   sim.handleCollisions(collisions);

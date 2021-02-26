@@ -18,6 +18,7 @@ const array = goog.require('goog.array');
 const asserts = goog.require('goog.asserts');
 
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
+const BodyVariable = goog.require('myphysicslab.lab.model.BodyVariable');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const DampingLaw = goog.require('myphysicslab.lab.model.DampingLaw');
 const DebugEngine2D = goog.require('myphysicslab.lab.engine2D.DebugEngine2D');
@@ -343,10 +344,6 @@ reset() {
 
 /** @override */
 saveInitialState() {
-  // Remember the current position of RigidBodys. These may have been moved
-  // by the user dragging them, or executing a script in Terminal to set their
-  // position or velocity.
-  this.getBodies().map(b => this.initializeFromBody(b));
   this.initialState_ = this.varsList_.getValues();
   this.broadcast(new GenericEvent(this, Simulation.INITIAL_STATE_SAVED));
 };
@@ -408,6 +405,49 @@ addBody(body) {
     return;
   if (!this.bods_.includes(body)) {
     // create 6 variables in vars array for this body
+    const idx = this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(0, /*localized=*/false),
+      body.getVarName(0, /*localized=*/true),
+      () => body.getPosition().getX(),
+      x => body.setPosition(new Vector(x, body.getPosition().getY()))));
+    this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(1, /*localized=*/false),
+      body.getVarName(1, /*localized=*/true),
+      () => body.getVelocity().getX(),
+      x => body.setVelocity(new Vector(x, body.getVelocity().getY()))));
+    this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(2, /*localized=*/false),
+      body.getVarName(2, /*localized=*/true),
+      () => body.getPosition().getY(),
+      y => body.setPosition(new Vector(body.getPosition().getX(), y))));
+    this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(3, /*localized=*/false),
+      body.getVarName(3, /*localized=*/true),
+      () => body.getVelocity().getY(),
+      y => body.setVelocity(new Vector(body.getVelocity().getX(), y))));
+    this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(4, /*localized=*/false),
+      body.getVarName(4, /*localized=*/true),
+      () => body.getAngle(),
+      a => body.setAngle(a)));
+    this.varsList_.addVariable(
+      new BodyVariable(this.varsList_,
+      body.getVarName(5, /*localized=*/false),
+      body.getVarName(5, /*localized=*/true),
+      () => body.getAngularVelocity(),
+      a => body.setAngularVelocity(a)));
+    body.setVarsIndex(idx);
+    // add body to end of list of bodies
+    this.bods_.push(body);
+    this.getSimList().add(body);
+  }
+  if (!this.bods_.includes(body)) {
+    // create 6 variables in vars array for this body
     const names = [];
     for (let k = 0; k<6; k++) {
       names.push(body.getVarName(k, /*localized=*/false));
@@ -422,7 +462,6 @@ addBody(body) {
     this.bods_.push(body);
     this.getSimList().add(body);
   }
-  this.initializeFromBody(body);
   this.bods_.forEach(b => b.eraseOldCoords());
 };
 
@@ -472,29 +511,6 @@ getBody(numOrName) {
   if (bod == null)
     throw 'no body '+numOrName;
   return bod;
-};
-
-/** Sets the simulation variables to match the Polygon state (by copying the Polygon's
-* position and velocity to the simulation's VarsList).
-* @param {!Polygon} body the Polygon to use for updating
-*     the simulation variables
-* @throws {!Error} if the body is not recognized
-*/
-initializeFromBody(body) {
-  body.eraseOldCoords();
-  const idx = body.getVarsIndex();
-  if (idx < 0) {
-    throw "unknown body "+body;
-  }
-  const va = this.varsList_;
-  va.setValue(RigidBodySim.X_ + idx, body.getPosition().getX());
-  va.setValue(RigidBodySim.Y_ + idx, body.getPosition().getY());
-  va.setValue(RigidBodySim.W_ + idx, body.getAngle());
-  va.setValue(RigidBodySim.VX_ + idx, body.getVelocity().getX());
-  va.setValue(RigidBodySim.VY_ + idx, body.getVelocity().getY());
-  va.setValue(RigidBodySim.VW_ + idx, body.getAngularVelocity());
-  // discontinuous change to energy; 1 = KE, 2 = PE, 3 = TE
-  this.getVarsList().incrSequence(1, 2, 3);
 };
 
 /** @override */

@@ -220,8 +220,6 @@ mouseDrag(simObject, location, offset, mouseEvent) {
       // when paused, move the body with the mouse.
       body.setPosition(location.subtract(offset));
     }
-    // update the simulation VarsList to match the new body position
-    this.sim_.initializeFromBody(body);
   } else {
     this.mousePoint_.setPosition(location);
   }
