@@ -403,15 +403,36 @@ location; rotates this body counter-clockwise about center of mass from
 */
 setPosition(loc_world, angle) {}
 
+/** Moves this body so that the center of mass is at the given world coordinates
+X (horizontal) location.
+@param {number} value the horizontal location in world coordinates
+*/
+setPositionX(value) {}
+
+/** Moves this body so that the center of mass is at the given world coordinates
+Y (vertical) location.
+@param {number} value the vertical location in world coordinates
+*/
+setPositionY(value) {}
+
 /** Set the linear velocity of this objects's center of mass, and (optional) angular
-velocity of rotation about the objects's center of mass. A MassObject keeps track of
-its current velocity as a convenience for various calculations.
+velocity of rotation about the objects's center of mass.
 @param {!GenericVector} velocity_world the velocity in world coordinates/second
 @param {number=} angular_velocity the angular velocity, in radians/second, with
     positive meaning counter-clockwise rotation about the body's center of mass;
     if undefined, then angular velocity is not changed
 */
 setVelocity(velocity_world, angular_velocity) {}
+
+/** Set the linear horizontal velocity of this objects's center of mass.
+@param {number} value the horizontal velocity in world coordinates
+*/
+setVelocityX(value) {}
+
+/** Set the linear vertical velocity of this objects's center of mass.
+@param {number} value the vertical velocity in world coordinates
+*/
+setVelocityY(value) {}
 
 /** Sets the vertical coordinate where the body has zero potential gravitational energy
 under standard constant gravity when the body's center of mass is at this vertical

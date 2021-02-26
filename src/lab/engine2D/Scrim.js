@@ -368,6 +368,14 @@ setPosition(loc_world, angle) {
 };
 
 /** @override */
+setPositionX(value) {
+};
+
+/** @override */
+setPositionY(value) {
+};
+
+/** @override */
 setVelocity(velocity_world, angular_velocity) {
   if (velocity_world.getX() != 0 || velocity_world.getY() != 0) {
     throw '';
@@ -375,6 +383,14 @@ setVelocity(velocity_world, angular_velocity) {
   if (angular_velocity !== undefined && angular_velocity != 0) {
     throw '';
   }
+};
+
+/** @override */
+setVelocityX(value) {
+};
+
+/** @override */
+setVelocityY(value) {
 };
 
 /** @override */

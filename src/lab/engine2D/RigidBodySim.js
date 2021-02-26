@@ -410,25 +410,25 @@ addBody(body) {
       body.getVarName(0, /*localized=*/false),
       body.getVarName(0, /*localized=*/true),
       () => body.getPosition().getX(),
-      x => body.setPosition(new Vector(x, body.getPosition().getY()))));
+      x => body.setPositionX(x)));
     this.varsList_.addVariable(
       new BodyVariable(this.varsList_,
       body.getVarName(1, /*localized=*/false),
       body.getVarName(1, /*localized=*/true),
       () => body.getVelocity().getX(),
-      x => body.setVelocity(new Vector(x, body.getVelocity().getY()))));
+      x => body.setVelocityX(x)));
     this.varsList_.addVariable(
       new BodyVariable(this.varsList_,
       body.getVarName(2, /*localized=*/false),
       body.getVarName(2, /*localized=*/true),
       () => body.getPosition().getY(),
-      y => body.setPosition(new Vector(body.getPosition().getX(), y))));
+      y => body.setPositionY(y)));
     this.varsList_.addVariable(
       new BodyVariable(this.varsList_,
       body.getVarName(3, /*localized=*/false),
       body.getVarName(3, /*localized=*/true),
       () => body.getVelocity().getY(),
-      y => body.setVelocity(new Vector(body.getVelocity().getX(), y))));
+      y => body.setVelocityY(y)));
     this.varsList_.addVariable(
       new BodyVariable(this.varsList_,
       body.getVarName(4, /*localized=*/false),

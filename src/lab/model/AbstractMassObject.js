@@ -396,11 +396,31 @@ setPosition(loc_world, angle) {
 };
 
 /** @override */
+setPositionX(value) {
+  this.loc_world_ = new Vector(value, this.loc_world_.getY());
+};
+
+/** @override */
+setPositionY(value) {
+  this.loc_world_ = new Vector(this.loc_world_.getX(), value);
+};
+
+/** @override */
 setVelocity(velocity_world, angular_velocity) {
   this.velocity_ = Vector.clone(velocity_world);
   if (angular_velocity !== undefined) {
     this.setAngularVelocity(angular_velocity);
   }
+};
+
+/** @override */
+setVelocityX(value) {
+  this.velocity_ = new Vector(value, this.velocity_.getY());
+};
+
+/** @override */
+setVelocityY(value) {
+  this.velocity_ = new Vector(this.velocity_.getX(), value);
 };
 
 /** @override */
