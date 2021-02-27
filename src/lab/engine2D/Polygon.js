@@ -346,8 +346,7 @@ Vertex and ending at the given point, with the given center for the circular arc
 moving clockwise or counter-clockwise from the start Vertex. See
 {@link #lastOpenVertex} and {@link #startPath}.
 
-@param {!Vector} p_body the endpoint of the new Edge, in body
-    coordinates
+@param {!Vector} p_body the endpoint of the new Edge, in body coordinates
 @param {!Vector} center_body the center point in body coordinates
 @param {boolean} clockwise true moves clockwise, false moves counter-clockwise
 @param {boolean} outsideIsOut `true` means that any point outside the circle is outside
@@ -358,8 +357,7 @@ moving clockwise or counter-clockwise from the start Vertex. See
 @throws {!Error} if `p_body` and last point are not equidistant from `center_body`
     within `CircularEdge.TINY_POSITIVE` tolerance
 */
-addCircularEdge(p_body, center_body, clockwise,
-    outsideIsOut) {
+addCircularEdge(p_body, center_body, clockwise, outsideIsOut) {
   const edge = new CircularEdge(this, this.lastOpenVertex(),
       new ConcreteVertex(p_body, /*endPoint=*/true), center_body, clockwise,
       outsideIsOut);

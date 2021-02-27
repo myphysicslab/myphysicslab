@@ -1433,7 +1433,7 @@ static stdRegex(terminal) {
       +'|ScreenRect|SimView|VerticalAlign',
        'mpl$$lab$$view$$', /*addToVars=*/false);
 
-  terminal.addRegex('CircularEdge|CollisionHandling|ContactSim'
+  terminal.addRegex('CircularEdge|CollisionHandling|ConcreteVertex|ContactSim'
        +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|JointUtil|PathJoint|Polygon'
        +'|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
        +'|ThrusterSet|Vertex|Walls',
