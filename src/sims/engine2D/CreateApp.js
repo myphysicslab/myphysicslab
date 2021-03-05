@@ -87,7 +87,10 @@ const PathEndPoint = goog.require('myphysicslab.lab.engine2D.PathEndPoint');
 const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
 const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
 
-/** Intended for scripting, this provides a ContactSim with no RigidBody objects or
+/** CreateApp makes it easier for users to create their own simulation via scripting.
+CreateApp provides an editor text field for the script that is being run, and an
+execute button to re-run the script.
+Intended for scripting, this provides a ContactSim but no RigidBody objects or
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as
 a URL-script; see {@link Terminal}.
 */
