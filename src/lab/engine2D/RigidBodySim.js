@@ -372,11 +372,10 @@ cleanSlate() {
     // delete all variables except: 0 = time, 1 = KE, 2 = PE, 3 = TE
     this.varsList_.deleteVariables(4, nv - 4);
   }
-  for (let i=0, n=this.bods_.length; i<n; i++) {
-    // For safety, erase any varsIndex info in the bodies that are being removed,
-    // even though those bodies are about to be deleted.
-    this.bods_[i].setVarsIndex(-1);
-  }
+  this.varsList_.setTime(0);
+  // For safety, erase any varsIndex info in the bodies that are being removed,
+  // even though those bodies are about to be deleted.
+  this.bods_.forEach(b => b.setVarsIndex(-1));
   this.bods_ = [];
   this.simRect_ = null;
 };
