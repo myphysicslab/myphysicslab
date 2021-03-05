@@ -1,0 +1,86 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.CreateApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims.engine2D.Billiards2App #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+
+<textarea id="editor" cols=80 rows=20 wrap="soft">
+var once;
+if (once===undefined) {app.addStandardControls(); once=true;};
+sim.cleanSlate();
+Walls.make(sim,12,12,1);
+layout.simCanvas.setBackground('black');
+layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+var offset = 0;
+var speed = 30;
+const r = 0.5;
+const tol = sim.getDistanceTol();
+const x1 = (2*r + tol/2 + offset) * Math.sqrt(3)/2.0;
+const body4 = Shapes.makeBall(r, 'ball'+4);
+body4.setPosition(new Vector(2*x1, 0), 0);
+sim.addBody(body4);
+displayList.findShape(body4).setFillStyle('aqua');
+
+const body5 = Shapes.makeBall(r, 'ball'+5);
+body5.setPosition(new Vector(2*x1, 2*r+tol/4 + offset/2), 0);
+sim.addBody(body5);
+displayList.findShape(body5).setFillStyle('fuchsia');
+
+const body6 = Shapes.makeBall(r, 'ball'+6);
+body6.setPosition(new Vector(2*x1, -2*r-tol/4 - offset/2), 0);
+sim.addBody(body6);
+displayList.findShape(body6).setFillStyle('orange');
+
+const body0 = Shapes.makeBall(r, 'ball'+0);
+body0.setPosition(new Vector(-6+1, 0), 0);
+body0.setVelocity(new Vector(speed, 0), 0);
+sim.addBody(body0);
+displayList.findShape(body0).setStrokeStyle('black').setFillStyle('white');
+
+const body1 = Shapes.makeBall(r, 'ball'+1);
+body1.setPosition(new Vector(0, 0), 0);
+sim.addBody(body1);
+displayList.findShape(body1).setFillStyle('red');
+
+const body2 = Shapes.makeBall(r, 'ball'+2);
+body2.setPosition(new Vector(x1, r + tol/4 + offset/2), 0);
+sim.addBody(body2);
+displayList.findShape(body2).setFillStyle('green');
+
+const body3 = Shapes.makeBall(r, 'ball'+3);
+body3.setPosition(new Vector(x1, -r - tol/4 - offset/2), 0);
+sim.addBody(body3);
+displayList.findShape(body3).setFillStyle('blue');
+
+elasticity.setElasticity(0.95);
+const dampingLaw = new DampingLaw(0.1, 0.15, simList);
+sim.addForceLaw(dampingLaw);
+sim.saveInitialState();
+</textarea> <br>
+<button type="button" id="execute_button">Execute</button>
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+<script>
+  app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
+</script>
+#PAGE_FOOTER
+</body>
+</html>

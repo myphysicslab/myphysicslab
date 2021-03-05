@@ -190,6 +190,7 @@ endif
 
 biketimer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BikeTimerApp-$(loc).html )
 billiards: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BilliardsApp-$(loc).html )
+billiards2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/Billiards2App-$(loc).html )
 blank: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/BlankApp-$(loc).html )
 blankslate: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/BlankSlateApp-$(loc).html )
 brachisto: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/BrachistoApp-$(loc).html )
@@ -204,6 +205,7 @@ collisioncombo: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/Collision
 comparedoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CompareDoublePendulumApp-$(loc).html )
 comparependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ComparePendulumApp-$(loc).html )
 contact: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ContactApp-$(loc).html )
+create: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CreateApp-$(loc).html )
 curvedtest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CurvedTestApp-$(loc).html )
 danglestick: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DangleStickApp-$(loc).html )
 donothing: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoNothingApp-$(loc).html )
@@ -285,11 +287,13 @@ singlespring singlespring2 spring2d terminalspring terminalspring2d
 alltest: test perf singletest singleviewer stucktest testviewer unittest
 
 app_names := sims/engine2D/BilliardsApp \
+sims/engine2D/Billiards2App \
 sims/engine2D/BlankApp \
 sims/engine2D/CarSuspensionApp \
 sims/engine2D/CartPendulum2App \
 sims/engine2D/ChainApp \
 sims/engine2D/ContactApp \
+sims/engine2D/CreateApp \
 sims/engine2D/CurvedTestApp \
 sims/engine2D/DoNothingApp \
 sims/engine2D/DoublePendulum2App \
@@ -643,6 +647,9 @@ $(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalS
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
+$(BUILD_DIR)/sims/engine2D/Billiards2App%.html : src/sims/engine2D/Billiards2App.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 # rules for HTML file which requires same-named JS file (most apps are like this)
