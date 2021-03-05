@@ -36,25 +36,30 @@ class ButtonControl {
 * @param {!function()} clickFunction the function to execute when button is clicked
 * @param {!Node=} opt_image the image to show in the button;  if undefined then
 *     the name is displayed as text.
+* @param {!HTMLButtonElement=} button the button to use; if not provided, then
+*     a button is created.
 */
-constructor(label, clickFunction, opt_image) {
+constructor(label, clickFunction, opt_image, button) {
   /** the name of the button
   * @type {string}
   * @private
   */
   this.label_ = label;
+  if (!goog.isObject(button)) {
+    button = /** @type {!HTMLButtonElement} */(document.createElement('button'));
+    button.type = 'button';
+    if (opt_image === undefined) {
+      button.appendChild(document.createTextNode(label));
+    } else {
+      button.className = 'icon';
+      button.appendChild(opt_image);
+    }
+  }
   /**
   * @type {!HTMLButtonElement}
   * @private
   */
-  this.button_ = /** @type {!HTMLButtonElement} */(document.createElement('button'));
-  this.button_.type = 'button';
-  if (opt_image === undefined) {
-    this.button_.appendChild(document.createTextNode(label));
-  } else {
-    this.button_.className = 'icon';
-    this.button_.appendChild(opt_image);
-  }
+  this.button_ = button;
   /** function to call when the button is clicked
   * @type {function()}
   * @private
