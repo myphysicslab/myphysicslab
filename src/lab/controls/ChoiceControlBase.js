@@ -118,8 +118,7 @@ constructor(choices, values, getter, setter, opt_label) {
   * @type {!HTMLSelectElement}
   * @private
   */
-  this.selectMenu_ =
-      /** @type {!HTMLSelectElement} */(document.createElement('select'));
+  this.selectMenu_ = /**@type {!HTMLSelectElement}*/(document.createElement('select'));
   asserts.assert(!this.selectMenu_.multiple);
   // `type` is a read-only field for SelectElement
   asserts.assert(this.selectMenu_.type == 'select-one');
@@ -134,7 +133,7 @@ constructor(choices, values, getter, setter, opt_label) {
   */
   let myLabel = null;
   if (this.label_.length > 0) {
-    const html_label = /** @type {!HTMLLabelElement} */(document.createElement('LABEL'));
+    const html_label = /**@type {!HTMLLabelElement}*/(document.createElement('LABEL'));
     html_label.appendChild(document.createTextNode(this.label_));
     html_label.appendChild(this.selectMenu_);
     myLabel = html_label;
