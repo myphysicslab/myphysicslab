@@ -28,8 +28,7 @@ class CirclePath extends AbstractPath {
 * @param {string=} name
 * @param {string=} localName
 */
-constructor(radius, start, finish,
-      closedLoop, name, localName) {
+constructor(radius, start, finish, closedLoop, name, localName) {
   if (typeof start !== 'number')
     start = -3*Math.PI/2;
   if (typeof finish !== 'number')

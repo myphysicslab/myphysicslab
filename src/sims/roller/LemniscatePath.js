@@ -51,8 +51,7 @@ class LemniscatePath extends AbstractPath {
 * @param {string=} name
 * @param {string=} localName
 */
-constructor(size, start, finish,
-      closedLoop, name, localName) {
+constructor(size, start, finish, closedLoop, name, localName) {
   if (typeof start !== 'number')
     start = -Math.PI/4;
   if (typeof finish !== 'number')
