@@ -105,7 +105,7 @@ constructor(elem_ids) {
   const sim = new ContactSim();
   const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance);
-  this.addPlaybackControls();
+  //this.addPlaybackControls();
   //this.addStandardControls();
   this.makeEasyScript();
   this.graphSetup();
