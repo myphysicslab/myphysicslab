@@ -1,0 +1,75 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.CreateApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims.engine2D.CircleTrack #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+
+<textarea id="editor" cols=80 rows=20 wrap="soft">
+// makes hollow circle track with object inside
+var once;
+if (once===undefined) {
+  app.addPlaybackControls();
+  app.addStandardControls(); 
+  once=true;
+}
+sim.cleanSlate();
+simView.setWidth(25);
+// r=radius; t=thickness
+var r = 10;
+var t = 1;
+//create circle track
+var p = new Polygon('circle');
+var s = new Vector(r, 0);
+p.startPath(new ConcreteVertex(s));
+p.addCircularEdge(s, Vector.ORIGIN, true, false);
+p.closePath();
+s = new Vector(r+t, 0);
+p.startPath(new ConcreteVertex(s));
+p.addCircularEdge(s, Vector.ORIGIN, false, true);
+p.closePath();
+p.finish();
+p.setMass(Infinity);
+sim.addBody(p);
+displayList.findShape(p).setFillStyle('LightGray');
+
+//make object inside
+var b = Shapes.makeBlock(0.5, 1.5, 'block');
+sim.addBody(b);
+displayList.findShape(b).setFillStyle('DodgerBlue');
+b.setAngle(Math.PI/2);
+b.setPosition(new Vector(0, -9.72));
+b.setVelocity(new Vector(-20, 0));
+
+var g=new GravityLaw(10, simList);
+sim.addForceLaw(g);
+var pe=sim.getEnergyInfo().getPotential();
+sim.setPEOffset(-pe);
+sim.saveInitialState();
+simRun.resume();
+</textarea> <br>
+<button type="button" id="execute_button">Execute</button>
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+<!--script>
+  app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
+</script-->
+#PAGE_FOOTER
+</body>
+</html>

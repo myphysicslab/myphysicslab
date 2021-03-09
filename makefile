@@ -199,6 +199,8 @@ cartpendulum2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CartPendulum2A
 cartpendulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/CartPendulumApp-$(loc).html )
 chain: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ChainApp-$(loc).html )
 chainofsprings: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/ChainOfSpringsApp-$(loc).html )
+circletrack: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CircleTrack-$(loc).html )
+rigidbodyroller2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/RigidBodyRoller2-$(loc).html )
 collideblocks: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideBlocksApp-$(loc).html )
 collidespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/CollideSpringApp-$(loc).html )
 collisioncombo: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/CollisionCombo-$(loc).js )
@@ -292,6 +294,7 @@ sims/engine2D/BlankApp \
 sims/engine2D/CarSuspensionApp \
 sims/engine2D/CartPendulum2App \
 sims/engine2D/ChainApp \
+sims/engine2D/CircleTrack \
 sims/engine2D/ContactApp \
 sims/engine2D/CreateApp \
 sims/engine2D/CurvedTestApp \
@@ -310,6 +313,7 @@ sims/engine2D/PileApp \
 sims/engine2D/PileAttractApp\
 sims/engine2D/PolygonTestApp \
 sims/engine2D/RigidBodyApp \
+sims/engine2D/RigidBodyRoller2 \
 sims/engine2D/TestBodyApp \
 sims/experimental/BikeTimerApp \
 sims/experimental/BlankSlateApp \
@@ -651,6 +655,13 @@ $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp
 
 $(BUILD_DIR)/sims/engine2D/Billiards2App%.html : src/sims/engine2D/Billiards2App.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
+$(BUILD_DIR)/sims/engine2D/CircleTrack%.html : src/sims/engine2D/CircleTrack.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
+$(BUILD_DIR)/sims/engine2D/RigidBodyRoller2%.html : src/sims/engine2D/RigidBodyRoller2.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
 
 # rules for HTML file which requires same-named JS file (most apps are like this)
 

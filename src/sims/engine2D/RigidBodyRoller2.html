@@ -1,0 +1,65 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.CreateApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims.engine2D.RigidBodyRoller2 #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+
+<textarea id="editor" cols=80 rows=20 wrap="soft">
+// block connected to a circle path, similar to RigidBodyRollerApp
+var once;
+if (once===undefined) {
+  app.addPlaybackControls();
+  app.addStandardControls(); 
+  once=true;
+}
+sim.cleanSlate();
+displayList.removeAll();
+displayList.add(axes);
+simView.setWidth(12);
+var g=new GravityLaw(10, simList);
+sim.addForceLaw(g);
+var d=new DampingLaw(0.043, 0.15, simList);
+sim.addForceLaw(d);
+var path=new NumericalPath(new CirclePath(3));
+var dispPath=new DisplayPath();
+dispPath.setScreenRect(simView.getScreenRect());
+dispPath.addPath(path);
+displayList.add(dispPath);
+var block=Shapes.makeBlock(1, 3, 'block');
+block.setPosition(new Vector(-4, 4), Math.PI/4);
+block.setVelocity(new Vector(0, 0), 0);
+sim.addBody(block);
+displayList.findShape(block).setFillStyle('rgba(51,204,255,0.5)').setDrawCenterOfMass(true).setDrawDragPoints(true);
+var attach1 = block.getDragPoints()[1];
+var pathJoint1 = new PathJoint(path, block, attach1);
+sim.addConnector(pathJoint1);
+sim.alignConnectors();
+sim.saveInitialState();
+simRun.resume();
+</textarea> <br>
+<button type="button" id="execute_button">Execute</button>
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+<!--script>
+  app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
+</script-->
+#PAGE_FOOTER
+</body>
+</html>
