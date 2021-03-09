@@ -20,7 +20,7 @@
 <textarea id="editor" cols=80 rows=20 wrap="soft">
 'ball and pencil collide with zero elasticity';
 var once;
-if (once===undefined) {app.addStandardControls(); once=true;};
+if (once===undefined) {app.addPlaybackControls(); app.addStandardControls(); once=true;};
 sim.cleanSlate();
 Walls.make(sim,24,12.01);
 simView.setWidth(25);
@@ -60,9 +60,9 @@ of this app; advanced-compiled versions cannot execute JavaScript.
 #BUILD_APP
 #SHOW_ALL
 #START_APP
-<script>
+<!--script>
   app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
-</script>
+</script-->
 #PAGE_FOOTER
 </body>
 </html>
