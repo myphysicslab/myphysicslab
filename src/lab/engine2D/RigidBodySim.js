@@ -378,6 +378,7 @@ cleanSlate() {
   this.bods_.forEach(b => b.setVarsIndex(-1));
   this.bods_ = [];
   this.simRect_ = null;
+  this.potentialOffset_ = 0;
 };
 
 /** @override */
