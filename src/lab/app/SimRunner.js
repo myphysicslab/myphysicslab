@@ -264,6 +264,10 @@ advanceSims(strategy, targetTime) {
   while (simTime < targetTime) {
     // the AdvanceStrategy is what actually calls `memorize`
     strategy.advance(this.timeStep_, /*memoList=*/this);
+    // it is possible that a Memorizable called pause(), so check if running.
+    if (!this.getRunning()) {
+      break;
+    }
     // Prevent infinite loop when time doesn't advance.
     const lastSimTime = simTime;
     simTime = strategy.getTime();
