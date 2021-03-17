@@ -97,8 +97,10 @@ class AbstractApp extends AbstractSubject {
 * @param {?EventHandler} eventHandler
 * @param {?EnergySystem} energySystem
 * @param {string=} opt_name name of this as a Subject
+* @param {boolean=} opt_terminal whether to add the 'show terminal' checkbox, default
+*    is true
 */
-constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_name) {
+constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_name, opt_terminal) {
   super(opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;
@@ -107,7 +109,7 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   const canvasHeight =
       Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
   /** @type {!TabLayout} */
-  this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
+  this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight, opt_terminal);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
   this.terminal = this.layout.terminal;
@@ -223,7 +225,8 @@ addPlaybackControls() {
   this.addControl(CommonControls.makePlaybackControls(this.simRun));
 };
 
-/** Adds the standard set of engine2D controls.
+/** Adds the standard set of simulation controls: show energy, show clock,
+pan-zoom of simView, time step, time rate, diff eq solver, background menu
 * @return {undefined}
 */
 addStandardControls() {

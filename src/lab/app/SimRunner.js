@@ -417,6 +417,7 @@ observe(event) {
     if (event.nameEquals(Clock.CLOCK_RESUME) || event.nameEquals(Clock.CLOCK_PAUSE)) {
       // sync clock to simulation time
       const t = this.advanceList_[0].getTime();
+      // note that this setTime will cause broadcast of CLOCK_SET_TIME event
       this.clock_.setTime(t);
       this.clock_.setRealTime(t);
       this.broadcastParameter(SimRunner.en.RUNNING);

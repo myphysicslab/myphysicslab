@@ -117,12 +117,11 @@ was adding a blank line (after the controls-div, before the 'show terminal' chec
 
 ### Terminal Checkbox
 
-A 'show terminal' checkbox is added to the controls div in all layouts,
-but only when not using advanced compile.
+A 'show terminal' checkbox is added to the controls div in all layouts, unless the
+`opt_terminal` parameter is false.
 
-When using advanced-optimizations compile mode the Terminal will not work, because
-all method and class names are minified, and unused code is eliminated -- so even if
-you could get at a minified class, much of it would not be there to use.
+When using advanced-optimizations compile mode the Terminal can still be used for EasyScript commands.  However general Javascript will not work because
+all method and class names are minified and unused code is eliminated.
 
 Parameters Created
 ------------------
@@ -144,13 +143,16 @@ class TabLayout extends AbstractSubject {
 * @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
-* @param {number=} canvasWidth width of sim canvas in pixels
-* @param {number=} canvasHeight height of sim canvas in pixels
+* @param {number=} canvasWidth width of sim canvas in pixels, default 800
+* @param {number=} canvasHeight height of sim canvas in pixels, default 800
+* @param {boolean=} opt_terminal whether to add the 'show terminal' checkbox, default
+*    is true
 */
-constructor(elem_ids, canvasWidth, canvasHeight) {
+constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   super('TAB_LAYOUT');
   canvasWidth = canvasWidth || 800;
   canvasHeight = canvasHeight || 800;
+  opt_terminal = opt_terminal === undefined ? true : opt_terminal;
   /**
   * @type {boolean}
   * @private
@@ -190,7 +192,7 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
   * @private
   * @const
   */
-  this.terminalEnabled_ = true;
+  this.terminalEnabled_ = opt_terminal;
   if (this.layout_ == '') {
     this.layout_ = TabLayout.Layout.SIM;
     this.setSelectedTab(this.layout_);
@@ -358,10 +360,12 @@ constructor(elem_ids, canvasWidth, canvasHeight) {
       TabLayout.i18n.LAYOUT, () => this.getLayout(),
       a => this.setLayout(a),
       TabLayout.getValues(), TabLayout.getValues()));
-  this.addParameter(new ParameterBoolean(this, TabLayout.en.SHOW_TERMINAL,
-      TabLayout.i18n.SHOW_TERMINAL,
-      () => this.show_term_cb.checked,
-      a => this.showTerminal(a) ));
+  if (this.terminalEnabled_) {
+    this.addParameter(new ParameterBoolean(this, TabLayout.en.SHOW_TERMINAL,
+        TabLayout.i18n.SHOW_TERMINAL,
+        () => this.show_term_cb.checked,
+        a => this.showTerminal(a) ));
+  }
 };
 
 /** @override */
@@ -860,12 +864,14 @@ showSim(visible) {
 @param {boolean} visible whether terminal should be visible
 */
 showTerminal(visible) {
-  this.div_term.style.display = visible ? 'block' : 'none';
-  this.show_term_cb.checked = visible;
-  if (visible && this.term_input && this.terminalEnabled_ && !this.terminal.recalling) {
-    // Move the focus to Terminal, for ease of typing.
-    // (But not when executing a stored script that calls showTerminal).
-    this.term_input.focus();
+  if (this.terminalEnabled_) {
+    this.div_term.style.display = visible ? 'block' : 'none';
+    this.show_term_cb.checked = visible;
+    if (visible && this.term_input && !this.terminal.recalling) {
+      // Move the focus to Terminal, for ease of typing.
+      // (But not when executing a stored script that calls showTerminal).
+      this.term_input.focus();
+    }
   }
 };
 
