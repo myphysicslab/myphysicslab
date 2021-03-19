@@ -276,7 +276,7 @@ static makePlaybackControls(simrun, opt_overlay) {
     timer_div.style.opacity=0.5;
   }
   const sz = 30;
-  let img = Util.createImage(imagesPath+'rewind.png', sz);
+  let img = Util.createImage(imagesPath+'restart.png', sz);
   /** @type {!ButtonControl} */
   const bc1 = new ButtonControl(SimRunner.i18n.RESTART, () => simrun.reset(), img);
   timer_div.appendChild(bc1.getElement());
