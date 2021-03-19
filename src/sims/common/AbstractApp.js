@@ -180,8 +180,7 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   this.graph.line.setDrawingMode(DrawingMode.LINES);
 
   /** @type {!TimeGraph1} */
-  this.timeGraph = new TimeGraph1(sim.getVarsList(), this.layout.timeGraphCanvas,
-      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+  this.timeGraph = this.makeTimeGraph();
 
   /** @type {!EasyScriptParser} */
   this.easyScript;
@@ -209,6 +208,14 @@ toString() {
     +', terminal: '+this.terminal
     + super.toString();
 };
+
+/**
+* @return {!TimeGraph1}
+*/
+makeTimeGraph() {
+  return new TimeGraph1(this.sim.getVarsList(), this.layout.timeGraphCanvas,
+      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+}
 
 /** Add the control to the set of simulation controls.
 * @param {!LabControl} control
