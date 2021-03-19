@@ -56,9 +56,15 @@ class TimeGraph1 extends AbstractSubject {
 * @param {!Element} div_controls the HTML div where controls should be added
 * @param {!Element} div_graph the HTML div where the graphCanvas is located
 * @param {!SimRunner} simRun the SimRunner controlling the overall app
+* @param {string=} color1 color of line 1
+* @param {string=} color2 color of line 2
+* @param {string=} color3 color of line 3
 */
-constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
+constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, color2, color3) {
   super('TIME_GRAPH_LAYOUT');
+  color1 = color1 ? color1 : 'lime';
+  color2 = color2 ? color2 : 'red';
+  color3 = color3 ? color3 : 'blue';
   /** @type {!LabCanvas} */
   this.canvas = graphCanvas;
   simRun.addCanvas(graphCanvas);
@@ -71,7 +77,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.axes = CommonControls.makeAxes(this.view);
   /** @type {!GraphLine} */
   this.line1 = new GraphLine('TIME_GRAPH_LINE_1', varsList);
-  this.line1.setColor('lime');
+  this.line1.setColor(color1);
   this.view.addMemo(this.line1);
   /** @type {!AutoScale} */
   this.autoScale = new AutoScale('TIME_GRAPH_AUTO_SCALE', this.line1, this.view);
@@ -100,7 +106,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.view.addMemo(this.line2);
   this.line2.setXVariable(timeIdx);
   this.line2.setYVariable(1);
-  this.line2.setColor('red');
+  this.line2.setColor(color2);
   this.displayGraph.addGraphLine(this.line2);
 
   /** @type {!GraphLine} */
@@ -109,7 +115,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
   this.view.addMemo(this.line3);
   this.line3.setXVariable(timeIdx);
   this.line3.setYVariable(-1);
-  this.line3.setColor('blue');
+  this.line3.setColor(color3);
   this.displayGraph.addGraphLine(this.line3);
 
   /** @type {!Array<!LabControl>} */
@@ -121,11 +127,11 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun) {
 
   /** @type {!ParameterNumber} */
   let pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE1));
+  this.addControl(new ChoiceControl(pn, color1));
   pn = this.line2.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE2));
+  this.addControl(new ChoiceControl(pn, color2));
   pn = this.line3.getParameterNumber(GraphLine.en.Y_VARIABLE);
-  this.addControl(new ChoiceControl(pn, TimeGraph1.i18n.LINE3));
+  this.addControl(new ChoiceControl(pn, color3));
   pn = this.line1.getParameterNumber(GraphLine.en.X_VARIABLE);
   this.addControl(new ChoiceControl(pn, 'X:'));
   pn = this.autoScale.getParameterNumber(AutoScale.en.TIME_WINDOW)
@@ -215,39 +221,5 @@ getSubjects() {
 };
 
 } // end class
-
-/** Set of internationalized strings.
-@typedef {{
-  LINE1: string,
-  LINE2: string,
-  LINE3: string
-  }}
-*/
-TimeGraph1.i18n_strings;
-
-/**
-@type {TimeGraph1.i18n_strings}
-*/
-TimeGraph1.en = {
-  LINE1: 'green',
-  LINE2: 'red',
-  LINE3: 'blue'
-};
-
-/**
-@private
-@type {TimeGraph1.i18n_strings}
-*/
-TimeGraph1.de_strings = {
-  LINE1: 'grün',
-  LINE2: 'rot',
-  LINE3: 'blau'
-};
-
-/** Set of internationalized strings.
-@type {TimeGraph1.i18n_strings}
-*/
-TimeGraph1.i18n = goog.LOCALE === 'de' ? TimeGraph1.de_strings :
-    TimeGraph1.en;
 
 exports = TimeGraph1;
