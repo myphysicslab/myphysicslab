@@ -147,6 +147,13 @@ button::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+/* fix for Safari bug. The default thick outline around text input caused the input
+* to jump around. When the input is at bottom of the left column. You click to edit and
+* the input jumps to the next column.
+*/
+input:focus {
+  outline-width: thin;
+}
 
 /******** GENERAL TEXT & HEADINGS ******/
 
