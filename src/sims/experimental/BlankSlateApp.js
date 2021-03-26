@@ -87,7 +87,6 @@ constructor(elem_ids) {
   */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
-  this.terminal.setAfterEval( () => this.simCanvas.paint() );
 
   /** @type {!DoubleRect} */
   this.simRect = new DoubleRect(-6, -6, 6, 6);
