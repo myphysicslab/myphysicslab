@@ -476,6 +476,8 @@ setTimeWindow(value) {
   if (Util.veryDifferent(value, this.timeWindow_)) {
     this.timeWindow_ = value;
     this.reset();
+    // force update of the graph by calling memorize()
+    this.memorize();
     // this fixes following bug: click pan-zoom control which makes AutoScale inactive;
     // then change the time window, but nothing happens.
     this.setActive(true);
