@@ -92,9 +92,9 @@ static do_nothing_variable_test() {
   const advance = new CollisionAdvance(sim);
   DoNothingTest.do_nothing_variable_setup(sim, advance);
   const vars = makeVars((4 + 3)*6);
-  setBodyVars(sim, vars, 0, -1.0069176, -1.941661, 0.3746982, -0.1073186, -6.6510389, -0.7431672);
-  setBodyVars(sim, vars, 1, -0, 0, 2.9873821, -0.8556268, 3.1415927, 0);
-  setBodyVars(sim, vars, 2, -1.1513247, -2.2201244, -0, -0, 1.5707963, 0);
+  Engine2DTestRig.setBodyVars(sim, vars, 0, -2.350918, -1.4252083, 0.2181222, -0.3159406, -7.2797567, -0.9370725);
+  Engine2DTestRig.setBodyVars(sim, vars, 1, 0, -0, 1.7390377, -2.5189213, 3.1415927, -0);
+  Engine2DTestRig.setBodyVars(sim, vars, 2, -2.688075, -1.6296046, -0, 0, 1.5707963, 0);
   setBodyVars(sim, vars, 3, 2.507, 0, 2.507, 0, 0, 0);
   setBodyVars(sim, vars, 4, 2.507, 0, -2.507, 0, 0, 0);
   setBodyVars(sim, vars, 5, -2.507, 0, 2.507, 0, 0, 0);

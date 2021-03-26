@@ -516,10 +516,8 @@ getBody(numOrName) {
 /** @override */
 modifyObjects() {
   const va = this.varsList_;
-  const vars = va.getValues();
-  this.moveObjects(vars);
   // update the variables that track energy
-  const einfo = this.getEnergyInfo_(vars);
+  const einfo = this.getEnergyInfo();
   va.setValue(1, einfo.getTranslational() + einfo.getRotational(), true);
   va.setValue(2, einfo.getPotential(), true);
   va.setValue(3, einfo.getTotalEnergy(), true);
@@ -583,18 +581,6 @@ getForceLaws() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // assumes bodies match current vars
   let pe = 0;
   let re = 0;
   let te = 0;
@@ -621,29 +607,10 @@ setPEOffset(value) {
   this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
 
-/** Update the RigidBodys to have the position and velocity specified by the given
-* array of variables.
-* @param {!Array<number>} vars array of variables to update from
-* @protected
-*/
-moveObjects(vars) {
-  this.bods_.forEach(b => {
-    const idx = b.getVarsIndex();
-    if (idx < 0)
-      return;
-    b.setPosition(new Vector(vars[idx +RigidBodySim.X_], vars[idx +RigidBodySim.Y_]),
-        vars[idx +RigidBodySim.W_]);
-    b.setVelocity(new Vector(vars[idx +RigidBodySim.VX_], vars[idx +RigidBodySim.VY_]),
-        vars[idx +RigidBodySim.VW_]);
-  });
-  if (this.debugPaint_ != null) {
-    this.debugPaint_();
-  }
-};
-
 /** @override */
 evaluate(vars, change, timeStep) {
-  this.moveObjects(vars);  // so that rigid body objects know their current state.
+  // varsList_.setValues ensures that rigid body objects know their current state
+  this.varsList_.setValues(vars, /*continuous=*/true);
   this.bods_.forEach(body => {
     const idx = body.getVarsIndex();
     if (idx < 0)

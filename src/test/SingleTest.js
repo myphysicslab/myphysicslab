@@ -23,9 +23,9 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 //const CircleCircleTest = goog.require('myphysicslab.test.CircleCircleTest');
 //const CircleStraightTest = goog.require('myphysicslab.test.CircleStraightTest');
 //const CollisionHandling = goog.require('myphysicslab.lab.engine2D.CollisionHandling');
-const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
-//const DoublePendulumTest =
-//        goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
+//const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
+const DoublePendulumTest =
+        goog.require('myphysicslab.sims.pendulum.test.DoublePendulumTest');
 //const DoubleRectTest = goog.require('myphysicslab.lab.util.test.DoubleRectTest');
 //const JointTest = goog.require('myphysicslab.test.JointTest');
 //const MiscellanyTest = goog.require('myphysicslab.test.MiscellanyTest');
@@ -33,7 +33,7 @@ const DoNothingTest = goog.require('myphysicslab.test.DoNothingTest');
 //const PileTest = goog.require('myphysicslab.test.PileTest');
 //const RopeTest = goog.require('myphysicslab.test.RopeTest');
 //const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
-const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
+//const StraightStraightTest = goog.require('myphysicslab.test.StraightStraightTest');
 //const TerminalTest = goog.require('myphysicslab.lab.util.test.TerminalTest');
 const UtilEngineTest = goog.require('myphysicslab.lab.engine2D.test.UtilEngineTest');
 //const UtilTest = goog.require('myphysicslab.lab.util.test.UtilTest');
@@ -69,8 +69,8 @@ static runTests() {
   //CircleStraightTest.elastic_balls();
   //CircleStraightTest.test();
   //CircleStraightTest.wedged_ball();
-  //DoNothingTest.do_nothing_grinder_test1();
-  //DoublePendulumTest.test();
+  //DoNothingTest.do_nothing_variable_test();
+  DoublePendulumTest.test();
   //DoubleRectTest.testDoubleRect();
   //JointTest.pendulum_1_joint_1();
   //JointTest.pendulum_1_joint_2();
@@ -115,7 +115,7 @@ static runTests() {
   //StraightStraightTest.six_blocks_4();
   //StraightStraightTest.six_blocks_performance(100);
   //StraightStraightTest.six_blocks_performance(t);
-  StraightStraightTest.six_blocks_settle();
+  //StraightStraightTest.six_blocks_settle();
   //StraightStraightTest.test();
   //TerminalTest.testTerminal1();
   //UtilEngineTest.testMatrix29_CF();
