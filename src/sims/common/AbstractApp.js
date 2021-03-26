@@ -117,10 +117,6 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
 
   /** @type {!ODESim} */
   this.sim = sim;
-  this.terminal.setAfterEval( () => sim.modifyObjects() );
-  // Ensure that changes to parameters or variables cause display to update
-  new GenericObserver(sim, evt => sim.modifyObjects(),
-      'modifyObjects after parameter or variable change');
   /** @type {!ODEAdvance} */
   this.advance  = advance;
   /** @type {!SimList} */
