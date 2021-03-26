@@ -23,6 +23,7 @@ const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayAxes = goog.require('myphysicslab.lab.graph.DisplayAxes');
 const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
 const HorizAlign = goog.require('myphysicslab.lab.view.HorizAlign');
@@ -96,9 +97,6 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
   const timeIdx = this.line1.getVarsList().timeIndex();
   this.line1.setXVariable(timeIdx);
   this.line1.setYVariable(0);
-  // Don't use off-screen buffer with time variable because the auto-scale causes
-  // graph to redraw every frame.
-  this.displayGraph.setUseBuffer(this.line1.getXVariable() != timeIdx);
 
   /** @type {!GraphLine} */
   this.line2 = new GraphLine('TIME_GRAPH_LINE_2', varsList);
@@ -150,9 +148,6 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
   */
   this.line1Obs = new GenericObserver(this.line1, 
     e => {
-      // Don't use off-screen buffer with time variable because the auto-scale causes
-      // graph to redraw every frame.
-      this.displayGraph.setUseBuffer(this.line1.getXVariable() != timeIdx);
       this.line2.setXVariable(this.line1.getXVariable());
       this.line3.setXVariable(this.line1.getXVariable());
     }, 'ensure line2, line3 have same X variable as line1');
@@ -174,6 +169,19 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
       this.autoScale.setActive(true);
     }
   });
+
+  // Use the off-screen buffer only when "time-scrolling" is not happening
+  // (i.e. when time less than the time window) because the auto-scale
+  // causes time graph to redraw every frame when "time-scrolling".
+  simRun.addMemo(new GenericMemo( () => {
+    if (this.line1.getXVariable() == timeIdx) {
+      const t = simRun.getClock().getTime();
+      const tw = this.autoScale.getTimeWindow();
+      this.displayGraph.setUseBuffer(t > tw);
+    } else {
+      this.displayGraph.setUseBuffer(true);
+    }
+  }));
 
   const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => this.autoScale.setActive(true) );

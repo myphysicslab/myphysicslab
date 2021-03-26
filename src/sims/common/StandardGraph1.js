@@ -25,6 +25,7 @@ const DisplayGraph = goog.require('myphysicslab.lab.graph.DisplayGraph');
 const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const GraphColor = goog.require('myphysicslab.lab.graph.GraphColor');
 const GraphLine = goog.require('myphysicslab.lab.graph.GraphLine');
@@ -154,6 +155,20 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
   /** @type {!ParameterBoolean} */
   const pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.addControl(new CheckBoxControl(pb));
+
+  // Use the off-screen buffer only when "time-scrolling" is not happening
+  // (i.e. when time less than the time window) because the auto-scale
+  // causes time graph to redraw every frame.
+  const timeIdx = this.line.getVarsList().timeIndex();
+  simRun.addMemo(new GenericMemo( () => {
+    if (this.line.getXVariable() == timeIdx) {
+      const t = simRun.getClock().getTime();
+      const tw = this.autoScale.getTimeWindow();
+      this.displayGraph.setUseBuffer(t > tw);
+    } else {
+      this.displayGraph.setUseBuffer(true);
+    }
+  }));
 };
 
 /** @override */
