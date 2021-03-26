@@ -152,6 +152,11 @@ getCentroidWorld() {
 };
 
 /** @override */
+getChanged() {
+  return false;
+};
+
+/** @override */
 getDistanceTol() {
   return 0;
 };
@@ -325,6 +330,10 @@ setAngularVelocity(angular_velocity) {
 
 /** @override */
 setCenterOfMass(x_body, y_body) {
+};
+
+/** @override */
+setChanged() {
 };
 
 /** @override */

@@ -92,6 +92,21 @@ The trails effect happens when `alpha` is less than 1 because we paint a translu
 rectangle over the old frame, which gradually makes the old image disappear after
 several iterations of painting.
 
+### Draw Only When There Are Changes
+
+LabCanvas avoids unnecessary drawing (for example when the simulation is paused).
+It does this by asking each of its LabViews whether they have changed, via
+{@link LabView.getChanged}. The LabView similarly asks each of its DisplayObjects
+via {@link DisplayObject.getChanged}. If there are no changes, then LabCanvas
+avoids drawing.
+
+Note that the `getChanged` methods on the various display objects have a side-effect:
+they reset their state to "unchanged". Be sure that all the `getChanged` methods are
+called on all objects in the display hierarchy, otherwise there may be a leftover
+"changed" flag that was not cleared.
+
+
+
 Parameters Created
 ------------------
 
@@ -160,7 +175,8 @@ constructor(canvas, name) {
   */
   this.focusView_ = null;
   /** The transparency used when painting the background color; a number between
-  * 0.0 (fully transparent) and 1.0 (fully opaque).
+  * 0.0 (fully transparent) and 1.0 (fully opaque).  When alpha_ < 1 then a "trails"
+  * effect happens.
   * @type {number}
   * @private
   */
@@ -171,6 +187,16 @@ constructor(canvas, name) {
   * @private
   */
   this.background_ = '';
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
+  /** Counter for how many frames need to be drawn to erase trails.
+  * @type {number}
+  * @private
+  */
+  this.counter_ = 0;
   /**
   * @type {boolean}
   * @private
@@ -226,11 +252,11 @@ addView(view) {
   asserts.assertObject(view);
   if (this.getWidth() > 0 && this.getHeight() > 0) {
     const sr = new ScreenRect(0, 0, this.getWidth(), this.getHeight());
-    //console.log('LabCanvas.addView of '+view+' sr='+sr);
     view.setScreenRect(sr);
   }
   this.labViews_.push(view);
   this.addMemo(view);
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_ADDED, view));
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_LIST_MODIFIED));
   // set the first view added to be the focus.
@@ -273,6 +299,22 @@ getBackground() {
 */
 getCanvas() {
   return this.canvas_;
+};
+
+/** Returns whether this LabCanvas has changed, and sets the state to "unchanged".
+@return {boolean} whether this LabCanvas has changed
+*/
+getChanged() {
+  let chg = false;
+  for (let i=0, n=this.labViews_.length; i<n; i++) {
+    const c = this.labViews_[i].getChanged();
+    chg = chg || c;
+  }
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Returns the CanvasRenderingContext2D used for drawing into the HTML canvas being
@@ -338,6 +380,7 @@ memorize() {
 notifySizeChanged() {
   const r = this.getScreenRect();
   this.labViews_.forEach(view => view.setScreenRect(r));
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, LabCanvas.SIZE_CHANGED));
 };
 
@@ -353,32 +396,49 @@ paint() {
   // `null` whenever it, or any of its parents, is hidden via the display style
   // property. Just make sure that the element doesnt have 'position:fixed;'.
   if (this.canvas_.offsetParent != null) {
-    const context = /** @type {!CanvasRenderingContext2D} */
-        (this.canvas_.getContext('2d'));
-    context.save();
-    try {
-      if (this.background_ != '') {
-        // Notes Nov 22, 2016:
-        // Setting a fillStyle color with transparency doesn't work here.
-        // For example rgb(0,0,0,0.05). Only setting globalAlpha works.
-        // Does fillRect() always ignore the alpha value of the color?
-        // That does not seem to be according to spec.
-        // Note also that globalAlpha has no effect on fill() because in that
-        // case the fillStyle's alpha is always used, and if not specified then
-        // it seems to assume alpha = 1.
-        context.globalAlpha = this.alpha_;
-        context.fillStyle = this.background_;
-        context.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
-        context.globalAlpha = 1;
-      } else {
-        // clearRect sets all pixels in the rectangle to transparent black,
-        // erasing any previously drawn content.
-        // clearRect is supposed to be faster than fillRect.
-        context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+    if (this.counter_ > 0) {
+      this.counter_--;
+    }
+    // Draw only when there are changes. The getChanged method interrogates the entire
+    // hierarchy of display objects for changes.
+    // Note that the `changed` flags on display objects are reset as a side-effect.
+    const chg = this.getChanged();
+    // Draw if there are changes, or to wipe out lingering "trails".
+    if (chg || this.counter_ > 0) {
+      const context = /** @type {!CanvasRenderingContext2D} */
+          (this.canvas_.getContext('2d'));
+      context.save();
+      try {
+        if (this.background_ != '') {
+          // Notes Nov 22, 2016:
+          // Setting a fillStyle color with transparency doesn't work here.
+          // For example rgb(0,0,0,0.05). Only setting globalAlpha works.
+          // Does fillRect() always ignore the alpha value of the color?
+          // That does not seem to be according to spec.
+          // Note also that globalAlpha has no effect on fill() because in that
+          // case the fillStyle's alpha is always used, and if not specified then
+          // it seems to assume alpha = 1.
+          context.globalAlpha = this.alpha_;
+          context.fillStyle = this.background_;
+          context.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
+          context.globalAlpha = 1;
+          // Set a counter for how many frames need to be drawn to erase trails.
+          if (this.alpha_ == 1) {
+            this.counter_ = 0;
+          } else if (chg) {
+            // Reset the trails counter whenever there is a change.
+            this.counter_ = Math.floor(10 / this.alpha_);
+          }
+        } else {
+          // clearRect sets all pixels in the rectangle to transparent black,
+          // erasing any previously drawn content.
+          // clearRect is supposed to be faster than fillRect.
+          context.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+        }
+        this.labViews_.forEach(view => view.paint(context));
+      } finally {
+        context.restore();
       }
-      this.labViews_.forEach(view => view.paint(context));
-    } finally {
-      context.restore();
     }
   }
 };
@@ -402,6 +462,7 @@ removeView(view) {
     // pick first view to focus on, if possible
     this.setFocusView(array.isEmpty(this.labViews_) ? null : this.labViews_[0]);
   }
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_REMOVED, view));
   this.broadcast(new GenericEvent(this, LabCanvas.VIEW_LIST_MODIFIED));
 };
@@ -409,16 +470,23 @@ removeView(view) {
 /** Sets the transparency used when painting the background color;
 a number between 0.0 (fully transparent) and 1.0 (fully opaque).
 Only has an effect if the background color is non-empty string.
+
+A value less than 1 gives a "trails" effect where the older positions of objects
+gradually fade out over a second or two. The trails are longer for smaller alpha.
 * @param {number} value transparency used when painting, between 0 and 1
 */
 setAlpha(value) {
   if (Util.veryDifferent(this.alpha_, value)) {
+    if (value <= 0 || value > 1) {
+      throw 'alpha must be between 0 and 1';
+    }
     this.alpha_ = value;
     // Alpha has no effect when background is empty string which means
     // "clear to transparent black". Set background to white in that case.
     if (Util.veryDifferent(value, 1) && this.background_ == '') {
       this.setBackground('white');
     }
+    this.changed_ = true;
     this.broadcastParameter(LabCanvas.en.ALPHA);
   }
 };
@@ -432,6 +500,7 @@ as a white background unless there is something already drawn underneath).
 setBackground(value) {
   if (this.background_ != value) {
     this.background_ = value;
+    this.changed_ = true;
     this.broadcastParameter(LabCanvas.en.BACKGROUND);
   }
 };
@@ -454,6 +523,7 @@ setFocusView(view) {
     if (view != null) {
       view.gainFocus();
     }
+    this.changed_ = true;
     this.broadcast(new GenericEvent(this, LabCanvas.FOCUS_VIEW_CHANGED, view));
   }
 };
@@ -482,6 +552,7 @@ setScreenRect(sr) {
   if (sr.getTop() != 0 || sr.getLeft() != 0) {
     throw 'top left must be 0,0, was: '+sr;
   }
+  this.changed_ = true;
   this.setSize(sr.getWidth(), sr.getHeight());
 };
 

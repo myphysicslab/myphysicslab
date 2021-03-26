@@ -60,6 +60,11 @@ constructor(connector, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -119,6 +124,16 @@ getColor() {
 };
 
 /** @override */
+getChanged() {
+  const chg = this.connector_ == null ? false : this.connector_.getChanged();
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
+/** @override */
 getMassObjects() {
   return [];
 };
@@ -163,6 +178,7 @@ getZIndex() {
 */
 setColor(color) {
   this.color_ = color;
+  this.changed_ = true;
   return this;
 };
 
@@ -182,12 +198,14 @@ setPosition(position) {
 */
 setRadius(value) {
   this.radius_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

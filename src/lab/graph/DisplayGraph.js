@@ -311,6 +311,16 @@ fullDraw(context, coordMap) {
 };
 
 /** @override */
+getChanged() {
+  let chg = false;
+  for (let i=0, n=this.graphLines_.length; i<n; i++) {
+    const c = this.graphLines_[i].getChanged();
+    chg = chg || c;
+  }
+  return chg || this.needRedraw_;
+};
+
+/** @override */
 getMassObjects() {
   return [];
 };
@@ -411,6 +421,7 @@ setPosition(position) {
 setScreenRect(screenRect) {
   this.screenRect_ = screenRect;
   this.offScreen_ = null; // force reallocation of offscreen
+  this.needRedraw_ = true;
 };
 
 /** Whether to draw into an offscreen buffer.  A *time graph* must redraw every
@@ -418,15 +429,18 @@ frame, so it saves time to *not* use an offscreen buffer in that case.
 * @param {boolean} value Whether to draw into an offscreen buffer
 */
 setUseBuffer(value) {
-  this.useBuffer_ = value;
-  if (!this.useBuffer_) {
-    this.offScreen_ = null;
+  if (value != this.useBuffer_) {
+    this.useBuffer_ = value;
+    if (!this.useBuffer_) {
+      this.offScreen_ = null;
+    }
   }
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex = zIndex !== undefined ? zIndex : 0;
+  this.needRedraw_ = true;
 };
 
 } // end class

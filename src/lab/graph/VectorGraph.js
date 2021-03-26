@@ -31,6 +31,9 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 of Y vs. X, shows the value of the derivative dy/dx at various points on a grid, as a
 short line with that slope.
 
+This is a static display that is typically layered over a DisplayGraph. The
+DisplayGraph will be drawing the actual graph lines.
+
 This is generally only useful for differential equations of 2 variables. Otherwise, the
 phase space is 3D, 4D, etc. and cannot be adequately represented by these direction
 field vectors.
@@ -243,6 +246,11 @@ fullDraw(context, coordMap) {
       context.stroke();
     }
   }
+};
+
+/** @override */
+getChanged() {
+  return this.needRedraw_;
 };
 
 /** @override */

@@ -82,6 +82,11 @@ constructor(spring, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -173,6 +178,16 @@ static drawSpring(context, at) {
   at.lineTo(15*w, 0, context);  // last ramp down
   at.lineTo(size, 0, context);  // to end-point
   context.stroke();
+};
+
+/** @override */
+getChanged() {
+  const chg = this.spring_ == null ? false : this.spring_.getChanged();
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Color drawn when Spring is compressed to less than its rest length,
@@ -292,6 +307,7 @@ isDragable() {
 */
 setColorCompressed(colorCompressed) {
   this.colorCompressed_ = colorCompressed;
+  this.changed_ = true;
   return this;
 };
 
@@ -302,6 +318,7 @@ setColorCompressed(colorCompressed) {
 */
 setColorExpanded(colorExpanded) {
   this.colorExpanded_ = colorExpanded;
+  this.changed_ = true;
   return this;
 };
 
@@ -316,6 +333,7 @@ setDragable(dragable) {
 */
 setDrawMode(drawMode) {
   this.drawMode_ = drawMode;
+  this.changed_ = true;
   return this;
 };
 
@@ -341,6 +359,7 @@ setPrototype(value) {
 */
 setThickness(thickness) {
   this.thickness_ = thickness;
+  this.changed_ = true;
   return this;
 };
 
@@ -351,12 +370,14 @@ setThickness(thickness) {
 */
 setWidth(width) {
   this.width_ = width;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

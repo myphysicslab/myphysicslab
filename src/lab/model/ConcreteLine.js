@@ -83,6 +83,7 @@ getVector() {
 */
 setEndPoint(loc) {
   this.endPt_ = loc;
+  this.setChanged();
 };
 
 /** Sets starting point of the line.
@@ -90,6 +91,7 @@ setEndPoint(loc) {
 */
 setStartPoint(loc) {
   this.startPt_ = loc;
+  this.setChanged();
 };
 
 /** @override */

@@ -109,11 +109,11 @@ constructor(opt_simRect, opt_font, opt_color) {
   * @private
   */
   this.numDecimal_ = 0;
-  /** set when this needs to be redrawn
+  /**
   * @type {boolean}
   * @private
   */
-  this.needRedraw_ = true;
+  this.changed_ = true;
   /** name of horizontal axis
   * @type {string}
   * @private
@@ -231,7 +231,6 @@ draw(context, map) {
   context.stroke();
   this.drawVertTicks(x0, context, map, this.simRect_);
   context.restore();
-  this.needRedraw_ = false;
 };
 
 /** Draws the tick marks for the horizontal axis.
@@ -327,6 +326,15 @@ drawVertTicks(x0, context, map, r) {
   } else { // LEFT is default
     context.fillText(this.verticalName_, x0 + 6, map.simToScreenY(sim_y2) + 13);
   }
+};
+
+/** @override */
+getChanged() {
+  if (this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Returns the color to draw the graph axes with.
@@ -451,20 +459,12 @@ isDragable() {
   return false;
 };
 
-/** Whether this DisplayAxes has changed since the last time it was drawn.
-@return {boolean} true when this DisplayAxes has changed since the last time
-    draw was called.
-*/
-needsRedraw() {
-  return this.needRedraw_;
-};
-
 /** Set the color to draw the graph axes with.
 @param {string} color the color to draw the graph axes with
 */
 setColor(color) {
   this.drawColor_ = color;
-  this.needRedraw_ = true;
+  this.changed_ = true;
 };
 
 /** @override */
@@ -476,7 +476,7 @@ setDragable(dragable) {
 */
 setFont(font) {
   this.numFont_ = font;
-  this.needRedraw_ = true;
+  this.changed_ = true;
 };
 
 /** Sets the name shown next to the horizontal axis
@@ -484,7 +484,7 @@ setFont(font) {
 */
 setHorizName(name) {
   this.horizName_ = name;
-  this.needRedraw_ = true;
+  this.changed_ = true;
 };
 
 /** @override */
@@ -498,7 +498,7 @@ determines the numbering scale shown.
 */
 setSimRect(simRect) {
   this.simRect_ = simRect;
-  this.needRedraw_ = true;
+  this.changed_ = true;
 };
 
 /** Sets the name shown next to the vertical axis
@@ -506,7 +506,7 @@ setSimRect(simRect) {
 */
 setVerticalName(name) {
   this.verticalName_ = name;
-  this.needRedraw_ = true;
+  this.changed_ = true;
 };
 
 /** Sets the X-axis alignment: whether it should appear at bottom, top or middle of the
@@ -521,7 +521,7 @@ setXAxisAlignment(alignment, value) {
   if (typeof value === 'number') {
     this.horizAlignValue_ = value;
   }
-  this.needRedraw_ = true;
+  this.changed_ = true;
   return this;
 };
 
@@ -537,7 +537,7 @@ setYAxisAlignment(alignment, value) {
   if (typeof value === 'number') {
     this.vertAlignValue_ = value;
   }
-  this.needRedraw_ = true;
+  this.changed_ = true;
   return this;
 };
 
@@ -546,6 +546,7 @@ setZIndex(zIndex) {
   if (zIndex !== undefined) {
     this.zIndex = zIndex;
   }
+  this.changed_ = true;
 };
 
 } // end class

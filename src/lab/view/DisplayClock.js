@@ -113,6 +113,16 @@ constructor(simTimeFn, realTimeFn, period, radius, location) {
   * @private
   */
   this.zIndex_ = 0;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
+  /** Last sim time drawn.
+  * @type {number}
+  * @private
+  */
+  this.lastSimTime_ = 0;
 };
 
 /** @override */
@@ -151,6 +161,7 @@ draw(context, map) {
   context.fillStyle = this.fillStyle_;
   context.fill();
   const time = this.simTimeFn_();
+  this.lastSimTime_ = time;
   const realTime = this.realTimeFn_();
   this.drawHand(context, map, this.handColor_, time, center);
   // show the real-time hand
@@ -187,6 +198,15 @@ drawHand(context, map, color, time, center) {
 /** @override */
 isDragable() {
   return this.dragable_;
+};
+
+/** @override */
+getChanged() {
+  if (this.simTimeFn_() != this.lastSimTime_ || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Returns color to fill circle with; default is transparent white so that it is
@@ -278,6 +298,7 @@ setDragable(dragable) {
 */
 setFillStyle(value) {
   this.fillStyle_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -287,6 +308,7 @@ setFillStyle(value) {
 */
 setFont(value) {
   this.font_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -296,6 +318,7 @@ setFont(value) {
 */
 setHandColor(value) {
   this.handColor_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -305,6 +328,7 @@ setHandColor(value) {
 */
 setHandWidth(value) {
   this.handWidth_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -314,6 +338,7 @@ setHandWidth(value) {
 */
 setOutlineColor(value) {
   this.outlineColor_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -323,12 +348,14 @@ setOutlineColor(value) {
 */
 setOutlineWidth(value) {
   this.outlineWidth_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setPosition(position) {
   this.location_ = position;
+  this.changed_ = true;
 };
 
 /** Sets color to draw the second-hand showing real time.
@@ -337,6 +364,7 @@ setPosition(position) {
 */
 setRealColor(value) {
   this.realColor_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -346,12 +374,14 @@ setRealColor(value) {
 */
 setTextColor(value) {
   this.textColor_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex !== undefined ? zIndex : 0;
+  this.changed_ = true;
 };
 
 } // end class

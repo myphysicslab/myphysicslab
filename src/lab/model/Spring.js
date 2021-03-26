@@ -285,6 +285,7 @@ velocity of the two points.
 */
 setDamping(damping) {
   this.damping_ = damping
+  this.setChanged();
   return this;
 };
 
@@ -294,6 +295,7 @@ When length of spring is the rest length, then no force is applied at either end
 */
 setRestLength(value) {
   this.restLength_ = value;
+  this.setChanged();
 };
 
 /** Sets stiffness of this spring
@@ -302,6 +304,7 @@ setRestLength(value) {
 */
 setStiffness(stiffness) {
   this.stiffness_ = stiffness;
+  this.setChanged();
   return this;
 };
 

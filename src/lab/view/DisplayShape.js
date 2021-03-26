@@ -287,6 +287,11 @@ constructor(massObject, proto) {
   * @private
   */
   this.isDarkColor_ = DisplayShape.darkColor(this.lastColor_);
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -495,6 +500,15 @@ getBorderDash() {
   } else {
     return [ ];
   }
+};
+
+/** @override */
+getChanged() {
+  if (this.massObject_.getChanged() || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Whether to draw the location of the center of mass; it is drawn as two small
@@ -720,6 +734,7 @@ isDragable() {
 */
 setBorderDash(value) {
   this.borderDash_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -735,6 +750,7 @@ setDragable(dragable) {
 */
 setDrawCenterOfMass(value) {
   this.drawCenterOfMass_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -745,6 +761,7 @@ setDrawCenterOfMass(value) {
 */
 setDrawDragPoints(value) {
   this.drawDragPoints_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -756,6 +773,7 @@ setDrawDragPoints(value) {
 */
 setFillStyle(value) {
   this.fillStyle_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -767,6 +785,7 @@ setFillStyle(value) {
 */
 setImage(value) {
   this.image_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -781,6 +800,7 @@ setImage(value) {
 */
 setImageAT(value) {
   this.imageAT_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -790,6 +810,7 @@ setImageAT(value) {
 */
 setImageClip(value) {
   this.imageClip_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -803,6 +824,7 @@ setImageClip(value) {
 */
 setImageDraw(value) {
   this.imageDraw_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -812,6 +834,7 @@ setImageDraw(value) {
 */
 setNameColor(value) {
   this.nameColor_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -822,6 +845,7 @@ setNameColor(value) {
 */
 setNameFont(value) {
   this.nameFont_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -832,12 +856,14 @@ setNameFont(value) {
 */
 setNameRotate(value) {
   this.nameRotate_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setPosition(position) {
   this.massObject_.setPosition(position);
+  this.changed_ = true;
 };
 
 /** Set the prototype DisplayShape for this object. Display parameters are inherited
@@ -858,6 +884,7 @@ setPrototype(value) {
 */
 setStrokeStyle(value) {
   this.strokeStyle_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -868,12 +895,14 @@ setStrokeStyle(value) {
 */
 setThickness(value) {
   this.thickness_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

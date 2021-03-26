@@ -149,7 +149,7 @@ constructor(elem_ids, opt_name) {
 /** @override */
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      +', wheel: '+this.dispWheel_.toStringShort()
+      +', dispWheel_: '+this.dispWheel_.toStringShort()
       + super.toString();
 };
 
@@ -161,7 +161,7 @@ getClassName() {
 /** @override */
 defineNames(myName) {
   super.defineNames(myName);
-  this.terminal.addRegex('wheel',
+  this.terminal.addRegex('magnetWheel_|dispWheel_',
       myName+'.');
 };
 

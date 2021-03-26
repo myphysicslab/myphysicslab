@@ -41,6 +41,11 @@ class LabView extends MemoList {
 */
 gainFocus() {}
 
+/** Returns true if this LabView has changed, and sets the state to "unchanged".
+@return {boolean} whether this LabView has changed
+*/
+getChanged() {}
+
 /** Returns the CoordMap used by this LabView.
 @return {!CoordMap} the CoordMap being used by this LabView
 */

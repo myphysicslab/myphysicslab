@@ -45,6 +45,11 @@ constructor(opt_name, opt_localName) {
   * @private
   */
   this.expireTime_ = Util.POSITIVE_INFINITY;
+  /**
+  * @type {boolean}
+  * @protected
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -62,6 +67,16 @@ toStringShort() {
 
 /** @abstract */
 getBoundsWorld() {};
+
+/** @override */
+getChanged() {
+  if (this.changed_) {
+    this.changed_ = false;
+    return true;
+  } else {
+    return false;
+  }
+};
 
 /** Returns name of class of this object.
 * @return {string} name of class of this object.
@@ -87,6 +102,11 @@ isMassObject() {
 /** @override */
 nameEquals(name) {
   return this.name_ == Util.toName(name);
+};
+
+/** @override */
+setChanged() {
+  this.changed_ = true;
 };
 
 /** @override */

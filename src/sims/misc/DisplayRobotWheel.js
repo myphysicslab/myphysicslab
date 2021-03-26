@@ -55,6 +55,11 @@ constructor(wheel, spokes) {
   * @private
   */
   this.zIndex_;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -119,6 +124,15 @@ draw(context, map) {
 };
 
 /** @override */
+getChanged() {
+  if (this.wheel_.getChanged() || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
+/** @override */
 getMassObjects() {
   return [ this.wheel_ ];
 };
@@ -161,6 +175,7 @@ setPosition(position) {
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

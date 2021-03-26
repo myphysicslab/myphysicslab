@@ -1185,9 +1185,8 @@ setPosition(loc_world, angle) {
     this.specialNormalWorld_ = null;
   }
   // invalidate the cache of centroids in world coordinates
-  for (let i=0, len=this.edges_.length; i<len; i++) {
-    this.edges_[i].forgetPosition();
-  }
+  this.edges_.forEach(e => e.forgetPosition());
+  this.setChanged();
 };
 
 /** Sets which Edge takes priority for collision handling, as in a wall object. Can only

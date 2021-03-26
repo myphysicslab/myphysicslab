@@ -163,6 +163,7 @@ align() {
   }
   const d2 = p1.add(new Vector(len2*Math.cos(angle), len2*Math.sin(angle)));
   this.body2_.alignTo(/*p_body=*/this.attach2_body_, /*p_world=*/d2);
+  this.setChanged();
 };
 
 /** @override */

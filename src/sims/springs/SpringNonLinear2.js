@@ -177,6 +177,7 @@ getAttract() {
 setAttract(attract) {
   this.attract_ = attract;
   this.calcMinPE();
+  this.setChanged();
   return this;
 };
 

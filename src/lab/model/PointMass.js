@@ -247,6 +247,7 @@ getVerticesBody() {
 */
 setHeight(height) {
   this.height_ = height;
+  this.setChanged();
   return this;
 };
 
@@ -259,6 +260,7 @@ setMass(mass) {
     throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;
+  this.setChanged();
   return this;
 };
 
@@ -268,6 +270,7 @@ setMass(mass) {
 */
 setShape(shape) {
   this.shape_ = shape;
+  this.setChanged();
   return this;
 };
 
@@ -277,6 +280,7 @@ setShape(shape) {
 */
 setWidth(width) {
   this.width_ = width;
+  this.setChanged();
   return this;
 };
 

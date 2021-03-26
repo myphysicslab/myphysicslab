@@ -283,6 +283,11 @@ constructor(system) {
   /**
   * @type {boolean}
   * @private
+  */
+  this.changed_ = true;
+  /**
+  * @type {boolean}
+  * @private
   * @const
   */
   this.debug_ = false;
@@ -577,6 +582,15 @@ formatTotalEnergy(value, previous) {
 };
 
 /** @override */
+getChanged() {
+  if (this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
+/** @override */
 getSimObjects() {
   return [];
 };
@@ -836,6 +850,7 @@ setPosition(position) {
     this.rect_ = new DoubleRect(-5, position.getY()-0.5,
         5, position.getY()+0.5);
   }
+  this.changed_ = true;
 };
 
 /** Sets the area within which this EnergyBarGraph is drawn, in simulation coordinates.
@@ -845,11 +860,13 @@ setPosition(position) {
 setVisibleArea(visibleArea) {
   this.visibleRect_ = visibleArea;
   this.needResize_ = true;
+  this.changed_ = true;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex = zIndex !== undefined ? zIndex : 0;
+  this.changed_ = true;
 };
 
 /**

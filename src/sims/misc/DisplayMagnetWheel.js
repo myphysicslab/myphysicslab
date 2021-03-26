@@ -40,6 +40,11 @@ constructor(wheel) {
   * @private
   */
   this.zIndex_;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -135,6 +140,15 @@ draw(context, map) {
   context.strokeStyle = 'black';
   context.stroke();
   context.restore();
+};
+
+/** @override */
+getChanged() {
+  if (this.wheel_.getChanged() || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** @override */

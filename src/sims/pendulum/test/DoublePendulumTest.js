@@ -179,12 +179,6 @@ static testDoublePendulum() {
   }
   sim.getVarsList().setValue(0, Math.PI/8);
   sim.saveInitialState();
-  {
-    const ei = sim.getEnergyInfo();
-    assertEquals(1.004790170851014, ei.getPotential());
-    assertEquals(0, ei.getTranslational());
-    assertEquals(ei.getPotential(), ei.getTotalEnergy());
-  }
 
   const expect = [
     [ 0.39177, -0.07457, 0.00115, 0.09186 ],
@@ -201,6 +195,12 @@ static testDoublePendulum() {
 
   // step to time zero to ensure energy is updated
   simpleAdv.advance(0);
+  {
+    const ei = sim.getEnergyInfo();
+    assertEquals(1.004790170851014, ei.getPotential());
+    assertEquals(0, ei.getTranslational());
+    assertEquals(ei.getPotential(), ei.getTotalEnergy());
+  }
   // step forward in time
   const timeStep = 0.025;
   let time = 0;

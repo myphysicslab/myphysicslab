@@ -56,6 +56,11 @@ draw(context, map) {}
 */
 isDragable() {}
 
+/** Returns true if this DisplayObject has changed, and sets the state to "unchanged".
+@return {boolean} whether this DisplayObject has changed
+*/
+getChanged() {}
+
 /** Returns the set of MassObjects that this DisplayObject represents.
 Returns an empty list if this DisplayObject doesn't represent a MassObject.
 @return {!Array<!MassObject>} the set of MassObjects that this DisplayObject represents

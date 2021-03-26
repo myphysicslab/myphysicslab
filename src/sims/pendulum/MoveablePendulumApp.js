@@ -117,7 +117,6 @@ constructor(elem_ids) {
   this.addControl(new NumericControl(pn));
 
   this.addStandardControls();
-
   this.makeEasyScript();
   this.addURLScriptButton();
 };

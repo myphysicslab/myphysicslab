@@ -109,6 +109,7 @@ getStartAngle() {
 */
 setAngle(angle) {
   this.angle_ = angle;
+  this.setChanged();
 };
 
 /** Sets center of arc, in simulation coords.
@@ -116,6 +117,7 @@ setAngle(angle) {
 */
 setCenter(center) {
   this.center_ = center;
+  this.setChanged();
 };
 
 /** Sets radius of arc, in simulation coords.
@@ -123,6 +125,7 @@ setCenter(center) {
 */
 setRadius(radius) {
   this.radius_ = radius;
+  this.setChanged();
 };
 
 /** Sets starting angle in radians, where zero corresponds to 3 o'clock,
@@ -131,6 +134,7 @@ setRadius(radius) {
 */
 setStartAngle(angle) {
   this.startAngle_ = angle;
+  this.setChanged();
 };
 
 /** @override */

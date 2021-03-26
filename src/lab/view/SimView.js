@@ -192,6 +192,11 @@ constructor(name, simRect) {
   */
   this.ratio_ = this.height_/this.width_;
   /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
+  /**
   * @type {!MemoList}
   * @private
   */
@@ -289,6 +294,16 @@ getCenterY() {
 };
 
 /** @override */
+getChanged() {
+  const c = this.displayList_.getChanged();
+  if (c || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
+/** @override */
 getCoordMap() {
   return this.coordMap_; // it is immutable, so OK to return it
 };
@@ -372,6 +387,7 @@ modifySimRect() {
   const left = this.centerX_ - this.width_/2.0;
   const bottom = this.centerY_ - this.height_/2.0;
   const r = new DoubleRect(left, bottom, left+this.width_, bottom+this.height_);
+  this.changed_ = true;
   this.setSimRect(r);
 };
 
@@ -431,6 +447,7 @@ realign() {
   this.centerX_ = this.simRect_.getCenterX();
   this.centerY_ = this.simRect_.getCenterY();
   this.ratio_ = this.height_/this.width_;
+  this.changed_ = true;
 };
 
 /** @override */
@@ -478,6 +495,7 @@ setCoordMap(map) {
   if (!CoordMap.isDuckType(map))
     throw 'not a CoordMap: '+map;
   this.coordMap_ = map;
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, LabView.COORD_MAP_CHANGED));
 };
 
@@ -516,6 +534,7 @@ setScaleTogether(value) {
     if (this.scaleTogether_) {
       this.ratio_ = this.height_/this.width_;
     }
+    this.changed_ = true;
     this.broadcastParameter(SimView.en.SCALE_TOGETHER);
   }
 };

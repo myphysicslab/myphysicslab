@@ -352,6 +352,7 @@ setAngularVelocity(angular_velocity) {
     throw 'angular velocity must be finite '+angular_velocity;
   }
   this.angular_velocity_ = angular_velocity;
+  this.setChanged();
 };
 
 /** @override */
@@ -359,11 +360,13 @@ setCenterOfMass(x_body, y_body) {
   this.cm_body_ = new Vector(x_body, y_body);
   // NaN indicates that minimum height must be recalculated
   this.minHeight_ = Util.NaN;
+  this.setChanged();
 };
 
 /** @override */
 setDragPoints(dragPts) {
   this.dragPts_ = Array.from(dragPts);
+  this.setChanged();
 };
 
 /** @override */
@@ -372,6 +375,7 @@ setMass(mass) {
     throw 'mass must be positive '+mass;
   }
   this.mass_ = mass;
+  this.setChanged();
   return this;
 };
 
@@ -383,6 +387,7 @@ setMinHeight(minHeight) {
 /** @override */
 setMomentAboutCM(moment) {
   this.moment_ = moment;
+  this.setChanged();
 };
 
 /** @override */
@@ -393,16 +398,17 @@ setPosition(loc_world, angle) {
     this.sinAngle_ = Math.sin(angle);
     this.cosAngle_ = Math.cos(angle);
   }
+  this.setChanged();
 };
 
 /** @override */
 setPositionX(value) {
-  this.loc_world_ = new Vector(value, this.loc_world_.getY());
+  this.setPosition(new Vector(value, this.loc_world_.getY()));
 };
 
 /** @override */
 setPositionY(value) {
-  this.loc_world_ = new Vector(this.loc_world_.getX(), value);
+  this.setPosition(new Vector(this.loc_world_.getX(), value));
 };
 
 /** @override */
@@ -411,21 +417,23 @@ setVelocity(velocity_world, angular_velocity) {
   if (angular_velocity !== undefined) {
     this.setAngularVelocity(angular_velocity);
   }
+  this.setChanged();
 };
 
 /** @override */
 setVelocityX(value) {
-  this.velocity_ = new Vector(value, this.velocity_.getY());
+  this.setVelocity(new Vector(value, this.velocity_.getY()));
 };
 
 /** @override */
 setVelocityY(value) {
-  this.velocity_ = new Vector(this.velocity_.getX(), value);
+  this.setVelocity(new Vector(this.velocity_.getX(), value));
 };
 
 /** @override */
 setZeroEnergyLevel(height) {
   this.zeroEnergyLevel_ = height !== undefined ? height : this.loc_world_.getY();
+  this.setChanged();
   return this;
 };
 

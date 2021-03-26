@@ -78,6 +78,11 @@ constructor(opt_text, opt_position, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -117,6 +122,15 @@ draw(context, map) {
   }*/
   context.fillText(this.text_, x1, y1);
   context.restore();
+};
+
+/** @override */
+getChanged() {
+  if (this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Color used when drawing the text, a CSS3 color value.
@@ -222,6 +236,7 @@ setDragable(dragable) {
 */
 setFillStyle(value) {
   this.fillStyle_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -231,12 +246,14 @@ setFillStyle(value) {
 */
 setFont(value) {
   this.font_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setPosition(position) {
   this.location_ = position;
+  this.changed_ = true;
 };
 
 /** Sets the text to draw.
@@ -244,6 +261,7 @@ setPosition(position) {
 */
 setText(text) {
   this.text_ = text;
+  this.changed_ = true;
 };
 
 /** The horizontal alignment of text; allowed values are 'left', 'center', 'right',
@@ -253,6 +271,7 @@ setText(text) {
 */
 setTextAlign(value) {
   this.textAlign_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -263,12 +282,14 @@ setTextAlign(value) {
 */
 setTextBaseline(value) {
   this.textBaseline_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

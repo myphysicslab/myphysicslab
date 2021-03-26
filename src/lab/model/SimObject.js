@@ -57,6 +57,11 @@ class SimObject extends Printable {
 */
 getBoundsWorld() {}
 
+/** Returns whether this SimObject has changed, and sets the state to "unchanged".
+@return {boolean} whether this SimObject has changed
+*/
+getChanged() {}
+
 /** Returns the expiration time, when this SimObject should be removed from the
 SimList. This is intended for temporary SimObjects that illustrate, for example,
 contact forces or collisions.
@@ -95,6 +100,11 @@ of the name, as is done by {@link Util#toName}.
     language-independent form)
 */
 nameEquals(name) {}
+
+/** Marks that this SimObject has changed.
+@return {undefined}
+*/
+setChanged() {}
 
 /** Sets the expiration time, when this SimObject should be removed from the SimList.
 This is intended for temporary SimObjects that illustrate, for example, contact forces

@@ -68,6 +68,11 @@ constructor(line, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -126,6 +131,15 @@ getColor() {
   } else {
     return 'gray';
   }
+};
+
+/** @override */
+getChanged() {
+  if (this.line_.getChanged() || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
 };
 
 /** Line dash array used when drawing the line.  Corresponds to lengths of dashes
@@ -196,6 +210,7 @@ isDragable() {
 */
 setColor(color) {
   this.color_ = color;
+  this.changed_ = true;
   return this;
 };
 
@@ -212,6 +227,7 @@ setDragable(dragable) {
 */
 setLineDash(lineDash) {
   this.lineDash_ = lineDash;
+  this.changed_ = true;
   return this;
 };
 
@@ -227,12 +243,14 @@ setPosition(position) {
 */
 setThickness(thickness) {
   this.thickness_ = thickness;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

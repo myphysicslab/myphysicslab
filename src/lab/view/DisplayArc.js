@@ -68,6 +68,11 @@ constructor(arc, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -171,6 +176,16 @@ getArrowHeadLength() {
   }
 };
 
+/** @override */
+getChanged() {
+  const chg = this.arc_ == null ? false : this.arc_.getChanged();
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
 /** Color used when drawing the arc, a CSS3 color value.
 * @return {string}
 */
@@ -251,6 +266,7 @@ isDragable() {
 */
 setArrowHeadLength(value) {
   this.arrowHeadLength_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -260,6 +276,7 @@ setArrowHeadLength(value) {
 */
 setColor(value) {
   this.color_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -276,6 +293,7 @@ setDragable(dragable) {
 */
 setLineDash(value) {
   this.lineDash_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -291,12 +309,14 @@ setPosition(position) {
 */
 setThickness(value) {
   this.thickness_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(value) {
   this.zIndex_ = value;
+  this.changed_ = true;
 };
 
 } // end class

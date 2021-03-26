@@ -164,6 +164,11 @@ constructor(name, varsList, opt_capacity) {
   * @private
   */
   this.dataPoints_  = new CircularList(opt_capacity || 100000);
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
   /** The color to draw the graph with, a CSS3 color string.
   * @type {string}
   * @private
@@ -254,6 +259,7 @@ to the current end point of the HistoryList.
 addGraphStyle() {
   this.styles_.push(new GraphStyle(this.dataPoints_.getEndIndex() + 1,
       this.drawMode_, this.drawColor_, this.lineWidth_));
+  this.changed_ = true;
 };
 
 /** Modify the choices in the X and Y variable Parameters to match those of the
@@ -293,6 +299,18 @@ static isDuckType(obj) {
     && obj.getVarsList !== undefined
     && obj.reset !== undefined
     && obj.getGraphStyle !== undefined
+};
+
+/** Returns whether this SimObject has changed, and sets the state to "unchanged".
+@return {boolean} whether this SimObject has changed
+*/
+getChanged() {
+  if (this.changed_) {
+    this.changed_ = false;
+    return true;
+  } else {
+    return false;
+  }
 };
 
 /** Returns the color used when drawing the graph.
@@ -410,6 +428,7 @@ memorize() {
     const last = this.dataPoints_.getEndValue();
     if (last == null || !last.equals(newPoint)) {
       this.dataPoints_.store(newPoint);
+      this.changed_ = true;
     }
   }
 };
@@ -441,6 +460,7 @@ resetStyle() {
   this.styles_ = [];
   // ensure there is always at least one GraphStyle
   this.addGraphStyle();
+  this.changed_ = true;
 };
 
 /** Sets the color to use when drawing the graph. Applies only to portions of graph
@@ -451,6 +471,7 @@ setColor(color) {
   if (this.drawColor_ != color) {
     this.drawColor_ = color;
     this.addGraphStyle();
+    this.changed_ = true;
     this.broadcastParameter(GraphLine.en.GRAPH_COLOR);
   }
 };
@@ -466,8 +487,9 @@ setDrawingMode(value) {
   if (this.drawMode_ != dm) {
     this.drawMode_ = dm;
     this.addGraphStyle();
+    this.changed_ = true;
+    this.broadcastParameter(GraphLine.en.DRAWING_MODE);
   }
-  this.broadcastParameter(GraphLine.en.DRAWING_MODE);
 };
 
 /** Sets the color to use when drawing the hot spot (most recent point).
@@ -476,6 +498,7 @@ Set this to empty string to not draw the hot spot.
 */
 setHotSpotColor(color) {
   this.hotSpotColor_ = color;
+  this.changed_ = true;
 };
 
 /** Sets thickness to use when drawing the line, in screen coordinates, so a unit is a
@@ -486,6 +509,7 @@ setLineWidth(value) {
   if (Util.veryDifferent(value, this.lineWidth_)) {
     this.lineWidth_ = value;
     this.addGraphStyle();
+    this.changed_ = true;
     this.broadcastParameter(GraphLine.en.LINE_WIDTH);
   }
 };

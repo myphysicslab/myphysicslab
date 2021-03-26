@@ -278,6 +278,11 @@ flush() {
   this.offScreen_ = null;
 }
 
+/** @override */
+getChanged() {
+  return this.redraw_;
+};
+
 /** Sets default DrawingStyle used in {@link #addPath}.
 * @return {!DrawingStyle} the default DrawingStyle to use when adding a Path
 */
@@ -420,6 +425,7 @@ setPosition(position) {
 setScreenRect(screenRect) {
   this.screenRect_ = screenRect;
   this.flush();
+  this.redraw_ = true;
 };
 
 /** Sets DrawingStyle used for drawing a Path.
@@ -450,6 +456,7 @@ setUseBuffer(value) {
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.redraw_ = true;
 };
 
 } // end class

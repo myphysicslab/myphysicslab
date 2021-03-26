@@ -271,6 +271,7 @@ setFixedMagnet(loc) {
     throw 'fixed magnet must have X = 0, and Y > 0';
   }
   this.fixedMagnet_ = loc;
+  this.setChanged();
   return this;
 };
 
@@ -283,6 +284,7 @@ setMass(mass) {
     throw 'mass must be non-negative '+mass;
   }
   this.mass_ = mass;
+  this.setChanged();
   return this;
 };
 
@@ -295,6 +297,7 @@ setMagnets(locations) {
   this.magnetDist_ = [];
   // save the distance from origin for each magnet
   this.magnets_.forEach(m => this.magnetDist_.push(m.length()));
+  this.setChanged();
 };
 
 /** Set the strength of each magnet.
@@ -302,6 +305,7 @@ setMagnets(locations) {
 */
 setMagnetStrength(value) {
   this.magnetStrength_ = value;
+  this.setChanged();
 };
 
 /** @override */
@@ -319,6 +323,7 @@ setPosition(loc_world, angle) {
 */
 setRadius(radius) {
   this.radius_ = radius;
+  this.setChanged();
   return this;
 };
 

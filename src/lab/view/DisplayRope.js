@@ -68,6 +68,11 @@ constructor(rope, proto) {
   * @private
   */
   this.proto_ = proto != null ? proto : null;
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -169,6 +174,16 @@ static drawRope(context, at) {
   context.stroke();
 };
 
+/** @override */
+getChanged() {
+  const chg = this.rope_ == null ? false : this.rope_.getChanged();
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
 /** Color when rope is slack; a CSS3 color value
 * @return {string}
 */
@@ -248,6 +263,7 @@ isDragable() {
 */
 setColorSlack(value) {
   this.colorSlack_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -257,6 +273,7 @@ setColorSlack(value) {
 */
 setColorTight(value) {
   this.colorTight_ = value;
+  this.changed_ = true;
   return this;
 };
 
@@ -277,12 +294,14 @@ setPosition(position) {
 */
 setThickness(value) {
   this.thickness_ = value;
+  this.changed_ = true;
   return this;
 };
 
 /** @override */
 setZIndex(zIndex) {
   this.zIndex_ = zIndex;
+  this.changed_ = true;
 };
 
 } // end class

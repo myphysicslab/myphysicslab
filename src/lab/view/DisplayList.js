@@ -45,6 +45,11 @@ constructor(opt_name) {
   * @private
   */
   this.drawables_ = [];
+  /**
+  * @type {boolean}
+  * @private
+  */
+  this.changed_ = true;
 };
 
 /** @override */
@@ -93,6 +98,7 @@ add(dispObj) {
     }
   }
   array.insertAt(this.drawables_, dispObj, i);
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, DisplayList.OBJECT_ADDED, dispObj));
 };
 
@@ -204,6 +210,24 @@ get(index) {
   return this.drawables_[index];
 };
 
+/** Returns true if any DisplayObject on this DisplayList has changed, and sets the
+state to "unchanged".
+@return {boolean} whether any DisplayObject on this DisplayList this DisplayObject
+    has changed
+*/
+getChanged() {
+  let chg = false;
+  for (let i=0, n=this.drawables_.length; i<n; i++) {
+    const c = this.drawables_[i].getChanged();
+    chg = chg || c;
+  }
+  if (chg || this.changed_) {
+    this.changed_ = false;
+    return true;
+  }
+  return false;
+};
+
 /** Returns number of DisplayObjects in this DisplayList, minus 1.
 @return number of DisplayObjects minus 1
 */
@@ -257,6 +281,7 @@ prepend(dispObj) {
     }
   }
   array.insertAt(this.drawables_, dispObj, i);
+  this.changed_ = true;
   this.broadcast(new GenericEvent(this, DisplayList.OBJECT_ADDED, dispObj));
 };
 
@@ -270,6 +295,7 @@ remove(dispObj) {
   const idx = this.drawables_.indexOf(dispObj);
   if (idx > -1) {
     array.removeAt(this.drawables_, idx);
+    this.changed_ = true;
     this.broadcast(new GenericEvent(this, DisplayList.OBJECT_REMOVED, dispObj));
   };
 };
@@ -310,6 +336,7 @@ sort() {
         return 0;
       }
     });
+    this.changed_ = true;
   }
 };
 
