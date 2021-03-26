@@ -355,22 +355,7 @@ config(numBlocks, startPosition, startGap)  {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // We assume that modifyObjects() has been called so the objects have
-  // position and velocity corresponding to the vars[] array.
-  /** @type {number} */
   let ke = 0;
-  /** @type {number} */
   let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   this.blocks_.forEach(block => ke += block.getKineticEnergy());
@@ -397,7 +382,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   const n = this.blocks_.length*2;
   va.setValue(n, ei.getTranslational(), true);
   va.setValue(n+1, ei.getPotential(), true);

@@ -201,16 +201,6 @@ config(length, radius, startAngle) {
 /** @override */
 getEnergyInfo() {
   const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
   const ke = 0.5* this.mass_ *(vars[1]*vars[1] + vars[3]*vars[3]);
@@ -246,7 +236,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // 0  1   2  3     4      5       6    7   8   9
   // x, x', y, y', angle, angle', time, ke, pe, te
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   va.setValue(7, ei.getTranslational(), true);
   va.setValue(8, ei.getPotential(), true);
   va.setValue(9, ei.getTotalEnergy(), true);

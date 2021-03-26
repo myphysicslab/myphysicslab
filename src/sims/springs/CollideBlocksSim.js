@@ -252,17 +252,6 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
   const pe = this.spring1_.getPotentialEnergy() + this.spring2_.getPotentialEnergy();
   return new EnergyInfo(pe + this.potentialOffset_, ke);
@@ -290,7 +279,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // 0   1    2   3   4    5   6   7
   // x1, v1, x2, v2, time, KE, PE, TE
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   vars[5] = ei.getTranslational();
   vars[6] = ei.getPotential();
   vars[7] = ei.getTotalEnergy();

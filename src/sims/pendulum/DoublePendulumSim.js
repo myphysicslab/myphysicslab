@@ -237,17 +237,6 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const L1 = this.rod1Length_;
   const L2 = this.rod2Length_;
   const ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
@@ -298,7 +287,7 @@ modifyObjects() {
   this.evaluate(vars, rate, 0);
   vars[4] = rate[1];
   vars[5] = rate[3];
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   vars[6] = ei.getTranslational();
   vars[7] = ei.getPotential();
   vars[8] = ei.getTotalEnergy();

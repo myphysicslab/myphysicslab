@@ -274,7 +274,6 @@ moveObjects(vars) {
 
 /** @override */
 getEnergyInfo() {
-  this.modifyObjects();
   // get variables including the many variables computed in modifyObjects()
   const vars = this.getVarsList().getValues(/*computed=*/true);
   return this.getEnergyInfo_(vars);

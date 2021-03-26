@@ -320,17 +320,6 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.atom1_.getKineticEnergy() + this.atom2_.getKineticEnergy();
   const bottom = this.walls_.getBoundsWorld().getBottom();
   let pe = this.gravity_ * this.atom1_.getMass() *
@@ -361,7 +350,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   // vars: 0   1   2   3   4   5   6   7    8  9  10 11
   //      U1x U1y V1x V1y U2x U2y V2x V2y time KE PE TE
   va.setValue(9, ei.getTranslational(), true);

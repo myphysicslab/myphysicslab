@@ -312,22 +312,7 @@ straightLine()  {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // We assume that modifyObjects() has been called so the objects have
-  // positions & velocities corresponding to the vars[] array.
-  /** @type {number} */
   let ke = 0;
-  /** @type {number} */
   let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   this.atoms_.forEach(atom => {
@@ -358,7 +343,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   // vars[1] = KE, vars[2] = PE, vars[3] = TE
   va.setValue(1, ei.getTranslational(), true);
   va.setValue(2, ei.getPotential(), true);

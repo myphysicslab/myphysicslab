@@ -348,17 +348,6 @@ static getGamma(pendulum, pivot) {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const p1 = this.pendulum1_;
   const p2 = this.pendulum2_;
   const ke = p1.translationalEnergy() + p2.translationalEnergy();
@@ -388,7 +377,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   // vars  0        1        2       3      4   5   6   7
   //      theta1, theta1', theta2, theta2', ke, pe, te, time
   va.setValue(4, ei.getTranslational() + ei.getRotational(), true);

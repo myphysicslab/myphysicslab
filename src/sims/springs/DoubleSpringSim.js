@@ -301,20 +301,7 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  /** @type {number} */
   const ke = this.block1_.getKineticEnergy() + this.block2_.getKineticEnergy();
-  /** @type {number} */
   let pe = this.potentialOffset_;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   return new EnergyInfo(pe, ke);
@@ -346,7 +333,7 @@ modifyObjects() {
   //       U1  U2  V1  V2  A1  A2  KE  PE TE time
   vars[4] = rate[2];
   vars[5] = rate[3];
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   vars[6] = ei.getTranslational();
   vars[7] = ei.getPotential();
   vars[8] = ei.getTotalEnergy();

@@ -434,22 +434,7 @@ cleanSlate() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // We assume that modifyObjects() has been called so the objects have
-  // position and velocity corresponding to the vars[] array.
-  /** @type {number} */
   let ke = 0;
-  /** @type {number} */
   let pe = 0;
   this.springs_.forEach(spr => pe += spr.getPotentialEnergy());
   const bottom = this.walls_.getBoundsWorld().getBottom();
@@ -482,7 +467,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   // vars: 0   1   2   3   4   5   6   7    8  9   10  11  12  13  14
   //      time KE  PE  TE  F1  F2  F3  U1x U1y V1x V1y U2x U2y V2x V2y
   va.setValue(1, ei.getTranslational(), true);

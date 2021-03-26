@@ -227,21 +227,17 @@ initWork() {
 /** @override */
 getEnergyInfo() {
   const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
+  return this.getEnergyInfo_(vars[2]);
 };
 
 /**
-* @param {!Array<number>} vars
+* @param {number} work
 * @return {!EnergyInfo}
 * @private
 */
-getEnergyInfo_(vars) {
-  // 0  1   2       3     4    5   6   7
-  // x, v, work, time, accel, ke, pe, te
+getEnergyInfo_(work) {
   const ke = this.block_.getKineticEnergy();
   const pe = this.spring_.getPotentialEnergy() + this.potentialOffset_;
-  const work = vars[2];
   return new EnergyInfo(pe, ke, NaN, work, this.initialEnergy_);
 };
 
@@ -271,7 +267,7 @@ modifyObjects() {
   const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   vars[4] = rate[1]; // acceleration
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars[2]);
   vars[5] = ei.getTranslational();
   vars[6] = ei.getPotential();
   vars[7] = ei.getTotalEnergy();

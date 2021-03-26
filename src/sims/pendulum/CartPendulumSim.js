@@ -244,16 +244,15 @@ initWork() {
 /** @override */
 getEnergyInfo() {
   const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
+  return this.getEnergyInfo_(vars[4]);
 };
 
 /**
-* @param {!Array<number>} vars
+* @param {number} work
 * @return {!EnergyInfo}
 * @private
 */
-getEnergyInfo_(vars) {
+getEnergyInfo_(work) {
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
   let ke = this.cart_.getKineticEnergy();
@@ -261,7 +260,6 @@ getEnergyInfo_(vars) {
   let pe = this.spring_.getPotentialEnergy();
   const y = this.pendulum_.getPosition().getY();
   pe += this.gravity_ * this.pendulum_.getMass() * (y + this.length_);
-  const work = vars[4];
   return new EnergyInfo(pe + this.potentialOffset_, ke, /*rotational=*/NaN, work,
        this.initialEnergy_);
 };
@@ -296,7 +294,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // vars:  0, 1, 2,  3,  4,    5, 6, 7, 8
   //        x, h, x', h', work, KE,PE,TE,time
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo_(vars[4]);
   va.setValue(5, ei.getTranslational(), true);
   va.setValue(6, ei.getPotential(), true);
   va.setValue(7, ei.getTotalEnergy(), true);

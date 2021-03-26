@@ -66,6 +66,9 @@ The variables are stored in the VarsList as follows
 
 To Do
 -------------------------
+Make a Parameter for whether to limit angles to +/- Pi.  For some graphs you want this,
+but for other graphs you don't want it.
+
 The energy values are not correct. When the anchor is moving then energy is being added
 to the pendulum. The potential energy should change from moving up and down in
 gravitational field. The kinetic energy should include the motion added by the anchor.
@@ -329,19 +332,6 @@ setAnchorYVelocity() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // vars  0    1     2    3      4    5     6      7     8      9  10  11
-  //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
   const L1 = this.length1_;
   const L2 = this.length2_;
   // TO DO: This energy calc doesn't include motion from anchor moving.
@@ -376,7 +366,10 @@ setPEOffset(value) {
 modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
-  // limit the pendulum angle to +/- Pi
+  // Limit the pendulum angle to +/- Pi
+  // But note that you can't get a graph of angle vs. angle velocity when anchor is
+  // being driven rapidly up & down and the pendulum is in a stable up position.
+  // To do: make this optional with a Parameter.
   const angle1 = Util.limitAngle(vars[0]);
   if (angle1 != vars[0]) {
     // This also increases sequence number when angle crosses over
@@ -394,7 +387,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // vars  0    1     2    3      4    5     6      7     8      9  10  11
   //      w_1  w_1'  w_2  w_2'  time top_x top_x' top_y top_y'  KE  PE  TE
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   va.setValue(9, ei.getTranslational(), true);
   va.setValue(10, ei.getPotential(), true);
   va.setValue(11, ei.getTotalEnergy(), true);

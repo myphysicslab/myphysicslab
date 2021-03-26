@@ -242,17 +242,6 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.bob_.getKineticEnergy();
   const y = this.bob_.getPosition().getY();
   let pe = this.gravity_ * this.bob_.getMass() * y;
@@ -280,7 +269,7 @@ modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
   this.moveObjects(vars);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   // vars:   0   1   2   3   4   5   6    7      8        9
   //        Ux  Uy  Vx  Vy  KE  PE  TE  time  anchorX  anchorY
   va.setValue(4, ei.getTranslational(), true);

@@ -237,7 +237,7 @@ modifyObjects() {
       vars[2] = p2;
       va.setValue(2, p2);
     }
-    const ei = this.getEnergyInfo_(vars);
+    const ei = this.getEnergyInfo();
     va.setValue(4, ei.getTranslational(), true);
     va.setValue(5, ei.getPotential(), true);
     va.setValue(6, ei.getTotalEnergy(), true);
@@ -267,17 +267,6 @@ moveObjects(vars) {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.ball1_.getKineticEnergy() + this.ball2_.getKineticEnergy();
   // gravity potential = m g y
   let pe = this.ball1_.getMass() * this.gravity_

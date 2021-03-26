@@ -276,17 +276,6 @@ restState() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.bob1_.getKineticEnergy() + this.bob2_.getKineticEnergy();
   let pe = this.gravity_*this.bob1_.getMass()*this.bob1_.getPosition().getY();
   pe += this.gravity_*this.bob2_.getMass()*this.bob2_.getPosition().getY();
@@ -317,7 +306,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // vars[i]:  U1x, U1y, U2x, U2y, V1x, V1y, V2x, V2y KE  PE  TE time fixX fixY
   // i:         0    1    2    3    4    5    6    7  8   9   10  11   12   13
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   va.setValue(8, ei.getTranslational(), true);
   va.setValue(9, ei.getPotential(), true);
   va.setValue(10, ei.getTotalEnergy(), true);

@@ -296,17 +296,6 @@ setAnchorYVelocity() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   // TO DO: This energy calc doesn't include motion from anchor moving.
   // Both kinetic and potential energy needs to be fixed.
   const ke = this.bob_.getKineticEnergy();
@@ -335,18 +324,20 @@ setPEOffset(value) {
 modifyObjects() {
   const va = this.getVarsList();
   const vars = va.getValues();
-  // limit the pendulum angle to +/- Pi
-  const angle = Util.limitAngle(vars[0]);
+  // Don't limit the pendulum angle to +/- Pi because then you can't get a graph
+  // of angle vs. angle velocity when anchor is being driven rapidly up & down
+  // and the pendulum is in a stable up position.
+  /*const angle = Util.limitAngle(vars[0]);
   if (angle != vars[0]) {
     // This also increases sequence number when angle crosses over
     // the 0 to 2Pi boundary; this indicates a discontinuity in the variable.
-    this.getVarsList().setValue(0, angle, /*continuous=*/false);
+    this.getVarsList().setValue(0, angle, false);
     vars[0] = angle;
-  }
+  }*/
   this.moveObjects(vars);
   // vars 0       1       2      3         4        5        6       7   8   9
   //      angle  angle'  time anchor_x anchor_x' anchor_y anchor_y'  KE  PE  TE
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   va.setValue(7, ei.getTranslational(), true);
   va.setValue(8, ei.getPotential(), true);
   va.setValue(9, ei.getTotalEnergy(), true);

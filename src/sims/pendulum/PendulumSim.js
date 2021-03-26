@@ -279,17 +279,6 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
   const ke = this.bob_.getKineticEnergy();
   const y = this.bob_.getPosition().getY();
   // center of pendulum is at origin. When bob.y = -length, this is lowest it can be.
@@ -333,7 +322,7 @@ modifyObjects() {
   const rate = new Array(vars.length);
   this.evaluate(vars, rate, 0);
   vars[3] = rate[1]; // angular acceleration
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   vars[4] = ei.getTranslational();
   vars[5] = ei.getPotential();
   vars[6] = ei.getTotalEnergy();

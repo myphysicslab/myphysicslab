@@ -133,19 +133,6 @@ getClassName() {
 
 /** @override */
 getEnergyInfo() {
-  const vars = this.getVarsList().getValues();
-  this.moveObjects(vars);
-  return this.getEnergyInfo_(vars);
-};
-
-/**
-* @param {!Array<number>} vars
-* @return {!EnergyInfo}
-* @private
-*/
-getEnergyInfo_(vars) {
-  // 0  1   2     3   4   5
-  // a, w, time,  ke, pe, te
   const re = this.wheel_.rotationalEnergy();
   const pe = this.wheel_.getPotentialEnergy() + this.potentialOffset_;
   return new EnergyInfo(pe, 0, re);
@@ -173,9 +160,7 @@ modifyObjects() {
   this.moveObjects(vars);
   // 0  1   2     3   4   5
   // a, w, time,  ke, pe, te
-  const rate = new Array(vars.length);
-  this.evaluate(vars, rate, 0);
-  const ei = this.getEnergyInfo_(vars);
+  const ei = this.getEnergyInfo();
   vars[3] = ei.getRotational();
   vars[4] = ei.getPotential();
   vars[5] = ei.getTotalEnergy();
