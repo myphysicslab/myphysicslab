@@ -168,7 +168,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
       this.view.setCenterX(vw/2);
       this.autoScale.setActive(true);
     }
-  });
+  }, 'TimeGraph1: go to time zero on reset');
 
   // Use the off-screen buffer only when "time-scrolling" is not happening
   // (i.e. when time less than the time window) because the auto-scale
@@ -181,7 +181,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
     } else {
       this.displayGraph.setUseBuffer(true);
     }
-  }));
+  }, 'time graph: use off-screen buffer when not time-scrolling'));
 
   const panzoom = CommonControls.makePanZoomControls(this.view, /*overlay=*/true,
       /*resetFunc=*/ () => this.autoScale.setActive(true) );

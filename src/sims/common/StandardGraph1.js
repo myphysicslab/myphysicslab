@@ -168,7 +168,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
     } else {
       this.displayGraph.setUseBuffer(true);
     }
-  }));
+  }, 'graph: use off-screen buffer when not time-scrolling'));
 };
 
 /** @override */
