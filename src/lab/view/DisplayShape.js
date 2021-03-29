@@ -422,7 +422,7 @@ draw(context, map) {
     const pixel = map.screenToSimScaleX(1);
     context.lineWidth = pixel; // one pixel wide stroke.
     if (this.getDrawCenterOfMass()) {
-      const cm_body = this.massObject_.getCenterOfMassBody();
+      const cm_body = this.massObject_.getCenterOfMass();
       // draw a cross at the center of mass
       if (this.isDarkColor_) {
         context.strokeStyle = '#ccc'; //lightGray;

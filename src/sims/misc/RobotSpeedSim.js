@@ -460,7 +460,7 @@ setCenterOfMass(value) {
   // front wheel is at x = 0.125 in body coords. Corresponds to 0
   this.robot_.setCenterOfMass(0.125 - (value/100)*0.25, 0);
   // Find vector from robot center of mass to each wheel, in body coords.
-  const cm = this.robot_.getCenterOfMassBody();
+  const cm = this.robot_.getCenterOfMass();
   this.vwf_ = new Vector(0.125, -0.075).subtract(cm);
   this.vwr_ = new Vector(-0.125, -0.075).subtract(cm);
   this.broadcastParameter(RobotSpeedSim.en.CENTER_OF_MASS);

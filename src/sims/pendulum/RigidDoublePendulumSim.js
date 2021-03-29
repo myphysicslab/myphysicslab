@@ -21,7 +21,6 @@ const EnergyInfo = goog.require('myphysicslab.lab.model.EnergyInfo');
 const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
-const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
@@ -31,8 +30,8 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
-/** Simulation of a double pendulum as two rigid bodies. This uses RigidBody's and
-Joint's, but only for geometry. This does not use the general physics engine
+/** Simulation of a double pendulum as two rigid bodies. This uses RigidBodys and
+Joints, but only for geometry. This does not use the general physics engine
 {@link myphysicslab.lab.engine2D.ContactSim}, instead this is a specialized simulation
 like {@link myphysicslab.sims.pendulum.DoublePendulum}.
 
@@ -146,11 +145,11 @@ constructor(parts, opt_name, opt_simList) {
   const theta2 = this.omega2_ + this.gamma2_;
   const theta2_velocity = this.pendulum2_.getAngularVelocity();
   // calculate length of vectors R1, L1, R2
-  const c1 = this.pendulum1_.getCenterOfMassBody();
+  const c1 = this.pendulum1_.getCenterOfMass();
   const attach1_0 = this.pivot1_.getAttach2();
   const r1 = c1.subtract(attach1_0);
   const l1 = this.pivot2_.getAttach1().subtract(attach1_0);
-  const c2 = this.pendulum2_.getCenterOfMassBody();
+  const c2 = this.pendulum2_.getCenterOfMass();
   const r2 = c2.subtract(this.pivot2_.getAttach2());
   /** distance from pivot 1 to the center of mass of pendulum 1
   * @type {number}
@@ -342,7 +341,7 @@ static getGamma(pendulum, pivot) {
   } else {
     throw '';
   }
-  const v = attach.subtract(pendulum.getCenterOfMassBody());
+  const v = attach.subtract(pendulum.getCenterOfMass());
   return v.getAngle() - Math.PI/2;
 };
 

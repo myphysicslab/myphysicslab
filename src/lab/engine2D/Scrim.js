@@ -132,7 +132,7 @@ getBoundsWorld() {
 };
 
 /** @override */
-getCenterOfMassBody() {
+getCenterOfMass() {
   return Vector.ORIGIN;
 };
 

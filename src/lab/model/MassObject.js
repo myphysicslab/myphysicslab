@@ -133,7 +133,7 @@ getBoundsBody() {}
 @return {!Vector} the location of center of mass, in local body
         coordinates.
 */
-getCenterOfMassBody() {}
+getCenterOfMass() {}
 
 /** Returns the center of the circle to use for proximity testing, in body coords. A
 circle centered at this location with radius `getCentroidRadius()` should enclose this

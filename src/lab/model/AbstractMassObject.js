@@ -191,7 +191,7 @@ getBoundsWorld() {
 };
 
 /** @override */
-getCenterOfMassBody() {
+getCenterOfMass() {
   return this.cm_body_;
 };
 
