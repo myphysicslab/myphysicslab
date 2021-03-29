@@ -219,10 +219,10 @@ static makePendulum(width, length, radius, opt_name, opt_localName) {
   p.addStraightEdge(new Vector(-width, length+width), /*outsideIsUp=*/true);
   p.addStraightEdge(new Vector(-width, radius), /*outsideIsUp=*/false);
   p.addCircularEdge(/*endPoint=*/new Vector(width, radius),
-      /*center=*/new Vector(0, 0), /*clockwise=*/false,
+      /*center=*/Vector.ORIGIN, /*clockwise=*/false,
       /*outsideIsOut=*/true);
   p.finish();
-  p.setCenterOfMass(0, 0);
+  p.setCenterOfMass(Vector.ORIGIN);
   p.setDragPoints([Vector.ORIGIN]);
   // is this right?  should it instead be moment of circle plus moment of stick?
   const r = Math.sqrt(width*width + radius*radius);

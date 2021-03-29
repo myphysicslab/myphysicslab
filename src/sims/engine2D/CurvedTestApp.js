@@ -211,8 +211,8 @@ static make(sim, gravity, damping, numBods, simRect, displayList) {
   if (numBods >= 2) {
     b = Shapes.makeBall(0.8, CurvedTestApp.en.BALL+2,
         CurvedTestApp.i18n.BALL+2);
-    b.setCenterOfMass(b.getLeftBody() + 0.5*b.getWidth(),
-        b.getBottomBody() + 0.2*b.getHeight());
+    b.setCenterOfMass(new Vector(b.getLeftBody() + 0.5*b.getWidth(),
+        b.getBottomBody() + 0.2*b.getHeight()));
     b.setPosition(new Vector(-1.7,  1),  0);
     sim.addBody(b);
     if (displayList != null) { displayList.findShape(b).setFillStyle('orange'); };

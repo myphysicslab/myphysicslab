@@ -1324,7 +1324,7 @@ winds up in this situation as the vertex rolls to become the new contact point.
 static ngon_block_setup(sim, advance) {
   StraightStraightTest.commonSetup1(sim, advance);
   const body0 = TestShapes.makeNGon(16, 0.75);
-  body0.setCenterOfMass(0, -0.2);
+  body0.setCenterOfMass(new Vector(0, -0.2));
   body0.setPosition(new Vector(-0.255,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
   sim.addBody(body0);

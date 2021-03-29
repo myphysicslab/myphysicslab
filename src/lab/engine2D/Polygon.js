@@ -702,8 +702,8 @@ finish() {
   this.checkConsistent();
   this.calculateSize();
   // default values for cm and dragPoint, can be changed later.
-  this.setCenterOfMass(this.getLeftBody() + this.getWidth()/2,
-      this.getBottomBody() + this.getHeight()/2);
+  this.setCenterOfMass(new Vector(this.getLeftBody() + this.getWidth()/2,
+      this.getBottomBody() + this.getHeight()/2));
   if (this.getWidth() <= this.getHeight()) {
     this.setDragPoints([new Vector(this.getLeftBody() + 0.5*this.getWidth(),
         this.getBottomBody() + 0.8*this.getHeight()),

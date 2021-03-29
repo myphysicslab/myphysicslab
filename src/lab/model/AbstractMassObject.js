@@ -356,8 +356,8 @@ setAngularVelocity(angular_velocity) {
 };
 
 /** @override */
-setCenterOfMass(x_body, y_body) {
-  this.cm_body_ = new Vector(x_body, y_body);
+setCenterOfMass(center) {
+  this.cm_body_ = Vector.clone(center);
   // NaN indicates that minimum height must be recalculated
   this.minHeight_ = Util.NaN;
   this.setChanged();

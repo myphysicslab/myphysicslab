@@ -209,7 +209,7 @@ static makeRandomBlocks(sim, n, x, y, random, rightAngle) {
     } else if (cmy > ymin) {
       cmy = ymin;
     }
-    p.setCenterOfMass(cmx, cmy);
+    p.setCenterOfMass(new Vector(cmx, cmy));
     // set temp position to (x, y), but only to find how much we need to move it
     p.setPosition(new Vector(x,  y),  angle);
     const left = p.getLeftWorld();

@@ -345,11 +345,10 @@ setAngle(angle) {}
 setAngularVelocity(angular_velocity) {}
 
 /** Sets location of center of mass, in body coordinates.
-@param {number} x_body the horizontal position of the center of mass, in body
+@param {!GenericVector} center the position of the center of mass, in body
     coordinates.
-@param {number} y_body the vertical position of the center of mass, in body coordinates.
 */
-setCenterOfMass(x_body, y_body) {}
+setCenterOfMass(center) {}
 
 /** Sets the locations where a mouse can drag this object, in body coordinates.
 @param {!Array<!Vector>} dragPts the locations where a mouse

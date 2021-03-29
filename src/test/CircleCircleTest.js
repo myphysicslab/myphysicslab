@@ -81,12 +81,12 @@ offset center of mass. Energy should be constant with a small enough time step.
 static ball_ball_contact_setup(sim, advance) {
   CircleCircleTest.commonSetup1(sim, advance);
   const body0 = Shapes.makeBall(0.75, 'ball1');
-  body0.setCenterOfMass(0, 0.2);
+  body0.setCenterOfMass(new Vector(0, 0.2));
   body0.setPosition(new Vector(-0.754,  -0.2),  0);
   body0.setVelocity(new Vector(0,  0),  1.0);
   sim.addBody(body0);
   const body1 = Shapes.makeBall(1, 'ball2');
-  body1.setCenterOfMass(0, -0.3);
+  body1.setCenterOfMass(new Vector(0, -0.3));
   body1.setPosition(new Vector(0.95,  0.3),  Math.PI);
   sim.addBody(body1);
   sim.setElasticity(0.8);
@@ -130,7 +130,7 @@ static concave_circle_and_ball_setup(sim, advance) {
   p.setPosition(new Vector(0,  -2),  0);
   sim.addBody(p);
   const p2 = Shapes.makeBall(0.5, 'ball');
-  p2.setCenterOfMass(0.2, 0);
+  p2.setCenterOfMass(new Vector(0.2, 0));
   p2.setPosition(new Vector(0.5,  -0.22),  0);
   sim.addBody(p2);
   sim.setElasticity(0.8);

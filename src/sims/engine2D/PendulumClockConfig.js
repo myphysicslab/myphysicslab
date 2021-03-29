@@ -78,7 +78,7 @@ static makeAnchor(scale, anchorJoint, rodLength, bobRadius, startEdges) {
       /*outsideIsOut=*/true);
   p.closePath();
   p.finish();
-  p.setCenterOfMass(xo, yo);
+  p.setCenterOfMass(new Vector(xo, yo));
   p.setDragPoints([new Vector(xo, yo)]);
   const r = Math.sqrt(width*width + bobRadius*bobRadius);
   p.setMomentAboutCM(r*r/2);
@@ -134,7 +134,7 @@ static makeEscapeWheel(scale, withGear, startEdges) {
         /*numTeeth=*/36, /*outPercent=*/30, /*inPercent=*/30, startEdges);
   }
   p.finish();
-  p.setCenterOfMass(0, 0);
+  p.setCenterOfMass(Vector.ORIGIN);
   p.setDragPoints([new Vector(0, 2)]);
   const r = radius + depth/2;
   p.setMomentAboutCM(r*r/2);

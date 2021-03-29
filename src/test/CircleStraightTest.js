@@ -97,7 +97,7 @@ static commonSetup1(sim, advance, damping) {
 static ball_block_collide_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   const body0 = Shapes.makeBall(0.75, 'ball');
-  body0.setCenterOfMass(0, 0.2);
+  body0.setCenterOfMass(new Vector(0, 0.2));
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(1,  -1),  1);
   sim.addBody(body0);
@@ -150,7 +150,7 @@ lets us get past this point, though it doesn't fix the tiny distance.
 static ball_block_attract_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   const body0 = Shapes.makeBall(0.75, 'ball');
-  body0.setCenterOfMass(0, 0.2);
+  body0.setCenterOfMass(new Vector(0, 0.2));
   body0.setPosition(new Vector(-2,  2),  0);
   body0.setVelocity(new Vector(0.1,  -0.1),  1);
   sim.addBody(body0);
@@ -188,7 +188,7 @@ offset center of mass. Energy should be constant with a small enough time step.
 static ball_block_contact_setup(sim, advance) {
   CircleStraightTest.commonSetup1(sim, advance);
   const body0 = Shapes.makeBall(0.75, 'ball');
-  body0.setCenterOfMass(0, 0.2);
+  body0.setCenterOfMass(new Vector(0, 0.2));
   body0.setPosition(new Vector(-0.2525,  0),  0);
   body0.setVelocity(new Vector(0,  0.6),  1);
   sim.addBody(body0);
@@ -542,7 +542,7 @@ static wedged_ball_setup(sim, advance) {
   sim.setExtraAccel(ExtraAccel.VELOCITY_AND_DISTANCE);
   sim.setCollisionAccuracy(0.6);
   const body0 = Shapes.makeBall(1.5, 'ball');
-  body0.setCenterOfMass(0.4, 0.2);
+  body0.setCenterOfMass(new Vector(0.4, 0.2));
   body0.setPosition(new Vector(-5.5+1.5+.01,  -3),  0);
   sim.addBody(body0);
   const body1 = Shapes.makeBlock(1, 1, 'fixed block');

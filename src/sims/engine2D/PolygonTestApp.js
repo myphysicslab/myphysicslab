@@ -198,7 +198,7 @@ config() {
     p.addStraightEdge(new Vector(0, 2), /*outsideIsUp=*/true);
     p.addStraightEdge(new Vector(0, 0), /*outsideIsUp=*/false);
     p.finish();
-    p.setCenterOfMass(0.8, 0.8);
+    p.setCenterOfMass(new Vector(0.8, 0.8));
     p.setPosition(new Vector(1,  2.5),  Math.PI-0.1);
     p.setVelocity(new Vector(-0.45535,  -0.37665),  0.36526);
     this.mySim.addBody(p);

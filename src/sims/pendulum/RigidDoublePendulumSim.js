@@ -249,7 +249,7 @@ static makeOffset(theta1, theta2, pivot) {
   // body coords origin is at lower left corner with makeBlock2
   const p1 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+1,
       RigidDoublePendulumSim.i18n.PENDULUM+1);
-  p1.setCenterOfMass(p1.getWidth()/3.0, p1.getHeight()*0.3);
+  p1.setCenterOfMass(new Vector(p1.getWidth()/3.0, p1.getHeight()*0.3));
   //p1.setDragPoints([ new Vector(p1.getWidth()/2.0, p1.getHeight()*0.2) ]);
   p1.setPosition(new Vector(0,  0),  theta1);
   const p2 = Shapes.makeBlock2(0.3, 1.0, RigidDoublePendulumSim.en.PENDULUM+2,

@@ -329,7 +329,7 @@ setAngularVelocity(angular_velocity) {
 };
 
 /** @override */
-setCenterOfMass(x_body, y_body) {
+setCenterOfMass(center) {
 };
 
 /** @override */

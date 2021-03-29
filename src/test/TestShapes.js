@@ -65,7 +65,7 @@ static makeConcaveCirclePoly() {
                     /*outsideIsOut=*/false);
   p.addStraightEdge(new Vector(0, -0.5), /*outsideIsUp=*/false);
   p.finish();
-  p.setCenterOfMass(1.5, 0);
+  p.setCenterOfMass(new Vector(1.5, 0));
   p.setElasticity(0.8);
   return p;
 };
@@ -85,7 +85,7 @@ static makeNGon(n, radius) {
   }
   p.addStraightEdge(new Vector(radius, 0), /*outsideIsUp=*/false);
   p.finish();
-  p.setCenterOfMass(0, 0);
+  p.setCenterOfMass(Vector.ORIGIN);
   // use same moment calculation as circle
   p.setMomentAboutCM(radius*radius/2);
   p.setElasticity(0.8);
