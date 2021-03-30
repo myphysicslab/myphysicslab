@@ -442,12 +442,14 @@ observe(event) {
   }
 }
 
-/** Forgets any memorized data and styles, starts from scratch.
+/** Forgets any memorized data and styles, starts from scratch. However, it also calls
+{@link #memorize} to memorize the current data point, if any.
 * @return {undefined}
 */
 reset() {
   this.dataPoints_.reset();
   this.resetStyle();
+  this.memorize();
   this.broadcast(new GenericEvent(this, GraphLine.RESET));
 };
 
