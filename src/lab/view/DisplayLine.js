@@ -256,7 +256,9 @@ setLineDash(lineDash) {
 setPosition(position) {
 };
 
-/** Sets scale factor that adjusts length of line.
+/** Sets scale factor that adjusts length of line. The start point of the line is
+unchanged. The end point is moved so the line has a length = scale *
+the current length.
 * @param {number} scale
 * @return {!DisplayLine} this object for chaining setters
 */
