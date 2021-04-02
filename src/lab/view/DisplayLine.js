@@ -40,6 +40,11 @@ constructor(line, proto) {
   * @private
   */
   this.line_ = line != null ? line : new ConcreteLine('proto');
+  /** Scaling factor to adjust length of line.
+  * @type {number}
+  * @private
+  */
+  this.scale_ = 1.0;
   /** Color used when drawing the line, a CSS3 color value.
   * @type {string|undefined}
   * @private
@@ -78,6 +83,7 @@ constructor(line, proto) {
 /** @override */
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
+      +', scale_: '+Util.NF(this.scale_)
       +', thickness: '+Util.NF(this.getThickness())
       +', color: "'+this.getColor()+'"'
       +', lineDash: ['+this.getLineDash()+']'
@@ -100,8 +106,16 @@ contains(point) {
 draw(context, map) {
   const thickness = this.getThickness();
   if (thickness > 0) {
-    const p1 = map.simToScreen(this.line_.getStartPoint());
-    const p2 = map.simToScreen(this.line_.getEndPoint());
+    let p1 = this.line_.getStartPoint();
+    let p2;
+    if (this.scale_ == 1.0) {
+      p2 = this.line_.getEndPoint();
+    } else {
+      const v = this.line_.getVector();
+      p2 = p1.add(v.multiply(this.scale_));
+    }
+    p1 = map.simToScreen(p1);
+    p2 = map.simToScreen(p2);
     const len = p1.distanceTo(p2);
     if (len < 1e-6)
       return;
@@ -166,6 +180,13 @@ getMassObjects() {
 getPosition() {
   // return midpoint of the line
   return this.line_.getStartPoint().add(this.line_.getEndPoint()).multiply(0.5);
+};
+
+/** Returns scale factor that adjusts length of line.
+* @return {number}
+*/
+getScale() {
+  return this.scale_;
 };
 
 /** @override */
@@ -233,6 +254,15 @@ setLineDash(lineDash) {
 
 /** @override */
 setPosition(position) {
+};
+
+/** Sets scale factor that adjusts length of line.
+* @param {number} scale
+* @return {!DisplayLine} this object for chaining setters
+*/
+setScale(scale) {
+  this.scale_ = scale;
+  return this;
 };
 
 /** Thickness to use when drawing the line, in screen coordinates, so a unit
