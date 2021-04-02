@@ -253,8 +253,8 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #comment running.
 
 #define #START_APP \
-<script>app.setup();</script>\
-<script>app.start();</script>
+<script>var app; if (app) app.setup();</script>\
+<script>var app; if (app) app.start();</script>
 
 #define #PAGE_FOOTER <div id="footer2" >\
   <div id="copyright">\
