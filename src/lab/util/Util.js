@@ -146,6 +146,28 @@ static get(array, index) {
   return array[index];
 };
 
+/** Finds the specified element in the HTML Document; throws an error if element
+* is not found.
+* @param {!Object} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
+* @return {!HTMLElement} the element from the current HTML Document
+* @throws {!Error} if element is not found
+*/
+static getElementById(elem_ids, elementId) {
+  // note:  Google Closure Compiler will rename properties in advanced mode.
+  // Therefore, we need to get the property with a string which is not renamed.
+  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
+  const e_id = elem_ids[elementId];
+  if (typeof e_id !== 'string') {
+    throw 'unknown elementId: '+elementId;
+  }
+  const e = /** @type {!HTMLElement} */(document.getElementById(e_id));
+  if (!goog.isObject(e)) {
+    throw 'not found: element with id='+e_id;
+  }
+  return e;
+};
+
 /** Returns the length of hypotenuse of right triangle.
 * @param {number} a length of a side of the right triangle
 * @param {number} b length of other side of the right triangle
@@ -193,6 +215,23 @@ static limitAngle(angle) {
   } else {
     return angle;
   }
+};
+
+/** Finds the specified element in the HTML Document; returns null if element
+* is not found.
+* @param {!Object} elem_ids  set of elementId names to examine
+* @param {string} elementId specifies which element to get from elem_ids
+* @return {?HTMLElement} the element from the current HTML Document, or null if not found
+*/
+static maybeElementById(elem_ids, elementId) {
+  // note:  Google Closure Compiler will rename properties in advanced mode.
+  // Therefore, we need to get the property with a string which is not renamed.
+  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
+  const e_id = elem_ids[elementId];
+  if (typeof e_id !== 'string') {
+    throw 'unknown elementId: '+elementId;
+  }
+  return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
 /** Returns list of names of methods (functions) defined on the given object.

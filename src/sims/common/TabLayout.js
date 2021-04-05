@@ -206,7 +206,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.tab_list = TabLayout.getElementById(elem_ids, 'tab_list');
+  this.tab_list = Util.getElementById(elem_ids, 'tab_list');
   /** name of current layout
   @type {string}
   @private
@@ -246,13 +246,13 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
       () => this.redoLayout() );
 
   const term_output = /**@type {?HTMLInputElement}*/
-      (TabLayout.maybeElementById(elem_ids, 'term_output'));
+      (Util.maybeElementById(elem_ids, 'term_output'));
   /**
   * @type {?HTMLInputElement}
   * @private
   */
   this.term_input = /**@type {?HTMLInputElement}*/
-      (TabLayout.maybeElementById(elem_ids, 'term_input'));
+      (Util.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal}
   * @private
   */
@@ -262,7 +262,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_contain = TabLayout.getElementById(elem_ids, 'container');
+  this.div_contain = Util.getElementById(elem_ids, 'container');
   if (this.debug_layout) {
     this.div_contain.style.border = 'dashed 1px red';
   }
@@ -270,7 +270,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
+  this.div_sim = Util.getElementById(elem_ids, 'sim_applet');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_sim.style.position = 'relative';
   const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -292,7 +292,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @private
   */
   this.show_sim_cb = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'show_sim'));
+      (Util.getElementById(elem_ids, 'show_sim'));
   const p = dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
     throw '';
@@ -309,7 +309,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_graph = TabLayout.getElementById(elem_ids, 'div_graph');
+  this.div_graph = Util.getElementById(elem_ids, 'div_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_graph.style.position = 'relative';
   const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -325,7 +325,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.graph_controls = TabLayout.getElementById(elem_ids, 'graph_controls');
+  this.graph_controls = Util.getElementById(elem_ids, 'graph_controls');
   if (this.debug_layout) {
     this.graph_controls.style.border = 'dashed 1px green';
   }
@@ -338,7 +338,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.sim_controls = TabLayout.getElementById(elem_ids, 'sim_controls');
+  this.sim_controls = Util.getElementById(elem_ids, 'sim_controls');
   // marginLeft gives gap when controls are along side canvas.
   this.sim_controls.style.marginLeft = '10px';
   if (this.debug_layout) {
@@ -349,7 +349,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.div_term = TabLayout.getElementById(elem_ids, 'div_terminal');
+  this.div_term = Util.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
   if (this.debug_layout) {
     this.div_term.style.border = 'dashed 1px green';
@@ -357,7 +357,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
 
   // 'show terminal' checkbox.
   const label_term = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'label_terminal'));
+      (Util.getElementById(elem_ids, 'label_terminal'));
   /**
   * @type {!HTMLInputElement}
   * @private
@@ -368,7 +368,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   } else {
     label_term.style.display = 'inline';
     this.show_term_cb = /**@type {!HTMLInputElement}*/
-        (TabLayout.getElementById(elem_ids, 'show_terminal'));
+        (Util.getElementById(elem_ids, 'show_terminal'));
     events.listen(this.show_term_cb, EventType.CLICK,
       e => this.showTerminal(this.show_term_cb.checked) );
   }
@@ -376,7 +376,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_time_graph = TabLayout.getElementById(elem_ids, 'div_time_graph');
+  this.div_time_graph = Util.getElementById(elem_ids, 'div_time_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_time_graph.style.position = 'relative';
   const canvas3 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -391,7 +391,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.time_graph_controls = TabLayout.getElementById(elem_ids, 'time_graph_controls');
+  this.time_graph_controls = Util.getElementById(elem_ids, 'time_graph_controls');
   if (this.debug_layout) {
     this.time_graph_controls.style.border = 'dashed 1px green';
   }
@@ -453,45 +453,6 @@ static getValues() {
       Layout.MULTI_GRAPH,
       Layout.MULTI_GRAPH_AND_SIM
   ];
-};
-
-/** Finds the specified element in the HTML Document; throws an error if element
-* is not found.
-* @param {!Object} elem_ids  set of elementId names to examine
-* @param {string} elementId specifies which element to get from elem_ids
-* @return {!HTMLElement} the element from the current HTML Document
-* @throws {!Error} if element is not found
-*/
-static getElementById(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
-  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  const e_id = elem_ids[elementId];
-  if (typeof e_id !== 'string') {
-    throw 'unknown elementId: '+elementId;
-  }
-  const e = /** @type {!HTMLElement} */(document.getElementById(e_id));
-  if (!goog.isObject(e)) {
-    throw 'not found: element with id='+e_id;
-  }
-  return e;
-};
-
-/** Finds the specified element in the HTML Document; returns null if element
-* is not found.
-* @param {!Object} elem_ids  set of elementId names to examine
-* @param {string} elementId specifies which element to get from elem_ids
-* @return {?HTMLElement} the element from the current HTML Document, or null if not found
-*/
-static maybeElementById(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
-  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  const e_id = elem_ids[elementId];
-  if (typeof e_id !== 'string') {
-    throw 'unknown elementId: '+elementId;
-  }
-  return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
 /** @override */

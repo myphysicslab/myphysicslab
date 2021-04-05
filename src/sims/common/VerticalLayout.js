@@ -86,9 +86,9 @@ constructor(elem_ids) {
   */
   this.controls_ = [];
   const term_output = /**@type {?HTMLInputElement}*/
-      (VerticalLayout.maybeElementById(elem_ids, 'term_output'));
+      (Util.maybeElementById(elem_ids, 'term_output'));
   const term_input = /**@type {?HTMLInputElement}*/
-      (VerticalLayout.maybeElementById(elem_ids, 'term_input'));
+      (Util.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal}
   * @private
   */
@@ -98,7 +98,7 @@ constructor(elem_ids) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_sim = VerticalLayout.getElementById(elem_ids, 'sim_applet');
+  this.div_sim = Util.getElementById(elem_ids, 'sim_applet');
   // to allow absolute positioning of icon controls over the canvas:
   this.div_sim.style.position = 'relative';
   const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -120,7 +120,7 @@ constructor(elem_ids) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_graph = VerticalLayout.getElementById(elem_ids, 'div_graph');
+  this.div_graph = Util.getElementById(elem_ids, 'div_graph');
   const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   canvas2.style.float = 'left';
   canvas2.style.margin = '0px 15px 15px 0px';
@@ -139,12 +139,12 @@ constructor(elem_ids) {
   * @private
   */
   this.graph_controls = /**@type {!HTMLElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'graph_controls'));
+      (Util.getElementById(elem_ids, 'graph_controls'));
   this.div_graph.insertBefore(this.graphCanvas.getCanvas(), this.graph_controls);
 
   /* 'show graph' checkbox. */
   const show_graph_cb = /**@type {!HTMLInputElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'show_graph'));
+      (Util.getElementById(elem_ids, 'show_graph'));
   /** @type {function(boolean)} */
   this.showGraph = visible => {
     this.div_graph.style.display = visible ? 'block' : 'none';
@@ -158,14 +158,14 @@ constructor(elem_ids) {
   * @private
   */
   this.sim_controls = /** @type {!HTMLElement} */
-      (VerticalLayout.getElementById(elem_ids, 'sim_controls'));
+      (Util.getElementById(elem_ids, 'sim_controls'));
   if (this.debug_layout) {
     this.sim_controls.style.border = 'dashed 1px red';
   }
 
   /* 'show controls' checkbox. */
   const show_controls_cb = /**@type {!HTMLInputElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'show_controls'));
+      (Util.getElementById(elem_ids, 'show_controls'));
   this.sim_controls.style.display = 'none';
   /** @type {function(boolean)} */
   this.showControls = /** @type {function(boolean)}*/(visible => {
@@ -177,13 +177,13 @@ constructor(elem_ids) {
 
   /* <form> element for Terminal */
   const form_term = /**@type {!HTMLFormElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'form_terminal'));
+      (Util.getElementById(elem_ids, 'form_terminal'));
   form_term.style.display = 'none';
   if (this.debug_layout) {
     form_term.style.border = 'dashed 1px green';
   }
   const label_term = /**@type {!HTMLInputElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'label_terminal'));
+      (Util.getElementById(elem_ids, 'label_terminal'));
   /** @type {function(boolean)} */
   this.showTerminal;
   if (Util.ADVANCED) {
@@ -193,7 +193,7 @@ constructor(elem_ids) {
   } else {
     /* 'show terminal' checkbox. */
     const show_term_cb = /**@type {!HTMLInputElement}*/
-        (VerticalLayout.getElementById(elem_ids, 'show_terminal'));
+        (Util.getElementById(elem_ids, 'show_terminal'));
     this.showTerminal = /** @type {function(boolean)}*/(visible => {
       form_term.style.display = visible ? 'block' : 'none';
       show_term_cb.checked = visible;
@@ -207,7 +207,7 @@ constructor(elem_ids) {
   }
 
   const show_hide_form = /**@type {!HTMLFormElement}*/
-      (VerticalLayout.getElementById(elem_ids, 'show_hide_form'));
+      (Util.getElementById(elem_ids, 'show_hide_form'));
   if (this.debug_layout) {
     show_hide_form.style.border = 'dashed 1px green';
   }
@@ -227,45 +227,6 @@ toString() {
 /** @override */
 getClassName() {
   return 'VerticalLayout';
-};
-
-/** Finds the specified element in the HTML Document; throws an error if element
-* is not found.
-* @param {!Object} elem_ids  set of elementId names to examine
-* @param {string} elementId specifies which element to get from elem_ids
-* @return {!HTMLElement} the element from the current HTML Document
-* @throws {!Error} if element is not found
-*/
-static getElementById(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
-  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  const e_id = elem_ids[elementId];
-  if (typeof e_id !== 'string') {
-    throw 'unknown elementId: '+elementId;
-  }
-  const e = /** @type {!HTMLElement} */(document.getElementById(e_id));
-  if (!goog.isObject(e)) {
-    throw 'not found: element with id='+e_id;
-  }
-  return e;
-};
-
-/** Finds the specified element in the HTML Document; returns null if element
-* is not found.
-* @param {!Object} elem_ids  set of elementId names to examine
-* @param {string} elementId specifies which element to get from elem_ids
-* @return {?HTMLElement} the element from the current HTML Document, or null if not found
-*/
-static maybeElementById(elem_ids, elementId) {
-  // note:  Google Closure Compiler will rename properties in advanced mode.
-  // Therefore, we need to get the property with a string which is not renamed.
-  // It is the difference between elem_ids.sim_applet vs. elem_ids['sim_applet'].
-  const e_id = elem_ids[elementId];
-  if (typeof e_id !== 'string') {
-    throw 'unknown elementId: '+elementId;
-  }
-  return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
 /** @override */
