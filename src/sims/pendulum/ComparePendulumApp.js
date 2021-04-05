@@ -90,7 +90,7 @@ can be properly expanded.
 */
 class ComparePendulumApp extends AbstractSubject {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -99,12 +99,12 @@ constructor(elem_ids) {
   super('APP');
   /** @type {!TabLayout} */
   this.layout = new TabLayout(elem_ids);
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const simCanvas = this.layout.simCanvas;
+  this.terminal = this.layout.getTerminal();
+  const simCanvas = this.layout.getSimCanvas();
 
   /** difference between two start angles
   * @type {number}
@@ -228,7 +228,7 @@ constructor(elem_ids) {
   const panzoom_simview = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect) );
-  this.layout.div_sim.appendChild(panzoom_simview);
+  this.layout.getSimDiv().appendChild(panzoom_simview);
   pb = CommonControls.makeShowPanZoomParam(panzoom_simview, this);
   pb.setValue(false);
   this.addControl(new CheckBoxControl(pb));
@@ -237,7 +237,7 @@ constructor(elem_ids) {
   this.addControl(new NumericControl(pn));
   pn = this.simRun.getClock().getParameterNumber(Clock.en.TIME_RATE);
   this.addControl(new NumericControl(pn));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
 
   /** @type {!GraphLine} */
@@ -269,8 +269,8 @@ constructor(elem_ids) {
 
   /** @type {!CompareGraph} */
   this.graph = new CompareGraph(line1, line2,
-      this.layout.graphCanvas,
-      this.layout.graph_controls, this.layout.div_graph, this.simRun);
+      this.layout.getGraphCanvas(),
+      this.layout.getGraphControls(), this.layout.getGraphDiv(), this.simRun);
 
   const timeLine1 = new GraphLine('TIME_LINE_1', va1);
   timeLine1.setYVariable(0);
@@ -290,8 +290,8 @@ constructor(elem_ids) {
   }, 'keep timeLine2\'s Y variable in sync with timeLine1');
   /** @type {!CompareTimeGraph} */
   this.timeGraph = new CompareTimeGraph(timeLine1, timeLine2,
-      this.layout.timeGraphCanvas,
-      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+      this.layout.getTimeGraphCanvas(),
+      this.layout.getTimeGraphControls(), this.layout.getTimeGraphDiv(), this.simRun);
 
   new GenericObserver(this.sim1, evt => {
     if (evt instanceof ParameterNumber) {
@@ -473,7 +473,7 @@ ComparePendulumApp.i18n = goog.LOCALE === 'de' ? ComparePendulumApp.de_strings :
     ComparePendulumApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!ComparePendulumApp}
 */
 function makeComparePendulumApp(elem_ids) {

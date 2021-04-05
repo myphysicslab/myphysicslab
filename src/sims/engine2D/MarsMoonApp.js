@@ -26,7 +26,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -37,7 +36,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 class MarsMoonApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -48,8 +47,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(false);
   this.mySim.setShowCollisions(true);
@@ -380,7 +379,7 @@ MarsMoonApp.i18n = goog.LOCALE === 'de' ? MarsMoonApp.de_strings :
     MarsMoonApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!MarsMoonApp}
 */
 function makeMarsMoonApp(elem_ids) {

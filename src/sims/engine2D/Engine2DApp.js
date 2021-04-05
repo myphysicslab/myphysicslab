@@ -35,6 +35,7 @@ const EnergySystem = goog.require('myphysicslab.lab.model.EnergySystem');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
+const Layout = goog.require('myphysicslab.sims.common.Layout');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
 const Parameter = goog.require('myphysicslab.lab.util.Parameter');
@@ -88,7 +89,7 @@ be properly expanded.
 */
 class Engine2DApp extends AbstractSubject {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {!DoubleRect} simRect the dimensions of the simulation view;
@@ -102,16 +103,12 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
   super(opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;
-  // set canvasWidth to 800, and canvasHeight proportional as in simRect.
-  const canvasWidth = 800;
-  const canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
-      this.simRect.getWidth());
-  /** @type {!TabLayout} */
-  this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
+  /** @type {!Layout} */
+  this.layout = this.makeLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const simCanvas = this.layout.simCanvas;
+  this.terminal = this.layout.getTerminal();
+  const simCanvas = this.layout.getSimCanvas();
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
@@ -165,7 +162,7 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
-  this.layout.div_sim.appendChild(panzoom);
+  this.layout.getSimDiv().appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
@@ -174,12 +171,12 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
   this.diffEqSolver = new DiffEqSolverSubject(sim, sim, advance);
 
   /** @type {!StandardGraph1} */
-  this.graph = new StandardGraph1(sim.getVarsList(), this.layout.graphCanvas,
-      this.layout.graph_controls, this.layout.div_graph, this.simRun);
+  this.graph = new StandardGraph1(sim.getVarsList(), this.layout.getGraphCanvas(),
+      this.layout.getGraphControls(), this.layout.getGraphDiv(), this.simRun);
 
   /** @type {!TimeGraph1} */
-  this.timeGraph = new TimeGraph1(sim.getVarsList(), this.layout.timeGraphCanvas,
-      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+  this.timeGraph = new TimeGraph1(sim.getVarsList(), this.layout.getTimeGraphCanvas(),
+      this.layout.getTimeGraphControls(), this.layout.getTimeGraphDiv(), this.simRun);
 
   /** @type {!EasyScriptParser} */
   this.easyScript;
@@ -228,6 +225,18 @@ defineNames(myName) {
     this.terminal.addRegex('CommonControls|StandardGraph1|TimeGraph1|TabLayout',
         'mpl$$sims$$common$$', /*addToVars=*/false);
   }
+};
+
+/**
+* @param {!Object} elem_ids
+* @return {!Layout}
+*/
+makeLayout(elem_ids) {
+  // set canvasWidth to 800, and canvasHeight proportional as in simRect.
+  const canvasWidth = 800;
+  const canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
+      this.simRect.getWidth());
+  return new TabLayout(elem_ids, canvasWidth, canvasHeight);
 };
 
 /** Watch a Parameter and when it changes note that there was a discontinuous change
@@ -340,7 +349,7 @@ addStandardControls() {
   this.addControl(new ChoiceControl(ps));
   pn = this.sim.getParameterNumber(EnergySystem.en.PE_OFFSET);
   this.addControl(new NumericControl(pn));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
   //ps = this.sim.getParameterString(RigidBodySim.en.COLLISION_HANDLING);
   //this.addControl(new ChoiceControl(ps));

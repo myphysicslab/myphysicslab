@@ -26,7 +26,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const SpeedTest = goog.require('myphysicslab.test.SpeedTest');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** SingleViewerApp is hard-coded to run a single test for debugging, similar to
@@ -34,7 +33,7 @@ TestViewerApp but without the menus to select tests.
 */
 class SingleViewerApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -79,7 +78,7 @@ getClassName() {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!SingleViewerApp}
 */
 function makeSingleViewerApp(elem_ids) {

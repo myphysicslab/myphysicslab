@@ -32,7 +32,6 @@ const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -42,7 +41,7 @@ debugging.
 */
 class TestBodyApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -184,7 +183,7 @@ TestBodyApp.i18n = goog.LOCALE === 'de' ? TestBodyApp.de_strings :
     TestBodyApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!TestBodyApp}
 */
 function makeTestBodyApp(elem_ids) {

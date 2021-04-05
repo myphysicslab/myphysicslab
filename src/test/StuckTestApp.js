@@ -26,7 +26,6 @@ const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** StuckTestApp runs a simulation that is guaranteed to become 'stuck', at which point
@@ -40,7 +39,7 @@ lack of contact forces.
 */
 class StuckTestApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -87,7 +86,7 @@ getClassName() {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!StuckTestApp}
 */
 function makeStuckTestApp(elem_ids) {

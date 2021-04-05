@@ -17,8 +17,11 @@ goog.module('myphysicslab.sims.common.VerticalLayout');
 const events = goog.require('goog.events');
 const EventType = goog.require('goog.events.EventType');
 
+const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const LabCanvas = goog.require('myphysicslab.lab.view.LabCanvas');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
+const Layout = goog.require('myphysicslab.sims.common.Layout');
+const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
 const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
@@ -32,42 +35,69 @@ checkboxes with those names; these functions appear in Terminal when they are ex
 These functions can also be called from the Terminal, and therefore saved in Terminal
 command storage, preserving what the state of what is visible.
 
-VerticalLayout constructor takes an argument that specifies the names of the HTML
-elements to look for in the HTML document; these elements are where the user
-interface of the simulation is created. This allows for having two separate
-simulations running concurrently on a single page.
-
 When using advanced-optimizations compile mode the Terminal will not work, because
 all method and class names are minified, and unused code is eliminated -- so even if
 you could get at a minified class, much of it would not be there to use.
 
+### Element IDs
+
+VerticalLayout constructor takes an argument that specifies the names of the HTML
+elements to look for in the HTML document; these elements are where the user
+interface of the simulation is created. This allows for having two separate instances
+of the same simulation running concurrently on a single page.
+
+These are the names expected to be in the element IDs object:
+
++  term_output
++  term_input
++  sim_applet
++  div_graph
++  graph_controls
++  show_graph
++  sim_controls
++  show_controls
++  form_terminal
++  label_terminal
++  show_terminal
++  show_hide_form
++  images_dir
+
 Oct 2014: increased size of simCanvas and graphCanvas so that they look better when
 stretched to large sizes on large screens.
+* @implements {SubjectList}
+* @implements {Layout}
 */
-class VerticalLayout {
+class VerticalLayout extends AbstractSubject {
 /**
-* @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
 constructor(elem_ids) {
+  super('VERTICAL_LAYOUT');
   Util.setImagesDir(elem_ids['images_dir']);
   /** whether to put dashed borders around elements
   * @type {boolean}
   * @const
   */
   this.debug_layout = false;
-  /** @type {!Array<!LabControl>} */
+  /** @type {!Array<!LabControl>}
+  * @private
+  */
   this.controls_ = [];
   const term_output = /**@type {?HTMLInputElement}*/
       (VerticalLayout.maybeElementById(elem_ids, 'term_output'));
   const term_input = /**@type {?HTMLInputElement}*/
       (VerticalLayout.maybeElementById(elem_ids, 'term_input'));
-  /** @type {!Terminal} */
+  /** @type {!Terminal}
+  * @private
+  */
   this.terminal = new Terminal(term_input, term_output);
   Terminal.stdRegex(this.terminal);
 
-  /** @type {!Element} */
+  /** @type {!HTMLElement}
+  * @private
+  */
   this.div_sim = VerticalLayout.getElementById(elem_ids, 'sim_applet');
   // to allow absolute positioning of icon controls over the canvas:
   this.div_sim.style.position = 'relative';
@@ -80,17 +110,23 @@ constructor(elem_ids) {
   canvas.tabIndex = 0;
   canvas.width = 800;
   canvas.height = 480;
-  /** @type {!LabCanvas} */
+  /** @type {!LabCanvas}
+  * @private
+ */
   this.simCanvas = new LabCanvas(canvas, 'simCanvas');
   this.div_sim.appendChild(this.simCanvas.getCanvas());
 
   /* GraphCanvas */
-  /** @type {!Element} */
+  /** @type {!HTMLElement}
+  * @private
+  */
   this.div_graph = VerticalLayout.getElementById(elem_ids, 'div_graph');
   const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
   canvas2.style.float = 'left';
   canvas2.style.margin = '0px 15px 15px 0px';
-  /** @type {!LabCanvas} */
+  /** @type {!LabCanvas}
+  * @private
+  */
   this.graphCanvas = new LabCanvas(canvas2, 'graphCanvas');
   this.graphCanvas.setSize(480, 480);
   // graphCanvas is initially hidden
@@ -99,8 +135,10 @@ constructor(elem_ids) {
     this.div_graph.style.border = 'dashed 1px blue';
   }
   /* <div> for graph controls */
-  /** @type {!Element} */
-  this.graph_controls = /**@type {!Element}*/
+  /** @type {!HTMLElement}
+  * @private
+  */
+  this.graph_controls = /**@type {!HTMLElement}*/
       (VerticalLayout.getElementById(elem_ids, 'graph_controls'));
   this.div_graph.insertBefore(this.graphCanvas.getCanvas(), this.graph_controls);
 
@@ -116,8 +154,10 @@ constructor(elem_ids) {
       e => this.showGraph(show_graph_cb.checked) );
 
   /* <form> for sim controls */
-  /** @type {!Element} */
-  this.sim_controls = /** @type {!Element} */
+  /** @type {!HTMLElement}
+  * @private
+  */
+  this.sim_controls = /** @type {!HTMLElement} */
       (VerticalLayout.getElementById(elem_ids, 'sim_controls'));
   if (this.debug_layout) {
     this.sim_controls.style.border = 'dashed 1px red';
@@ -184,11 +224,16 @@ toString() {
     +'}';
 };
 
+/** @override */
+getClassName() {
+  return 'VerticalLayout';
+};
+
 /** Finds the specified element in the HTML Document; throws an error if element
 * is not found.
-* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {!Object} elem_ids  set of elementId names to examine
 * @param {string} elementId specifies which element to get from elem_ids
-* @return {!Element} the element from the current HTML Document
+* @return {!HTMLElement} the element from the current HTML Document
 * @throws {!Error} if element is not found
 */
 static getElementById(elem_ids, elementId) {
@@ -199,7 +244,7 @@ static getElementById(elem_ids, elementId) {
   if (typeof e_id !== 'string') {
     throw 'unknown elementId: '+elementId;
   }
-  const e = document.getElementById(e_id);
+  const e = /** @type {!HTMLElement} */(document.getElementById(e_id));
   if (!goog.isObject(e)) {
     throw 'not found: element with id='+e_id;
   }
@@ -208,7 +253,7 @@ static getElementById(elem_ids, elementId) {
 
 /** Finds the specified element in the HTML Document; returns null if element
 * is not found.
-* @param {!VerticalLayout.elementIds} elem_ids  set of elementId names to examine
+* @param {!Object} elem_ids  set of elementId names to examine
 * @param {string} elementId specifies which element to get from elem_ids
 * @return {?HTMLElement} the element from the current HTML Document, or null if not found
 */
@@ -223,38 +268,73 @@ static maybeElementById(elem_ids, elementId) {
   return /** @type {?HTMLElement} */(document.getElementById(e_id));
 };
 
-/** Add the control to the set of simulation controls.
-* @param {!LabControl} control
-* @return {!LabControl} the control that was passed in
-*/
-addControl(control) {
-  const element = control.getElement();
-  element.style.display = 'inline-block';
-  this.sim_controls.appendChild(element);
+/** @override */
+addControl(control, opt_add) {
+  opt_add = opt_add === undefined ? true : opt_add;
+  if (opt_add) {
+    const element = control.getElement();
+    element.style.display = 'inline-block';
+    this.sim_controls.appendChild(element);
+  }
   this.controls_.push(control);
   return control;
 };
 
-} // end class
+/** @override */
+getGraphCanvas() {
+  return this.graphCanvas;
+};
 
-/**  Names of HTML div, form, and input element's to search for by using
-* {document.getElementById()}.
-* @typedef {{
-*  term_output: string,
-*  term_input: string,
-*  sim_applet: string,
-*  div_graph: string,
-*  graph_controls: string,
-*  show_graph: string,
-*  sim_controls: string,
-*  show_controls: string,
-*  form_terminal: string,
-*  label_terminal: string,
-*  show_terminal: string,
-*  show_hide_form: string,
-*  images_dir: string
-* }}
-*/
-VerticalLayout.elementIds;
+/** @override */
+getGraphControls() {
+  return this.graph_controls;
+};
+
+/** @override */
+getGraphDiv() {
+  return this.div_graph;
+};
+
+/** @override */
+getSubjects() {
+  return [ this, this.simCanvas, this.graphCanvas ];
+};
+
+/** @override */
+getSimCanvas() {
+  return this.simCanvas;
+};
+
+/** @override */
+getSimControls() {
+  return this.sim_controls;
+};
+
+/** @override */
+getSimDiv() {
+  return this.div_sim;
+};
+
+/** @override */
+getTerminal() {
+  return this.terminal;
+};
+
+/** @override */
+getTimeGraphCanvas() {
+  throw Util.NOT_IMPLEMENTED;
+};
+
+/** @override */
+getTimeGraphControls() {
+  throw Util.NOT_IMPLEMENTED;
+};
+
+/** @override */
+getTimeGraphDiv() {
+  throw Util.NOT_IMPLEMENTED;
+};
+
+} // end class
 
 exports = VerticalLayout;

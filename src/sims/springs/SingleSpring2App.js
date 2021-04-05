@@ -69,7 +69,7 @@ this uses {@link TimeGraph2} instead of TimeGraph1.
 */
 class SingleSpring2App extends AbstractSubject {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {string=} opt_name name of this as a Subject
@@ -88,8 +88,8 @@ constructor(elem_ids, opt_name) {
   this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const simCanvas = this.layout.simCanvas;
+  this.terminal = this.layout.getTerminal();
+  const simCanvas = this.layout.getSimCanvas();
 
   /** @type {!SingleSpringSim} */
   this.sim = new SingleSpringSim();
@@ -139,7 +139,7 @@ constructor(elem_ids, opt_name) {
   const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       /*resetFunc=*/ () => this.simView.setSimRect(this.simRect));
-  this.layout.div_sim.appendChild(panzoom);
+  this.layout.getSimDiv().appendChild(panzoom);
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
 
@@ -147,13 +147,13 @@ constructor(elem_ids, opt_name) {
   this.diffEqSolver = new DiffEqSolverSubject(this.sim, this.sim, this.advance);
 
   /** @type {!StandardGraph1} */
-  this.graph = new StandardGraph1(this.sim.getVarsList(), this.layout.graphCanvas,
-      this.layout.graph_controls, this.layout.div_graph, this.simRun);
+  this.graph = new StandardGraph1(this.sim.getVarsList(), this.layout.getGraphCanvas(),
+      this.layout.getGraphControls(), this.layout.getGraphDiv(), this.simRun);
   this.graph.line.setDrawingMode(DrawingMode.LINES);
 
   /** @type {!TimeGraph2} */
-  this.timeGraph = new TimeGraph2(this.sim.getVarsList(), this.layout.timeGraphCanvas,
-      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+  this.timeGraph = new TimeGraph2(this.sim.getVarsList(), this.layout.getTimeGraphCanvas(),
+      this.layout.getTimeGraphControls(), this.layout.getTimeGraphDiv(), this.simRun);
 
   /** @type {!DisplayShape} */
   this.block = new DisplayShape(this.simList.getPointMass('block'))
@@ -197,7 +197,7 @@ constructor(elem_ids, opt_name) {
   this.addControl(new NumericControl(pn));
   const ps = this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
 
   const subjects = [
@@ -210,9 +210,9 @@ constructor(elem_ids, opt_name) {
     this.statusView,
     this.varsList,
     this.layout,
-    this.layout.simCanvas,
-    this.layout.graphCanvas,
-    this.layout.timeGraphCanvas,
+    this.layout.getSimCanvas(),
+    this.layout.getGraphCanvas(),
+    this.layout.getTimeGraphCanvas(),
     this.graph,
     this.graph.line,
     this.graph.view,
@@ -323,7 +323,7 @@ start() {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!SingleSpring2App}
 */
 function makeSingleSpring2App(elem_ids) {

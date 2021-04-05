@@ -25,14 +25,13 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Molecule1Sim} simulation.
 */
 class Molecule1App extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -43,8 +42,8 @@ constructor(elem_ids) {
   const advance = new CollisionAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
-  this.layout.simCanvas.setBackground('white');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('white');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
 
   /** @type {!DisplayShape} */
   this.walls = new DisplayShape(this.simList.getPointMass('walls'))
@@ -118,7 +117,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!Molecule1App}
 */
 function makeMolecule1App(elem_ids) {

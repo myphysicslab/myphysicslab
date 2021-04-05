@@ -34,7 +34,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -48,7 +47,7 @@ the view to show the graph as it is drawn.
 */
 class PendulumSpringApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -59,7 +58,7 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
   this.mySim.setShowForces(false);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0.05, 0.15, this.simList);
@@ -292,7 +291,7 @@ PendulumSpringApp.i18n = goog.LOCALE === 'de' ? PendulumSpringApp.de_strings :
     PendulumSpringApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!PendulumSpringApp}
 */
 function makePendulumSpringApp(elem_ids) {

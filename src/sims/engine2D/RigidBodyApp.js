@@ -30,7 +30,6 @@ const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -43,7 +42,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 class RigidBodyApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -54,7 +53,7 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!RigidBodySim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
   this.rbo.protoPolygon.setNameColor('gray').setNameFont('10pt sans-serif');
   this.rbo.protoSpring.setThickness(4).setWidth(.4);
   this.elasticity.setElasticity(1.0);
@@ -413,7 +412,7 @@ RigidBodyApp.i18n = goog.LOCALE === 'de' ? RigidBodyApp.de_strings :
     RigidBodyApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RigidBodyApp}
 */
 function makeRigidBodyApp(elem_ids) {

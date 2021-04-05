@@ -755,6 +755,8 @@ static setErrorHandler() {
 static setImagesDir(images_dir) {
   if (images_dir !== undefined) {
     Util.IMAGES_DIR = images_dir;
+  } else {
+    throw 'images directory not found';
   }
 };
 
@@ -1009,6 +1011,12 @@ Util.NaN = Number.NaN;
 * @const
 */
 Util.NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY;
+
+/**
+* @type {string}
+* @const
+*/
+Util.NOT_IMPLEMENTED = 'not implemented';
 
 /** Number of errors reported by {@link #setErrorHandler}.
 * @type {number}

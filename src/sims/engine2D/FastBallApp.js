@@ -20,7 +20,6 @@ const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -29,7 +28,7 @@ const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
 */
 class FastBallApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -99,7 +98,7 @@ FastBallApp.i18n = goog.LOCALE === 'de' ? FastBallApp.de_strings :
     FastBallApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!FastBallApp}
 */
 function makeFastBallApp(elem_ids) {

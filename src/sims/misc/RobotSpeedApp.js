@@ -17,8 +17,8 @@ goog.module('myphysicslab.sims.misc.RobotSpeedApp');
 const AbstractApp = goog.require('myphysicslab.sims.common.AbstractApp');
 const CommonControls = goog.require('myphysicslab.sims.common.CommonControls');
 const DisplayLine = goog.require('myphysicslab.lab.view.DisplayLine');
-const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DisplayRobotWheel = goog.require('myphysicslab.sims.misc.DisplayRobotWheel');
+const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Force = goog.require('myphysicslab.lab.model.Force');
 const GenericMemo = goog.require('myphysicslab.lab.util.GenericMemo');
@@ -26,11 +26,11 @@ const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const Observer = goog.require('myphysicslab.lab.util.Observer');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
+const RobotSpeedSim = goog.require('myphysicslab.sims.misc.RobotSpeedSim');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
-const RobotSpeedSim = goog.require('myphysicslab.sims.misc.RobotSpeedSim');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
+const TabLayout2 = goog.require('myphysicslab.sims.common.TabLayout2');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link RobotSpeedSim} simulation.
@@ -38,7 +38,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class RobotSpeedApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {string=} opt_name name of this as a Subject
@@ -119,7 +119,7 @@ constructor(elem_ids, opt_name) {
   this.timeGraph.line2.setYVariable(4);
   this.timeGraph.line3.setYVariable(5);
   this.timeGraph.autoScale.setTimeWindow(2);
-  this.layout.setLayout(TabLayout.Layout.TIME_GRAPH_AND_SIM);
+  (/**@type !TabLayout2*/(this.layout)).setLayout(TabLayout2.Layout.TIME_GRAPH_AND_SIM);
   this.sim.getSimList().addObserver(this);
   this.getParameterBoolean('PAN_ZOOM').setValue(true);
 };
@@ -174,7 +174,7 @@ observe(event) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RobotSpeedApp}
 */
 function makeRobotSpeedApp(elem_ids) {

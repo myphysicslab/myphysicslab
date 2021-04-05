@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.module('myphysicslab.sims.common.TabLayout');
+goog.module('myphysicslab.sims.common.TabLayout2');
 
 const array = goog.require('goog.array');
 const dom = goog.require('goog.dom');
@@ -32,16 +32,19 @@ const SubjectList = goog.require('myphysicslab.lab.util.SubjectList');
 const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
-/** TabLayout is a tab-based layout for showing a simulation, graph, and controls.
-TabLayout implements specific ways to present the application on the web page, in this
-case with a tab-based layout. TabLayout creates and manages various layout elements
+/** TabLayout2 is a tab-based layout for showing a simulation, graph, and controls.
+TabLayout2 implements specific ways to present the application on the web page, in this
+case with a tab-based layout. TabLayout2 creates and manages various layout elements
 (LabCanvas, `div` for controls, Terminal, etc.). It also defines regular expressions
 for easy Terminal scripting of these objects using short names such as terminal,
 simCanvas, graphCanvas.
 
+TabLayout2 is similar to TabLayout, except each canvas has its own control area. The
+control area is shown or hidden along with the canvas in most layouts.
+
 ### Element IDs
 
-TabLayout constructor takes an argument that specifies the names of the HTML
+TabLayout2 constructor takes an argument that specifies the names of the HTML
 elements to look for in the HTML document; these elements are where the user
 interface of the simulation is created. This allows for having two separate instances
 of the same simulation running concurrently on a single page.
@@ -116,7 +119,7 @@ canvases then we always use 49% width to fit two canvases side-by-side.
 2. LabCanvas Parameters for `WIDTH, HEIGHT`: These set the pixel density (resolution)
 and shape (ratio of width to height) of the canvas. These determine the ScreenRect that
 is passed to the LabViews. The size of the Simulation LabCanvas is set according to
-arguments passed to the TabLayout constructor. In contrast, the Graph and TimeGraph
+arguments passed to the TabLayout2 constructor. In contrast, the Graph and TimeGraph
 LabCanvas are always square shaped. Their size is the bigger of the Sim LabCanvas width
 or height. The size of any LabCanvas can be changed after construction if desired.
 
@@ -161,7 +164,7 @@ Parameters Created
 * @implements {SubjectList}
 * @implements {Layout}
 */
-class TabLayout extends AbstractSubject {
+class TabLayout2 extends AbstractSubject {
 /**
 * @param {!Object} elem_ids specifies the names of the HTML
 *    elements to look for in the HTML document; these elements are where the user
@@ -206,7 +209,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.tab_list = TabLayout.getElementById(elem_ids, 'tab_list');
+  this.tab_list = TabLayout2.getElementById(elem_ids, 'tab_list');
   /** name of current layout
   @type {string}
   @private
@@ -219,7 +222,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.terminalEnabled_ = opt_terminal;
   if (this.layout_ == '') {
-    this.layout_ = TabLayout.Layout.SIM;
+    this.layout_ = TabLayout2.Layout.SIM;
     this.setSelectedTab(this.layout_);
   }
 
@@ -246,13 +249,13 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
       () => this.redoLayout() );
 
   const term_output = /**@type {?HTMLInputElement}*/
-      (TabLayout.maybeElementById(elem_ids, 'term_output'));
+      (TabLayout2.maybeElementById(elem_ids, 'term_output'));
   /**
   * @type {?HTMLInputElement}
   * @private
   */
   this.term_input = /**@type {?HTMLInputElement}*/
-      (TabLayout.maybeElementById(elem_ids, 'term_input'));
+      (TabLayout2.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal}
   * @private
   */
@@ -262,7 +265,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_contain = TabLayout.getElementById(elem_ids, 'container');
+  this.div_contain = TabLayout2.getElementById(elem_ids, 'container');
   if (this.debug_layout) {
     this.div_contain.style.border = 'dashed 1px red';
   }
@@ -270,7 +273,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_sim = TabLayout.getElementById(elem_ids, 'sim_applet');
+  this.div_sim = TabLayout2.getElementById(elem_ids, 'sim_applet');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_sim.style.position = 'relative';
   const canvas = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -285,14 +288,14 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.simCanvas = new LabCanvas(canvas, 'SIM_CANVAS');
   this.simCanvas.setSize(canvasWidth, canvasHeight);
-  this.div_sim.appendChild(this.simCanvas.getCanvas());
+  this.div_sim.insertBefore(this.simCanvas.getCanvas(), this.div_sim.firstChild);
 
   /** The 'show sim' checkbox is added to the graph views.
   * @type {!HTMLInputElement}
   * @private
   */
   this.show_sim_cb = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'show_sim'));
+      (TabLayout2.getElementById(elem_ids, 'show_sim'));
   const p = dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
     throw '';
@@ -309,7 +312,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_graph = TabLayout.getElementById(elem_ids, 'div_graph');
+  this.div_graph = TabLayout2.getElementById(elem_ids, 'div_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_graph.style.position = 'relative';
   const canvas2 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -319,13 +322,13 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   this.graphCanvas = new LabCanvas(canvas2, 'GRAPH_CANVAS');
   canvasWidth = Math.max(canvasWidth, canvasHeight);
   this.graphCanvas.setSize(canvasWidth, canvasWidth);
-  this.div_graph.appendChild(canvas2);
+  this.div_graph.insertBefore(canvas2, this.div_graph.firstChild);
 
   /** div for graph controls
   * @type {!HTMLElement}
   * @private
   */
-  this.graph_controls = TabLayout.getElementById(elem_ids, 'graph_controls');
+  this.graph_controls = TabLayout2.getElementById(elem_ids, 'graph_controls');
   if (this.debug_layout) {
     this.graph_controls.style.border = 'dashed 1px green';
   }
@@ -338,9 +341,9 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.sim_controls = TabLayout.getElementById(elem_ids, 'sim_controls');
+  this.sim_controls = TabLayout2.getElementById(elem_ids, 'sim_controls');
   // marginLeft gives gap when controls are along side canvas.
-  this.sim_controls.style.marginLeft = '10px';
+  //this.sim_controls.style.marginLeft = '10px';
   if (this.debug_layout) {
     this.sim_controls.style.border = 'dashed 1px green';
   }
@@ -349,7 +352,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLElement}
   * @private
   */
-  this.div_term = TabLayout.getElementById(elem_ids, 'div_terminal');
+  this.div_term = TabLayout2.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
   if (this.debug_layout) {
     this.div_term.style.border = 'dashed 1px green';
@@ -357,7 +360,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
 
   // 'show terminal' checkbox.
   const label_term = /**@type {!HTMLInputElement}*/
-      (TabLayout.getElementById(elem_ids, 'label_terminal'));
+      (TabLayout2.getElementById(elem_ids, 'label_terminal'));
   /**
   * @type {!HTMLInputElement}
   * @private
@@ -368,7 +371,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   } else {
     label_term.style.display = 'inline';
     this.show_term_cb = /**@type {!HTMLInputElement}*/
-        (TabLayout.getElementById(elem_ids, 'show_terminal'));
+        (TabLayout2.getElementById(elem_ids, 'show_terminal'));
     events.listen(this.show_term_cb, EventType.CLICK,
       e => this.showTerminal(this.show_term_cb.checked) );
   }
@@ -376,7 +379,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.div_time_graph = TabLayout.getElementById(elem_ids, 'div_time_graph');
+  this.div_time_graph = TabLayout2.getElementById(elem_ids, 'div_time_graph');
   // 'relative' allows absolute positioning of icon controls over the canvas
   this.div_time_graph.style.position = 'relative';
   const canvas3 = /** @type {!HTMLCanvasElement} */(document.createElement('canvas'));
@@ -385,34 +388,34 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.timeGraphCanvas = new LabCanvas(canvas3, 'TIME_GRAPH_CANVAS');
   this.timeGraphCanvas.setSize(canvasWidth, canvasWidth);
-  this.div_time_graph.appendChild(canvas3);
+  this.div_time_graph.insertBefore(canvas3, this.div_time_graph.firstChild);
 
   /** div for time graph controls
   * @type {!HTMLElement}
   * @private
   */
-  this.time_graph_controls = TabLayout.getElementById(elem_ids, 'time_graph_controls');
+  this.time_graph_controls = TabLayout2.getElementById(elem_ids, 'time_graph_controls');
   if (this.debug_layout) {
     this.time_graph_controls.style.border = 'dashed 1px green';
   }
 
   this.redoLayout();
-  this.addParameter(new ParameterNumber(this, TabLayout.en.SIM_WIDTH,
-      TabLayout.i18n.SIM_WIDTH, () => this.getSimWidth(),
+  this.addParameter(new ParameterNumber(this, TabLayout2.en.SIM_WIDTH,
+      TabLayout2.i18n.SIM_WIDTH, () => this.getSimWidth(),
       a => this.setSimWidth(a)));
-  this.addParameter(new ParameterNumber(this, TabLayout.en.GRAPH_WIDTH,
-      TabLayout.i18n.GRAPH_WIDTH, () => this.getGraphWidth(),
+  this.addParameter(new ParameterNumber(this, TabLayout2.en.GRAPH_WIDTH,
+      TabLayout2.i18n.GRAPH_WIDTH, () => this.getGraphWidth(),
       a => this.setGraphWidth(a)));
-  this.addParameter(new ParameterNumber(this, TabLayout.en.TIME_GRAPH_WIDTH,
-      TabLayout.i18n.TIME_GRAPH_WIDTH, () => this.getTimeGraphWidth(),
+  this.addParameter(new ParameterNumber(this, TabLayout2.en.TIME_GRAPH_WIDTH,
+      TabLayout2.i18n.TIME_GRAPH_WIDTH, () => this.getTimeGraphWidth(),
       a => this.setTimeGraphWidth(a)));
-  this.addParameter(new ParameterString(this, TabLayout.en.LAYOUT,
-      TabLayout.i18n.LAYOUT, () => this.getLayout(),
+  this.addParameter(new ParameterString(this, TabLayout2.en.LAYOUT,
+      TabLayout2.i18n.LAYOUT, () => this.getLayout(),
       a => this.setLayout(a),
-      TabLayout.getValues(), TabLayout.getValues()));
+      TabLayout2.getValues(), TabLayout2.getValues()));
   if (this.terminalEnabled_) {
-    this.addParameter(new ParameterBoolean(this, TabLayout.en.SHOW_TERMINAL,
-        TabLayout.i18n.SHOW_TERMINAL,
+    this.addParameter(new ParameterBoolean(this, TabLayout2.en.SHOW_TERMINAL,
+        TabLayout2.i18n.SHOW_TERMINAL,
         () => this.show_term_cb.checked,
         a => this.showTerminal(a) ));
   }
@@ -437,14 +440,14 @@ toString() {
 
 /** @override */
 getClassName() {
-  return 'TabLayout';
+  return 'TabLayout2';
 };
 
 /** Returns array containing all possible layout values.
-* @return {!Array<!TabLayout.Layout>} array containing all possible layout values
+* @return {!Array<!TabLayout2.Layout>} array containing all possible layout values
 */
 static getValues() {
-  const Layout = TabLayout.Layout;
+  const Layout = TabLayout2.Layout;
   return [ Layout.SIM,
       Layout.GRAPH,
       Layout.GRAPH_AND_SIM,
@@ -518,9 +521,9 @@ the controls to have 2 columns when the controls are below the canvas.
 alignCanvasControls(canvas, controls, canvas2) {
   canvas.style.display = 'block';
   controls.style.display = 'inline-block';
-  controls.style.columnCount = '1';
-  controls.style.MozColumnCount = '1';
-  controls.style.webkitColumnCount = '1';
+  // Because advanced-compile will rename columnCount property, we have to index
+  // with a string like controls.style['columnCount']
+  controls.style['columnCount'] = '1';
   controls.style.width = 'auto';
   // Get the 'natural width' of the controls.
   let ctrl_width = controls.getBoundingClientRect().width;
@@ -528,12 +531,6 @@ alignCanvasControls(canvas, controls, canvas2) {
   ctrl_width = ctrl_width > 150 ? ctrl_width : 300;
   // offsetWidth seems more reliable, but is sometimes 0, like at startup
   let cvs_width = canvas.offsetWidth || canvas.getBoundingClientRect().width;
-  // When both canvas are visible, use sum of their widths to calculate
-  // available width for controls-div.
-  if (canvas2 != null) {
-    canvas2.style.display = 'block';
-    cvs_width += canvas2.offsetWidth || canvas2.getBoundingClientRect().width;
-  }
   const contain_width = this.div_contain.offsetWidth ||
       this.div_contain.getBoundingClientRect().width;
   // avail_width = width of space to right of canvas.
@@ -541,19 +538,16 @@ alignCanvasControls(canvas, controls, canvas2) {
   const avail_width = contain_width - cvs_width - 2;
   // If (not enough space to right of canvas) then controls will be below canvas.
   // In that case: if (enough space for 2 columns) then do 2 columns
-  if (avail_width < ctrl_width && contain_width > 2*ctrl_width) {
+  //if (avail_width < ctrl_width && contain_width > 2*ctrl_width) {
+  const parentWidth = controls.parentNode.offsetWidth;
+  //console.log(canvas.id+' parentWidth='+parentWidth+' ctrl_width='+ctrl_width);
+  if (parentWidth > 3*ctrl_width) {
     controls.style.width = '100%';
-    controls.style.columnCount = '2';
-    controls.style.MozColumnCount = '2';
-    controls.style.webkitColumnCount = '2';
+    controls.style['columnCount'] = '3';
+  } else if (parentWidth > 2*ctrl_width) {
+    controls.style.width = '100%';
+    controls.style['columnCount'] = '2';
   }
-  /*console.log('alignCanvasControls ctrl_width='+ctrl_width
-      +' avail_width='+avail_width
-      +' contain_width='+contain_width
-      +' cvs_width='+cvs_width
-      +' controls.top='+controls.getBoundingClientRect().top
-      +' columnCount='+controls.style.columnCount);
-  */
 };
 
 /** @override */
@@ -608,6 +602,7 @@ getSelectedTab() {
   // return className minus ' selected'
   return tab2.className.replace(/[ ]*selected/, '');
 };
+
 
 /** @override */
 getSimCanvas() {
@@ -675,7 +670,7 @@ redoLayout() {
   // You can use style.cssFloat, but IE uses a different name: styleFloat.
   // WARNING-NOTE: viewport size can change if scrollbars appear or disappear
   // due to layout changes.
-  const Layout = TabLayout.Layout;
+  const Layout = TabLayout2.Layout;
   const view_sz = dom.getViewportSize();
   style.setFloat(this.div_sim, 'left');
   style.setFloat(this.div_graph, 'left');
@@ -703,7 +698,7 @@ redoLayout() {
       break;
     case Layout.GRAPH_AND_SIM:
       this.div_time_graph.style.display = 'none';
-      this.sim_controls.style.display = 'none';
+      this.sim_controls.style.display = 'block';
       this.time_graph_controls.style.display = 'none';
       if (view_sz.width > 600) {
         this.setDisplaySize(0.49, this.div_graph);
@@ -711,6 +706,7 @@ redoLayout() {
         this.setDisplaySize(0.95*this.graphWidth_, this.div_graph);
       }
       this.alignCanvasControls(this.div_graph, this.graph_controls, this.div_sim);
+      this.alignCanvasControls(this.div_sim, this.sim_controls);
       this.show_sim_cb.checked = true;
       this.show_sim_label.style.display = 'inline';
       break;
@@ -726,7 +722,7 @@ redoLayout() {
       break;
     case Layout.TIME_GRAPH_AND_SIM:
       this.div_graph.style.display = 'none';
-      this.sim_controls.style.display = 'none';
+      this.sim_controls.style.display = 'block';
       this.graph_controls.style.display = 'none';
       if (view_sz.width > 600) {
         this.setDisplaySize(0.49, this.div_time_graph);
@@ -735,6 +731,7 @@ redoLayout() {
       }
       this.alignCanvasControls(this.div_time_graph, this.time_graph_controls,
           this.div_sim);
+      this.alignCanvasControls(this.div_sim, this.sim_controls);
       this.show_sim_cb.checked = true;
       this.show_sim_label.style.display = 'inline';
       break;
@@ -810,14 +807,14 @@ setGraphWidth(value) {
     this.graphWidth_ = value;
   }
   this.redoLayout();
-  this.broadcastParameter(TabLayout.en.GRAPH_WIDTH);
+  this.broadcastParameter(TabLayout2.en.GRAPH_WIDTH);
 };
 
 /** Sets current layout.
 @param {string} layout name of layout
 */
 setLayout(layout) {
-  const Layout = TabLayout.Layout;
+  const Layout = TabLayout2.Layout;
   layout = layout.toLowerCase().trim();
   if (this.layout_ != layout) {
     this.layout_ = layout;
@@ -844,7 +841,7 @@ setLayout(layout) {
 @param {string} layout class name of tab that was clicked
 */
 setLayoutFromTab(layout) {
-  const Layout = TabLayout.Layout;
+  const Layout = TabLayout2.Layout;
   layout = layout.toLowerCase().trim();
   // When click on a graph tab, set layout to include sim view also.
   switch (layout) {
@@ -901,7 +898,7 @@ setSimWidth(value) {
     this.simWidth_ = value;
   }
   this.redoLayout();
-  this.broadcastParameter(TabLayout.en.SIM_WIDTH);
+  this.broadcastParameter(TabLayout2.en.SIM_WIDTH);
 };
 
 /** Sets the width of the time graph LabCanvas, as fraction of available width.
@@ -912,14 +909,14 @@ setTimeGraphWidth(value) {
     this.timeGraphWidth_ = value;
   }
   this.redoLayout();
-  this.broadcastParameter(TabLayout.en.TIME_GRAPH_WIDTH);
+  this.broadcastParameter(TabLayout2.en.TIME_GRAPH_WIDTH);
 };
 
 /** Change layout to hide or show simulation view.
 @param {boolean} visible whether sim view should be visible
 */
 showSim(visible) {
-  const Layout = TabLayout.Layout;
+  const Layout = TabLayout2.Layout;
   switch (this.layout_) {
     case '':
     case Layout.SIM:
@@ -980,7 +977,7 @@ showTerminal(visible) {
 * @readonly
 * @enum {string}
 */
-TabLayout.Layout = {
+TabLayout2.Layout = {
   SIM: 'sim',
   GRAPH: 'graph',
   GRAPH_AND_SIM: 'sim+graph',
@@ -999,12 +996,12 @@ TabLayout.Layout = {
   SHOW_TERMINAL: string
   }}
 */
-TabLayout.i18n_strings;
+TabLayout2.i18n_strings;
 
 /**
-@type {TabLayout.i18n_strings}
+@type {TabLayout2.i18n_strings}
 */
-TabLayout.en = {
+TabLayout2.en = {
   SIM_WIDTH: 'sim-width',
   GRAPH_WIDTH: 'graph-width',
   TIME_GRAPH_WIDTH: 'time-graph-width',
@@ -1014,9 +1011,9 @@ TabLayout.en = {
 
 /**
 @private
-@type {TabLayout.i18n_strings}
+@type {TabLayout2.i18n_strings}
 */
-TabLayout.de_strings = {
+TabLayout2.de_strings = {
   SIM_WIDTH: 'Sim Breite',
   GRAPH_WIDTH: 'Graf Breite',
   TIME_GRAPH_WIDTH: 'Zeit Graf Breite',
@@ -1025,9 +1022,9 @@ TabLayout.de_strings = {
 };
 
 /** Set of internationalized strings.
-@type {TabLayout.i18n_strings}
+@type {TabLayout2.i18n_strings}
 */
-TabLayout.i18n = goog.LOCALE === 'de' ? TabLayout.de_strings :
-    TabLayout.en;
+TabLayout2.i18n = goog.LOCALE === 'de' ? TabLayout2.de_strings :
+    TabLayout2.en;
 
-exports = TabLayout;
+exports = TabLayout2;

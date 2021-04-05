@@ -40,7 +40,6 @@ const RollerSingleSim = goog.require('myphysicslab.sims.roller.RollerSingleSim')
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Creates the {@link RollerSingleSim} simulation with a spring.
@@ -49,7 +48,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class RollerSpringApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -171,7 +170,7 @@ setSimRect(simRect) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RollerSpringApp}
 */
 function makeRollerSpringApp(elem_ids) {

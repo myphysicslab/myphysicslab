@@ -182,7 +182,7 @@ see {@link #prependControl}.
 */
 class TestViewerApp extends AbstractSubject {
 /**
-* @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -235,14 +235,14 @@ constructor(elem_ids) {
 
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
-  this.layout.simCanvas.setBackground('black');
-  const sim_controls = this.layout.sim_controls;
+  this.layout.getSimCanvas().setBackground('black');
+  const sim_controls = this.layout.getSimControls();
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const simCanvas = this.layout.simCanvas;
-  const graphCanvas = this.layout.graphCanvas;
-  const div_sim = this.layout.div_sim;
+  this.terminal = this.layout.getTerminal();
+  const simCanvas = this.layout.getSimCanvas();
+  const graphCanvas = this.layout.getGraphCanvas();
+  const div_sim = this.layout.getSimDiv();
   /** @type {!ContactSim} */
   this.sim = new ContactSim();
   this.terminal.setAfterEval(() => this.sim.modifyObjects());
@@ -387,12 +387,12 @@ constructor(elem_ids) {
   const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect));
-  this.layout.div_sim.appendChild(panzoom);
+  this.layout.getSimDiv().appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
   this.addControl(new CheckBoxControl(this.panZoomParam));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
 
   br = new GroupControl('BR', document.createElement('BR'), []);
@@ -409,8 +409,8 @@ constructor(elem_ids) {
   this.addControl(new ChoiceControl(ps));
 
   /** @type {!StandardGraph1} */
-  this.graph = new StandardGraph1(this.varsList, this.layout.graphCanvas,
-      this.layout.graph_controls, this.layout.div_graph, this.simRun, 'inline');
+  this.graph = new StandardGraph1(this.varsList, this.layout.getGraphCanvas(),
+      this.layout.getGraphControls(), this.layout.getGraphDiv(), this.simRun, 'inline');
 
   this.rbo.protoPolygon.setFillStyle('rgba(51,204,255,0.5)')
       .setNameColor('gray').setNameFont('12pt sans-serif')
@@ -424,8 +424,8 @@ constructor(elem_ids) {
     this.clock,
     this.simView,
     this.statusView,
-    this.layout.simCanvas,
-    this.layout.graphCanvas,
+    this.layout.getSimCanvas(),
+    this.layout.getGraphCanvas(),
     this.elasticity
   ];
   subjects = subjects.concat(this.graph.getSubjects());
@@ -755,14 +755,14 @@ addControl(control) {
 prependControl(control) {
   const element = control.getElement();
   element.style.display = 'inline-block';
-  this.layout.controls_.push(control);
+  this.layout.addControl(control, /*opt_add=*/false);
   // add playback controls before the pre-existing damping and gravity controls
   const e =/** @type {!HTMLInputElement} */(document.getElementById('damping_control'));
   if (!goog.isObject(e)) {
     throw 'damping_control not found';
   }
   // the damping control is wrapped in a LABEL, so need to get its parentNode
-  this.layout.sim_controls.insertBefore(element, e.parentNode);
+  this.layout.getSimControls().insertBefore(element, e.parentNode);
   return control;
 };
 
@@ -829,7 +829,7 @@ TestViewerApp.i18n = goog.LOCALE === 'de' ? TestViewerApp.de_strings :
     TestViewerApp.en;
 
 /**
-* @param {!VerticalLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!TestViewerApp}
 */
 function makeTestViewerApp(elem_ids) {

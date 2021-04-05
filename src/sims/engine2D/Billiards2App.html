@@ -29,8 +29,8 @@ if (once===undefined) {
 }
 sim.cleanSlate();
 Walls.make(sim,12,12,1);
-layout.simCanvas.setBackground('black');
-layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+layout.getSimCanvas().setBackground('black');
+layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
 var offset = 0;
 var speed = 30;
 const r = 0.5;

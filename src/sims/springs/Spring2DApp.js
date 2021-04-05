@@ -30,14 +30,13 @@ const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
 const Spring2DSim = goog.require('myphysicslab.sims.springs.Spring2DSim');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Spring2DSim} simulation.
 */
 class Spring2DApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -48,8 +47,8 @@ constructor(elem_ids) {
   const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
 
   /** @type {!DisplayShape} */
   this.anchor = new DisplayShape(this.simList.getPointMass('anchor'))
@@ -120,7 +119,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!Spring2DApp}
 */
 function makeSpring2DApp(elem_ids) {

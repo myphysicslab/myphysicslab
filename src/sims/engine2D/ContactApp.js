@@ -29,7 +29,6 @@ const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -51,7 +50,7 @@ Parameters Created
 */
 class ContactApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -65,8 +64,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(true);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.1, this.simList);
@@ -316,7 +315,7 @@ ContactApp.i18n = goog.LOCALE === 'de' ? ContactApp.de_strings :
     ContactApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!ContactApp}
 */
 function makeContactApp(elem_ids) {

@@ -121,7 +121,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
   /** @type {!Element} */
   this.div_controls = div_controls;
 
-  this.addControl(CommonControls.makePlaybackControls(simRun));
+  //this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
   let pn = this.line1.getParameterNumber(GraphLine.en.Y_VARIABLE);

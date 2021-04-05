@@ -29,7 +29,6 @@ const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -43,7 +42,7 @@ and rebuilds the simulation accordingly. UI controls are created to change the o
 */
 class ImpulseApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -54,8 +53,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ImpulseSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.LONG_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.LONG_TRAILS);
   this.elasticity.setElasticity(1.0);
   this.mySim.setShowForces(true);
   /** @type {!DampingLaw} */
@@ -306,7 +305,7 @@ ImpulseApp.i18n = goog.LOCALE === 'de' ? ImpulseApp.de_strings :
     ImpulseApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!ImpulseApp}
 */
 function makeImpulseApp(elem_ids) {

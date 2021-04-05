@@ -34,6 +34,7 @@ const EventHandler = goog.require('myphysicslab.lab.app.EventHandler');
 const GenericObserver = goog.require('myphysicslab.lab.util.GenericObserver');
 const LabControl = goog.require('myphysicslab.lab.controls.LabControl');
 const LabelControl = goog.require('myphysicslab.lab.controls.LabelControl');
+const Layout = goog.require('myphysicslab.sims.common.Layout');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ODEAdvance = goog.require('myphysicslab.lab.model.ODEAdvance');
 const ODESim = goog.require('myphysicslab.lab.model.ODESim');
@@ -88,7 +89,7 @@ can be properly expanded.
 */
 class AbstractApp extends AbstractSubject {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {!DoubleRect} simRect
@@ -97,23 +98,17 @@ class AbstractApp extends AbstractSubject {
 * @param {?EventHandler} eventHandler
 * @param {?EnergySystem} energySystem
 * @param {string=} opt_name name of this as a Subject
-* @param {boolean=} opt_terminal whether to add the 'show terminal' checkbox, default
-*    is true
 */
-constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_name, opt_terminal) {
+constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_name) {
   super(opt_name || 'APP');
   /** @type {!DoubleRect} */
   this.simRect = simRect;
-  // set canvasWidth to 800, and canvasHeight proportional as in simRect.
-  const canvasWidth = 800;
-  const canvasHeight =
-      Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
-  /** @type {!TabLayout} */
-  this.layout = new TabLayout(elem_ids, canvasWidth, canvasHeight, opt_terminal);
+  /** @type {!Layout} */
+  this.layout = this.makeLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const simCanvas = this.layout.simCanvas;
+  this.terminal = this.layout.getTerminal();
+  const simCanvas = this.layout.getSimCanvas();
 
   /** @type {!ODESim} */
   this.sim = sim;
@@ -162,7 +157,7 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
 
   const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true, () => this.simView.setSimRect(this.simRect) );
-  this.layout.div_sim.appendChild(panzoom);
+  this.layout.getSimDiv().appendChild(panzoom);
   /** @type {!ParameterBoolean} */
   this.panZoomParam = CommonControls.makeShowPanZoomParam(panzoom, this);
   this.panZoomParam.setValue(false);
@@ -171,8 +166,8 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
   this.diffEqSolver = new DiffEqSolverSubject(sim, energySystem, advance);
 
   /** @type {!StandardGraph1} */
-  this.graph = new StandardGraph1(sim.getVarsList(), this.layout.graphCanvas,
-      this.layout.graph_controls, this.layout.div_graph, this.simRun);
+  this.graph = new StandardGraph1(sim.getVarsList(), this.layout.getGraphCanvas(),
+      this.layout.getGraphControls(), this.layout.getGraphDiv(), this.simRun);
   this.graph.line.setDrawingMode(DrawingMode.LINES);
 
   /** @type {!TimeGraph1} */
@@ -206,11 +201,23 @@ toString() {
 };
 
 /**
+* @param {!Object} elem_ids
+* @return {!Layout}
+*/
+makeLayout(elem_ids) {
+  // set canvasWidth to 800, and canvasHeight proportional as in simRect.
+  const canvasWidth = 800;
+  const canvasHeight =
+      Math.round(canvasWidth * this.simRect.getHeight() / this.simRect.getWidth());
+  return new TabLayout(elem_ids, canvasWidth, canvasHeight, /*opt_terminal=*/true);
+};
+
+/**
 * @return {!TimeGraph1}
 */
 makeTimeGraph() {
-  return new TimeGraph1(this.sim.getVarsList(), this.layout.timeGraphCanvas,
-      this.layout.time_graph_controls, this.layout.div_time_graph, this.simRun);
+  return new TimeGraph1(this.sim.getVarsList(), this.layout.getTimeGraphCanvas(),
+      this.layout.getTimeGraphControls(), this.layout.getTimeGraphDiv(), this.simRun);
 }
 
 /** Add the control to the set of simulation controls.
@@ -245,7 +252,7 @@ addStandardControls() {
   const ps =
       this.diffEqSolver.getParameterString(DiffEqSolverSubject.en.DIFF_EQ_SOLVER);
   this.addControl(new ChoiceControl(ps));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
   // show compile time so user can ensure loading latest version
   if (Util.DEBUG) {
@@ -306,10 +313,11 @@ getSubjects() {
 */
 addURLScriptButton() {
   this.addControl(CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
-  this.graph.addControl(
+  /*this.graph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
   this.timeGraph.addControl(
     CommonControls.makeURLScriptButton(this.easyScript, this.simRun));
+  */
 };
 
 /**

@@ -41,7 +41,6 @@ const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
 const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -52,7 +51,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class Molecule5App extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
@@ -70,7 +69,7 @@ constructor(elem_ids, numAtoms) {
   /** @type {!Molecule3Sim} */
   this.sim_ = sim;
 
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
   this.simRun.setTimeStep(0.01);
 
   /** @type {!DisplaySpring} */
@@ -609,7 +608,7 @@ setShowNames(value) {
       const dispAtom = this.displayList.findShape(atom);
       if (value) {
         dispAtom.setNameFont('12pt sans-serif');
-        const bg = this.layout.simCanvas.getBackground();
+        const bg = this.layout.getSimCanvas().getBackground();
         dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
       } else {
         dispAtom.setNameFont('');
@@ -755,7 +754,7 @@ Molecule5App.i18n = goog.LOCALE === 'de' ? Molecule5App.de_strings :
     Molecule5App.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @param {number} numAtoms number of atoms to make, from 2 to 6
 * @return {!Molecule5App}
 */

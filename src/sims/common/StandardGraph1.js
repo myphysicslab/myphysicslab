@@ -122,7 +122,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, displayStyle
   /** @type {!Element} */
   this.div_controls = div_controls;
 
-  this.addControl(CommonControls.makePlaybackControls(simRun));
+  //this.addControl(CommonControls.makePlaybackControls(simRun));
 
   /** @type {!ParameterNumber} */
   let pn = this.line.getParameterNumber(GraphLine.en.Y_VARIABLE);

@@ -31,14 +31,13 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link DoubleSpringSim} simulation.
 */
 class DoubleSpringApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -49,7 +48,7 @@ constructor(elem_ids) {
   const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
 
   /** @type {!DisplayShape} */
   this.protoWall = new DisplayShape().setFillStyle('lightGray');
@@ -146,7 +145,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!DoubleSpringApp}
 */
 function makeDoubleSpringApp(elem_ids) {

@@ -33,7 +33,6 @@ const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const SixThrusters = goog.require('myphysicslab.sims.engine2D.SixThrusters');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -47,7 +46,7 @@ AffineTransform to rotate, scale, and position the image within the DisplayShape
 */
 class DoublePendulum2App extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -58,8 +57,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   this.mySim.setShowForces(false);
   /** @type {!DampingLaw} */
   this.dampingLaw = new DampingLaw(0, 0.15, this.simList);
@@ -111,7 +110,7 @@ constructor(elem_ids) {
   }
 
   // draw a gradient for block2, and demo some fancy name options
-  const cg = this.layout.simCanvas.getContext().createLinearGradient(-1, -1, 1, 1);
+  const cg = this.layout.getSimCanvas().getContext().createLinearGradient(-1, -1, 1, 1);
   if (cg) {
     cg.addColorStop(0, '#87CEFA'); // light blue
     cg.addColorStop(1, 'white');
@@ -247,7 +246,7 @@ DoublePendulum2App.i18n = goog.LOCALE === 'de' ? DoublePendulum2App.de_strings :
     DoublePendulum2App.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!DoublePendulum2App}
 */
 function makeDoublePendulum2App(elem_ids) {

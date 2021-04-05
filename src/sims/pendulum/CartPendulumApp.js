@@ -27,7 +27,6 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -35,7 +34,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class CartPendulumApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -127,7 +126,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!CartPendulumApp}
 */
 function makeCartPendulumApp(elem_ids) {

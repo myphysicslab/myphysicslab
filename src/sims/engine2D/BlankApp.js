@@ -64,7 +64,6 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimView = goog.require('myphysicslab.lab.view.SimView');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
 const StraightEdge = goog.require('myphysicslab.lab.engine2D.StraightEdge');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const ThrusterSet = goog.require('myphysicslab.lab.engine2D.ThrusterSet');
 const Util = goog.require('myphysicslab.lab.util.Util');
@@ -92,7 +91,7 @@ a URL-script; see {@link Terminal}.
 */
 class BlankApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -130,7 +129,7 @@ start() {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!BlankApp}
 */
 function makeBlankApp(elem_ids) {

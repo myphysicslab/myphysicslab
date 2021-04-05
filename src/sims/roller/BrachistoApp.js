@@ -27,7 +27,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParametricPath = goog.require('myphysicslab.lab.model.ParametricPath');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -41,7 +40,7 @@ the origin (0, 0) and pass thru the point (3, -2).
 */
 class BrachistoApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -215,7 +214,7 @@ BrachistoApp.i18n = goog.LOCALE === 'de' ? BrachistoApp.de_strings :
     BrachistoApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!BrachistoApp}
 */
 function makeBrachistoApp(elem_ids) {

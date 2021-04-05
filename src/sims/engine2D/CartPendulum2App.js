@@ -29,7 +29,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -50,7 +49,7 @@ Parameters Created
 */
 class CartPendulum2App extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -333,7 +332,7 @@ CartPendulum2App.i18n = goog.LOCALE === 'de' ? CartPendulum2App.de_strings :
     CartPendulum2App.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!CartPendulum2App}
 */
 function makeCartPendulum2App(elem_ids) {

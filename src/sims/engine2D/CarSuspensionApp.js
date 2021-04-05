@@ -30,7 +30,6 @@ const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -53,7 +52,7 @@ Parameters Created
 */
 class CarSuspensionApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -374,7 +373,7 @@ CarSuspensionApp.i18n = goog.LOCALE === 'de' ? CarSuspensionApp.de_strings :
     CarSuspensionApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!CarSuspensionApp}
 */
 function makeCarSuspensionApp(elem_ids) {

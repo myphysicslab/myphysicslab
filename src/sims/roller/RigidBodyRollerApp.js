@@ -54,7 +54,6 @@ const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
 const Simulation = goog.require('myphysicslab.lab.model.Simulation');
 const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -72,7 +71,7 @@ on the Hump path.
 */
 class RigidBodyRollerApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -83,8 +82,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.8);
   this.mySim.setShowForces(true);
   this.mySim.setExtraAccel(ExtraAccel.VELOCITY_JOINTS);
@@ -337,7 +336,7 @@ RigidBodyRollerApp.i18n = goog.LOCALE === 'de' ? RigidBodyRollerApp.de_strings :
     RigidBodyRollerApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RigidBodyRollerApp}
 */
 function makeRigidBodyRollerApp(elem_ids) {

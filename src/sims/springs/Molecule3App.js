@@ -32,7 +32,6 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -43,7 +42,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class Molecule3App extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
@@ -61,7 +60,7 @@ constructor(elem_ids, numAtoms) {
   /** @type {!Molecule3Sim} */
   this.sim_ = sim;
 
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
 
   /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
@@ -552,7 +551,7 @@ Molecule3App.i18n = goog.LOCALE === 'de' ? Molecule3App.de_strings :
     Molecule3App.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @param {number} numAtoms number of atoms to make, from 2 to 6
 * @return {!Molecule3App}
 */

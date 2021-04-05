@@ -43,7 +43,6 @@ const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
 const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
 const SpringNonLinear2 = goog.require('myphysicslab.sims.springs.SpringNonLinear2');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -54,7 +53,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class Molecule6App extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
@@ -73,7 +72,7 @@ constructor(elem_ids, numAtoms) {
   /** @type {!Molecule3Sim} */
   this.sim_ = sim;
 
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
   this.simRun.setTimeStep(0.005);
   if (this.showEnergyParam != null) {
     this.showEnergyParam.setValue(true);
@@ -89,7 +88,7 @@ constructor(elem_ids, numAtoms) {
   asserts.assert(this.simList.length() == 1);
   this.simList.addObserver(this);
   // observe the canvas so we can know when background changes
-  this.layout.simCanvas.addObserver(this);
+  this.layout.getSimCanvas().addObserver(this);
   this.addBody(this.sim_.getWalls());
 
   /**
@@ -369,7 +368,7 @@ addBody(obj) {
       // perhaps show name of the atom
       if (this.showNames_) {
         dispAtom.setNameFont('12pt sans-serif');
-        const bg = this.layout.simCanvas.getBackground();
+        const bg = this.layout.getSimCanvas().getBackground();
         dispAtom.setNameColor(bg == 'black' ? 'white' : 'black');
       } else {
         dispAtom.setNameFont('');
@@ -419,7 +418,7 @@ observe(event) {
     } else if (event.nameEquals(SimList.OBJECT_REMOVED)) {
       this.removeBody(obj);
     }
-  } else if (event.getSubject() == this.layout.simCanvas) {
+  } else if (event.getSubject() == this.layout.getSimCanvas()) {
     if (event.nameEquals(LabCanvas.en.BACKGROUND)) {
       // change names to appear in black or white depending on background color
       this.rebuild();
@@ -931,7 +930,7 @@ Molecule6App.i18n = goog.LOCALE === 'de' ? Molecule6App.de_strings :
     Molecule6App.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @param {number} numAtoms number of atoms to make, from 2 to 6
 * @return {!Molecule6App}
 */

@@ -84,7 +84,7 @@ can be properly expanded.
 */
 class StringApp extends AbstractSubject {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -95,9 +95,9 @@ constructor(elem_ids) {
   this.layout = new TabLayout(elem_ids);
   // keep reference to terminal to make for shorter 'expanded' names
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
-  const sim_controls = this.layout.sim_controls;
-  const simCanvas = this.layout.simCanvas;
+  this.terminal = this.layout.getTerminal();
+  const sim_controls = this.layout.getSimControls();
+  const simCanvas = this.layout.getSimCanvas();
 
   const length = 13.5;
   /** @type {!Array<!StringShape>} */
@@ -266,11 +266,11 @@ constructor(elem_ids) {
   const panzoom = CommonControls.makePanZoomControls(this.simView,
       /*overlay=*/true,
       () => this.simView.setSimRect(this.simRect) );
-  this.layout.div_sim.appendChild(panzoom);
+  this.layout.getSimDiv().appendChild(panzoom);
   pb = CommonControls.makeShowPanZoomParam(panzoom, this);
   pb.setValue(false);
   this.addControl(new CheckBoxControl(pb));
-  const bm = CommonControls.makeBackgroundMenu(this.layout.simCanvas);
+  const bm = CommonControls.makeBackgroundMenu(this.layout.getSimCanvas());
   this.addControl(bm);
 
   // keep the SimRunner's timeStep to be same as the Simulation's timeStep
@@ -398,7 +398,7 @@ eval(script, opt_output) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!StringApp}
 */
 function makeStringApp(elem_ids) {

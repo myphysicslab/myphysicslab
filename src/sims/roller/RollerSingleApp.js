@@ -39,7 +39,6 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const RollerSingleSim = goog.require('myphysicslab.sims.roller.RollerSingleSim');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SpiralPath = goog.require('myphysicslab.sims.roller.SpiralPath');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const TextControl = goog.require('myphysicslab.lab.controls.TextControl');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -53,7 +52,7 @@ can be used in JavaScript expressions for Parameters `EQUATION_X` and `EQUATION_
 */
 class RollerSingleApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -64,8 +63,8 @@ constructor(elem_ids) {
   const advance = new SimpleAdvance(sim);
   super(elem_ids, simRect, sim, advance, /*eventHandler=*/sim,
       /*energySystem=*/sim);
-  this.layout.simCanvas.setBackground('white');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('white');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
 
   /** @type {!DisplayShape} */
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
@@ -309,7 +308,7 @@ RollerSingleApp.i18n = goog.LOCALE === 'de' ? RollerSingleApp.de_strings :
     RollerSingleApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RollerSingleApp}
 */
 function makeRollerSingleApp(elem_ids) {

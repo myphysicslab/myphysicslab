@@ -30,7 +30,6 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimRunner = goog.require('myphysicslab.lab.app.SimRunner');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const SpringNonLinear = goog.require('myphysicslab.sims.springs.SpringNonLinear');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link Molecule4Sim} simulation which is an experimental version of
@@ -39,7 +38,7 @@ length controls will have no effect.
 */
 class Molecule4App extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number} numAtoms number of atoms to make, from 2 to 6
@@ -60,7 +59,7 @@ constructor(elem_ids, numAtoms) {
   // The SpringNonLinear is very "stiff", and sim is unstable with default
   // timestep=0.025, so set it to be smaller.
   this.simRun.setTimeStep(0.01);
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
 
   /** @type {!DisplaySpring} */
   this.protoSpring = new DisplaySpring().setWidth(0.3).setColorCompressed('#0c0')
@@ -173,7 +172,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @param {number} numAtoms number of atoms to make, from 2 to 6
 * @return {!Molecule4App}
 */

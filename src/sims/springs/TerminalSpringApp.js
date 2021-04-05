@@ -73,7 +73,7 @@ the simulations).
 */
 class TerminalSpringApp {
 /**
-* @param {!VerticalLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -82,7 +82,7 @@ constructor(elem_ids) {
   /** @type {!VerticalLayout} */
   this.layout = new VerticalLayout(elem_ids);
   /** @type {!Terminal} */
-  this.terminal = this.layout.terminal;
+  this.terminal = this.layout.getTerminal();
 };
 
 /** Define short-cut name replacement rules.  For example 'sim' is replaced
@@ -125,7 +125,7 @@ eval(script, opt_output) {
 } // end class
 
 /**
-* @param {!VerticalLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!TerminalSpringApp}
 */
 function makeTerminalSpringApp(elem_ids) {

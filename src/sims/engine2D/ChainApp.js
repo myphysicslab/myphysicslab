@@ -30,7 +30,6 @@ const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterBoolean = goog.require('myphysicslab.lab.util.ParameterBoolean');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -61,7 +60,7 @@ Parameters Created
 */
 class ChainApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -167,8 +166,9 @@ constructor(elem_ids) {
     // Demonstration: Force the graph's simRect to match the simView.
     // Note: the screenRect is different between graphCanvas and simCanvas,
     // so they won't be identical.  To fix that you can do:
-    this.layout.graphCanvas.setScreenRect(this.layout.simCanvas.getScreenRect());
-    this.graph.displayGraph.setScreenRect(this.layout.simCanvas.getScreenRect());
+    const sr = this.layout.getSimCanvas().getScreenRect();
+    this.layout.getGraphCanvas().setScreenRect(sr);
+    this.graph.displayGraph.setScreenRect(sr);
     // this totally disables the AutoScale
     this.graph.autoScale.setEnabled(false);
     // Note that you can still use the pan-zoom controls on the graph, but
@@ -419,7 +419,7 @@ setBlockWidth(value) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!ChainApp}
 */
 function makeChainApp(elem_ids) {

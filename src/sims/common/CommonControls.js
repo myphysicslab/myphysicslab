@@ -240,7 +240,7 @@ static makePanZoomControls(simView, overlay, resetFunc) {
   if (overlay) {
     panzoom_div.style.position = 'absolute';
     panzoom_div.style.right = '10%';
-    panzoom_div.style.bottom = '12%';
+    panzoom_div.style.top = '12%';
     //panzoom_div.style.opacity=0.13;
     panzoom_div.style.width = (sz*4.2)+'px';
   }

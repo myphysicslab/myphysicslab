@@ -31,7 +31,6 @@ const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const RollerFlightSim = goog.require('myphysicslab.sims.roller.RollerFlightSim');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
@@ -39,7 +38,7 @@ const Vector = goog.require('myphysicslab.lab.util.Vector');
 */
 class RollerFlightApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -53,8 +52,8 @@ constructor(elem_ids) {
 
   /** @type {!NumericalPath} */
   this.path = path;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
 
   /** @type {!DisplayShape} */
   this.ball1 = new DisplayShape(this.simList.getPointMass('ball1'))
@@ -151,7 +150,7 @@ defineNames(myName) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!RollerFlightApp}
 */
 function makeRollerFlightApp(elem_ids) {

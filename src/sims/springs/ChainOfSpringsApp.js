@@ -39,7 +39,6 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link ChainOfSpringsSim}.
@@ -48,7 +47,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class ChainOfSpringsApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 * @param {number=} numAtoms number of chain links to make
@@ -233,7 +232,7 @@ setAttachRight(value) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @param {number=} numAtoms number of chain links to make
 * @param {boolean=} attachRight whether to attach to fixed block on right
 * @return {!ChainOfSpringsApp}

@@ -33,7 +33,6 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SliderControl = goog.require('myphysicslab.lab.controls.SliderControl');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the simulation {@link CollideSpringSim}.
@@ -42,7 +41,7 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 */
 class CollideSpringApp extends AbstractApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -57,7 +56,7 @@ constructor(elem_ids) {
   /** @type {!CollideSpringSim} */
   this.mySim = sim;
 
-  this.layout.simCanvas.setBackground('black');
+  this.layout.getSimCanvas().setBackground('black');
 
   /**
   * @type {number}
@@ -252,7 +251,7 @@ setStartPosition(value) {
 } // end class
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!CollideSpringApp}
 */
 function makeCollideSpringApp(elem_ids) {

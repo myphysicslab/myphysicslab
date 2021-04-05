@@ -24,7 +24,7 @@ const SubjectEvent = goog.require('myphysicslab.lab.util.SubjectEvent');
 
 /** A Subject notifies its {@link Observer Observers} when
 something changes in the Subject. This can be a change in the value of a
-{@link Parameter Parameter}, or the occurrence of an
+{@link Parameter Parameter}, or the occurrence of a
 {@link myphysicslab.lab.util.GenericEvent GenericEvent}. The Subject maintains a list
 of its Observers. An Observer is connected to the Subject via the {@link #addObserver}
 method, which is typically called by the Observer's constructor or the entity that

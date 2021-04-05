@@ -24,13 +24,13 @@ const DisplayList = goog.require('myphysicslab.lab.view.DisplayList');
 const DisplayShape = goog.require('myphysicslab.lab.view.DisplayShape');
 const DoubleRect = goog.require('myphysicslab.lab.util.DoubleRect');
 const Engine2DApp = goog.require('myphysicslab.sims.engine2D.Engine2DApp');
+const Layout = goog.require('myphysicslab.sims.common.Layout');
 const NumericControl = goog.require('myphysicslab.lab.controls.NumericControl');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const Shapes = goog.require('myphysicslab.lab.engine2D.Shapes');
-const TabLayout = goog.require('myphysicslab.sims.common.TabLayout');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Walls = goog.require('myphysicslab.lab.engine2D.Walls');
@@ -53,7 +53,7 @@ Parameters Created
 */
 class BilliardsApp extends Engine2DApp {
 /**
-* @param {!TabLayout.elementIds} elem_ids specifies the names of the HTML
+* @param {!Object} elem_ids specifies the names of the HTML
 *    elementId's to look for in the HTML document; these elements are where the user
 *    interface of the simulation is created.
 */
@@ -64,8 +64,8 @@ constructor(elem_ids) {
   super(elem_ids, simRect, sim, advance);
   /** @type {!ContactSim} */
   this.mySim = sim;
-  this.layout.simCanvas.setBackground('black');
-  this.layout.simCanvas.setAlpha(CommonControls.SHORT_TRAILS);
+  this.layout.getSimCanvas().setBackground('black');
+  this.layout.getSimCanvas().setAlpha(CommonControls.SHORT_TRAILS);
   this.elasticity.setElasticity(0.95);
   this.mySim.setShowForces(false);
   //this.advance.setDebugLevel(CollisionAdvance.DebugLevel.LOW);
@@ -335,7 +335,7 @@ BilliardsApp.i18n = goog.LOCALE === 'de' ? BilliardsApp.de_strings :
     BilliardsApp.en;
 
 /**
-* @param {!TabLayout.elementIds} elem_ids
+* @param {!Object} elem_ids
 * @return {!BilliardsApp}
 */
 function makeBilliardsApp(elem_ids) {
