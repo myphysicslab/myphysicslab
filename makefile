@@ -220,6 +220,7 @@ gears: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/GearsApp-$(loc).html )
 graphcalc: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalcApp-$(loc).html )
 graphcalc2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/experimental/GraphCalc2App-$(loc).html )
 impulse: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ImpulseApp-$(loc).html )
+inclineplane: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/InclinePlane-$(loc).html )
 index: $(foreach loc,$(LOCALE),$(BUILD_DIR)/index-$(loc).html )
 lagrangeroller: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/roller/LagrangeRollerApp-$(loc).html )
 magnetwheel: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/misc/MagnetWheelApp-$(loc).html )
@@ -303,6 +304,7 @@ sims/engine2D/DoublePendulum2App \
 sims/engine2D/FastBallApp \
 sims/engine2D/GearsApp \
 sims/engine2D/ImpulseApp \
+sims/engine2D/InclinePlane \
 sims/engine2D/MarsMoonApp \
 sims/engine2D/MultipleCollisionApp \
 sims/engine2D/MutualAttractApp \
@@ -651,6 +653,9 @@ $(BUILD_DIR)/sims/springs/TerminalSpring2DApp%.html : src/sims/springs/TerminalS
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/sims/springs/MultiSpringApp%.html : src/sims/springs/MultiSpringApp.html $(macros_req) | settings $(BUILD_DIR)/sims/springs/SingleSpringApp%.js $(build_images) $(bld_css)
+	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
+
+$(BUILD_DIR)/sims/engine2D/InclinePlane%.html : src/sims/engine2D/InclinePlane.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)
 	./prep_html.pl $< $@ src/index_order.txt $(COMPILE_LEVEL)
 
 $(BUILD_DIR)/sims/engine2D/Billiards2App%.html : src/sims/engine2D/Billiards2App.html $(macros_req) | settings $(BUILD_DIR)/sims/engine2D/CreateApp%.js $(build_images) $(bld_css)

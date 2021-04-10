@@ -1,0 +1,70 @@
+#comment Copyright 2021 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.CreateApp
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>sims.engine2D.InclinePlane #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER
+
+<textarea id="editor" cols=80 rows=20 wrap="soft">
+// makes fixed inclined plane with a block on it
+var once;
+if (once===undefined) {
+  app.addPlaybackControls();
+  app.addStandardControls(); 
+  once=true;
+}
+sim.cleanSlate();
+simView.setWidth(25);
+axes.setXAxisAlignment('CENTER');
+axes.setYAxisAlignment('CENTER');
+SHOW_FORCES=true;
+// create inclined plane
+var p = Shapes.makeBlock(26, 1, 'plane');
+p.setMass(Infinity);
+sim.addBody(p);
+var a = Math.PI/6;
+p.setAngle(a);
+// so that top of incline goes thru origin
+p.setPosition(new Vector(0.5*Math.sin(a), -0.5*Math.cos(a)))
+displayList.findShape(p).setFillStyle('LightGray');
+
+// create block
+var b = Shapes.makeBlock(3, 2, 'block');
+b.setMass(1);
+sim.addBody(b);
+b.setAngle(a);
+var bp = new Vector(-1.005*Math.sin(a), 1.005*Math.cos(a));
+b.setPosition(bp.add(new Vector(10*Math.cos(a), 10*Math.sin(a))));
+displayList.findShape(b).setFillStyle('darkGray');
+
+
+var g=new GravityLaw(10, simList);
+sim.addForceLaw(g);
+sim.saveInitialState();
+//simRun.resume();
+</textarea> <br>
+<button type="button" id="execute_button">Execute</button>
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+<!--script>
+  app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
+</script-->
+#PAGE_FOOTER
+</body>
+</html>
