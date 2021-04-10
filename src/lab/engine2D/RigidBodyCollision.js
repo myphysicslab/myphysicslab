@@ -23,6 +23,7 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
+const RigidBodySim = goog.forwardDeclare('myphysicslab.lab.engine2D.RigidBodySim');
 
 /** RigidBodyCollision holds data related to a collision or resting contact between two
 RigidBodys.  The data includes:
@@ -546,10 +547,7 @@ getImpulse() {
 * @package
 */
 getLateralVelocity() {
-  // the perpendicular vector to normal is:  (-normal.getY(), normal.getX())
-  // or (normal.getY(), -normal.getX())
-  const perp = new Vector(-this.normal.getY(), this.normal.getX());
-  return perp.dotProduct(this.getRelativeVelocity());
+  return this.getPerpNormal().dotProduct(this.getRelativeVelocity());
 };
 
 /** Returns the normal body involved in the collision, which defines the normal vector.
@@ -577,8 +575,18 @@ getNormalVelocity() {
   return this.normalVelocity_;
 };
 
+/** Returns vector perpendicular to normal vector. This is tangent to the normal body
+* edge.
+* @return {!Vector} vector perpendicular to normal vector, in world coords
+*/
+getPerpNormal() {
+  // the perpendicular vector to normal is:  (-normal.getY(), normal.getX())
+  // or (normal.getY(), -normal.getX())
+  return new Vector(-this.normal.getY(), this.normal.getX());
+};
+
 /** Returns vector from center of mass of primary body to point of impact,
-* in world coords
+* in world coords.
 * @return {!Vector} vector from center of mass of primary body to point of impact,
 * in world coords
 */
@@ -604,6 +612,45 @@ getR2() {
 */
 getPrimaryBody() {
   return this.primaryBody;
+};
+
+/** Returns the relative acceleration between the two contact points.
+* @param {!Array<number>} change  array of change rates for each variable
+* @return {!Vector} the relative acceleration between the two contact points
+* @package
+*/
+getAcceleration(change) {
+  const fixedObj = !isFinite(this.primaryBody.getMass());
+  const fixedNBody = !isFinite(this.normalBody.getMass());
+  const w1 = fixedObj ? 0 : this.primaryBody.getAngularVelocity();
+  const w2 = fixedNBody ? 0 : this.normalBody.getAngularVelocity();
+  const r1 = this.getU1();
+  const r2 = this.getU2();
+  const Rx = r1.getX();
+  const Ry = r1.getY();
+  let R2x = Util.NaN;
+  let R2y = Util.NaN;
+  if (!fixedNBody) {
+    R2x = r2.getX();
+    R2y = r2.getY();
+  }
+  const obj = fixedObj ? -1 : this.primaryBody.getVarsIndex();
+  const nobj = fixedNBody ? -1 : this.normalBody.getVarsIndex();
+  let accx = 0;
+  let accy = 0;
+  if (!fixedObj) {
+    accx = (change[obj+RigidBodySim.VX_]
+      - change[obj+RigidBodySim.VW_]*Ry - w1*w1*Rx);
+    accy = (change[obj+RigidBodySim.VY_]
+      + change[obj+RigidBodySim.VW_]*Rx - w1*w1*Ry);
+  }
+  if (!fixedNBody) {
+    accx -= (change[nobj+RigidBodySim.VX_]
+          - change[nobj+RigidBodySim.VW_]*R2y - w2*w2*R2x);
+    accy -= (change[nobj+RigidBodySim.VY_]
+          + change[nobj+RigidBodySim.VW_]*R2x - w2*w2*R2y);
+  }
+  return new Vector(accx, accy);
 };
 
 /** Returns the difference in velocity of the two impact points of the collision
