@@ -544,6 +544,8 @@ setFiring(value) {
   if (value) {
     this.startFiring();
   } else {
+    // do any pending paint updates
+    this.paintAll();
     this.stopFiring();
   }
   this.broadcastParameter(SimRunner.en.FIRING);
