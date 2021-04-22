@@ -174,4 +174,35 @@ another RigidBody
 setVelocityTol(value) {}
 
 } // end class
+/** Offset in the VarsList for a RigidBody's x position
+* @type {number}
+* @const
+*/
+RigidBody.X_ = 0;
+/** Offset in the VarsList for a RigidBody's x velocity
+* @type {number}
+* @const
+*/
+RigidBody.VX_ = 1;
+/** Offset in the VarsList for a RigidBody's y position
+* @type {number}
+* @const
+*/
+RigidBody.Y_ = 2;
+/** Offset in the VarsList for a RigidBody's y velocity
+* @type {number}
+* @const
+*/
+RigidBody.VY_ = 3;
+/** Offset in the VarsList for a RigidBody's angle
+* @type {number}
+* @const
+*/
+RigidBody.W_ = 4;
+/** Offset in the VarsList for a RigidBody's angular velocity
+* @type {number}
+* @const
+*/
+RigidBody.VW_ = 5;
+
 exports = RigidBody;

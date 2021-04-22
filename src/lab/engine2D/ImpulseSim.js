@@ -462,9 +462,9 @@ checkInfiniteMassVelocity(vars) {
     const idx = b.getVarsIndex();
     asserts.assert(idx >= 0);
     if (b.getMass() == Util.POSITIVE_INFINITY) {
-      const vx = vars[idx + RigidBodySim.VX_];
-      const vy = vars[idx + RigidBodySim.VY_];
-      const vw = vars[idx + RigidBodySim.VW_];
+      const vx = vars[idx + RigidBody.VX_];
+      const vy = vars[idx + RigidBody.VY_];
+      const vw = vars[idx + RigidBody.VW_];
       if (vx != 0 || vy != 0 || vw != 0) {
         console.log(this.formatVars());
         throw Util.DEBUG ? ('infinite mass object must remain at rest '
@@ -1396,11 +1396,11 @@ applyImpulse(impulse) {
     const normal = impulse.getVector();
     const r1 = impulse.getOffset();
     if (offset > -1) {
-      let idx = RigidBodySim.VX_+offset;
+      let idx = RigidBody.VX_+offset;
       va.setValue(idx, va.getValue(idx) + normal.getX()*j/m, continuous);
-      idx = RigidBodySim.VY_+offset;
+      idx = RigidBody.VY_+offset;
       va.setValue(idx, va.getValue(idx) + normal.getY()*j/m, continuous);
-      idx = RigidBodySim.VW_+offset;
+      idx = RigidBody.VW_+offset;
       // w2 = w1 + j(r x n)/I = new angular velocity
       va.setValue(idx, va.getValue(idx) +
           j*(r1.getX() * normal.getY() - r1.getY() * normal.getX())/I, continuous);

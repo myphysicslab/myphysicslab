@@ -22,6 +22,7 @@ const Connector = goog.require('myphysicslab.lab.engine2D.Connector');
 const ContactSim = goog.require('myphysicslab.lab.engine2D.ContactSim');
 const Joint = goog.require('myphysicslab.lab.engine2D.Joint');
 const PathJoint = goog.require('myphysicslab.lab.engine2D.PathJoint');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const TestRig = goog.require('myphysicslab.test.TestRig');
@@ -85,12 +86,12 @@ find their index within the VarsList.
 */
 static setBodyVars(sim, vars, i, x, vx, y, vy, w, vw) {
   const idx = sim.getBody(i).getVarsIndex();
-  vars[idx + RigidBodySim.X_] = x;
-  vars[idx + RigidBodySim.VX_] = vx;
-  vars[idx + RigidBodySim.Y_] = y;
-  vars[idx + RigidBodySim.VY_] = vy;
-  vars[idx + RigidBodySim.W_] = w;
-  vars[idx + RigidBodySim.VW_] = vw;
+  vars[idx + RigidBody.X_] = x;
+  vars[idx + RigidBody.VX_] = vx;
+  vars[idx + RigidBody.Y_] = y;
+  vars[idx + RigidBody.VY_] = vy;
+  vars[idx + RigidBody.W_] = w;
+  vars[idx + RigidBody.VW_] = vw;
 };
 
 /**  Compares expected variables array to actual variables array from the

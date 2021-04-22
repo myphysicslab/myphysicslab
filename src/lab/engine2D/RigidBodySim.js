@@ -106,12 +106,12 @@ being counter-clockwise. Called `w`, because `w` looks like the greek letter &om
 
 The starting index of a RigidBody's variables is given by
 {@link RigidBody#getVarsIndex}. To
-find a particular variable, add the appropriate offset: `RigidBodySim.X_,
-RigidBodySim.VX_, RigidBodySim.Y_, RigidBodySim.VY_, RigidBodySim.W_, RigidBodySim.VW_`.
+find a particular variable, add the appropriate offset: `RigidBody.X_,
+RigidBody.VX_, RigidBody.Y_, RigidBody.VY_, RigidBody.W_, RigidBody.VW_`.
 For example, to find the angular velocity of a RigidBody:
 
     const idx = body.getVarsIndex();
-    return vars[idx + RigidBodySim.VW_];
+    return vars[idx + RigidBody.VW_];
 
 Variables at the beginning of the VariablesList:
 
@@ -621,12 +621,12 @@ evaluate(vars, change, timeStep) {
         change[idx + k] = 0;  // infinite mass objects don't move
       }
     } else {
-      change[idx + RigidBodySim.X_] = vars[idx + RigidBodySim.VX_];
-      change[idx + RigidBodySim.Y_] = vars[idx + RigidBodySim.VY_];
-      change[idx + RigidBodySim.W_] = vars[idx + RigidBodySim.VW_];
-      change[idx + RigidBodySim.VX_] = 0;
-      change[idx + RigidBodySim.VY_] = 0;
-      change[idx + RigidBodySim.VW_] = 0;
+      change[idx + RigidBody.X_] = vars[idx + RigidBody.VX_];
+      change[idx + RigidBody.Y_] = vars[idx + RigidBody.VY_];
+      change[idx + RigidBody.W_] = vars[idx + RigidBody.VW_];
+      change[idx + RigidBody.VX_] = 0;
+      change[idx + RigidBody.VY_] = 0;
+      change[idx + RigidBody.VW_] = 0;
     }
   });
   this.forceLaws_.forEach(fl => {
@@ -658,16 +658,16 @@ applyForce(change, force) {
   const forceDir = force.getVector();
   const forceLoc = force.getStartPoint();
   const mass = body.getMass();
-  change[idx + RigidBodySim.VX_] += forceDir.getX() / mass;
-  change[idx + RigidBodySim.VY_] += forceDir.getY() / mass;
+  change[idx + RigidBody.VX_] += forceDir.getX() / mass;
+  change[idx + RigidBody.VY_] += forceDir.getY() / mass;
   // w'' = R x F / I
   const rx = forceLoc.getX() - body.getPosition().getX();
   const ry = forceLoc.getY() - body.getPosition().getY();
-  change[idx + RigidBodySim.VW_] += (rx * forceDir.getY() - ry * forceDir.getX())/
+  change[idx + RigidBody.VW_] += (rx * forceDir.getY() - ry * forceDir.getX())/
       body.momentAboutCM();
   const torque = force.getTorque();
   if (torque != 0) {
-    change[idx + RigidBodySim.VW_] += torque/body.momentAboutCM();
+    change[idx + RigidBody.VW_] += torque/body.momentAboutCM();
   }
   if (this.showForces_) {
     force.setExpireTime(this.getTime());
@@ -726,36 +726,6 @@ setElasticity(value) {
 
 } // end class
 
-/** Offset in the VarsList for a RigidBody's x position
-* @type {number}
-* @const
-*/
-RigidBodySim.X_ = 0;
-/** Offset in the VarsList for a RigidBody's x velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VX_ = 1;
-/** Offset in the VarsList for a RigidBody's y position
-* @type {number}
-* @const
-*/
-RigidBodySim.Y_ = 2;
-/** Offset in the VarsList for a RigidBody's y velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VY_ = 3;
-/** Offset in the VarsList for a RigidBody's angle
-* @type {number}
-* @const
-*/
-RigidBodySim.W_ = 4;
-/** Offset in the VarsList for a RigidBody's angular velocity
-* @type {number}
-* @const
-*/
-RigidBodySim.VW_ = 5;
 /** Name of event broadcast from {@link #setElasticity}.
 * @type {string}
 * @const

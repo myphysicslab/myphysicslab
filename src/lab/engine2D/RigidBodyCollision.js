@@ -23,7 +23,6 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 const Vertex = goog.require('myphysicslab.lab.engine2D.Vertex');
-const RigidBodySim = goog.forwardDeclare('myphysicslab.lab.engine2D.RigidBodySim');
 
 /** RigidBodyCollision holds data related to a collision or resting contact between two
 RigidBodys.  The data includes:
@@ -639,16 +638,16 @@ getAcceleration(change) {
   let accx = 0;
   let accy = 0;
   if (!fixedObj) {
-    accx = (change[obj+RigidBodySim.VX_]
-      - change[obj+RigidBodySim.VW_]*Ry - w1*w1*Rx);
-    accy = (change[obj+RigidBodySim.VY_]
-      + change[obj+RigidBodySim.VW_]*Rx - w1*w1*Ry);
+    accx = (change[obj+RigidBody.VX_]
+      - change[obj+RigidBody.VW_]*Ry - w1*w1*Rx);
+    accy = (change[obj+RigidBody.VY_]
+      + change[obj+RigidBody.VW_]*Rx - w1*w1*Ry);
   }
   if (!fixedNBody) {
-    accx -= (change[nobj+RigidBodySim.VX_]
-          - change[nobj+RigidBodySim.VW_]*R2y - w2*w2*R2x);
-    accy -= (change[nobj+RigidBodySim.VY_]
-          + change[nobj+RigidBodySim.VW_]*R2x - w2*w2*R2y);
+    accx -= (change[nobj+RigidBody.VX_]
+          - change[nobj+RigidBody.VW_]*R2y - w2*w2*R2x);
+    accy -= (change[nobj+RigidBody.VY_]
+          + change[nobj+RigidBody.VW_]*R2x - w2*w2*R2y);
   }
   return new Vector(accx, accy);
 };

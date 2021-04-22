@@ -27,6 +27,7 @@ const ImpulseSim = goog.require('myphysicslab.lab.engine2D.ImpulseSim');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const ParameterString = goog.require('myphysicslab.lab.util.ParameterString');
 const Polygon = goog.require('myphysicslab.lab.engine2D.Polygon');
+const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
@@ -891,12 +892,12 @@ calculate_b_vector(contacts, change, vars) {
           +' extraAccelTimeStep='+Util.NF5(this.extraAccelTimeStep_)
           );
     }
-    const vx1 = fixedObj ? 0 : vars[RigidBodySim.VX_+obj];
-    const vy1 = fixedObj ? 0 : vars[RigidBodySim.VY_+obj];
-    const w1 = fixedObj ? 0 : vars[RigidBodySim.VW_+obj];
-    const vx2 = fixedNBody ? 0 : vars[RigidBodySim.VX_+nobj];
-    const vy2 = fixedNBody ? 0 : vars[RigidBodySim.VY_+nobj];
-    const w2 = fixedNBody ? 0 : vars[RigidBodySim.VW_+nobj];
+    const vx1 = fixedObj ? 0 : vars[RigidBody.VX_+obj];
+    const vy1 = fixedObj ? 0 : vars[RigidBody.VY_+obj];
+    const w1 = fixedObj ? 0 : vars[RigidBody.VW_+obj];
+    const vx2 = fixedNBody ? 0 : vars[RigidBody.VX_+nobj];
+    const vy2 = fixedNBody ? 0 : vars[RigidBody.VY_+nobj];
+    const w2 = fixedNBody ? 0 : vars[RigidBody.VW_+nobj];
     /*  The velocity of a corner is given by
        p' = V + w x R = (Vx, Vy, 0) + w (-Ry, Rx, 0)
        = (Vx - w Ry, Vy + w Rx, 0)
@@ -986,16 +987,16 @@ calculate_b_vector(contacts, change, vars) {
       A + w x (w x R) + a x R = (Ax - a Ry - w^2 Rx, Ay + a Rx - w^2 Ry, 0)
     */
     if (!fixedObj) {
-      b[i] += c.normal.getX()*(change[obj+RigidBodySim.VX_]
-            - change[obj+RigidBodySim.VW_]*Ry - w1*w1*Rx);
-      b[i] += c.normal.getY()*(change[obj+RigidBodySim.VY_]
-            + change[obj+RigidBodySim.VW_]*Rx - w1*w1*Ry);
+      b[i] += c.normal.getX()*(change[obj+RigidBody.VX_]
+            - change[obj+RigidBody.VW_]*Ry - w1*w1*Rx);
+      b[i] += c.normal.getY()*(change[obj+RigidBody.VY_]
+            + change[obj+RigidBody.VW_]*Rx - w1*w1*Ry);
     }
     if (!fixedNBody) {
-      b[i] -= c.normal.getX()*(change[nobj+RigidBodySim.VX_]
-            - change[nobj+RigidBodySim.VW_]*R2y - w2*w2*R2x);
-      b[i] -= c.normal.getY()*(change[nobj+RigidBodySim.VY_]
-            + change[nobj+RigidBodySim.VW_]*R2x - w2*w2*R2y);
+      b[i] -= c.normal.getX()*(change[nobj+RigidBody.VX_]
+            - change[nobj+RigidBody.VW_]*R2y - w2*w2*R2x);
+      b[i] -= c.normal.getY()*(change[nobj+RigidBody.VY_]
+            + change[nobj+RigidBody.VW_]*R2x - w2*w2*R2y);
     }
     if (!isFinite(b[i])) {
       console.log('c= '+c);
