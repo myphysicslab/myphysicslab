@@ -19,6 +19,7 @@ const Arc = goog.require('myphysicslab.lab.model.Arc');
 const ConcreteLine = goog.require('myphysicslab.lab.model.ConcreteLine');
 const AbstractSubject = goog.require('myphysicslab.lab.util.AbstractSubject');
 const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
+const MassObject = goog.require('myphysicslab.lab.model.MassObject');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
@@ -203,6 +204,16 @@ getConcreteLine(name) {
   } else {
     throw 'no ConcreteLine named '+name;
   }
+};
+
+/** Returns the MassObject with the given name, if found in this SimList.
+@param {string} name name of MassObject to find
+@return {!MassObject} the MassObject with the given name
+@throws {!Error} if MassObject not found
+*/
+getMassObject(name) {
+  const obj = this.get(name);
+  return /** @type {!MassObject} */(obj);
 };
 
 /** Returns the PointMass with the given name, if found in this SimList.
