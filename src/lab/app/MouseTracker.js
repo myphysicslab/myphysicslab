@@ -134,6 +134,11 @@ constructor(dragDispObj, view, loc_sim, drag_body, eventHandler) {
   this.dragOffset_ = Vector.ORIGIN;
   if (dragDispObj != null) {
     this.dragOffset_ = loc_sim.subtract(dragDispObj.getPosition());
+    if (this.dragSimObj_ == null) {
+      // dragDispObj does not have a SimObject, so MouseTracker will move the object.
+      // Examples include DisplayClock and EnergyBarGraph.
+      this.eventHandler_ = null;
+    }
   }
 };
 
