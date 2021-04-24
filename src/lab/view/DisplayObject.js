@@ -22,7 +22,9 @@ const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
 
 /** An object that can be displayed in a {@link myphysicslab.lab.view.LabView}, often it
-is the visible representation of a {@link SimObject}.
+is the visible representation of a {@link SimObject}. The LabView determines the
+simulation coordinates and {@link CoordMap} which are used to place the object on the
+screen.
 
 Each DisplayObject has a default policy about when the SimObject it represents is
 dragable; this can be overridden via the {@link #setDragable} method.
@@ -67,8 +69,8 @@ Returns an empty list if this DisplayObject doesn't represent a MassObject.
 */
 getMassObjects() {}
 
-/** Returns this DisplayObject's position in space. This is mainly used when dragging
-the DisplayObject.
+/** Returns this DisplayObject's position in space, in simulation coordinates of the
+* containing LabView.
 @return {!Vector} this DisplayObject's position, in simulation coordinates.
 */
 getPosition() {}
@@ -91,8 +93,8 @@ that are not dragable.
 */
 setDragable(dragable) {}
 
-/** Sets this DisplayObject's position in space. This is mainly used for dragging the
-DisplayObject. Each type of DisplayObject has a different policy regarding whether this
+/** Sets this DisplayObject's position in simulation coordinates of the containing
+LabView. Each type of DisplayObject has a different policy regarding whether this
 will have an effect. Generally the policies are:
 
 + If the DisplayObject does not represent a SimObject, then the position can be set.

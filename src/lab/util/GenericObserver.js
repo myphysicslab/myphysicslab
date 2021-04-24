@@ -85,7 +85,7 @@ class GenericObserver {
 /**
 @param {!Subject} subject  the Subject to observe
 @param {function(!SubjectEvent)} observeFn  function to execute when a SubjectEvent is
-    broadcast by Subject
+    broadcast by Subject, takes a single argument of type SubjectEvent
 @param {string=} opt_purpose Describes what this Observer does, for debugging
 */
 constructor(subject, observeFn, opt_purpose) {

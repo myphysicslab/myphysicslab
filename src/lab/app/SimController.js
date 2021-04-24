@@ -484,6 +484,14 @@ finishDrag() {
   this.mouseDrag_ = false;
 };
 
+/**
+* @return {?EventHandler} the EventHandler to forward events to; or `null` when
+*    just doing LabView panning.
+*/
+getEventHandler() {
+  return this.eventHandler_;
+};
+
 /** Called when a key has been pressed, forwards the event by calling {@link
 EventHandler#handleKeyEvent}. Only forwards when the event target is the LabCanvas, or
 when there is no specific target (`document.body` is the event target in that case).
@@ -516,6 +524,14 @@ keyReleased(evt) {
       this.eventHandler_.handleKeyEvent(evt.keyCode, false, evt);
     }
   };
+};
+
+/**
+* @param {?EventHandler} eventHandler  the EventHandler
+*    to forward events to; or `null` to just do LabView panning.
+*/
+setEventHandler(eventHandler) {
+  this.eventHandler_ = eventHandler;
 };
 
 /** Callback for touchStart event. If single touch in canvas, then process as a
