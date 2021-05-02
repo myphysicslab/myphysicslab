@@ -231,11 +231,12 @@ result=$?
 set +x
 
 # for simple-compile apps, do a search/replace to make shorter names
-# replace "module$exports$myphysicslab$" with "mpl$"
+# replace "module$exports$myphysicslab$" with ""
 # This makes typical file about 10% smaller.
 # WARNING: Closure Compiler could change how these module exports are named.
 if [[ $comp_level == 'SIMPLE' ]] ; then
-	sed -E -i '' "s/module\\\$exports\\\$myphysicslab\\\$/mpl\\\$/g" $target;
+	sed -E -i '' "s/module\\\$exports\\\$myphysicslab\\\$//g" $target;
+	sed -E -i '' "s/module\\\$contents\\\$goog\\\$/goog\\\$/g" $target;
 fi
 
 # Check the error code in $?, if non-zero then return non-zero error code.

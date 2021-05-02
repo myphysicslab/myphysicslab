@@ -106,7 +106,7 @@ constructor(elem_ids) {
   this.graphSetup();
   this.terminal.addRegex('CardioidPath|CirclePath|DisplayPath|FlatPath|HumpPath'+
       '|LemniscatePath|LoopTheLoopPath|OvalPath|SpiralPath',
-     'mpl$$sims$$roller$$', /*addToVars=*/false);
+     'sims$$roller$$', /*addToVars=*/false);
 };
 
 /** @override */

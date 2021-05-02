@@ -102,9 +102,9 @@ defineNames(myName) {
   t.addRegex('ChainOfSpringsSim|CollideBlocksSim|CollideSpringSim'
       +'|DangleStickSim|Double2DSpringSim|DoubleSpringSim|Molecule1Sim'
       +'|Molecule3Sim|SingleSpringSim|Spring2DSim',
-      'mpl$$sims$$springs$$', /*addToVars=*/false);
+      'sims$$springs$$', /*addToVars=*/false);
   t.addRegex('CommonControls',
-      'mpl$$sims$$common$$', /*addToVars=*/false);
+      'sims$$common$$', /*addToVars=*/false);
 };
 
 /**

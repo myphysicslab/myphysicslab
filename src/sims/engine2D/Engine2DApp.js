@@ -223,7 +223,7 @@ defineNames(myName) {
     this.terminal.addRegex('simCanvas',
         myName+'.layout.');
     this.terminal.addRegex('CommonControls|StandardGraph1|TimeGraph1|TabLayout',
-        'mpl$$sims$$common$$', /*addToVars=*/false);
+        'sims$$common$$', /*addToVars=*/false);
   }
 };
 

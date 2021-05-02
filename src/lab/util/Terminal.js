@@ -151,10 +151,10 @@ these pathnames are replaced by a single token like this
 
     module$exports$myphysicslab$lab$util$DoubleRect
 
-In `compile_js.sh` we replace "module$exports$myphysicslab$" with "mpl$".
+In `compile_js.sh` we replace "module$exports$myphysicslab$" with "".
 This is done to reduce the size of the simple-compiled file. So the actual name will be
 
-    mpl$lab$util$DoubleRect
+    lab$util$DoubleRect
 
 That is the format of class names when simple-compiled code is running under JavaScript
 within the browser.
@@ -173,7 +173,7 @@ Most class names will have their equivalent short-name defined. For example you 
 
 instead of
 
-    > new mpl$lab$util$DoubleRect(0,0,1,1)
+    > new lab$util$DoubleRect(0,0,1,1)
     DoubleRect{left_: 0, bottom_: 0, right_: 1, top_: 1}
 
 Applications will typically also make their key objects available with short-names.
@@ -183,7 +183,7 @@ You can see this short-name to long-name conversion by using {@link #setVerbose}
 
     > terminal.setVerbose(true)
     > new Vector(2,3)
-    >> new mpl$lab$util$Vector(2,3)
+    >> new lab$util$Vector(2,3)
     Vector{x: 2, y: 3}
 
 In verbose mode, the command is echoed a second time to show how it appears after
@@ -1412,14 +1412,14 @@ static stdRegex(terminal) {
        'terminal.', /*addToVars=*/true);
 
   // note: $$ represents $ in regexp-replace string.
-  // In compile_js.sh we replace "module$exports$myphysicslab$" with "mpl$"
+  // In compile_js.sh we replace "module$exports$myphysicslab$" with ""
   // That is done to reduce the size of the simple-compiled file.
   // Otherwise a typical name would be "module$exports$myphysicslab$lab$util$Clock".
   terminal.addRegex('AffineTransform|CircularList|Clock|ClockTask'
       +'|DoubleRect|EasyScriptParser|GenericEvent|GenericMemo|GenericObserver'
       +'|MutableVector|ParameterBoolean|ParameterNumber|ParameterString'
       +'|RandomLCG|Terminal|Timer|Util|Vector',
-      'mpl$$lab$$util$$', /*addToVars=*/false);
+      'lab$$util$$', /*addToVars=*/false);
 
   terminal.addRegex('NF0|NF2|NF1S|NF3|NF5|NF5E|nf5|nf7|NF7|NF7E|NF9|NFE|NFSCI',
       'Util.', /*addToVars=*/false);
@@ -1429,31 +1429,31 @@ static stdRegex(terminal) {
       +'|GravityLaw|Gravity2Law|MassObject|ModifiedEuler'
       +'|NumericalPath|ParametricPath|OvalPath|PointMass'
       +'|RungeKutta|ShapeType|SimList|SimpleAdvance|Spring|VarsList',
-      'mpl$$lab$$model$$', /*addToVars=*/false);
+      'lab$$model$$', /*addToVars=*/false);
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
       +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',
-       'mpl$$lab$$view$$', /*addToVars=*/false);
+       'lab$$view$$', /*addToVars=*/false);
 
   terminal.addRegex('CircularEdge|CollisionHandling|ConcreteVertex|ContactSim'
        +'|EdgeRange|ExtraAccel|ImpulseSim|Joint|JointUtil|PathJoint|Polygon'
        +'|RigidBodyCollision|RigidBodySim|Rope|Scrim|Shapes|StraightEdge'
        +'|ThrusterSet|Vertex|Walls',
-       'mpl$$lab$$engine2D$$', /*addToVars=*/false);
+       'lab$$engine2D$$', /*addToVars=*/false);
 
   terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'
        +'|GraphStyle|DisplayAxes|VarsHistory',
-       'mpl$$lab$$graph$$', /*addToVars=*/false);
+       'lab$$graph$$', /*addToVars=*/false);
 
   terminal.addRegex('EventHandler|MouseTracker|RigidBodyEventHandler'
        +'|SimController|SimRunner|ViewPanner',
-       'mpl$$lab$$app$$', /*addToVars=*/false);
+       'lab$$app$$', /*addToVars=*/false);
 
   terminal.addRegex('ButtonControl|CheckBoxControl|ChoiceControl'
        +'|NumericControl|SliderControl|ToggleControl',
-       'mpl$$lab$$controls$$', /*addToVars=*/false);
+       'lab$$controls$$', /*addToVars=*/false);
 };
 
 /** Returns names of the variables that have been defined using {@link #addRegex}.

@@ -110,7 +110,7 @@ constructor(elem_ids) {
   this.graphSetup();
   this.terminal.addRegex('CardioidPath|CirclePath|DisplayPath|FlatPath|HumpPath'+
       '|LemniscatePath|LoopTheLoopPath|OvalPath|SpiralPath',
-     'mpl$$sims$$roller$$', /*addToVars=*/false);
+     'sims$$roller$$', /*addToVars=*/false);
   /**@type {!HTMLTextAreaElement}*/
   this.editor_ = /**@type {!HTMLTextAreaElement}*/(document.getElementById('editor'));
   const b = /**@type {!HTMLButtonElement}*/(document.getElementById('execute_button'));
