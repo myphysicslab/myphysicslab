@@ -142,6 +142,11 @@ broadcast(evt) {
     try {
       // For debugging: can see events being broadcast here.
       //if (!this.getName().match(/.*GRAPH.*/i)) { console.log('broadcast '+evt); }
+      //if (!evt.getName().match(/OBJECT.*|AUTO_SCALE/i) &&
+      //    !this.getName().match(/.*GRAPH.*/i)) {
+      //  console.log('broadcast '+evt.toStringShort());
+      //}
+      //console.log('broadcast '+evt.toStringShort());
       this.observers_.forEach(o => o.observe(evt));
     } finally {
       this.isBroadcasting_ = false;

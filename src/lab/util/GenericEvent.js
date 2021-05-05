@@ -48,15 +48,23 @@ constructor(subject, name, value) {
 
 /** @override */
 toString() {
-  return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
-      +', subject_: '+this.subject_.toStringShort()
-      +', value_: '+this.value_
-      +'}';
+  return this.toStringShort();
 };
 
 /** @override */
 toStringShort() {
-  return Util.ADVANCED ? '' : 'GenericEvent{name_:"'+this.name_+'"}';
+  // show the value with toStringShort() if possible
+  const v = this.value_;
+  let s;
+  if (typeof v === 'object' && v !== null && v.toStringShort !== undefined) {
+    s = v.toStringShort();
+  } else {
+    s = v;
+  }
+  return Util.ADVANCED ? '' : 'GenericEvent{name_:"'+this.name_+'"'
+      +', subject_: '+this.subject_.toStringShort()
+      +', value_: '+ s
+      +'}';
 };
 
 /** @override */

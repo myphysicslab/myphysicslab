@@ -130,7 +130,6 @@ constructor(subject, name, localName, getter, setter, opt_choices, opt_values) {
 toString() {
   return Util.ADVANCED ? '' : this.toStringShort().slice(0, -1)
       +', isComputed_: '+this.isComputed_
-      +', subject_: '+this.subject_.toStringShort()
       +', localName_: "'+this.localName_+'"'
       +', suggestedLength_: '+this.suggestedLength_
       +', maxLength_: '+this.maxLength_
@@ -142,6 +141,7 @@ toString() {
 /** @override */
 toStringShort() {
   return Util.ADVANCED ? '' : 'ParameterString{name_: "'+this.name_+'"'
+      +', subject_: '+this.subject_.toStringShort()
       +', value: "'+this.getValue()+'"}';
 };
 
