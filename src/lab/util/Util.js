@@ -240,8 +240,8 @@ static maybeElementById(elem_ids, elementId) {
 */
 static methodsOf(obj) {
   const s = [];
-  const proto = Object.getPrototypeOf(obj);
-  if (proto) {
+  let proto = Object.getPrototypeOf(obj);
+  while (proto) {
     const nms = Object.getOwnPropertyNames(proto);
     for (let i=0; i<nms.length; i++) {
       let p = nms[i];
@@ -252,8 +252,13 @@ static methodsOf(obj) {
         s.push(p);
       }
     }
+    proto = Object.getPrototypeOf(proto);
+    if (proto === null || proto.constructor === Object) {
+      break;
+    }
   }
   array.sort(s);
+  array.removeDuplicates(s);
   return s;
 };
 
