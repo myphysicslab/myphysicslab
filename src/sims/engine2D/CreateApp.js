@@ -151,7 +151,7 @@ parseURL() {
   const queryIdx = loc.indexOf('?');
   const errmsg = "URL query must contain gist and file. ";
   if (queryIdx > -1) {
-    let cmd = loc.slice(queryIdx+1);
+    let cmd = loc.slice(queryIdx); // leave the ? at start of query
     // decode the percent-encoded URL
     // See https://en.wikipedia.org/wiki/Percent-encoding
     cmd = decodeURIComponent(cmd);
@@ -174,7 +174,7 @@ parseURL() {
     fetch('https://api.github.com/gists/'+gist)
     .then(response => {
         if (!response.ok) {
-          throw errmsg+" server response = "+response.status;
+          throw errmsg+" server responsed with HTTP status = "+response.status;
         }
         return response.json();
     })
