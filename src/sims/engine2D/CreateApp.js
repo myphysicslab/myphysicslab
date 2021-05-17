@@ -149,7 +149,7 @@ start() {
 parseURL() {
   const loc = window.location.href;
   const queryIdx = loc.indexOf('?');
-  const err = "URL query must contain gist and file. ";
+  const errmsg = "URL query must contain gist and file. ";
   if (queryIdx > -1) {
     let cmd = loc.slice(queryIdx+1);
     // decode the percent-encoded URL
@@ -157,27 +157,35 @@ parseURL() {
     cmd = decodeURIComponent(cmd);
     let result = cmd.match(/(\?|;)gist=([\w]+);?/);
     if (result == null) {
-      throw err+cmd;
+      throw errmsg+cmd;
     }
     const gist = result[2];
     if (!gist.length) {
-      throw err+cmd;
+      throw errmsg+cmd;
     }
     result = cmd.match(/(\?|;)file=([\w.]+);?/);
     if (result == null) {
-      throw err+cmd;
+      throw errmsg+cmd;
     }
     const file = result[2];
     if (!file.length) {
-      throw err+cmd;
+      throw errmsg+cmd;
     }
     fetch('https://api.github.com/gists/'+gist)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+          throw errmsg+" server response = "+response.status;
+        }
+        return response.json();
+    })
     .then(data => {
+      if (!data.files[file]) {
+        throw errmsg+" no such file: "+file;
+      }
       this.editor_.value = data.files[file].content;
       this.terminal.eval(this.editor_.value);
     })
-    .catch(error => { console.error(error); throw error});
+    .catch(err => { console.log(err); alert(err) });
   } else {
     this.terminal.eval(this.editor_.value);
   }
