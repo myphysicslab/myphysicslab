@@ -111,7 +111,6 @@ constructor(elem_ids) {
   this.terminal.addRegex('CardioidPath|CirclePath|DisplayPath|FlatPath|HumpPath'+
       '|LemniscatePath|LoopTheLoopPath|OvalPath|SpiralPath',
      'sims$$roller$$', /*addToVars=*/false);
-  /**@type {!HTMLTextAreaElement}*/
   this.editor_ = /**@type {!HTMLTextAreaElement}*/(document.getElementById('editor'));
   const b = /**@type {!HTMLButtonElement}*/(document.getElementById('execute_button'));
   const bc = new ButtonControl('execute', ()=>this.terminal.eval(this.editor_.value), undefined, b);
@@ -128,11 +127,60 @@ getClassName() {
   return 'CreateApp';
 };
 
+/** Start the application running.
+* @return {undefined}
+* @export
+*/
+setup() {
+  this.clock.resume();
+  this.parseURL();
+};
+
 /** @override */
 start() {
   this.simRun.pause();
   this.simRun.startFiring();
-  this.terminal.eval(this.editor_.value);
+};
+
+
+/**
+* @return {undefined}
+*/
+parseURL() {
+  const loc = window.location.href;
+  const queryIdx = loc.indexOf('?');
+  const err = "URL query must contain gist and file. ";
+  if (queryIdx > -1) {
+    let cmd = loc.slice(queryIdx+1);
+    // decode the percent-encoded URL
+    // See https://en.wikipedia.org/wiki/Percent-encoding
+    cmd = decodeURIComponent(cmd);
+    let result = cmd.match(/(\?|;)gist=([\w]+);?/);
+    if (result == null) {
+      throw err+cmd;
+    }
+    const gist = result[2];
+    if (!gist.length) {
+      throw err+cmd;
+    }
+    result = cmd.match(/(\?|;)file=([\w.]+);?/);
+    if (result == null) {
+      throw err+cmd;
+    }
+    const file = result[2];
+    if (!file.length) {
+      throw err+cmd;
+    }
+    fetch('https://api.github.com/gists/'+gist)
+    .then(response => response.json())
+    .then(data => {
+      this.editor_.value = data.files[file].content;
+      this.terminal.eval(this.editor_.value);
+    })
+    .catch(error => { console.error(error); throw error});
+  } else {
+    this.terminal.eval(this.editor_.value);
+  }
 };
 
 } // end class
