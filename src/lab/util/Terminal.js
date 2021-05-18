@@ -886,7 +886,7 @@ eval(script, opt_output, opt_userInput) {
     }
     if (!userInput) {
       this.evalCalls_--;
-      ex.message += '\nScript: '+script;
+      // could append entire script to exception + '\nScript: '+script;
       throw ex;
     }
   }
@@ -1515,7 +1515,7 @@ prohibited by default, but you can add a blackList regexp for it.
 */
 static vetCommand(script, whiteList, opt_blackList) {
   // prohibit all window properties (which are globally accessible names),
-  // except for those on whiteList_.
+  // except for those on whiteList.
   for (let p in window) {
     if (Terminal.badCommand(script, p, whiteList)) {
       throw 'prohibited name: "' + p + '" found in script: ' + script;
