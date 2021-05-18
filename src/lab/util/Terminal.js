@@ -518,7 +518,8 @@ constructor(term_input, term_output) {
   * @type {!Array<string>}
   * @private
   */
-  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find' ];
+  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find',
+     'setTimeout', 'alert' ];
   /**
   * @type {?Parser}
   */
