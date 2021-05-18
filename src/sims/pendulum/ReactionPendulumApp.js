@@ -624,7 +624,7 @@ setSeparation(value) {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex('advance2|advance1|axes|clock|displayList'
       +'|displayClock|energyGraph|graph|layout|easyScript|sim2|sim1'
       +'|simCtrl|simList2|simList1|simRun|simView|statusView|terminal|timeGraph',

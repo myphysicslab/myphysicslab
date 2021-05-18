@@ -344,7 +344,7 @@ setShape(value) {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex('advance|axes|block|blockMass|clock|displayClock|energyGraph'
       +'|path|displayPath|displayList'
       +'|layout|sim|simCtrl|simList|simRun|simView|statusView|terminal|easyScript',

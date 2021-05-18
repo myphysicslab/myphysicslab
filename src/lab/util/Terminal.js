@@ -114,8 +114,8 @@ not allowed:
 
     > terminal['white'+'List_']
     Error: prohibited usage of square brackets in script: terminal['white'+'List_']
-    > var idx = 'whiteList_'
-    whiteList_
+    > var idx = 'allowList_'
+    allowList_
     > terminal[idx]
     Error: prohibited usage of square brackets in script: terminal[idx]
 
@@ -413,7 +413,7 @@ See [Exporting Symbols](Building.html#exportingsymbols).
 
 Security considerations are another reason to disable JavaScript code under
 advanced-compile. The [safe subset](#safesubsetofjavascript) strategy used here depends
-on detecting names in the script such as `window`, `eval`, `myEval`, `whiteList_`, etc.
+on detecting names in the script such as `window`, `eval`, `myEval`, `allowList_`, etc.
 Because advanced-compile renames many of these, we are no longer able to detect their
 usage. For example, an attacker could figure out what the `Terminal.myEval` function
 was renamed to, and enter a script that would call that function; this would not be
@@ -518,7 +518,7 @@ constructor(term_input, term_output) {
   * @type {!Array<string>}
   * @private
   */
-  this.whiteList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find',
+  this.allowList_ = [ 'myphysicslab', 'goog', 'length', 'name', 'terminal', 'find',
      'setTimeout', 'alert' ];
   /**
   * @type {?Parser}
@@ -649,10 +649,10 @@ addRegex2(regex, replace, opt_prepend) {
 * @param {boolean=} opt_addToVars if `true`, then the name is added to the
 *     set of defined names returned by {@link #vars}; default is `true`
 */
-addWhiteList(name, opt_addToVars) {
+addAllowList(name, opt_addToVars) {
   const addToVars = opt_addToVars !== undefined ? opt_addToVars : true;
-  if (!this.whiteList_.includes(name)) {
-    this.whiteList_.push(name);
+  if (!this.allowList_.includes(name)) {
+    this.allowList_.push(name);
     if (addToVars) {
       this.vars_ += (this.vars_.length > 0 ? '|' : '') + name;
     }
@@ -677,14 +677,14 @@ alertOnce(msg) {
 /** Returns true if command contains the specified name and the name is prohibited.
 * @param {string} command the command to test
 * @param {string} name a prohibited name (unless it is on the white list)
-* @param {!Array<string>} whiteList list of allowed commands
+* @param {!Array<string>} allowList list of allowed commands
 * @return {boolean} true means found prohibited name in command, and name was not
 *      on the white list
 * @private
 */
-static badCommand(command, name, whiteList) {
-  for (let i=0, n=whiteList.length; i<n; i++) {
-    if (name == whiteList[i]) {
+static badCommand(command, name, allowList) {
+  for (let i=0, n=allowList.length; i<n; i++) {
+    if (name == allowList[i]) {
       return false;
     }
   }
@@ -733,7 +733,7 @@ destroy() {
 };
 
 /** Replace unicode characters with the regular text. Example: `\x64` and `\u0064` are
-* replaced with `d`. This is so our blacklist checking can work (this defeats the hack
+* replaced with `d`. This is so our denyList checking can work (this defeats the hack
 * of spelling "window" like "win\u0064ow").
 * See [Safe Subset of JavaScript](#safesubsetofjavascript).
 * @param {string} s the string to modify
@@ -932,7 +932,7 @@ expand(script) {
           return cmd.replace(rp.regex, rp.replace);
         }, e);
       // add to result
-      Terminal.vetCommand(e, this.whiteList_);
+      Terminal.vetCommand(e, this.allowList_);
       exp += e;
       if (c.length == 0) {
         break;
@@ -1508,17 +1508,17 @@ static vetBrackets(script) {
 
 /** Throws an error if the script contains prohibited code.
 See [Safe Subset of JavaScript](#safesubsetofjavascript). Note that `eval` is not
-prohibited by default, but you can add a blackList regexp for it.
+prohibited by default, but you can add a denyList regexp for it.
 * @param {string} script
-* @param {!Array<string>} whiteList list of allowed commands
-* @param {!RegExp=} opt_blackList additional prohibited commands
+* @param {!Array<string>} allowList list of allowed commands
+* @param {!RegExp=} opt_denyList additional prohibited commands
 * @throws {!Error} if the script contains prohibited code.
 */
-static vetCommand(script, whiteList, opt_blackList) {
+static vetCommand(script, allowList, opt_denyList) {
   // prohibit all window properties (which are globally accessible names),
-  // except for those on whiteList.
+  // except for those on allowList.
   for (let p in window) {
-    if (Terminal.badCommand(script, p, whiteList)) {
+    if (Terminal.badCommand(script, p, allowList)) {
       throw 'prohibited name: "' + p + '" found in script: ' + script;
     }
   }
@@ -1526,8 +1526,8 @@ static vetCommand(script, whiteList, opt_blackList) {
   // properties of Terminal.
   // Prohibit HTML Element and Node properties and methods that access parent or change
   // structure of the Document.
-  const blackList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addWhiteList|vetCommand|badCommand|whiteList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
-  if (blackList.test(script) || (opt_blackList && opt_blackList.test(script))) {
+  const denyList = /\b(myEval|Function|with|__proto__|call|apply|caller|callee|arguments|addAllowList|vetCommand|badCommand|allowList_|addRegex|addRegex2|regexs_|afterEvalFn_|setAfterEval|parentNode|parentElement|innerHTML|outerHTML|offsetParent|insertAdjacentHTML|appendChild|insertBefore|replaceChild|removeChild|ownerDocument|insertBefore|setParser|defineNames|globalEval|window|defineProperty|defineProperties|__defineGetter__|__defineSetter__)\b/g;
+  if (denyList.test(script) || (opt_denyList && opt_denyList.test(script))) {
     throw 'prohibited name in script: '+script;
   }
 };

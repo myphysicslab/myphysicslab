@@ -94,7 +94,7 @@ defineNames(myName) {
   if (Util.ADVANCED)
     return;
   const t = this.terminal;
-  t.addWhiteList(myName);
+  t.addAllowList(myName);
   t.addRegex('layout',
       myName+'.');
   t.addRegex('terminal|simCanvas',

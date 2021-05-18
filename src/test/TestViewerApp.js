@@ -455,7 +455,7 @@ getClassName() {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun'
       +'|simView|statusView|terminal|varsList|displayList',

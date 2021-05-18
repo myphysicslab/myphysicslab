@@ -227,7 +227,7 @@ plot(expr, range1, range2, numPts) {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex( 'simCanvas|vars|terminal|graph|graphLine|axes|plot'
       +'|simCtrl|simView|x',
       myName+'.');

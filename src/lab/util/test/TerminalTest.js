@@ -86,8 +86,8 @@ static testTerminal1() {
   assertEquals('parser', t.vars()[0]);
   window.foobar = '_FOOBAR_';
   window.baz = '_BAZ_';
-  t.addWhiteList('foobar');
-  t.addWhiteList('baz');
+  t.addAllowList('foobar');
+  t.addAllowList('baz');
   assertEquals(5, t.vars().length);
   assertElementsEquals(['baz', 'foobar', 'parser', 'result', 'z'], t.vars());
   assertEquals('_FOOBAR_', t.eval('foobar'));
@@ -157,9 +157,9 @@ static testTerminal2() {
   assertEquals('whiteList_', t.eval('"whiteList_"', /*output=*/false));
   // output_elem should be unchanged
   assertEquals(out, output_elem.value);
-  // test addWhiteList() function
+  // test addAllowList() function
   assertThrows(() => t.eval('self', /*output=*/false));
-  t.addWhiteList('self');
+  t.addAllowList('self');
   assertEquals(window, t.eval('self', /*output=*/false));
   // square brackets with numbers are OK
   assertEquals(7, t.eval('goog.array.range(10)[7]', /*output=*/false));
@@ -298,14 +298,14 @@ static testTerminal4() {
   assertThrows(() => t.eval('win\u0064\x6Fw'));
   assertThrows(() => t.eval('win\u0064\x6fw'));
   assertThrows(() => t.eval('foo;top'));
-  assertThrows(() => t.eval('alert("foo")'));
+  //assertThrows(() => t.eval('alert("foo")'));
   assertThrows(() => t.eval('foo;document'));
   assertThrows(() => t.eval('goog.globalEval("foo")'));
 
   // these hacks were found by reddit
   // see https://www.reddit.com/r/AskNetsec/comments/64erdg/
   // is_my_javascript_physics_simulation_app_hackproof/
-  assertThrows(() => t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'));
+  //assertThrows(() => t.eval('goog.globalEval("\u0061\x6C\u0065\u0072\u0074(/iq8/)")'));
   assertThrows(() => t.eval('win\u0064ow.lo\u0063ation=\'https://www.reddit.com\''));
   delete window.terminal;
 };
@@ -325,6 +325,8 @@ static testTerminal5() {
   assertEquals('window', Terminal.deUnicode('win\u0064\x6fw'));
   assertThrows(() => Terminal.vetCommand('foo;top', []));
   assertThrows(() => Terminal.vetCommand('alert("foo")', []));
+  assertNotThrows(() => Terminal.vetCommand('alert("foo")', ['alert']));
+  assertThrows(() => Terminal.vetCommand('alert("foo")', ['alert'], /alert/));
   assertThrows(() => Terminal.vetCommand('foo;document', []));
   assertThrows(() => Terminal.vetCommand('goog.globalEval("foo")', []));
   assertThrows(() => Terminal.vetCommand('eval("1+2")', [], /\beval\b/g));

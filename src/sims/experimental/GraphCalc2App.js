@@ -220,7 +220,7 @@ addControl(control) {
 * @export
 */
 defineNames(myName) {
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex( 'simCanvas|vars|terminal|graph|graphLine|axes|plot'
       +'|simCtrl|simView|x',
       myName+'.');

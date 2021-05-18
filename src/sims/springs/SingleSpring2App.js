@@ -266,7 +266,7 @@ getClassName() {
 * @export
 */
 defineNames(myName) {
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex('advance|axes|clock|diffEqSolver|displayClock'
       +'|energyGraph|graph|layout|sim|simCtrl|simList|simRect|simRun|varsList'
       +'|simView|statusView|timeGraph|easyScript|terminal|displayList',

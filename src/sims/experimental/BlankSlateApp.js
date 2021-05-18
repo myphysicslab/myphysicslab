@@ -163,7 +163,7 @@ getClassName() {
 defineNames(myName) {
   if (Util.ADVANCED)
     return;
-  this.terminal.addWhiteList(myName);
+  this.terminal.addAllowList(myName);
   this.terminal.addRegex('simCanvas|terminal|axes|simCtrl|simView|displayList',
       myName+'.');
 };
