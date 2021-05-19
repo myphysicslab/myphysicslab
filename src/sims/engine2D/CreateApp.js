@@ -143,50 +143,65 @@ start() {
 };
 
 
-/**
+/** Parse the query portion of the URL and load the specified GitHub Gist, the script
+found there is then run to create the simulation.
+For example the URL might be
+https://www.myphysicslab.com/develop/build/sims/engine2D/CreateApp-en.html
+?gist=1b1b5b5399174048bc172451f3d7d997;file=CircleTrack.js
+We extract the gist, and optionally the file name.  If the file name is not specified,
+then we fetch the first file found in the gist.
 * @return {undefined}
 */
 parseURL() {
   const loc = window.location.href;
   const queryIdx = loc.indexOf('?');
-  const errmsg = "URL query must contain gist and file. ";
   if (queryIdx > -1) {
     let cmd = loc.slice(queryIdx); // leave the ? at start of query
     // decode the percent-encoded URL
     // See https://en.wikipedia.org/wiki/Percent-encoding
     cmd = decodeURIComponent(cmd);
     let result = cmd.match(/(\?|;)gist=([\w]+);?/);
-    if (result == null) {
-      throw errmsg+cmd;
-    }
-    const gist = result[2];
-    if (!gist.length) {
-      throw errmsg+cmd;
-    }
-    result = cmd.match(/(\?|;)file=([\w.]+);?/);
-    if (result == null) {
-      throw errmsg+cmd;
-    }
-    const file = result[2];
-    if (!file.length) {
-      throw errmsg+cmd;
-    }
-    fetch('https://api.github.com/gists/'+gist)
-    .then(response => {
-        if (!response.ok) {
-          throw errmsg+" server responsed with HTTP status = "+response.status;
-        }
-        return response.json();
-    })
-    .then(data => {
-      if (!data.files[file]) {
-        throw errmsg+" no such file: "+file;
+    if (result) {
+      const gist = result[2];
+      if (!gist.length) {
+        throw `gist not specified: ${cmd}`;
       }
-      this.editor_.value = data.files[file].content;
+      // optional: can specify the name of the gist file
+      let file = '';
+      result = cmd.match(/(\?|;)file=([\w.]+);?/);
+      if (result != null) {
+        file = result[2];
+      }
+      fetch('https://api.github.com/gists/'+gist)
+      .then(response => {
+          if (!response.ok) {
+            throw `gist ${gist} not found; HTTP status = ${response.status}`;
+          }
+          return response.json();
+      })
+      .then(data => {
+        if (!file) {
+          // find the first file defined in gist
+          const nms = Util.propertiesOf(data.files);
+          if (!nms.length) {
+            throw `gist ${gist} has no file`;
+          }
+          file = nms[0];
+        }
+        if (!data.files[file]) {
+          throw `file ${file} not found in gist ${gist}`;
+        }
+        this.editor_.value = data.files[file].content;
+        this.terminal.eval(this.editor_.value);
+        return;
+      })
+      .catch(err => { console.log(err); alert(err) });
+    } else {
+      // query but no gist, run default script
       this.terminal.eval(this.editor_.value);
-    })
-    .catch(err => { console.log(err); alert(err) });
+    }
   } else {
+    // no query; run default script
     this.terminal.eval(this.editor_.value);
   }
 };
