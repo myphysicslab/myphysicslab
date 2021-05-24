@@ -96,8 +96,16 @@ step(stepSize) {
   if (error != null) {
     return error;
   }
+  /* Filip's Method for DoublePendulumSim.
+   * See email of May 24, 2021 with Filip Optołowicz.
+  vars[9] += k1[9] * stepSize; // time
+  vars[1] += k1[1] * stepSize;
+  vars[3] += k1[3] * stepSize;
+  vars[0] += vars[1] * stepSize;
+  vars[2] += vars[3] * stepSize;
+  */
   for (let i=0; i<N; i++) {
-      vars[i] += k1[i] * stepSize;
+    vars[i] += k1[i] * stepSize;
   }
   va.setValues(vars, /*continuous=*/true);
   return null;
