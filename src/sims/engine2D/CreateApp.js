@@ -110,7 +110,7 @@ constructor(elem_ids) {
   this.graphSetup();
   this.terminal.addRegex('CardioidPath|CirclePath|DisplayPath|FlatPath|HumpPath'+
       '|LemniscatePath|LoopTheLoopPath|OvalPath|SpiralPath',
-     'sims$$roller$$', /*addToVars=*/false);
+      'sims$$roller$$', /*addToVars=*/false);
   this.editor_ = /**@type {!HTMLTextAreaElement}*/(document.getElementById('editor'));
   const b = /**@type {!HTMLButtonElement}*/(document.getElementById('execute_button'));
   const bc = new ButtonControl('execute', ()=>this.terminal.eval(this.editor_.value), undefined, b);
@@ -142,6 +142,55 @@ start() {
   this.simRun.startFiring();
 };
 
+/** Display the URL of the GitHub Gist on the web page.
+There should be an &lt;a&gt; tag with the id 'gist_link' on the page.
+@param {?string} url
+*/
+setGistLink(url) {
+  if (url) {
+    const e = document.getElementById('gist_link');
+    if (e) {
+      const a = /**@type {!HTMLAnchorElement}*/(e);
+      a.href = url;
+      //a.text = url;
+    }
+  }
+};
+
+/** Display the description of the GitHub Gist on the web page.
+There should be a &lt;span&gt; tag with the id 'gist_desc' on the page.
+@param {?string} desc
+*/
+setDescription(desc) {
+  if (desc) {
+    const e = document.getElementById('gist_desc');
+    if (e) {
+      const p = /**@type {!HTMLSpanElement}*/(e);
+      // remove the URL from description.  Example URL:
+      // https://www.myphysicslab.com/gist1-en.html?gist=f2da00fdb3715f059884bb11f5b
+      const d = desc.replace(/https:\/\/www\.myphysicslab\.com\/gist\S+/, '');
+      p.textContent = d;
+    }
+  }
+};
+
+/** Display the author of the GitHub Gist on the web page.
+There should be an &lt;a&gt; tag with the id 'gist_author' on the page.
+@param {?string} login
+@param {?string} html_url
+*/
+setAuthor(login, html_url) {
+  if (login) {
+    const e = document.getElementById('gist_author');
+    if (e) {
+      const a = /**@type {!HTMLAnchorElement}*/(e);
+      if (html_url) {
+        a.href = html_url;
+      }
+      a.text = login;
+    }
+  }
+};
 
 /** Parse the query portion of the URL and load the specified GitHub Gist, the script
 found there is then run to create the simulation.
@@ -180,6 +229,12 @@ parseURL() {
           return response.json();
       })
       .then(data => {
+        const owner = data['owner'];
+        if (owner) {
+          this.setAuthor(owner['login'], owner['html_url']);
+        }
+        this.setGistLink(data['html_url']);
+        this.setDescription(data.description);
         if (!file) {
           // find the first file defined in gist
           const nms = Util.propertiesOf(data.files);
