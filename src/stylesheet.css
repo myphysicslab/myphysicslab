@@ -25,7 +25,7 @@ a#logo {
   margin: -9px 5px 0 0;
 }
 ul#header_bar, ul.horiz_tabs {
-  padding: 3px 0;
+  padding: 3px 0 0 0;
   margin: 3px 0;
 }
 ul.horiz_tabs {
@@ -36,11 +36,10 @@ ul#header_bar li {
 }
 ul.horiz_tabs li {
   list-style: none;
-  display: inline;
+  display: inline-block;
   padding: 3px 0.5em;
-  margin: 0 3px 0 0;
+  margin: 0 0 -1px 3px;
   border: 1px solid #778;
-  border-bottom-color: #DDE; /* same as background */
   background: #DDE;
   text-decoration: none;
   font: bold 12px Verdana, sans-serif;
@@ -48,7 +47,7 @@ ul.horiz_tabs li {
 }
 ul.horiz_tabs li.selected {
   background: white;
-  border-bottom-color: white; /* same as background */
+  border-bottom: 1px solid white;
 }
 /* this div contains language_menu and next/prev nav_links */
 div#header_nav {
