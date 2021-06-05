@@ -500,7 +500,11 @@ alignCanvasControls(canvas, controls, canvas2) {
   // If (not enough space to right of canvas) then controls will be below canvas.
   // In that case: if (enough space for 2 columns) then do 2 columns
   //if (avail_width < ctrl_width && contain_width > 2*ctrl_width) {
-  const parentWidth = controls.parentNode.offsetWidth;
+  const parentNode = controls.parentNode;
+  if (!parentNode) {
+    throw 'parentNode is null';
+  }
+  const parentWidth = parentNode.offsetWidth;
   //console.log(canvas.id+' parentWidth='+parentWidth+' ctrl_width='+ctrl_width);
   if (parentWidth > 3*ctrl_width) {
     controls.style.width = '100%';
