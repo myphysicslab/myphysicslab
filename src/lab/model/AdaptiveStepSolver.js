@@ -247,7 +247,7 @@ AdaptiveStepSolver.i18n_strings;
 @type {AdaptiveStepSolver.i18n_strings}
 */
 AdaptiveStepSolver.en = {
-  NAME: 'Adaptive Step'
+  NAME: 'Adaptive'
 };
 
 /**
@@ -255,7 +255,7 @@ AdaptiveStepSolver.en = {
 @type {AdaptiveStepSolver.i18n_strings}
 */
 AdaptiveStepSolver.de_strings = {
-  NAME: 'Adaptiert Schritt'
+  NAME: 'Adaptiert'
 };
 
 /** Set of internationalized strings.
