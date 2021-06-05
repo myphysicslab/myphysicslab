@@ -69,6 +69,35 @@
   </div>\
 </div>
 
+#define #CONTROLS_CONTAINER2 \
+<div id="container#APP_NUM" class="control_container">\
+  <div id="sim_applet#APP_NUM" >\
+    <div id="sim_controls#APP_NUM" class="control_group">\
+    </div>\
+  </div>\
+  <div id="div_graph#APP_NUM" >\
+    <div id="graph_controls#APP_NUM" class="control_group">\
+    </div>\
+  </div>\
+  <div id="div_time_graph#APP_NUM" >\
+    <div id="time_graph_controls#APP_NUM" class="control_group">\
+    </div>\
+  </div>\
+  <p>\
+  <label id="label_show_sim#APP_NUM">\
+    <input type="checkbox" id="show_sim#APP_NUM">show simulation\
+  </label>\
+  <label id="label_terminal#APP_NUM">\
+    <input type="checkbox" id="show_terminal#APP_NUM">terminal\
+  </label>\
+  <div id="div_terminal#APP_NUM">\
+    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
+    <label style="display:inline-block">command &gt;\
+      <input type="text" id="term_input#APP_NUM" size="80">\
+    </label>\
+  </div>\
+</div>
+
 #comment #ELEM_IDS communicates to the layout the various ID's of the UI elements.
 
 #define #ELEM_IDS var elem_ids#APP_NUM = {\

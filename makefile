@@ -208,6 +208,7 @@ comparedoublependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/Compar
 comparependulum: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pendulum/ComparePendulumApp-$(loc).html )
 contact: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/ContactApp-$(loc).html )
 create: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CreateApp-$(loc).html )
+create2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CreateApp2-$(loc).html )
 curvedtest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/CurvedTestApp-$(loc).html )
 danglestick: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/DangleStickApp-$(loc).html )
 donothing: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/engine2D/DoNothingApp-$(loc).html )
@@ -298,6 +299,7 @@ sims/engine2D/ChainApp \
 sims/engine2D/CircleTrack \
 sims/engine2D/ContactApp \
 sims/engine2D/CreateApp \
+sims/engine2D/CreateApp2 \
 sims/engine2D/CurvedTestApp \
 sims/engine2D/DoNothingApp \
 sims/engine2D/DoublePendulum2App \

@@ -1,0 +1,72 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.engine2D.CreateApp2
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+<p><span id="gist_desc"></span>
+ <a id="gist_link">GitHub Gist</a>
+ Author: <a id="gist_author"></a>
+</p>
+#CONTROLS_CONTAINER2
+
+<textarea id="editor" cols=80 rows=20 wrap="soft">
+'ball and pencil collide with zero elasticity';
+var once;
+if (once===undefined) {app.addPlaybackControls(); app.addStandardControls(); once=true;};
+sim.cleanSlate();
+Walls.make(sim,24,12.01);
+simView.setWidth(25);
+var p=Shapes.makeBlock(0.2, 4, 'pencil');
+sim.addBody(p);
+p.setPosition(new Vector(4, -4));
+var b=Shapes.makeBall(0.5, 'ball');
+sim.addBody(b);
+b.setPosition(new Vector(10, -5.5));
+b.setVelocity(new Vector(-4.9, 0));
+displayList.findShape(p).setFillStyle('green');
+displayList.findShape(b).setFillStyle('blue');
+displayList.findShape(b).setDrawCenterOfMass(true);
+var g=new GravityLaw(10, simList);
+sim.addForceLaw(g);
+var d=new DampingLaw(0.043, 0.15, simList);
+sim.addForceLaw(d);
+ELASTICITY=0.0;
+sim.saveInitialState();
+simRun.resume();
+</textarea> <br>
+<button type="button" id="execute_button">Execute</button>
+
+<p>CreateApp2 lets you experiment building a rigid body simulation via scripting.
+It has a ContactSim, LabCanvas, SimView, Terminal and other objects already created.
+Below is a sample script to try by entering in Terminal.</p>
+
+<p>NOTE: This will only work on
+<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
+of this app; advanced-compiled versions cannot execute JavaScript.
+</p>
+
+
+#PAGE_INFO
+#LOREM_IPSUM
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+<!--script>
+  app.eval('TAB_LAYOUT.SHOW_TERMINAL=true;');
+</script-->
+#PAGE_FOOTER
+</body>
+</html>
