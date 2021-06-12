@@ -378,7 +378,8 @@ combo_names := sims/experimental/CollisionCombo
 bld_combos := $(addprefix $(BUILD_DIR)/,$(combo_names))
 
 # Copy stylesheet.css to build/
-bld_css := $(BUILD_DIR)/stylesheet.css
+css_files := $(wildcard src/stylesheet*.css)
+bld_css := $(subst src/,$(BUILD_DIR)/,$(css_files))
 $(bld_css): $(BUILD_DIR)/%.css : src/%.css
 	@mkdir -v -p $(dir $@)
 	@$(COPY_CMD) $< $@
