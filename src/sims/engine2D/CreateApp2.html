@@ -9,6 +9,8 @@
 <html lang="en">
 <head>
 #META_TAGS
+<!-- stylesheet2.css overrides some styles. Needed for TabLayout3 -->
+<link rel="stylesheet" type="text/css" href="#TOP_DIR/stylesheet2.css">
 #HIDE_ALL
 </head>
 <body>
@@ -43,6 +45,8 @@ sim.addForceLaw(g);
 var d=new DampingLaw(0.043, 0.15, simList);
 sim.addForceLaw(d);
 ELASTICITY=0.0;
+sim.setPEOffset(105);
+APP.SHOW_ENERGY=true;
 sim.saveInitialState();
 simRun.resume();
 </textarea> <br>

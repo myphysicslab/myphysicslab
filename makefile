@@ -447,6 +447,8 @@ src/sims/engine2D/ElasticitySetter.js
 
 $(BUILD_DIR)/sims/engine2D/ChainApp*.js : src/sims/engine2D/ChainConfig.js
 
+$(BUILD_DIR)/sims/engine2D/CreateApp2*.js : src/sims/common/TabLayout3.js
+
 $(BUILD_DIR)/sims/engine2D/CurvedTestApp*.js : src/sims/engine2D/SixThrusters.js
 
 $(BUILD_DIR)/sims/engine2D/DoNothingApp*.js : src/sims/engine2D/RotatingTestForce.js

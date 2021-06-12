@@ -15,7 +15,7 @@
 goog.module('myphysicslab.sims.engine2D.CreateApp2');
 
 const CreateApp = goog.require('myphysicslab.sims.engine2D.CreateApp');
-const TabLayout2 = goog.require('myphysicslab.sims.common.TabLayout2');
+const TabLayout3 = goog.require('myphysicslab.sims.common.TabLayout3');
 
 /** CreateApp2 makes it easier for users to create their own simulation via scripting.
 CreateApp2 provides an editor text field for the script that is being run, and an
@@ -24,7 +24,7 @@ Intended for scripting, this provides a ContactSim but no RigidBody objects or
 ForceLaws. The RigidBody objects and ForceLaws should be created via scripting such as
 a URL-script; see {@link Terminal}.
 
-CreateApp2 extends {@link CreateApp} using a different layout of {@link TabLayout2}.
+CreateApp2 extends {@link CreateApp} using a different layout of {@link TabLayout3}.
 */
 class CreateApp2 extends CreateApp {
 /**
@@ -47,7 +47,7 @@ makeLayout(elem_ids) {
   const canvasWidth = 800;
   const canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
       this.simRect.getWidth());
-  return new TabLayout2(elem_ids, canvasWidth, canvasHeight);
+  return new TabLayout3(elem_ids, canvasWidth, canvasHeight);
 };
 
 } // end class
