@@ -18,6 +18,10 @@ Source code is available at <https://github.com/myphysicslab/myphysicslab>.
 
 Building
 --------
+This software has only been built on MacOS. Building on any other platform (Windows,
+Linux) may be possible but will likely involve some significant modifications to the
+build instructions, and possibly to the makefile and other scripts.
+
 It is possible to customize a myPhysicsLab simulation without
 building from source code, see
 [Customizing myPhysicsLab Simulations](http://www.myphysicslab.com/develop/docs/Customizing.html).
