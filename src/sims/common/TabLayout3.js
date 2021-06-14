@@ -133,13 +133,23 @@ the image can be done by changing these Parameters.
 
 We use CSS style `display: inline-block` on the controls div, so that it naturally flows
 to right of the canvas if there is enough room, otherwise it flows below the canvas. The
-method `alignCanvasControls()` attempts to set the controls to have 2 columns when the
-controls are below the canvas.
+method `setControlsColumns()` sets the controls div to have as many columns as will fit
+either on the right of the canvas, or below the canvas.
+
+The controls should usually have `display: block` so that there is one control per line
+in a column. This needs to be set in the CSS stylesheet, for example with
+
+    div.control_group label {
+      display: block;
+    }
+
+To put several controls on a single line, you can enclose them in a div. See for
+example `CommonControls.makePlaybackControls()`. It might be possible to have several
+controls on one line; they would be in normal flow (with display: inline by default)
+and add a br element to break the lines.
 
 We set the canvases to 'float: left' so that the 'show sim' and 'show terminal' controls
 will flow under the controls div.
-
-The individual controls have `display: block` and are styled with CSS.
 
 ### Terminal Checkbox
 
@@ -464,7 +474,6 @@ addControl(control, opt_add) {
   opt_add = opt_add === undefined ? true : opt_add;
   if (opt_add) {
     const element = control.getElement();
-    element.style.display = 'block';
     this.sim_controls.appendChild(element);
   }
   this.controls_.push(control);
@@ -483,16 +492,23 @@ this with just CSS).
 * @private
 */
 setControlsColumns(bigDiv, canvas, controlsDiv) {
-  // set to 1 column in order to get the width of a single column.
+  // set to 1 column in order to get the width of a single column, and to see whether
+  // CSS-browser decides to put the controlsDiv to the right of canvas.
   controlsDiv.style['columnCount'] = '1';
   controlsDiv.style.width = 'auto';
-  console.log('bigDiv '+bigDiv.offsetWidth);
-  console.log('canvas '+canvas.offsetWidth);
-  console.log('controlsDiv '+controlsDiv.offsetWidth);
-  // avail_width = width of space to right of canvas.
-  // Subtract 2 makes it work better on Safari...
-  const avail_width = bigDiv.offsetWidth - controlsDiv.offsetLeft;
-  const cols = Math.max(1, Math.floor(avail_width / controlsDiv.offsetWidth));
+  //console.log('bigDiv '+bigDiv.offsetWidth);
+  //console.log('canvas '+canvas.offsetWidth);
+  //console.log('controlsDiv '+controlsDiv.offsetWidth);
+  let availWidth;
+  if (controlsDiv.offsetLeft > canvas.offsetWidth) {
+    // controls are to right of canvas
+    availWidth = bigDiv.offsetWidth - canvas.offsetWidth;
+  } else {
+    // controls are below canvas, use full width
+    availWidth = bigDiv.offsetWidth;
+  }
+  const cols = Math.max(1, Math.floor(availWidth / controlsDiv.offsetWidth));
+  //console.log('cols='+cols+' availWidth='+availWidth);
   controlsDiv.style['columnCount'] = cols.toString();
 };
 

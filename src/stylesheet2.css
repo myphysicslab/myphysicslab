@@ -10,8 +10,9 @@ canvas {
 }
 
 div.control_group {
-  /* inline-block allows setting style columnCount on the div
-   * (otherwise columnCount has no effect)
-   */
   display: inline-block;
+}
+
+div.control_group label {
+  display: block;
 }
