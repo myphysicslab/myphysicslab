@@ -15,9 +15,13 @@ div.control_group {
 
 div.control_group label {
   display: block;
+  /* "width: max-content" ensures that labels report their true width, not the
+   * width of their container.
+   */
   width: max-content;
 }
 
 div#div_sim, div#div_graph, div#div_time_graph {
+  /* "vertical-align: top" ensures that graph top is aligned with sim canvas */
   vertical-align: top;
 }

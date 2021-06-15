@@ -131,25 +131,31 @@ the image can be done by changing these Parameters.
 
 ### Layout Of Controls
 
-We use CSS style `display: inline-block` on the controls div, so that it naturally flows
-to right of the canvas if there is enough room, otherwise it flows below the canvas. The
-method `setControlsColumns()` sets the controls div to have as many columns as will fit
-either on the right of the canvas, or below the canvas.
+The layout depends on whether there is one, two, or three canvases visible. And on how
+wide the window is.
 
-The controls should usually have `display: block` so that there is one control per line
-in a column. This needs to be set in the CSS stylesheet, for example with
+In each case, the controls should appear grouped with the canvas they "belong" to:
++ The simulation controls (playback, and various simulation settings) appear with
+    the sim-canvas.
++ The graph controls (which variable to display, etc.) appear with the graph canvas.
++ And similar for the time-graph and its controls.
 
-    div.control_group label {
-      display: block;
-    }
+The size of the canvases depends on the window size. For the single canvas case, we use
+CSS style "max-width: 95vw" and "max-height: 95vh" which means it will be full size
+when the window is large enough (but no larger), and will be 95% of the window size
+when the window is smaller.
 
-To put several controls on a single line, you can enclose them in a div. See for
-example `CommonControls.makePlaybackControls()`. It might be possible to have several
-controls on one line; they would be in normal flow (with display: inline by default)
-and add a br element to break the lines.
+For the single canvas case, the controls can appear either to the right of the canvas
+(when there is room), or below the canvas. In either case, we arrange the controls in
+columns if there is adequate space.
 
-We set the canvases to 'float: left' so that the 'show sim' and 'show terminal' controls
-will flow under the controls div.
+For the two canvas case with wide window: the canvas size is set to be roughly 47% of
+the window width. The canvases appear side-by-side, with their controls below each one
+(in columns if there is enough space).
+
+For two canvas case with narrow window: the canvas size is 95% of the window, and they
+appear one above the other, but each has their controls just below them.
+
 
 ### Terminal Checkbox
 
@@ -506,6 +512,7 @@ setControlsColumns(bigDiv, canvas, controlsDiv) {
     // controls are below canvas, use full width
     availWidth = bigDiv.offsetWidth;
   }
+  // Find max control width by interrogating each child of the control div.
   let maxw = 0;
   for (let i = 0; i < controlsDiv.children.length; i++) {
     const e =  /** @type {!HTMLElement} */(controlsDiv.children[i]);
