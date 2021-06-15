@@ -269,7 +269,9 @@ static makePlaybackControls(simrun, opt_overlay) {
   //timer_div.style.border = 'dashed 1px blue';
   // use 'inline-block', so that the icons stay together horizontally.
   //timer_div.style.display = 'inline-block';
-  //timer_div.style.display = 'block'; block is default for div, so don't need this
+  // "width: max-content" ensures that the reported width is just what is needed
+  // to hold the contents, and no more.
+  timer_div.style.width = 'max-content';
   if (opt_overlay) {
     timer_div.style.position = 'absolute';
     timer_div.style.left = '0';

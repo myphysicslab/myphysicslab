@@ -15,4 +15,9 @@ div.control_group {
 
 div.control_group label {
   display: block;
+  width: max-content;
+}
+
+div#div_sim, div#div_graph, div#div_time_graph {
+  vertical-align: top;
 }

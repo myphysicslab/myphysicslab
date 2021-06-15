@@ -498,7 +498,6 @@ setControlsColumns(bigDiv, canvas, controlsDiv) {
   controlsDiv.style.width = 'auto';
   //console.log('bigDiv '+bigDiv.offsetWidth);
   //console.log('canvas '+canvas.offsetWidth);
-  //console.log('controlsDiv '+controlsDiv.offsetWidth);
   let availWidth;
   if (controlsDiv.offsetLeft > canvas.offsetWidth) {
     // controls are to right of canvas
@@ -507,7 +506,15 @@ setControlsColumns(bigDiv, canvas, controlsDiv) {
     // controls are below canvas, use full width
     availWidth = bigDiv.offsetWidth;
   }
-  const cols = Math.max(1, Math.floor(availWidth / controlsDiv.offsetWidth));
+  let maxw = 0;
+  for (let i = 0; i < controlsDiv.children.length; i++) {
+    const e =  /** @type {!HTMLElement} */(controlsDiv.children[i]);
+    const w = e.offsetWidth;
+    maxw = Math.max(maxw, w);
+    //console.log(e.tagName+' '+w);
+  }
+  //console.log('maxControlWidth '+maxw);
+  const cols = Math.max(1, Math.floor(availWidth / maxw));
   //console.log('cols='+cols+' availWidth='+availWidth);
   controlsDiv.style['columnCount'] = cols.toString();
 };
@@ -679,22 +686,18 @@ redoLayout() {
   // due to layout changes.
   const Layout = TabLayout3.Layout;
   const view_sz = dom.getViewportSize();
-  //style.setFloat(this.div_sim, 'left');
-  //style.setFloat(this.div_graph, 'left');
-  //style.setFloat(this.div_time_graph, 'left');
-  //console.log('this.layout_='+this.layout_);
   switch (this.layout_) {
     case '':
     case Layout.SIM:
-      //this.div_sim.style.display = 'inline-flex';
-      //this.div_sim.style['flex-wrap'] = 'wrap';
       this.div_sim.style.display = 'block';
+      // "display: inline-block" allows the controls to appear to right of canvas
+      this.sim_controls.style.display = 'inline-block';
       this.div_graph.style.display = 'none';
-      this.graph_controls.style.display = 'none';
       this.div_time_graph.style.display = 'none';
-      this.time_graph_controls.style.display = 'none';
       this.show_sim_label.style.display = 'none';
-      this.setControlsColumns(this.div_contain, this.simCanvas.getCanvas(),
+      this.simCanvas.getCanvas().style['max-width'] = '95vw';
+      this.simCanvas.getCanvas().style['max-height'] = '95vh';
+      this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
           this.sim_controls);
       break;
     case Layout.GRAPH:
@@ -708,16 +711,28 @@ redoLayout() {
       this.show_sim_label.style.display = 'inline';
       break;
     case Layout.GRAPH_AND_SIM:
+      this.div_sim.style.display = 'inline-block';
+      this.div_graph.style.display = 'inline-block';
       this.div_time_graph.style.display = 'none';
+      // "display: block" causes the controls to appear below the canvas
       this.sim_controls.style.display = 'block';
-      this.time_graph_controls.style.display = 'none';
+      this.graph_controls.style.display = 'block';
+      //this.time_graph_controls.style.display = 'none';
       if (view_sz.width > 600) {
-        this.setDisplaySize(0.49, this.div_graph);
+        this.simCanvas.getCanvas().style['max-width'] = '47vw';
+        this.graphCanvas.getCanvas().style['max-width'] = '47vw';
       } else {
-        this.setDisplaySize(0.95*this.graphWidth_, this.div_graph);
+        this.simCanvas.getCanvas().style['max-width'] = '95vw';
+        this.simCanvas.getCanvas().style['max-height'] = '95vh';
+        this.graphCanvas.getCanvas().style['max-width'] = '95vw';
+        this.graphCanvas.getCanvas().style['max-height'] = '95vh';
       }
-      this.alignCanvasControls(this.div_graph, this.graph_controls, this.div_sim);
-      this.alignCanvasControls(this.div_sim, this.sim_controls);
+      //console.log('graph+sim set sim');
+      this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
+          this.sim_controls);
+      //console.log('graph+sim set graph');
+      this.setControlsColumns(this.div_graph, this.graphCanvas.getCanvas(),
+          this.graph_controls);
       this.show_sim_cb.checked = true;
       this.show_sim_label.style.display = 'inline';
       break;
