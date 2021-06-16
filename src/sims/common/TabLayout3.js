@@ -696,6 +696,7 @@ redoLayout() {
   switch (this.layout_) {
     case '':
     case Layout.SIM:
+      this.div_contain.style.display = 'block';
       this.div_sim.style.display = 'block';
       // "display: inline-block" allows the controls to appear to right of canvas
       this.sim_controls.style.display = 'inline-block';
@@ -718,17 +719,23 @@ redoLayout() {
       this.show_sim_label.style.display = 'inline';
       break;
     case Layout.GRAPH_AND_SIM:
-      this.div_sim.style.display = 'inline-block';
-      this.div_graph.style.display = 'inline-block';
+      this.div_sim.style.display = 'block';
+      this.div_graph.style.display = 'block';
       this.div_time_graph.style.display = 'none';
       // "display: block" causes the controls to appear below the canvas
       this.sim_controls.style.display = 'block';
       this.graph_controls.style.display = 'block';
       //this.time_graph_controls.style.display = 'none';
       if (view_sz.width > 600) {
-        this.simCanvas.getCanvas().style['max-width'] = '47vw';
-        this.graphCanvas.getCanvas().style['max-width'] = '47vw';
+        this.simCanvas.getCanvas().style['max-width'] = '47.5vw';
+        this.graphCanvas.getCanvas().style['max-width'] = '47.5vw';
+        this.div_contain.style.display = 'flex';
+        this.div_contain.style['align-items'] = 'flex-start';
+        this.div_contain.style['justfy-content'] = 'space-between';
+        this.div_sim.style['flex-grow'] = '1';
+        this.div_graph.style['flex-grow'] = '1';
       } else {
+        this.div_contain.style.display = 'block';
         this.simCanvas.getCanvas().style['max-width'] = '95vw';
         this.simCanvas.getCanvas().style['max-height'] = '95vh';
         this.graphCanvas.getCanvas().style['max-width'] = '95vw';

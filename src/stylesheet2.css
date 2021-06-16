@@ -21,7 +21,3 @@ div.control_group label {
   width: max-content;
 }
 
-div#div_sim, div#div_graph, div#div_time_graph {
-  /* "vertical-align: top" ensures that graph top is aligned with sim canvas */
-  vertical-align: top;
-}
