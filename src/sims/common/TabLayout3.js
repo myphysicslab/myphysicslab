@@ -693,10 +693,10 @@ redoLayout() {
   // due to layout changes.
   const Layout = TabLayout3.Layout;
   const view_sz = dom.getViewportSize();
+  this.div_contain.style['flex-direction'] = 'row';
   switch (this.layout_) {
     case '':
     case Layout.SIM:
-      this.div_contain.style.display = 'block';
       this.div_sim.style.display = 'block';
       // "display: inline-block" allows the controls to appear to right of canvas
       this.sim_controls.style.display = 'inline-block';
@@ -725,17 +725,11 @@ redoLayout() {
       // "display: block" causes the controls to appear below the canvas
       this.sim_controls.style.display = 'block';
       this.graph_controls.style.display = 'block';
-      //this.time_graph_controls.style.display = 'none';
       if (view_sz.width > 600) {
         this.simCanvas.getCanvas().style['max-width'] = '47.5vw';
         this.graphCanvas.getCanvas().style['max-width'] = '47.5vw';
-        this.div_contain.style.display = 'flex';
-        this.div_contain.style['align-items'] = 'flex-start';
-        this.div_contain.style['justfy-content'] = 'space-between';
-        this.div_sim.style['flex-grow'] = '1';
-        this.div_graph.style['flex-grow'] = '1';
       } else {
-        this.div_contain.style.display = 'block';
+        this.div_contain.style['flex-direction'] = 'column';
         this.simCanvas.getCanvas().style['max-width'] = '95vw';
         this.simCanvas.getCanvas().style['max-height'] = '95vh';
         this.graphCanvas.getCanvas().style['max-width'] = '95vw';

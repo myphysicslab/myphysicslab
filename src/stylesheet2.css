@@ -3,6 +3,16 @@
 * See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 */
 
+div.view_container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+div.view_group {
+  flex-grow: 1;
+}
+
 canvas {
     width: auto; /* default value, to undo width: 100% */
     max-width: 95vw;
@@ -20,4 +30,3 @@ div.control_group label {
    */
   width: max-content;
 }
-
