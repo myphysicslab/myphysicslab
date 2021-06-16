@@ -761,27 +761,38 @@ redoLayout() {
       this.show_sim_label.style.display = 'inline';
       break;
     case Layout.TIME_GRAPH:
-      this.div_graph.style.display = 'none';
-      this.graph_controls.style.display = 'none';
+      this.div_time_graph.style.display = 'block';
+      this.time_graph_controls.style.display = 'inline-block';
       this.div_sim.style.display = 'none';
-      this.sim_controls.style.display = 'none';
-      this.setDisplaySize(0.95*this.timeGraphWidth_, this.div_time_graph);
-      this.alignCanvasControls(this.div_time_graph, this.time_graph_controls);
+      this.div_graph.style.display = 'none';
+      this.timeGraphCanvas.getCanvas().style['max-width'] = '95vw';
+      this.timeGraphCanvas.getCanvas().style['max-height'] = '95vh';
+      this.setControlsColumns(this.div_time_graph, this.timeGraphCanvas.getCanvas(),
+          this.time_graph_controls);
       this.show_sim_cb.checked = false;
       this.show_sim_label.style.display = 'inline';
       break;
     case Layout.TIME_GRAPH_AND_SIM:
+      this.div_sim.style.display = 'block';
+      this.div_time_graph.style.display = 'block';
       this.div_graph.style.display = 'none';
+      // "display: block" causes the controls to appear below the canvas
       this.sim_controls.style.display = 'block';
-      this.graph_controls.style.display = 'none';
+      this.time_graph_controls.style.display = 'block';
       if (view_sz.width > 600) {
-        this.setDisplaySize(0.49, this.div_time_graph);
+        this.simCanvas.getCanvas().style['max-width'] = '47.5vw';
+        this.timeGraphCanvas.getCanvas().style['max-width'] = '47.5vw';
       } else {
-        this.setDisplaySize(0.95*this.timeGraphWidth_, this.div_time_graph);
+        this.div_contain.style['flex-direction'] = 'column';
+        this.simCanvas.getCanvas().style['max-width'] = '95vw';
+        this.simCanvas.getCanvas().style['max-height'] = '95vh';
+        this.timeGraphCanvas.getCanvas().style['max-width'] = '95vw';
+        this.timeGraphCanvas.getCanvas().style['max-height'] = '95vh';
       }
-      this.alignCanvasControls(this.div_time_graph, this.time_graph_controls,
-          this.div_sim);
-      this.alignCanvasControls(this.div_sim, this.sim_controls);
+      this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
+          this.sim_controls);
+      this.setControlsColumns(this.div_time_graph, this.timeGraphCanvas.getCanvas(),
+          this.time_graph_controls);
       this.show_sim_cb.checked = true;
       this.show_sim_label.style.display = 'inline';
       break;
