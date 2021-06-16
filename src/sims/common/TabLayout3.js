@@ -708,6 +708,8 @@ redoLayout() {
   const Layout = TabLayout3.Layout;
   const view_sz = dom.getViewportSize();
   this.div_contain.style['flex-direction'] = 'row';
+  this.div_contain.style['flex-wrap'] = 'nowrap';
+  let sz;
   switch (this.layout_) {
     case '':
     case Layout.SIM:
@@ -803,8 +805,10 @@ redoLayout() {
       this.sim_controls.style.display = 'none';
       this.graph_controls.style.display = 'none';
       this.time_graph_controls.style.display = 'none';
-      this.setDisplaySize(0.49, this.div_graph);
-      this.setDisplaySize(0.49, this.div_time_graph);
+      this.div_contain.style['flex-direction'] = view_sz.width > 600 ? 'row' : 'column';
+      sz = (view_sz.width > 600) ? '47.5vw' : '95vw';
+      this.graphCanvas.getCanvas().style['max-width'] = sz;
+      this.timeGraphCanvas.getCanvas().style['max-width'] = sz;
       this.show_sim_cb.checked = false;
       this.show_sim_label.style.display = 'inline';
       break;
@@ -815,8 +819,11 @@ redoLayout() {
       this.sim_controls.style.display = 'none';
       this.graph_controls.style.display = 'none';
       this.time_graph_controls.style.display = 'none';
-      this.setDisplaySize(0.49, this.div_graph);
-      this.setDisplaySize(0.49, this.div_time_graph);
+      this.div_contain.style['flex-wrap'] = 'wrap';
+      sz = (view_sz.width > 700) ? '47.5vw' : '95vw';
+      this.graphCanvas.getCanvas().style['max-width'] = sz;
+      this.timeGraphCanvas.getCanvas().style['max-width'] = sz;
+      this.simCanvas.getCanvas().style['max-width'] = sz;
       this.show_sim_cb.checked = true;
       this.show_sim_label.style.display = 'inline';
       break;
