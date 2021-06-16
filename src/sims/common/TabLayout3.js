@@ -723,12 +723,14 @@ redoLayout() {
           this.sim_controls);
       break;
     case Layout.GRAPH:
+      this.div_graph.style.display = 'block';
+      this.graph_controls.style.display = 'inline-block';
       this.div_sim.style.display = 'none';
-      this.sim_controls.style.display = 'none';
       this.div_time_graph.style.display = 'none';
-      this.time_graph_controls.style.display = 'none';
-      this.setDisplaySize(0.95*this.graphWidth_, this.div_graph);
-      this.alignCanvasControls(this.div_graph, this.graph_controls);
+      this.graphCanvas.getCanvas().style['max-width'] = '95vw';
+      this.graphCanvas.getCanvas().style['max-height'] = '95vh';
+      this.setControlsColumns(this.div_graph, this.graphCanvas.getCanvas(),
+          this.graph_controls);
       this.show_sim_cb.checked = false;
       this.show_sim_label.style.display = 'inline';
       break;
