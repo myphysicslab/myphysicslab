@@ -489,39 +489,53 @@ addControl(control, opt_add) {
 };
 
 /** Sets the number of columns for the controls div. Finds the width of a 1 column div,
-and uses that to determine how many columns will fit across the entire bigDiv. Assumes
-that the bigDiv contains both the canvas and controlsDiv. (I have not found a way to do
+and uses that to determine how many columns will fit across the entire viewDiv. Assumes
+that the viewDiv contains both the canvas and controlsDiv. (I have not found a way to do
 this with just CSS).
-* @param {!HTMLElement} bigDiv  the div containing the canvas and controlsDiv
+* @param {!HTMLElement} viewDiv  the div containing the canvas and controlsDiv
 * @param {!HTMLElement} canvas  the graph or simview
 * @param {!HTMLElement} controlsDiv  the div containing the controls
 * @private
 */
-setControlsColumns(bigDiv, canvas, controlsDiv) {
+setControlsColumns(viewDiv, canvas, controlsDiv) {
   // set to 1 column in order to get the width of a single column, and to see whether
   // CSS-browser decides to put the controlsDiv to the right of canvas.
   controlsDiv.style['columnCount'] = '1';
+  controlsDiv.style['column-gap'] = '5px';
+  const gap = 5;
   controlsDiv.style.width = 'auto';
-  //console.log('bigDiv '+bigDiv.offsetWidth);
+  //console.log('viewDiv '+viewDiv.offsetWidth);
   //console.log('canvas '+canvas.offsetWidth);
   let availWidth;
   if (controlsDiv.offsetLeft > canvas.offsetWidth) {
     // controls are to right of canvas
-    availWidth = bigDiv.offsetWidth - canvas.offsetWidth;
+    availWidth = viewDiv.offsetWidth - canvas.offsetWidth;
   } else {
     // controls are below canvas, use full width
-    availWidth = bigDiv.offsetWidth;
+    availWidth = viewDiv.offsetWidth;
   }
   // Find max control width by interrogating each child of the control div.
   let maxw = 0;
   for (let i = 0; i < controlsDiv.children.length; i++) {
     const e =  /** @type {!HTMLElement} */(controlsDiv.children[i]);
-    const w = e.offsetWidth;
+    let w = e.offsetWidth;
+    const sty = window.getComputedStyle(e);
+    if (sty) {
+      w += parseFloat(sty.marginLeft);
+    }
     maxw = Math.max(maxw, w);
     //console.log(e.tagName+' '+w);
   }
+  // how many columns will fit?
+  let cols = 1;
+  if (availWidth >= 2*maxw + gap) {
+    cols = 2;
+    if (availWidth >= 3*maxw + 2*gap) {
+      cols = 3;
+    }
+  }
   //console.log('maxControlWidth '+maxw);
-  const cols = Math.max(1, Math.floor(availWidth / maxw));
+  //const cols = Math.max(1, Math.floor(availWidth / maxw));
   //console.log('cols='+cols+' availWidth='+availWidth);
   controlsDiv.style['columnCount'] = cols.toString();
 };

@@ -14,9 +14,7 @@ div.view_group {
 }
 
 canvas {
-    width: auto; /* default value, to undo width: 100% */
-    max-width: 95vw;
-    max-height: 95vh;
+  width: auto; /* default value, to undo width: 100% */
 }
 
 div.control_group {
