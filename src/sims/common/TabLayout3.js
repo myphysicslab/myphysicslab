@@ -528,14 +528,19 @@ setControlsColumns(viewDiv, canvas, controlsDiv) {
   }
   // how many columns will fit?
   let cols = 1;
-  if (availWidth >= 2*maxw + gap) {
+  // The `extra` is needed to fix the following situation:
+  // Make a wide window, with just the sim view, and default controls (CreateApp2).
+  // Modify the width to between 1 and 2 columns on right of window.
+  // The extra prevents the 2 column version from jumping down below the canvas.
+  // Instead, the transition between 1 and 2 columns on right stays on the right.
+  const extra = 4;
+  if (availWidth > 2*maxw + gap + extra) {
     cols = 2;
-    if (availWidth >= 3*maxw + 2*gap) {
+    if (availWidth > 3*maxw + 2*gap + extra) {
       cols = 3;
     }
   }
   //console.log('maxControlWidth '+maxw);
-  //const cols = Math.max(1, Math.floor(availWidth / maxw));
   //console.log('cols='+cols+' availWidth='+availWidth);
   controlsDiv.style['columnCount'] = cols.toString();
 };
