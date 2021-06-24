@@ -488,108 +488,6 @@ addControl(control, opt_add) {
   return control;
 };
 
-/** Sets the number of columns for the controls div. Finds the width of a 1 column div,
-and uses that to determine how many columns will fit across the entire viewDiv. Assumes
-that the viewDiv contains both the canvas and controlsDiv. (I have not found a way to do
-this with just CSS).
-* @param {!HTMLElement} viewDiv  the div containing the canvas and controlsDiv
-* @param {!HTMLElement} canvas  the graph or simview
-* @param {!HTMLElement} controlsDiv  the div containing the controls
-* @private
-*/
-setControlsColumns(viewDiv, canvas, controlsDiv) {
-  // set to 1 column in order to get the width of a single column, and to see whether
-  // CSS-browser decides to put the controlsDiv to the right of canvas.
-  controlsDiv.style['columnCount'] = '1';
-  controlsDiv.style['column-gap'] = '5px';
-  const gap = 5;
-  controlsDiv.style.width = 'auto';
-  //console.log('viewDiv '+viewDiv.offsetWidth);
-  //console.log('canvas '+canvas.offsetWidth);
-  let availWidth;
-  if (controlsDiv.offsetLeft > canvas.offsetWidth) {
-    // controls are to right of canvas
-    availWidth = viewDiv.offsetWidth - canvas.offsetWidth;
-  } else {
-    // controls are below canvas, use full width
-    availWidth = viewDiv.offsetWidth;
-  }
-  // Find max control width by interrogating each child of the control div.
-  let maxw = 0;
-  for (let i = 0; i < controlsDiv.children.length; i++) {
-    const e =  /** @type {!HTMLElement} */(controlsDiv.children[i]);
-    let w = e.offsetWidth;
-    const sty = window.getComputedStyle(e);
-    if (sty) {
-      w += parseFloat(sty.marginLeft);
-    }
-    maxw = Math.max(maxw, w);
-    //console.log(e.tagName+' '+w);
-  }
-  // how many columns will fit?
-  let cols = 1;
-  // The `extra` is needed to fix the following situation:
-  // Make a wide window, with just the sim view, and default controls (CreateApp2).
-  // Modify the width to between 1 and 2 columns on right of window.
-  // The extra prevents the 2 column version from jumping down below the canvas.
-  // Instead, the transition between 1 and 2 columns on right stays on the right.
-  const extra = 4;
-  if (availWidth > 2*maxw + gap + extra) {
-    cols = 2;
-    if (availWidth > 3*maxw + 2*gap + extra) {
-      cols = 3;
-    }
-  }
-  //console.log('maxControlWidth '+maxw);
-  //console.log('cols='+cols+' availWidth='+availWidth);
-  controlsDiv.style['columnCount'] = cols.toString();
-};
-
-/** Positions the controls in relation to the canvas. We use CSS style `display:
-inline-block` on the controls div, so that it naturally flows to right of the canvas if
-there is enough room, otherwise it flows below the canvas. This method attempts to set
-the controls to have 2 columns when the controls are below the canvas.
-* @param {!HTMLElement} canvas  the div containing the canvas element
-* @param {!HTMLElement} controls  the div containing the controls
-* @param {!HTMLElement=} canvas2
-* @private
-*/
-alignCanvasControls(canvas, controls, canvas2) {
-  canvas.style.display = 'block';
-  controls.style.display = 'inline-block';
-  // Because advanced-compile will rename columnCount property, we have to index
-  // with a string like controls.style['columnCount']
-  controls.style['columnCount'] = '1';
-  controls.style.width = 'auto';
-  // Get the 'natural width' of the controls.
-  let ctrl_width = controls.getBoundingClientRect().width;
-  // boundingClientRect is sometimes 0, like at startup.
-  ctrl_width = ctrl_width > 150 ? ctrl_width : 300;
-  // offsetWidth seems more reliable, but is sometimes 0, like at startup
-  let cvs_width = canvas.offsetWidth || canvas.getBoundingClientRect().width;
-  const contain_width = this.div_contain.offsetWidth ||
-      this.div_contain.getBoundingClientRect().width;
-  // avail_width = width of space to right of canvas.
-  // Subtract 2 makes it work better on Safari...
-  const avail_width = contain_width - cvs_width - 2;
-  // If (not enough space to right of canvas) then controls will be below canvas.
-  // In that case: if (enough space for 2 columns) then do 2 columns
-  //if (avail_width < ctrl_width && contain_width > 2*ctrl_width) {
-  const parentNode = controls.parentNode;
-  if (!parentNode) {
-    throw 'parentNode is null';
-  }
-  const parentWidth = parentNode.offsetWidth;
-  //console.log(canvas.id+' parentWidth='+parentWidth+' ctrl_width='+ctrl_width);
-  if (parentWidth > 3*ctrl_width) {
-    controls.style.width = '100%';
-    controls.style['columnCount'] = '3';
-  } else if (parentWidth > 2*ctrl_width) {
-    controls.style.width = '100%';
-    controls.style['columnCount'] = '2';
-  }
-};
-
 /** @override */
 getGraphCanvas() {
   return this.graphCanvas;
@@ -698,6 +596,63 @@ getTimeGraphWidth() {
   return this.timeGraphWidth_;
 };
 
+/** Sets the number of columns for the controls div. Finds the width of a 1 column div,
+and uses that to determine how many columns will fit across the entire viewDiv. Assumes
+that the viewDiv contains both the canvas and controlsDiv. (I have not found a way to do
+this with just CSS).
+* @param {!HTMLElement} viewDiv  the div containing the canvas and controlsDiv
+* @param {!HTMLElement} canvas  the graph or simview
+* @param {!HTMLElement} controlsDiv  the div containing the controls
+* @private
+*/
+setControlsColumns(viewDiv, canvas, controlsDiv) {
+  // set to 1 column in order to get the width of a single column, and to see whether
+  // CSS-browser decides to put the controlsDiv to the right of canvas.
+  controlsDiv.style['columnCount'] = '1';
+  controlsDiv.style['column-gap'] = '5px';
+  const gap = 5;
+  controlsDiv.style.width = 'auto';
+  //console.log('viewDiv '+viewDiv.offsetWidth);
+  //console.log('canvas '+canvas.offsetWidth);
+  let availWidth;
+  if (controlsDiv.offsetLeft > canvas.offsetWidth) {
+    // controls are to right of canvas
+    availWidth = viewDiv.offsetWidth - canvas.offsetWidth;
+  } else {
+    // controls are below canvas, use full width
+    availWidth = viewDiv.offsetWidth;
+  }
+  // Find max control width by interrogating each child of the control div.
+  let maxw = 0;
+  for (let i = 0; i < controlsDiv.children.length; i++) {
+    const e =  /** @type {!HTMLElement} */(controlsDiv.children[i]);
+    let w = e.offsetWidth;
+    const sty = window.getComputedStyle(e);
+    if (sty) {
+      w += parseFloat(sty.marginLeft);
+    }
+    maxw = Math.max(maxw, w);
+    //console.log(e.tagName+' '+w);
+  }
+  // how many columns will fit?
+  let cols = 1;
+  // The `extra` is needed to fix the following situation:
+  // Make a wide window, with just the sim view, and default controls (CreateApp2).
+  // Modify the width to between 1 and 2 columns on right of window.
+  // The extra prevents the 2 column version from jumping down below the canvas.
+  // Instead, the transition between 1 and 2 columns on right stays on the right.
+  const extra = 4;
+  if (availWidth > 2*maxw + gap + extra) {
+    cols = 2;
+    if (availWidth > 3*maxw + 2*gap + extra) {
+      cols = 3;
+    }
+  }
+  //console.log('maxControlWidth '+maxw);
+  //console.log('cols='+cols+' availWidth='+availWidth);
+  controlsDiv.style['columnCount'] = cols.toString();
+};
+
 /** Redo the current layout, either because the type of layout changed or the size
 of the view port changed.
 @return {undefined}
@@ -714,6 +669,12 @@ redoLayout() {
   const view_sz = dom.getViewportSize();
   this.div_contain.style['flex-direction'] = 'row';
   this.div_contain.style['flex-wrap'] = 'nowrap';
+  const simBig = (this.simWidth_ * 95).toFixed(1);
+  const simSmall = (this.simWidth_ * 47.5).toFixed(1);
+  const graphBig = (this.graphWidth_ * 95).toFixed(1);
+  const graphSmall = (this.graphWidth_ * 47.5).toFixed(1);
+  const timeGraphBig = (this.timeGraphWidth_ * 95).toFixed(1);
+  const timeGraphSmall = (this.timeGraphWidth_ * 47.5).toFixed(1);
   let sz;
   switch (this.layout_) {
     case '':
@@ -724,8 +685,8 @@ redoLayout() {
       this.div_graph.style.display = 'none';
       this.div_time_graph.style.display = 'none';
       this.show_sim_label.style.display = 'none';
-      this.simCanvas.getCanvas().style['max-width'] = '95vw';
-      this.simCanvas.getCanvas().style['max-height'] = '95vh';
+      this.simCanvas.getCanvas().style['max-width'] = simBig+'vw';
+      this.simCanvas.getCanvas().style['max-height'] = simBig+'vh';
       this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
           this.sim_controls);
       break;
@@ -734,8 +695,8 @@ redoLayout() {
       this.graph_controls.style.display = 'inline-block';
       this.div_sim.style.display = 'none';
       this.div_time_graph.style.display = 'none';
-      this.graphCanvas.getCanvas().style['max-width'] = '95vw';
-      this.graphCanvas.getCanvas().style['max-height'] = '95vh';
+      this.graphCanvas.getCanvas().style['max-width'] = graphBig+'vw';
+      this.graphCanvas.getCanvas().style['max-height'] = graphBig+'vh';
       this.setControlsColumns(this.div_graph, this.graphCanvas.getCanvas(),
           this.graph_controls);
       this.show_sim_cb.checked = false;
@@ -749,14 +710,14 @@ redoLayout() {
       this.sim_controls.style.display = 'block';
       this.graph_controls.style.display = 'block';
       if (view_sz.width > 600) {
-        this.simCanvas.getCanvas().style['max-width'] = '47.5vw';
-        this.graphCanvas.getCanvas().style['max-width'] = '47.5vw';
+        this.simCanvas.getCanvas().style['max-width'] = simSmall+'vw';
+        this.graphCanvas.getCanvas().style['max-width'] = graphSmall+'vw';
       } else {
         this.div_contain.style['flex-direction'] = 'column';
-        this.simCanvas.getCanvas().style['max-width'] = '95vw';
-        this.simCanvas.getCanvas().style['max-height'] = '95vh';
-        this.graphCanvas.getCanvas().style['max-width'] = '95vw';
-        this.graphCanvas.getCanvas().style['max-height'] = '95vh';
+        this.simCanvas.getCanvas().style['max-width'] = simBig+'vw';
+        this.simCanvas.getCanvas().style['max-height'] = simBig+'vh';
+        this.graphCanvas.getCanvas().style['max-width'] = graphBig+'vw';
+        this.graphCanvas.getCanvas().style['max-height'] = graphBig+'vh';
       }
       //console.log('graph+sim set sim');
       this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
@@ -772,8 +733,8 @@ redoLayout() {
       this.time_graph_controls.style.display = 'inline-block';
       this.div_sim.style.display = 'none';
       this.div_graph.style.display = 'none';
-      this.timeGraphCanvas.getCanvas().style['max-width'] = '95vw';
-      this.timeGraphCanvas.getCanvas().style['max-height'] = '95vh';
+      this.timeGraphCanvas.getCanvas().style['max-width'] = timeGraphBig+'vw';
+      this.timeGraphCanvas.getCanvas().style['max-height'] = timeGraphBig+'vh';
       this.setControlsColumns(this.div_time_graph, this.timeGraphCanvas.getCanvas(),
           this.time_graph_controls);
       this.show_sim_cb.checked = false;
@@ -787,14 +748,14 @@ redoLayout() {
       this.sim_controls.style.display = 'block';
       this.time_graph_controls.style.display = 'block';
       if (view_sz.width > 600) {
-        this.simCanvas.getCanvas().style['max-width'] = '47.5vw';
-        this.timeGraphCanvas.getCanvas().style['max-width'] = '47.5vw';
+        this.simCanvas.getCanvas().style['max-width'] = simSmall+'vw';
+        this.timeGraphCanvas.getCanvas().style['max-width'] = timeGraphSmall+'vw';
       } else {
         this.div_contain.style['flex-direction'] = 'column';
-        this.simCanvas.getCanvas().style['max-width'] = '95vw';
-        this.simCanvas.getCanvas().style['max-height'] = '95vh';
-        this.timeGraphCanvas.getCanvas().style['max-width'] = '95vw';
-        this.timeGraphCanvas.getCanvas().style['max-height'] = '95vh';
+        this.simCanvas.getCanvas().style['max-width'] = simBig+'vw';
+        this.simCanvas.getCanvas().style['max-height'] = simBig+'vh';
+        this.timeGraphCanvas.getCanvas().style['max-width'] = timeGraphBig+'vw';
+        this.timeGraphCanvas.getCanvas().style['max-height'] = timeGraphBig+'vh';
       }
       this.setControlsColumns(this.div_sim, this.simCanvas.getCanvas(),
           this.sim_controls);
@@ -835,41 +796,6 @@ redoLayout() {
     default:
       throw 'redoLayout: no such layout "'+this.layout_+'"';
   }
-};
-
-/** Sets the size of the SimCanvas and a graph. This limits the SimCanvas so that it
-fits in the window.
-* @param {number} max_width size of SimCanvas, as fraction of screen width, from 0 to 1
-* @param {!HTMLElement} graph_div
-* @private
-*/
-setDisplaySize(max_width, graph_div) {
-  if (this.limitSize_) {
-    // Limit size of SimCanvas so it fits in the window.
-    // Let divsim_h, divsim_w be dimensions of div_sim in pixels.
-    // Let cvs_h, cvs_w be dimensions of canvas in pixels.
-    // To ensure that div_sim vertical dimension is all visible:
-    //    divsim_h = divsim_w (cvs_h/cvs_w) <= window_h
-    //    divsim_w <= window_h (cvs_w/cvs_h)
-    // Convert this to fractional width:
-    //    (divsim_w/window_w) <= (window_h/window_w) * (cvs_w/cvs_h)
-    const window_sz = dom.getViewportSize();
-    const window_h = (window_sz.height - 80);
-    // Use the container div for width, not the screen. container div is more reliable.
-    // This avoids issues with whether scrollbars are visible.
-    const window_w = this.div_contain.offsetWidth ||
-        this.div_contain.getBoundingClientRect().width;
-    const cvs_sz = this.simCanvas.getScreenRect();
-    const cvs_w = cvs_sz.getWidth();
-    const cvs_h = cvs_sz.getHeight();
-    const limit_w = (window_h/window_w) * (cvs_w/cvs_h);
-    max_width = Math.min(max_width, limit_w);
-  }
-  const widthPct = (Math.floor(max_width*100) + '%');
-  this.div_sim.style.width = widthPct;
-  this.div_sim.style.height = 'auto';
-  graph_div.style.width = widthPct;
-  graph_div.style.height = 'auto';
 };
 
 /** Sets the width of the graph LabCanvas, as fraction of available width.
