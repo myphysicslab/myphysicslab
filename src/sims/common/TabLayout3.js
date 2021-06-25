@@ -218,12 +218,16 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.timeGraphWidth_ = 1;
   Util.setImagesDir(elem_ids['images_dir']);
-  /** Whether to put dashed borders around elements for debugging layout.
+  /** Whether to put dashed outline around elements for debugging layout.
+  * Outline differs from borders. Unlike border, the outline is drawn outside the
+  * element's border, and may overlap other content. Also, the outline is NOT a part
+  * of the element's dimensions; the element's total width and height is not affected
+  * by the width of the outline.
   * @type {boolean}
+  * @private
   * @const
   */
   this.debug_layout = false;
-
   /** @type {!HTMLElement}
   * @private
   */
@@ -285,7 +289,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.div_contain = Util.getElementById(elem_ids, 'container');
   if (this.debug_layout) {
-    this.div_contain.style.border = 'dashed 1px red';
+    this.div_contain.style.outline = 'dashed 1px red';
   }
 
   /** @type {!HTMLElement}
@@ -348,7 +352,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.graph_controls = Util.getElementById(elem_ids, 'graph_controls');
   if (this.debug_layout) {
-    this.graph_controls.style.border = 'dashed 1px green';
+    this.graph_controls.style.outline = 'dashed 1px green';
   }
 
   /** @type {!Array<!LabControl>}
@@ -363,7 +367,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   // marginLeft gives gap when controls are along side canvas.
   //this.sim_controls.style.marginLeft = '10px';
   if (this.debug_layout) {
-    this.sim_controls.style.border = 'dashed 1px green';
+    this.sim_controls.style.outline = 'dashed 1px green';
   }
 
   /** div element for Terminal
@@ -373,7 +377,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   this.div_term = Util.getElementById(elem_ids, 'div_terminal');
   this.div_term.style.display = 'none';
   if (this.debug_layout) {
-    this.div_term.style.border = 'dashed 1px green';
+    this.div_term.style.outline = 'dashed 1px green';
   }
 
   // 'show terminal' checkbox.
@@ -414,7 +418,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   */
   this.time_graph_controls = Util.getElementById(elem_ids, 'time_graph_controls');
   if (this.debug_layout) {
-    this.time_graph_controls.style.border = 'dashed 1px green';
+    this.time_graph_controls.style.outline = 'dashed 1px green';
   }
 
   this.addParameter(new ParameterNumber(this, TabLayout3.en.SIM_WIDTH,
