@@ -312,6 +312,13 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   this.simCanvas.setSize(canvasWidth, canvasHeight);
   this.div_sim.insertBefore(this.simCanvas.getCanvas(), this.div_sim.firstChild);
 
+  /** Whether to also show the simulation in the graph views. Default for small
+  * screens is to not show the simulation, so that clicking on the graph tab
+  * shows the graph.
+  * @type {boolean}
+  * @private
+  */
+  this.show_sim = dom.getViewportSize().width > 600;
   /** The 'show sim' checkbox is added to the graph views.
   * @type {!HTMLInputElement}
   * @private
@@ -322,6 +329,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   if (p == null || p.tagName != 'LABEL') {
     throw '';
   }
+  this.show_sim_cb.checked = this.show_sim;
   /** @type {!HTMLLabelElement}
   * @private
   */
@@ -434,6 +442,10 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
       TabLayout3.i18n.LAYOUT, () => this.getLayout(),
       a => this.setLayout(a),
       TabLayout3.getValues(), TabLayout3.getValues()));
+  this.addParameter(new ParameterBoolean(this, TabLayout3.en.SHOW_SIM,
+      TabLayout3.i18n.SHOW_SIM,
+      () => this.show_sim,
+      a => this.showSim(a) ));
   if (this.terminalEnabled_) {
     this.addParameter(new ParameterBoolean(this, TabLayout3.en.SHOW_TERMINAL,
         TabLayout3.i18n.SHOW_TERMINAL,
@@ -790,7 +802,7 @@ redoLayout() {
       this.graph_controls.style.display = 'none';
       this.time_graph_controls.style.display = 'none';
       this.div_contain.style['flex-wrap'] = 'wrap';
-      sz = (view_sz.width > 700) ? '47.5vw' : '95vw';
+      sz = (view_sz.width > 600) ? '47.5vw' : '95vw';
       this.graphCanvas.getCanvas().style['max-width'] = sz;
       this.timeGraphCanvas.getCanvas().style['max-width'] = sz;
       this.simCanvas.getCanvas().style['max-width'] = sz;
@@ -845,19 +857,22 @@ setLayout(layout) {
 */
 setLayoutFromTab(layout) {
   const Layout = TabLayout3.Layout;
+  const view_sz = dom.getViewportSize();
   layout = layout.toLowerCase().trim();
-  // When click on a graph tab, set layout to include sim view also.
-  switch (layout) {
-    case Layout.GRAPH:
-      layout = Layout.GRAPH_AND_SIM;
-      break;
-    case Layout.TIME_GRAPH:
-      layout = Layout.TIME_GRAPH_AND_SIM;
-      break
-    case Layout.MULTI_GRAPH:
-      layout = Layout.MULTI_GRAPH_AND_SIM;
-      break
-    default:
+  if (this.show_sim) {
+    // When click on a graph tab, set layout to include sim view also.
+    switch (layout) {
+      case Layout.GRAPH:
+        layout = Layout.GRAPH_AND_SIM;
+        break;
+      case Layout.TIME_GRAPH:
+        layout = Layout.TIME_GRAPH_AND_SIM;
+        break
+      case Layout.MULTI_GRAPH:
+        layout = Layout.MULTI_GRAPH_AND_SIM;
+        break
+      default:
+    }
   }
   this.setLayout(layout);
 };
@@ -920,6 +935,7 @@ setTimeGraphWidth(value) {
 */
 showSim(visible) {
   const Layout = TabLayout3.Layout;
+  this.show_sim = visible;
   switch (this.layout_) {
     case '':
     case Layout.SIM:
@@ -996,7 +1012,8 @@ TabLayout3.Layout = {
   GRAPH_WIDTH: string,
   TIME_GRAPH_WIDTH: string,
   LAYOUT: string,
-  SHOW_TERMINAL: string
+  SHOW_TERMINAL: string,
+  SHOW_SIM: string
   }}
 */
 TabLayout3.i18n_strings;
@@ -1009,7 +1026,8 @@ TabLayout3.en = {
   GRAPH_WIDTH: 'graph-width',
   TIME_GRAPH_WIDTH: 'time-graph-width',
   LAYOUT: 'layout',
-  SHOW_TERMINAL: 'show terminal'
+  SHOW_TERMINAL: 'show terminal',
+  SHOW_SIM: 'show simulation'
 };
 
 /**
@@ -1021,7 +1039,8 @@ TabLayout3.de_strings = {
   GRAPH_WIDTH: 'Graf Breite',
   TIME_GRAPH_WIDTH: 'Zeit Graf Breite',
   LAYOUT: 'layout',
-  SHOW_TERMINAL: 'zeige Terminal'
+  SHOW_TERMINAL: 'zeige Terminal',
+  SHOW_SIM: 'zeige Simulation'
 };
 
 /** Set of internationalized strings.
