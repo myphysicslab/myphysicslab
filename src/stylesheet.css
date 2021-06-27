@@ -16,6 +16,7 @@
 */
 html {
   -webkit-text-size-adjust: none;
+  text-size-adjust: none;
 }
 
 /****** HEADER BAR: LOGO, TABS, LANGUAGE MENU, NAV-LINKS **********/
