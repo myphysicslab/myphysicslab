@@ -26,6 +26,7 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const SimpleAdvance = goog.require('myphysicslab.lab.model.SimpleAdvance');
 const SingleSpringSim = goog.require('myphysicslab.sims.springs.SingleSpringSim');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
+const TabLayout3 = goog.require('myphysicslab.sims.common.TabLayout3');
 const Util = goog.require('myphysicslab.lab.util.Util');
 
 /** Displays the {@link SingleSpringSim} simulation.
@@ -103,6 +104,15 @@ defineNames(myName) {
   super.defineNames(myName);
   this.terminal.addRegex('block|spring',
       myName+'.');
+};
+
+/** @override */
+makeLayout(elem_ids) {
+  // set canvasWidth to 800, and canvasHeight proportional as in simRect.
+  const canvasWidth = 800;
+  const canvasHeight = Math.round(canvasWidth * this.simRect.getHeight() /
+      this.simRect.getWidth());
+  return new TabLayout3(elem_ids, canvasWidth, canvasHeight);
 };
 
 } // end class
