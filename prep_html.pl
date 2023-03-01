@@ -328,6 +328,7 @@
 
 use strict;
 use warnings;
+use diagnostics;
 use File::Path qw(make_path);
 # This creates the global variable $NestedParen
 use vars qw($NestedParen);

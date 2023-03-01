@@ -161,11 +161,11 @@ version of this simulation.</p>
 <a href="#MYPHYSICSLAB_URL">myPhysicsLab</a> f&uuml; die\
 ver&ouml;ffentlichte Version dieser Simulation.</p>
 
-
+#comment Perl requires to escape left bracket \{ in regexp (as of 2023)
 #define #TEST_PAGE ##LOCALE#_TEST_PAGE
-#rule s~#en_TEST_PAGE{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">published version of this simulation</a>.</p>~g
+#rule s~#en_TEST_PAGE\{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">published version of this simulation</a>.</p>~g
 
-#rule s~#de_TEST_PAGE{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
+#rule s~#de_TEST_PAGE\{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
 
 
 #define #LOAD_APP ##COMPILE_LEVEL#_LOAD_APP
