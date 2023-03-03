@@ -28,6 +28,7 @@ const GenericEvent = goog.require('myphysicslab.lab.util.GenericEvent');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -198,6 +199,10 @@ constructor(opt_name) {
   * @private
   */
   this.isDragging = false;
+  /** Function to print collisions, or null to turn off printing collisions.
+  * @type {?function(!BlockCollision, !Terminal)}
+  */
+  this.collisionFunction_ = null;
   this.getVarsList().setValues([0.5, 0, 3, 0]);
   this.saveInitialState();
   this.getSimList().add(this.wallLeft_, this.wallRight_, this.spring1_, this.spring2_,
@@ -456,6 +461,9 @@ handleCollisions(collisions, opt_totals) {
     if (opt_totals) {
       opt_totals.addImpulses(1);
     }
+    if (this.collisionFunction_ && this.terminal_) {
+      this.collisionFunction_(c, this.terminal_);
+    }
   });
   asserts.assert(va.getVariable(0).getSequence() == seq0);
   asserts.assert(va.getVariable(2).getSequence() == seq2);
@@ -619,6 +627,26 @@ setSpring2Length(value) {
   // discontinuous change in energy
   this.getVarsList().incrSequence(6, 7);
   this.broadcastParameter(CollideBlocksSim.en.LENGTH_2);
+};
+
+/**  Sets a function for  printing  collisions.  The function is called whenever a
+collision occurs.  The function takes two variables: a BlockCollision and a Terminal.
+This can be defined from within the Terminal by the user. Here is an example usage
+
+    sim.setCollisionFunction(function(c,t) {
+      const s = c.leftBlock_.getName()+"\t"
+        +c.rightBlock_.getName()+"\t"
+        +c.getEstimatedTime().toFixed(2)+"\t"
+        +c.getImpulse().toFixed(2)+"\t"
+        +c.rightBlock_.getPosition().getX().toFixed(2);
+      t.println(s);
+    })
+
+* @param {?function(!BlockCollision, !Terminal)} f the function to print collisions,
+*   or null to turn off printing collisions
+*/
+setCollisionFunction(f) {
+  this.collisionFunction_ = f;
 };
 
 } // end class

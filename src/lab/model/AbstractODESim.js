@@ -22,6 +22,7 @@ const ODESim = goog.require('myphysicslab.lab.model.ODESim');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
 const Simulation = goog.require('myphysicslab.lab.model.Simulation');
 const Subject = goog.require('myphysicslab.lab.util.Subject');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
@@ -60,6 +61,11 @@ constructor(opt_name, opt_simList, opt_varsList) {
   * @private
   */
   this.recentState_ = null;
+  /**
+  * @type {?Terminal}
+  * @protected
+  */
+  this.terminal_ = null;
 };
 
 /** @override */
@@ -125,6 +131,11 @@ getSimList() {
 setVarsList(varsList) {
   this.varsList_ = varsList;
 };
+
+/** @override */
+setTerminal(terminal) {
+  this.terminal_ = terminal;
+}
 
 } // end class
 exports = AbstractODESim;

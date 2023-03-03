@@ -112,6 +112,7 @@ constructor(elem_ids, simRect, sim, advance, eventHandler, energySystem, opt_nam
 
   /** @type {!ODESim} */
   this.sim = sim;
+  this.sim.setTerminal(this.terminal);
   /** @type {!ODEAdvance} */
   this.advance  = advance;
   /** @type {!SimList} */

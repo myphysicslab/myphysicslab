@@ -15,6 +15,7 @@
 goog.module('myphysicslab.lab.model.ODESim');
 
 const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 
 /** A Simulation based on ordinary differential equations. Contains an array of
@@ -76,6 +77,11 @@ collision detection as the *before collision* state, see
 @return {undefined}
 */
 saveState() {}
+
+/** Sets the Terminal object that this simulation can print data into.
+@param {?Terminal} terminal the Terminal object that this simulation can print data into.
+*/
+setTerminal(terminal) {}
 
 } // end class
 exports = ODESim;
