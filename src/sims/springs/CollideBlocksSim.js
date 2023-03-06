@@ -636,7 +636,7 @@ This can be defined from within the Terminal by the user. Here is an example usa
     sim.setCollisionFunction(function(c,t) {
       const s = c.leftBlock_.getName()+"\t"
         +c.rightBlock_.getName()+"\t"
-        +c.getEstimatedTime().toFixed(2)+"\t"
+        +c.getDetectedTime().toFixed(2)+"\t"
         +c.getImpulse().toFixed(2)+"\t"
         +c.rightBlock_.getPosition().getX().toFixed(2);
       t.println(s);
