@@ -166,6 +166,7 @@ Tests will not start until `TestRig.runTests` is called.
 * @param {!Function} testFunc
 */
 static schedule(testFunc) {
+  // The tests to run are stored as an array of functions to be called.
   TestRig.testFns.push(goog.partial(TestRig.runFunction, testFunc));
 };
 
@@ -175,7 +176,12 @@ results, and so that the user can interrupt the test.
 * @return {undefined}
 */
 static runTests() {
+  // The tests to run are stored as an array of functions to be called.
   const testFunc = TestRig.testFns.shift();
+  // Only the first testFunc is run during this invocation of runTests().
+  // We use setTimeout() to schedule runTests() to be called again after a brief delay.
+  // Every time runTest() is called it runs a single test and schedules itself
+  // to run again.
   if (typeof testFunc === 'function') {
     testFunc();
     setTimeout(TestRig.runTests, 10);
