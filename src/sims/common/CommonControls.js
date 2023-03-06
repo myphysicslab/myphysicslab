@@ -236,7 +236,8 @@ static makePanZoomControls(simView, overlay, resetFunc) {
 
   // To overlay the controls on top of canvas:  put the controls in a div;
   // use absolute positioning to place the div on top of canvas.
-  // The div needs style 'position: relative' for this to work.
+  // Note that the enclosing (parent) div needs style 'position: relative' in order to
+  // use absolute positioning.
   const panzoom_div = /** @type {!Element}*/(document.createElement('div'));
   if (overlay) {
     panzoom_div.style.position = 'absolute';
