@@ -97,7 +97,8 @@ static testDoubleMath() {
   const cos = Math.cos(angle);
   // March 2014:  Chrome version 33 returns BFD4470BB84303C0 which is less accurate than version 32.
   // Oct 2014:  Chrome version 38 returns BFD4470BB84303C8, same as Java.
-  if (Util.isChrome() || Util.isIPhone()) {
+  // Mar 2023: Chrome now returns BFD4470BB84303C9
+  if (Util.isIPhone()) {
     assertEquals('BFD4470BB84303C8', DoubleMath.numToHex(cos));
   } else {
     assertEquals('BFD4470BB84303C9', DoubleMath.numToHex(cos));
