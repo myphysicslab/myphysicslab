@@ -23,7 +23,8 @@
 #mathDefine x_2 x<sub>2</sub>
 #mathDefine y_1 y<sub>1</sub>
 #mathDefine y_2 y<sub>2</sub>
-#rule s~#inline{(.+?)}~<span class="inline-math">\n#mathOn\n$1\n#mathOff\n</span>~g
+#comment Perl requires to escape left bracket \{ in regexp (as of 2023)
+#rule s~#inline\{(.+?)\}~<span class="inline-math">\n#mathOn\n$1\n#mathOff\n</span>~g
 
 #define #eqn_start \
 #mathOn \
