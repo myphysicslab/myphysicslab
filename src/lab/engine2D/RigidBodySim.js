@@ -39,6 +39,7 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const Scrim = goog.require('myphysicslab.lab.engine2D.Scrim');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
 const Simulation = goog.require('myphysicslab.lab.model.Simulation');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
@@ -203,6 +204,11 @@ constructor(opt_name) {
   * @private
   */
   this.potentialOffset_ = 0;
+  /**
+  * @type {?Terminal}
+  * @protected
+  */
+  this.terminal_ = null;
   /* How to use debugPaint_:
   * Note that RigidBodySim has a debugPaint_, it is called inside moveObjects()
   * Note that CollisionAdvance has a debugPaint_; ensure it calls sim.setDebugPaint().
@@ -606,6 +612,11 @@ setPEOffset(value) {
   this.getVarsList().incrSequence(2, 3);
   this.broadcastParameter(EnergySystem.en.PE_OFFSET);
 };
+
+/** @override */
+setTerminal(terminal) {
+  this.terminal_ = terminal;
+}
 
 /** @override */
 evaluate(vars, change, timeStep) {
