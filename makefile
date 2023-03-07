@@ -259,6 +259,7 @@ singletest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleTest-$(loc).html )
 singleviewer: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/SingleViewerApp-$(loc).html )
 singlespring: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpringApp-$(loc).html )
 singlespring2: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpring2App-$(loc).html )
+singlespring3: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/SingleSpring3App-$(loc).html )
 spring2d: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/springs/Spring2DApp-$(loc).html )
 string: $(foreach loc,$(LOCALE),$(BUILD_DIR)/sims/pde/StringApp-$(loc).html )
 stucktest: $(foreach loc,$(LOCALE),$(BUILD_DIR)/test/StuckTestApp-$(loc).html )
@@ -286,7 +287,7 @@ rollersingle rollerspring
 
 springs: chainofsprings collideblocks collidespring danglestick double2dspring \
 doublespring molecule1 molecule3 molecule4 molecule5 molecule6 multispring \
-singlespring singlespring2 spring2d terminalspring terminalspring2d
+singlespring singlespring2 singlespring3 spring2d terminalspring terminalspring2d
 
 alltest: test perf singletest singleviewer stucktest testviewer unittest
 
@@ -359,6 +360,7 @@ sims/springs/Molecule6App \
 sims/springs/MultiSpringApp \
 sims/springs/SingleSpringApp \
 sims/springs/SingleSpring2App \
+sims/springs/SingleSpring3App \
 sims/springs/Spring2DApp \
 sims/springs/TerminalSpringApp \
 sims/springs/TerminalSpring2DApp \
@@ -544,6 +546,9 @@ $(BUILD_DIR)/sims/springs/SingleSpringApp_*.js : src/sims/springs/SingleSpringSi
 
 $(BUILD_DIR)/sims/springs/SingleSpring2App_*.js : src/sims/springs/SingleSpringSim.js \
 src/sims/common/TimeGraph2.js
+
+$(BUILD_DIR)/sims/springs/SingleSpring3App_*.js : src/sims/springs/SingleSpringSim.js \
+src/sims/common/TabLayout3.js
 
 $(BUILD_DIR)/sims/springs/Spring2DApp*.js : src/sims/springs/Spring2DSim.js
 

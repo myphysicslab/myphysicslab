@@ -1,0 +1,42 @@
+#comment Copyright 2023 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.springs.SingleSpring3App
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+<!-- stylesheet2.css overrides some styles. Needed for TabLayout3 -->
+<link rel="stylesheet" type="text/css" href="#TOP_DIR/stylesheet2.css">
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH #DEBUG_STATUS</h1>
+#HEADER_BAR
+#CONTROLS_CONTAINER2
+#COMPILED_MENU
+
+#TEST_PAGE{springs/single-spring/single-spring}
+
+<p>The difference between this and SingleSpringApp is that this uses the experimental
+layout called TabLayout3.</p>
+
+<p>TabLayout3 is similar to TabLayout, except each canvas has its own controls area.
+Each pair of canvas and controls are contained in a div. This makes it visually clear
+which controls go with the SimView, and which go with the Graph (or TimeGraph). The
+controls are shown or hidden along with the canvas in most layouts.
+</p>
+
+#LOREM_IPSUM
+
+#LOAD_APP
+#BUILD_APP
+#SHOW_ALL
+#START_APP
+#PAGE_FOOTER
+</body>
+</html>
