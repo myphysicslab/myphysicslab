@@ -638,7 +638,9 @@ startTest_(testIndex) {
   } else {
     this.clock.pause();
   }
-  this.simRun.startFiring();
+  // don't do simRun.startFiring() here!  That results in the sim starting up
+  // too early in the load process. Symptom was that on Chrome we would see
+  // the time being 0.025 after hitting the rewind button.
 };
 
 /** Find an existing GravityLaw created by a test, make a NumericControl for it.
