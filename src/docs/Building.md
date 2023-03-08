@@ -538,6 +538,11 @@ numbers in a compiled file.
 [Engine2DTests](myphysicslab.test.Engine2DTests.html) are a set of tests of the
 `myphysicslab.lab.engine2D` namespace.
 
+These tests are mainly useful as a warning that the behavior of the physics engine has
+changed. This can happen when changes are made to the physics engine or when browser
+behavior changes (because of an update to a browser). These tests don't specify
+"correct" behavior, but rather the historical expected behavior.
+
 To run simple-compiled engine2D tests execute the commands
 
     make test COMPILE_LEVEL=simple

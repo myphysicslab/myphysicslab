@@ -30,6 +30,13 @@ const Util = goog.require('myphysicslab.lab.util.Util');
 /** Runs tests of the [2D Physics Engine Overview](Engine2D.html) using
 {@link TestRig}.
 
+These tests are mainly useful as a warning that the behavior of the physics engine has
+changed. This can happen when changes are made to the physics engine or when browser
+behavior changes (because of an update to a browser). These tests don't specify
+"correct" behavior, but rather the historical expected behavior.
+
+See [Engine2D Tests](Building.html#engine2dtests) for more information.
+
 `GOOG_DEBUG` flag: Check the makefile to see if it is setting `GOOG_DEBUG` to false
 for this test; usually `Util.DEBUG` should be false when this is compiled to avoid
 printing lots of debug messages to console.
