@@ -994,7 +994,9 @@ Util.ADVANCED = false;
 Util.COMPILE_TIME = '00/00/00';
 
 /** Flag indicates whether to include debug code, must be true for assertions
-* to work. Can be set as a compiler option, see the shell script `compile_js.sh`.
+* to work. Must be set as a compiler option, by adding `UTIL_DEBUG=true` to
+* the compile command. For example: `make testviewer UTIL_DEBUG=true`.
+* See the shell script `compile_js.sh` and `makefile` for details.
 * See [Customizing The Build Process](Building.html#customizingthebuildprocess).
 * @define {boolean}
 * @const
