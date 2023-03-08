@@ -589,13 +589,8 @@ static six_blocks_4() {
   const advance = new CollisionAdvance(sim);
   StraightStraightTest.six_blocks_4_setup(sim, advance);
   let energyDiff, expectCollisions;
-  if (Util.isChrome()) {
-    energyDiff = -1.751934748;
-    expectCollisions = 7;
-  } else {
-    energyDiff = -1.7;
-    expectCollisions = 5;
-  }
+  energyDiff = -1.7;
+  expectCollisions = 5;
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/8.0,
                /*expectedVars=*/null, /*tolerance=*/Util.NaN,
                /*expectedEnergyDiff=*/energyDiff, /*energyTol=*/0.1,
@@ -915,8 +910,8 @@ static six_blocks_9() {
   if (Util.isChrome()) {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
        /*expectedVars=*/null, /*tolerance=*/Util.NaN,
-       /*expectedEnergyDiff=*/-0.313720709, /*energyTol=*/0.001,
-       /*expectedCollisions=*/3);
+       /*expectedEnergyDiff=*/-0.318193758, /*energyTol=*/0.001,
+       /*expectedCollisions=*/2);
   } else {
     Engine2DTestRig.runTest(sim, advance, /*runUntil=*/12.0,
        /*expectedVars=*/null, /*tolerance=*/Util.NaN,

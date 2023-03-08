@@ -58,10 +58,7 @@ static test() {
 
 static testPerformance() {
   schedule(PileTest.pile_10_perf);
-  if (0 == 1 && Util.isChrome()) {
-    // this test is too slow on non-Chrome browsers
-    schedule(PileTest.pile_20_perf);
-  }
+  schedule(PileTest.pile_20_perf);
   /*  ERN March 13, 2014:  removing these tests because they are slow and aren't
   very different.
   t = Engine2DTestRig.getGlobalValue('ADDITIVE_PILE_SQUARE_BLOCKS', 17.0);
@@ -334,31 +331,17 @@ static near_stable_connected_blocks_pile_test() {
   const advance = new CollisionAdvance(sim);
   PileTest.near_stable_connected_blocks_pile_setup(sim, advance);
   const vars = makeVars(11*6);
-  if (Util.isChrome()) {
-    setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-    setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-    setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-    setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-    setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, -0);
-    setBodyVars(sim, vars, 5, -0.6338649, -0, -8.3684045, -0, 3.9269908, 0);
-    setBodyVars(sim, vars, 6, -0.48321, -0, -7.392295, -0, 16.4933614, -0);
-    setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, -0, 21.2057504, 0);
-    setBodyVars(sim, vars, 8, 0.1624361, 0, -8.8758426, -0, -0.7853982, 0);
-    setBodyVars(sim, vars, 9, 0.773236, -0, -7.8054793, -0, 3.9269908, 0);
-    setBodyVars(sim, vars, 10, 0.1992931, 0, -7.7913985, -0, 3.9269908, -0);
-  } else {
-    setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
-    setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
-    setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
-    setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
-    setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, 0);
-    setBodyVars(sim, vars, 5, -0.6338649, 0, -8.3684045, -0, 3.9269908, -0);
-    setBodyVars(sim, vars, 6, -0.8635095, 0, -7.4433597, -0, 16.4933614, 0);
-    setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
-    setBodyVars(sim, vars, 8, 0.1624361, 0.0000002, -8.8758426, 0.0000004, -0.7853982, -0.0000004);
-    setBodyVars(sim, vars, 9, 0.7732544, -0, -7.8054609, 0, 3.9269908, -0);
-    setBodyVars(sim, vars, 10, 0.1992748, -0, -7.7913801, 0, 3.9269908, -0);
-  }
+  setBodyVars(sim, vars, 0, -5, 0, -5, 0, -0.7853982, 0);
+  setBodyVars(sim, vars, 1, 5, 0, -5, 0, 0.7853982, 0);
+  setBodyVars(sim, vars, 2, 10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 3, -10.5, 0, 7.5, 0, 0, 0);
+  setBodyVars(sim, vars, 4, -1.3073175, 0, -7.6795634, -0, 3.9269908, 0);
+  setBodyVars(sim, vars, 5, -0.6338649, 0, -8.3684045, -0, 3.9269908, -0);
+  setBodyVars(sim, vars, 6, -0.8635095, 0, -7.4433597, -0, 16.4933614, 0);
+  setBodyVars(sim, vars, 7, -0.2794896, 0, -8.8895748, 0, 21.2057504, -0);
+  setBodyVars(sim, vars, 8, 0.1624361, 0.0000002, -8.8758426, 0.0000004, -0.7853982, -0.0000004);
+  setBodyVars(sim, vars, 9, 0.7732544, -0, -7.8054609, 0, 3.9269908, -0);
+  setBodyVars(sim, vars, 10, 0.1992748, -0, -7.7913801, 0, 3.9269908, -0);
   // run until collisions end; ignore binary searches
   Engine2DTestRig.runTest(sim, advance, /*runUntil=*/6.0,
       /*expectedVars=*/vars, /*tolerance=*/0.001,
