@@ -60,6 +60,21 @@ This script can be entered as Terminal commands in
 Try this [query script](<https://www.myphysicslab.com/develop/build/sims/engine2D/CartPendulum2App-en.html?var%20spring=simList.get('spring1');var%20dispSpring=displayList.findSpring(spring);var%20memo=new%20GenericMemo(function(){var%20stretch=Math.max(Math.min(spring.getStretch(),1),-1);if(stretch%3C0){dispSpring.setColorCompressed(Util.colorString3(-stretch,0,0));}else{dispSpring.setColorExpanded(Util.colorString3(0,stretch,0));}});simRun.addMemo(memo);layout.showTerminal(true);>)
 which contains the above code.
 
+Example 3
+---------
+This stops a simulation after 2 seconds. Clicking the "play" button will then continue
+the simulation, because `once` has been set false. To re-enable the behavior, set
+`once` to true.
+
+    var once = true;
+    var memo = new GenericMemo(function(){
+        if (once && sim.getTime()>2)
+          {once=false;simRun.pause()}
+    });
+    simRun.addMemo(memo);
+
+This script can be entered as Terminal commands in any simulation.
+
 @implements {Memorizable}
 */
 class GenericMemo {
