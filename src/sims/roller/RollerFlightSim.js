@@ -29,6 +29,7 @@ const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const RollerCollision = goog.require('myphysicslab.sims.roller.RollerCollision');
 const SimObject = goog.require('myphysicslab.lab.model.SimObject');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -283,6 +284,10 @@ constructor(thePath, opt_name) {
   * @private
   */
   this.dragObj_ = null;
+  /** Function to print collisions, or null to turn off printing collisions.
+  * @type {?function(!RollerCollision, !Terminal)}
+  */
+  this.collisionFunction_ = null;
   const va = this.getVarsList();
   va.setValue(0, pathPoint.p);
   va.setValue(1, 0);  // velocity
@@ -769,6 +774,9 @@ handleCollisions(collisions, opt_totals) {
   if (opt_totals) {
     opt_totals.addImpulses(1);
   }
+  if (this.collisionFunction_ && this.terminal_) {
+    this.collisionFunction_(c, this.terminal_);
+  }
   // derived energy variables are discontinuous
   va.incrSequence(7, 8, 9);
   return true;
@@ -900,6 +908,25 @@ setStickiness(value) {
   }
   this.stickiness_ = v;
   this.broadcastParameter(RollerFlightSim.en.STICKINESS);
+};
+
+/**  Sets a function for  printing  collisions.  The function is called whenever a
+collision occurs.  The function takes two variables: a RollerCollision and a Terminal.
+This can be defined from within the Terminal by the user. Here is an example usage
+
+    sim.setCollisionFunction(function(c,t) {
+      const s = c.getDetectedTime().toFixed(2)+"\t"
+        +c.getImpulse().toFixed(2)+"\t"
+        +c.getPathPoint().getX().toFixed(2)+"\t"
+        +c.getPathPoint().getY().toFixed(2);
+      t.println(s);
+    })
+
+* @param {?function(!RollerCollision, !Terminal)} f the function to print collisions,
+*   or null to turn off printing collisions
+*/
+setCollisionFunction(f) {
+  this.collisionFunction_ = f;
 };
 
 } // end class
