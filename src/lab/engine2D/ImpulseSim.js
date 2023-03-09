@@ -35,6 +35,7 @@ const RigidBody = goog.require('myphysicslab.lab.engine2D.RigidBody');
 const RigidBodyCollision = goog.require('myphysicslab.lab.engine2D.RigidBodyCollision');
 const RigidBodySim = goog.require('myphysicslab.lab.engine2D.RigidBodySim');
 const SimList = goog.require('myphysicslab.lab.model.SimList');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const UtilEngine = goog.require('myphysicslab.lab.engine2D.UtilEngine');
 const UtilityCollision = goog.require('myphysicslab.lab.engine2D.UtilityCollision');
 
@@ -256,6 +257,10 @@ constructor(opt_name) {
   * @private
   */
   this.warningTime_ = 0;
+  /** Function to print collisions, or null to turn off printing collisions.
+  * @type {?function(!RigidBodyCollision, !Terminal)}
+  */
+  this.collisionFunction_ = null;
   // Need a special 'setter' because `setCollisionHandling` takes an argument of
   // the enum type `CollisionHandling`, not of type `string`.
   this.addParameter(new ParameterString(this, RigidBodySim.en.COLLISION_HANDLING,
@@ -436,6 +441,26 @@ getShowCollisions() {
 */
 setShowCollisions(value) {
   this.showCollisions_ = value;
+};
+
+/** Sets a function for printing collisions. The function is called for each collision
+that occurs. The function takes two variables: a RigidBodyCollision and a Terminal.
+This can be defined from within the Terminal by the user. Here is an example function
+(FastBallApp is a good place to try it).
+
+    sim.setCollisionFunction(function(c,t) {
+    const s = c.getDetectedTime().toFixed(2)+"\t"
+      +c.getImpulse().toFixed(2)+"\t"
+      +c.getPrimaryBody().getName()+"\t"
+      +c.getNormalBody().getName();
+    t.println(s);
+    })
+
+* @param {?function(!RigidBodyCollision, !Terminal)} f the function to print collisions,
+*   or null to turn off printing collisions
+*/
+setCollisionFunction(f) {
+  this.collisionFunction_ = f;
 };
 
 /** @override */
@@ -757,6 +782,13 @@ handleCollisions(collisions, opt_totals) {
     const energy2 = this.getEnergyInfo().getTotalEnergy();
     this.myPrint('handleCollisions energy change '+ Util.NFE(energy2 - energy)
           +' total energy '+Util.NF9(energy2));
+  }
+  if (this.collisionFunction_ && this.terminal_) {
+    // these casts are needed to satisfy the compiler
+    const t = /** @type {!Terminal} */(this.terminal_);
+    const fn =
+    /** @type {function(!RigidBodyCollision, !Terminal)} */(this.collisionFunction_);
+    rbcs.forEach(c => fn(c, t));
   }
   return impulse;
 };

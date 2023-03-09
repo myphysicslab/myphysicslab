@@ -112,6 +112,7 @@ constructor(elem_ids, simRect, sim, advance, opt_name) {
 
   /** @type {!RigidBodySim} */
   this.sim = sim;
+  sim.setTerminal(this.terminal);
   sim.setShowForces(false);
   /** @type {!SimList} */
   this.simList = sim.getSimList();

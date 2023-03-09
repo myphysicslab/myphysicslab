@@ -73,7 +73,7 @@ the simulation, because `once` has been set false. To re-enable the behavior, se
     });
     simRun.addMemo(memo);
 
-This script can be entered as Terminal commands in any simulation.
+This script can be entered as Terminal commands in any simple-compiled simulation.
 
 @implements {Memorizable}
 */
