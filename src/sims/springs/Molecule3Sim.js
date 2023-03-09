@@ -26,6 +26,7 @@ const MutableVector = goog.require('myphysicslab.lab.util.MutableVector');
 const ParameterNumber = goog.require('myphysicslab.lab.util.ParameterNumber');
 const PointMass = goog.require('myphysicslab.lab.model.PointMass');
 const Spring = goog.require('myphysicslab.lab.model.Spring');
+const Terminal = goog.require('myphysicslab.lab.util.Terminal');
 const Util = goog.require('myphysicslab.lab.util.Util');
 const VarsList = goog.require('myphysicslab.lab.model.VarsList');
 const Vector = goog.require('myphysicslab.lab.util.Vector');
@@ -265,6 +266,10 @@ constructor(opt_name) {
   * @private
   */
   this.springs_ = [];
+  /** Function to print collisions, or null to turn off printing collisions.
+  * @type {?function(!MoleculeCollision, !Terminal)}
+  */
+  this.collisionFunction_ = null;
   this.addParameter(new ParameterNumber(this, Molecule3Sim.en.GRAVITY,
       Molecule3Sim.i18n.GRAVITY,
       () => this.getGravity(), a => this.setGravity(a)));
@@ -635,10 +640,12 @@ handleCollisions(collisions, opt_totals) {
     switch (c.side) {
       case MoleculeCollision.LEFT_WALL:
       case MoleculeCollision.RIGHT_WALL:
+        c.impulse = c.atom.getMass() * (-1 -this.elasticity_) * vars[2+idx];
         va.setValue(2+idx, -this.elasticity_ * vars[2+idx]);
         break;
       case MoleculeCollision.TOP_WALL:
       case MoleculeCollision.BOTTOM_WALL:
+        c.impulse = c.atom.getMass() * (-1 -this.elasticity_) * vars[3+idx];
         va.setValue(3+idx, -this.elasticity_ * vars[3+idx]);
         break;
       default:
@@ -646,6 +653,9 @@ handleCollisions(collisions, opt_totals) {
     }
     if (opt_totals) {
       opt_totals.addImpulses(1);
+    }
+    if (this.collisionFunction_ && this.terminal_) {
+      this.collisionFunction_(c, this.terminal_);
     }
   });
   // derived energy variables are discontinuous
@@ -761,6 +771,26 @@ getElasticity() {
 setElasticity(value) {
   this.elasticity_ = value;
   this.broadcastParameter(Molecule3Sim.en.ELASTICITY);
+};
+
+/**  Sets a function for  printing  collisions.  The function is called whenever a
+collision occurs.  The function takes two variables: a MoleculeCollision and a Terminal.
+This can be defined from within the Terminal by the user. Here is an example usage
+
+    sim.setCollisionFunction(function(c,t) {
+      const s = c.getDetectedTime().toFixed(2)+"\t"
+        +c.getImpulse().toFixed(2)+"\t"
+        +c.atom.getPosition().getX().toFixed(2)+"\t"
+        +c.atom.getPosition().getY().toFixed(2)+"\t"
+        +c.atom.getName();
+      t.println(s);
+    })
+
+* @param {?function(!MoleculeCollision, !Terminal)} f the function to print collisions,
+*   or null to turn off printing collisions
+*/
+setCollisionFunction(f) {
+  this.collisionFunction_ = f;
 };
 
 } // end class
