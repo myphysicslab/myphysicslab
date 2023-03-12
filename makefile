@@ -716,6 +716,14 @@ $(doc_pdf): docs/%.pdf : src/docs/%.pdf
 	@mkdir -v -p $(dir $@)
 	@$(COPY_CMD) $< $@
 
+# Copy all .jpg files from src/docs/ to docs/ directory.
+# Use static pattern rule -- otherwise `make` will regard these as intermediate files
+# and delete them after copying.
+doc_jpg := $(subst src/docs/,docs/,$(wildcard src/docs/*.jpg))
+$(doc_jpg): docs/%.jpg : src/docs/%.jpg
+	@mkdir -v -p $(dir $@)
+	@$(COPY_CMD) $< $@
+
 # Copy all .png files from src/docs/ to docs/ directory.
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
@@ -728,7 +736,7 @@ $(doc_png): docs/%.png : src/docs/%.png
 # Use static pattern rule -- otherwise `make` will regard these as intermediate files
 # and delete them after copying.
 doc_md := $(subst .md,.html,$(subst src/docs/,docs/,$(wildcard src/docs/*.md)))
-$(doc_md): docs/%.html : src/docs/%.md | $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png)
+$(doc_md): docs/%.html : src/docs/%.md | $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) $(doc_jpg)
 	@mkdir -v -p $(dir $@)
 	multimarkdown $< --output=$@
 
