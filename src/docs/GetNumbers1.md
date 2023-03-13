@@ -30,10 +30,10 @@ Set your desired initial conditions on the simulation. Type or paste into the Te
 command box:
 
     var hist = new VarsHistory(sim.getVarsList());
-    simRun.addMemo(hist); 
-    hist.memorize()
+    simRun.addMemo(hist);
+    hist.memorize();
 
-To memorize the starting initial conditions, we called the `memorize()` function once
+To memorize the starting initial conditions, we call the `memorize()` function once
 before starting the simulation.
 
 Run the simulation as long as you want. Click the "stop" button (or use a script to
@@ -41,7 +41,8 @@ automatically stop at a certain time). In the Terminal command box type:
 
     hist.output() 
 
-This will print the data in Terminal output box. 
+This will print the data in Terminal output box. (Note: Don't type a semi-colon ";" at
+the end of that line, the semi-colon suppresses the output in Terminal).
 
 <img src='dbl-pendulum-data.png'>
 
@@ -91,7 +92,7 @@ simulation you would see this
     SIM_VARS.TOTAL_ENERGY;
     SIM_VARS.TIME
 
-So variable 0 is `ANGLE_`, variable 1 is `ANGLE_1_VELOCITY`, etc. Another way to find
+So variable 0 is `ANGLE_1`, variable 1 is `ANGLE_1_VELOCITY`, etc. Another way to find
 index numbers of variables is with the command `prettyPrint(varsList)` which in the
 Double Pendulum produces
 
@@ -112,7 +113,30 @@ Double Pendulum produces
       (8) TOTAL_ENERGY: 2.98392,
       (9) TIME: 0.00000,
 
+Note that calling `setVariables` erases all stored data from the VarsHistory. Therefore
+you should call `memorize` afterwards to store the initial conditions.
 
+Here is a Terminal session that shows using several of these commands together in the Double Pendulum simulation.
+
+    > var hist = new VarsHistory(sim.getVarsList());
+    > simRun.addMemo(hist);
+    > hist.setNumberFormat((n) => n.toFixed(2));
+    > hist.setSeparator(',   ');
+    > hist.setVariables([9,0,1,2,3]);
+    > hist.memorize();
+    > hist.output()
+    time,   angle-1,   angle-1 velocity,   angle-2,   angle-2 velocity
+    0.00,   0.39,   0.00,   0.00,   0.00
+    0.03,   0.39,   -0.16,   0.00,   0.15
+    0.05,   0.38,   -0.33,   0.01,   0.30
+    0.08,   0.37,   -0.49,   0.02,   0.45
+    0.10,   0.36,   -0.64,   0.03,   0.60
+    0.13,   0.34,   -0.80,   0.05,   0.74
+    0.15,   0.32,   -0.94,   0.07,   0.87
+    0.18,   0.30,   -1.08,   0.09,   0.98
+    0.20,   0.27,   -1.19,   0.12,   1.08
+    0.23,   0.24,   -1.29,   0.14,   1.15
+    0.25,   0.20,   -1.36,   0.17,   1.19
 
 &nbsp;
 

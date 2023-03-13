@@ -48,12 +48,14 @@ document and imported into a spreadsheet program or graphed with a Python script
 The default separator between numbers is the tab character. To instead use comma
 separated values:
 
-    hist.setSeparator(', ');
+    hist.setSeparator(', ')
 
 To change which variables are sampled or the order of the variables within each sample
 use {@link #setVariables}. For example:
 
     hist.setVariables([9,0,1,2,3])
+
+Note that `setVariables` erases all stored data, so you would need to call `memorize` afterwards to store initial conditions.
 
 The default format for printing numbers gives 5 decimal places, but if the number is
 too small then switches to exponential format. Use {@link #setNumberFormat} to change
@@ -63,6 +65,11 @@ the formatting function. For example:
 
 That example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 but you can provide any function that takes one numeric argument and returns a string.
+
+To process the data using Javascript use the `toArray` method
+
+    var a = hist.toArray()
+
 
 * @implements {Memorizable}
 */
@@ -165,7 +172,7 @@ output(opt_localized) {
   return s;
 };
 
-/** Clears the HistoryList of data points.
+/** Erases all data from this VarsHistory.
 * @return {undefined}
 */
 reset() {
@@ -173,6 +180,7 @@ reset() {
 };
 
 /** Sets the array of variable index numbers specifying which variables to memorize.
+This calls {@link #reset} which erases all stored data.
 @param {!Array<number>} varIndex array of variable index numbers specifying which
     variables to memorize
 */

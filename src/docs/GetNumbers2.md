@@ -24,10 +24,9 @@ Type `help` in the command box (and hit return of course) to see available comma
 
 Set your desired initial conditions on the simulation. 
 
-Find the names of the variables by typing `names` into the Terminal command box. The
-example code below is written for the
+Find the names of the variables by typing `names` into the Terminal command box. For the
 [Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html)
-simulation. For the Double Pendulum you would see this
+simulation you would see this
 
     SIM_VARS.ANGLE_1;
     SIM_VARS.ANGLE_1_VELOCITY;
@@ -59,7 +58,7 @@ the lines at once.)
     simRun.addMemo(memo);
     memo.memorize();
 
-To memorize the starting initial conditions, we called the `memorize()` function once before starting the simulation.
+To memorize the starting initial conditions, we call the `memorize()` function once before starting the simulation.
 
 You can modify the `printVar` function to format the numbers however you want.
 For example you can use
