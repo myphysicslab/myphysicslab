@@ -379,7 +379,7 @@ getVariable(id) {
 discontinuity has occurred in the value of this variable. This information is used in a
 graph to prevent drawing a line between points that have a discontinuity. See
 {@link Variable#getSequence}.
-@param {...number} indexes  the indexes of the variables;
+@param {...number} indexes  the indexes of the variables to increment;
     if no index given then all variable's sequence numbers are incremented
 */
 incrSequence(indexes) {
@@ -396,6 +396,16 @@ incrSequence(indexes) {
       this.varList_[idx].incrSequence();
     }
   }
+};
+
+/** Returns index of the variable with given name, or -1 if not found
+@param {!string} id name of variable; the name can be the
+    English or language independent version of the name
+@return integer index number of the variable, or -1 if not found
+*/
+indexOf(id) {
+  id = Util.toName(id);
+  return array.findIndex(this.varList_, v => v.getName() == id);
 };
 
 /** Returns the number of variables available. This includes any deleted
