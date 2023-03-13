@@ -55,6 +55,8 @@ For example I was able to generate this graph from the Double Pendulum with a
 
 &nbsp;
 
+## Options Available for VarsHistory
+
 The default separator between numbers is the tab character. To instead use comma separated values:
 
     hist.setSeparator(', ');
