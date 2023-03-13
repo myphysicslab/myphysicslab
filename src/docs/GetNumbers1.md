@@ -58,14 +58,27 @@ The default separator between numbers is the tab character. To instead use comma
 
     hist.setSeparator(', ');
 
+Use `setNumberFormat` to change the number formatting function. For example to show only two decimal places
+
+    hist.setNumberFormat((n) => n.toFixed(2));
+
+You can use
+[Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
+or one of the `myphysicslab.lab.Util` number format functions like
+[Util.NF5E](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/util/Util.js#L387).
+The above example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+but you can provide any function that takes one numeric argument and returns a string.  Here is an equivalent non-arrow function:
+
+    hist.setNumberFormat(function(n) { return n.toFixed(2)});
+
 To change which variables are sampled or their order use `setVariables`. For example:
 
     hist.setVariables([9,0,1,2,3])
 
-Find the index numbers of the variables by typing `names` into the Terminal command box. The
-example code below is written for the
+Find the index numbers of the variables by typing the command `names` into the Terminal
+command box. In the
 [Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html)
-simulation. For the Double Pendulum you would see this
+simulation you would see this
 
     SIM_VARS.ANGLE_1;
     SIM_VARS.ANGLE_1_VELOCITY;
@@ -78,20 +91,26 @@ simulation. For the Double Pendulum you would see this
     SIM_VARS.TOTAL_ENERGY;
     SIM_VARS.TIME
 
-So variable 0 is `ANGLE_`, variable 1 is `ANGLE_1_VELOCITY`, etc.
+So variable 0 is `ANGLE_`, variable 1 is `ANGLE_1_VELOCITY`, etc. Another way to find
+index numbers of variables is with the command `prettyPrint(varsList)` which in the
+Double Pendulum produces
 
-Use `setNumberFormat` to change the number formatting function. You can use
-[Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
-or one of the `myphysicslab.lab.Util` number format functions like
-[Util.NF5E](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/util/Util.js#L387).
-
-
-    hist.setNumberFormat((n) => n.toFixed(2));
-
-That example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
-but you can provide any function that takes one numeric argument and returns a string.  For example, this is equivalent to the above.
-
-    hist.setNumberFormat(function(n) { return n.toFixed(2)});
+    > prettyPrint(varsList)
+    VarsList{
+      name_: "SIM_VARS",
+      numVars: 10,
+      timeIdx_: 9,
+      history_: false,
+      (0) ANGLE_1: 0.39270,
+      (1) ANGLE_1_VELOCITY: 0.00000,
+      (2) ANGLE_2: 0.00000,
+      (3) ANGLE_2_VELOCITY: 0.00000,
+      (4) ACCELERATION_1: -6.54247,
+      (5) ACCELERATION_2: 6.04446,
+      (6) KINETIC_ENERGY: 0.00000,
+      (7) POTENTIAL_ENERGY: 2.98392,
+      (8) TOTAL_ENERGY: 2.98392,
+      (9) TIME: 0.00000,
 
 
 
