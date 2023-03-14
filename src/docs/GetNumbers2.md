@@ -17,10 +17,11 @@ Open the terminal window by clicking the "terminal" checkbox.
 
 Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
 version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it on the
+simulation's web page, or find it in the
 [set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
-Type `help` in the command box (and hit return of course) to see available commands.
+Type `help` in the command box (and hit return of course) to see available Terminal
+commands.
 
 Set your desired initial conditions on the simulation. 
 
@@ -64,7 +65,7 @@ You can modify the `printVar` function to format the numbers however you want.
 For example you can use
 [Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
 or one of the `myphysicslab.lab.Util` number format functions like
-[Util.NF5E](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/util/Util.js#L387).
+[Util.NF5E](myphysicslab.lab.util.Util.html#NF5E).
 
 Run the simulation as long as you want. Click the "stop" button (or use a script to
 automatically stop at a certain time). You will see output like this:

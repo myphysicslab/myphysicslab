@@ -495,7 +495,7 @@ This can be entered in Terminal if using simple-compile.
 A [GenericObserver](myphysicslab.lab.util.GenericObserver.html) observes a Subject;
 when the Subject broadcasts a SubjectEvent then this executes a specified function. See
 the section about [Subject-Observer](Architecture.html#subjectobserverparameter) in the
-Architectore overview.
+Architecture overview.
 
 Here is an example of a GenericObserver that prints
 any event broadcast by a [Clock](myphysicslab.lab.util.Clock.html).

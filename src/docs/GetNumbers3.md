@@ -21,10 +21,11 @@ Open the terminal window by clicking the "terminal" checkbox.
 
 Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
 version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it on the
+simulation's web page, or find it in the
 [set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
-Type `help` in the command box (and hit return of course) to see available commands.
+Type `help` in the command box (and hit return of course) to see available Terminal
+commands.
 
 Set your desired initial conditions on the simulation.
 
@@ -84,16 +85,9 @@ simulation here is some sample code
     })
 
 The collisions are instances of
-[BlockCollision](https://github.com/myphysicslab/myphysicslab/blob/master/src/sims/springs/BlockCollision.js)
-which inherits from
-[Collision](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/Collision.js)
-
-The block objects are instances of
-[PointMass](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/PointMass.js)
-which inherits from
-[MassObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/MassObject.js)
-and
-[SimObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/SimObject.js)
+[BlockCollision](myphysicslab.sims.springs.BlockCollision.html)
+which contain block objects that are instances of
+[PointMass](myphysicslab.lab.model.PointMass.html).
 
 
 ### RollerFlight
@@ -110,28 +104,24 @@ simulation here is some sample code
     })
 
 
-The collisions are instances of
-[RollerCollision](https://github.com/myphysicslab/myphysicslab/blob/master/src/sims/roller/RollerCollision.js)
-which inherits from
-[Collision](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/Collision.js)
-
-The collisions contain instances of
-[PathPoint](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/PathPoint.js)
-
-
-
+The collisions are instances of [RollerCollision](myphysicslab.sims.roller.RollerCollision.html)
+which contain instances of
+[PathPoint](myphysicslab.lab.model.PathPoint.html).
+See also the
+[RollerCollision source code](https://github.com/myphysicslab/myphysicslab/blob/master/src/sims/roller/RollerCollision.js).
 
 ### Engine2D
 Many myPhysicsLab simulations use the [Rigid Body Physics Engine](https://www.myphysicslab.com/explain/physics-engine-en.html). Some examples are
 [BilliardsApp](https://www.myphysicslab.com/develop/build/sims/engine2D/BilliardsApp-en.html),
 [FastBallApp](https://www.myphysicslab.com/develop/build/sims/engine2D/FastBallApp-en.html),
 [PileApp](https://www.myphysicslab.com/develop/build/sims/engine2D/PileApp-en.html) and others.  In the simple-compiled version when you type `sim` in the Terminal command box, you will usually see that the sim is a 
-[ContactSim](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/engine2D/ContactSim.js) or less often an
-[ImpulseSim](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/engine2D/ImpulseSim.js).
+[ContactSim](myphysicslab.lab.engine2D.ContactSim.html) or less often an
+[ImpulseSim](myphysicslab.lab.engine2D.ImpulseSim.html).
 Here is some sample code that works with these simulations
 
     sim.setCollisionFunction(function(c,t) {
     const s = c.getDetectedTime().toFixed(2)+"\t"
+      +c.getDistance().toFixed(5)+"\t"
       +c.getImpulse().toFixed(2)+"\t"
       +c.getPrimaryBody().getName()+"\t"
       +c.getNormalBody().getName();
@@ -139,16 +129,9 @@ Here is some sample code that works with these simulations
     })
 
 The collisions are instances of
-[RigidBodyCollision](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/engine2D/RigidBodyCollision.js)
-which inherits from
-[Collision](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/Collision.js)
-
-The collisions contain instances of
-[RigidBody](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/engine2D/RigidBody.js)
-which inherits from
-[MassObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/MassObject.js)
-and
-[SimObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/SimObject.js)
+[RigidBodyCollision](myphysicslab.lab.engine2D.RigidBodyCollision.html)
+which contain instances of
+[RigidBody](myphysicslab.lab.engine2D.RigidBody.html).
 
 
 
@@ -168,16 +151,9 @@ simulations here is some sample code
     })
 
 The collisions are instances of
-[MoleculeCollision](https://github.com/myphysicslab/myphysicslab/blob/master/src/sims/springs/MoleculeCollision.js)
-which inherits from
-[Collision](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/Collision.js)
-
-The collisions contain instances of
-[PointMass](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/PointMass.js)
-which inherits from
-[MassObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/MassObject.js)
-and
-[SimObject](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/SimObject.js)
+[MoleculeCollision](myphysicslab.sims.springs.MoleculeCollision.html)
+which contain instances of
+[PointMass](myphysicslab.lab.model.PointMass.html).
 
 &nbsp;
 

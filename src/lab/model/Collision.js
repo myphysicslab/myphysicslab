@@ -62,7 +62,7 @@ unknown.
 */
 getEstimatedTime() {}
 
-/** Returns size of impulse that was applied to this Collision.
+/** Returns size of impulse (change in momentum) that was applied to this Collision.
 @return {number} size of impulse that was applied to this Collision, or NaN if no
 impulse applied.
 */

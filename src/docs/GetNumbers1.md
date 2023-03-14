@@ -21,10 +21,11 @@ Open the terminal window by clicking the "terminal" checkbox.
 
 Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
 version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it on the
+simulation's web page, or find it in the
 [set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
-Type `help` in the command box (and hit return of course) to see available commands.
+Type `help` in the command box (and hit return of course) to see available Terminal
+commands.
 
 Set your desired initial conditions on the simulation. Type or paste into the Terminal
 command box:
@@ -68,7 +69,7 @@ Use `setNumberFormat` to change the number formatting function. For example to s
 You can use
 [Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
 or one of the `myphysicslab.lab.Util` number format functions like
-[Util.NF5E](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/util/Util.js#L387).
+[Util.NF5E](myphysicslab.lab.util.Util.html#NF5E).
 The above example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 but you can provide any function that takes one numeric argument and returns a string.  Here is an equivalent non-arrow function:
 
