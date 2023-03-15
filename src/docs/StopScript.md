@@ -31,18 +31,34 @@ Paste into the Terminal command box this script
     });
     simRun.addMemo(memo);
 
-Check that time time is set to zero by typing `time` or `sim.getTime()` in the Terminal command box.  If time is not zero, click the reset button or execute the `reset` command. 
+To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true;show-clock=true;var%20stopTime=1.99;var%20memo=new%20GenericMemo(function(){if(sim.getTime()>=stopTime){simRun.pause()}});simRun.addMemo(memo);)
+(hit "play" after it loads).
+
+Check that time is set to zero by typing `time` or `sim.getTime()` in the Terminal
+command box. If time is not zero, click the reset button or execute the `reset` command.
 
 Start the simulation running, it will stop once the time exceeds the `stopTime`.
 
 To continue running the simulation after it stops:
 
-- set the `stopTime` to a later time, for example `stopTime = 3.99`
+- set the `stopTime` to a later time, for example `stopTime = 3.99` and execute `resume`
+    (or click the "play" button). Otherwise, whenever you resume the simulation, the
+    memo immediately stops it.
+
 - or execute `simRun.removeMemo(memo)` in the Terminal command box
 
-A GenericMemo is called whenever the simulation steps forward in time. Therefore the
-only way to cancel it is to remove it, or change its `stopTime` to far in the future.
+Explanation of things in the script:
 
+- A [GenericMemo](myphysicslab.lab.util.GenericMemo.html) is called whenever the
+    simulation steps forward in time. Therefore the
+    only way to cancel it is to remove it, or change its `stopTime` to far in the future.
+
+- The `simRun` variable is an instance of
+    [SimRunner](myphysicslab.lab.app.SimRunner.html) which controls the advancement of
+     the simulation over time.
+
+- The `sim` variable is an instance of whichever simulation is running,
+    such as DoublePenduluml.
 
 ## Stop Simulation at a Certain Energy
 
@@ -50,19 +66,16 @@ Similar techniques can be used to stop the simulation based on other conditions.
 
 Determine which variable holds the energy.
 Find the names of the variables by typing `names` into the Terminal command box. For the
-[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html)
+[Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?reset;show-terminal=true)
 simulation you would see this
 
-    SIM_VARS.ANGLE_1;
-    SIM_VARS.ANGLE_1_VELOCITY;
-    SIM_VARS.ANGLE_2;
-    SIM_VARS.ANGLE_2_VELOCITY;
-    SIM_VARS.ACCELERATION_1;
-    SIM_VARS.ACCELERATION_2;
+    SIM_VARS.ANGLE;
+    SIM_VARS.ANGLE_VELOCITY;
+    SIM_VARS.TIME;
+    SIM_VARS.ANGLE_ACCELERATION;
     SIM_VARS.KINETIC_ENERGY;
     SIM_VARS.POTENTIAL_ENERGY;
-    SIM_VARS.TOTAL_ENERGY;
-    SIM_VARS.TIME
+    SIM_VARS.TOTAL_ENERGY
 
 Enter the following script into the Terminal command box.  (You can copy and paste all
 the lines at once.)
@@ -73,6 +86,9 @@ the lines at once.)
       if (energyVar.getValue() < energyLimit) { simRun.pause()}
     });
     simRun.addMemo(memo);
+
+To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?pause;show-terminal=true;damping=0.7;show-clock=true;show-energy=true;var%20energyVar=sim.getVarsList().getVariable('TOTAL_ENERGY');var%20energyLimit=0.1;var%20memo=new%20GenericMemo(function(){if(energyVar.getValue()%3CenergyLimit){simRun.pause()}});simRun.addMemo(memo);save;)
+(hit "play" after it loads).
 
 Check that time time is set to zero by typing `time` or `sim.getTime()` in the Terminal command box.  If time is not zero, click the reset button or execute the `reset` command. 
 
