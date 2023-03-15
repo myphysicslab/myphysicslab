@@ -45,6 +45,9 @@ automatically stop at a certain time). In the Terminal command box type:
 This will print the data in Terminal output box. (Note: Don't type a semi-colon ";" at
 the end of that line, the semi-colon suppresses the output in Terminal).
 
+Here is how this would look in the
+[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true) simulation.
+
 <img src='dbl-pendulum-data.png'>
 
 The first line contains the names of the
@@ -81,7 +84,7 @@ To change which variables are sampled or their order use `setVariables`. For exa
 
 Find the index numbers of the variables by typing the command `names` into the Terminal
 command box. In the
-[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html)
+[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true)
 simulation you would see this
 
     SIM_VARS.ANGLE_1;

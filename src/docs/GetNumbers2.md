@@ -26,7 +26,7 @@ commands.
 Set your desired initial conditions on the simulation. 
 
 Find the names of the variables by typing `names` into the Terminal command box. For the
-[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html)
+[Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true)
 simulation you would see this
 
     SIM_VARS.ANGLE_1;
@@ -104,7 +104,7 @@ If you want to print less data, you can modify the script to use a time interval
     simRun.addMemo(memo);
     memo.memorize();
 
-Note that we use 0.24 instead of 0.25 to get output every 0.25 seconds, because the underlying time step is 0.025 and numerical errors mean time is not always exact multiple of 0.025.
+(Note that we use 0.24 instead of 0.25 to get output every 0.25 seconds, because the underlying time step is 0.025 and numerical errors mean time is not always an exact multiple of 0.025.)
 
 Here is output from running the above script in the Double Pendulum simulation. Time is in the first column.
 

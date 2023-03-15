@@ -11,10 +11,10 @@ get collision data use the `setCollisionFunction` method to specify a function w
 prints the data to the Terminal. (Instead of printing, you could collect the data into a
 Javascript array for later processing).
 
-Each collision simulation has its own particular collsion class. Here are steps for the [CollideBlocks](https://www.myphysicslab.com/develop/build/sims/springs/CollideBlocksApp-en.html)
+Each collision simulation has its own particular collsion class. Here are steps for the [CollideBlocks](https://www.myphysicslab.com/develop/build/sims/springs/CollideBlocksApp-en.html;reset;show-terminal=true)
 simulation, other simulations are described below.
 
-Open the terminal window by clicking the "terminal" checkbox.
+Open the terminal window by clicking the "terminal" checkbox. (This screenshot is from the Double Pendulum simulation, but CollideBlocks is similar).
 
 <img src='TerminalWindow.jpg'>
 &nbsp;
@@ -40,6 +40,8 @@ Paste into the Terminal command box this script
       t.println(s);
     })
 
+To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/springs/CollideBlocksApp-en.html?reset;show-terminal=true;sim.setCollisionFunction(function(c,t){const%20s=c.getDetectedTime().toFixed(2)+"\t"+c.getImpulse().toFixed(2)+"\t"+c.rightBlock_.getPosition().getX().toFixed(2)+"\t"+c.leftBlock_.getName()+"\t"+c.rightBlock_.getName();t.println(s);});resume).
+
 Hit the "play" button to start the simulation running. You should see output like this
 
     0.44	5.19	3.00	BLOCK1	BLOCK2
@@ -63,6 +65,7 @@ As you can tell from the code the order is:
 There are tab characters between each field `"\t"`, which makes it easy to paste into a
 spreadsheet. You can of course change the formatting as you want by modifying the code.
 
+
 ## Collision Types and Collision Simulations
 
 There are various collision simulations and each has it's particular collision type with
@@ -71,19 +74,7 @@ want from a particular collision type. Links to the relevant source code are giv
 
 ### CollideBlocks
 
-For the 
-[CollideBlocks](https://www.myphysicslab.com/develop/build/sims/springs/CollideBlocksApp-en.html)
-simulation here is some sample code
-
-    sim.setCollisionFunction(function(c,t) {
-      const s = c.leftBlock_.getName()+"\t"
-        +c.rightBlock_.getName()+"\t"
-        +c.getDetectedTime().toFixed(2)+"\t"
-        +c.getImpulse().toFixed(2)+"\t"
-        +c.rightBlock_.getPosition().getX().toFixed(2);
-      t.println(s);
-    })
-
+See above for example code for the CollideBlocks simulation.
 The collisions are instances of
 [BlockCollision](myphysicslab.sims.springs.BlockCollision.html)
 which contain block objects that are instances of
@@ -92,7 +83,7 @@ which contain block objects that are instances of
 
 ### RollerFlight
 
-For the [RollerFlight](https://www.myphysicslab.com/develop/build/sims/roller/RollerFlightApp-en.html)
+For the [RollerFlight](https://www.myphysicslab.com/develop/build/sims/roller/RollerFlightApp-en.html?reset;show-terminal=true)
 simulation here is some sample code
 
     sim.setCollisionFunction(function(c,t) {
@@ -103,6 +94,7 @@ simulation here is some sample code
       t.println(s);
     })
 
+To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/roller/RollerFlightApp-en.html?reset;show-terminal=true;sim.setCollisionFunction(function(c,t){const%20s=c.getDetectedTime().toFixed(2)+"\t"+c.getImpulse().toFixed(2)+"\t"+c.getPathPoint().getX().toFixed(2)+"\t"+c.getPathPoint().getY().toFixed(2);t.println(s);});resume;).
 
 The collisions are instances of [RollerCollision](myphysicslab.sims.roller.RollerCollision.html)
 which contain instances of
@@ -128,6 +120,9 @@ Here is some sample code that works with these simulations
     t.println(s);
     })
 
+To see it working in the FastBall simulation
+[try this link](https://www.myphysicslab.com/develop/build/sims/engine2D/FastBallApp-en.html?reset;show-terminal=true;sim.setCollisionFunction(function(c,t){const%20s=c.getDetectedTime().toFixed(2)+"\t"+c.getDistance().toFixed(5)+"\t"+c.getImpulse().toFixed(2)+"\t"+c.getPrimaryBody().getName()+"\t"+c.getNormalBody().getName();t.println(s);});resume;)
+
 The collisions are instances of
 [RigidBodyCollision](myphysicslab.lab.engine2D.RigidBodyCollision.html)
 which contain instances of
@@ -149,6 +144,9 @@ simulations here is some sample code
         +c.atom.getName();
       t.println(s);
     })
+
+To see it working in Molecule1 simulation
+[try this link](https://www.myphysicslab.com/develop/build/sims/springs/Molecule1App-en.html?reset;show-terminal=true;sim.setCollisionFunction(function(c,t){const%20s=c.getDetectedTime().toFixed(2)+"\t"+c.getImpulse().toFixed(2)+"\t"+c.atom.getPosition().getX().toFixed(2)+"\t"+c.atom.getPosition().getY().toFixed(2)+"\t"+c.atom.getName();t.println(s)});resume;)
 
 The collisions are instances of
 [MoleculeCollision](myphysicslab.sims.springs.MoleculeCollision.html)

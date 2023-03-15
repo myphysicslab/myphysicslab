@@ -634,11 +634,11 @@ collision occurs.  The function takes two variables: a BlockCollision and a Term
 This can be defined from within the Terminal by the user. Here is an example usage
 
     sim.setCollisionFunction(function(c,t) {
-      const s = c.leftBlock_.getName()+"\t"
-        +c.rightBlock_.getName()+"\t"
-        +c.getDetectedTime().toFixed(2)+"\t"
+      const s = c.getDetectedTime().toFixed(2)+"\t"
         +c.getImpulse().toFixed(2)+"\t"
-        +c.rightBlock_.getPosition().getX().toFixed(2);
+        +c.rightBlock_.getPosition().getX().toFixed(2)+"\t"
+        +c.leftBlock_.getName()+"\t"
+        +c.rightBlock_.getName();
       t.println(s);
     })
 
