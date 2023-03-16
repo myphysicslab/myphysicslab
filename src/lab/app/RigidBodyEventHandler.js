@@ -271,6 +271,7 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
           this.shiftLeft_ = keyEvent.shiftKey;  // remember shift state for release
         thrustRight.setActive(1, pressed);
         thrustRight.setActive(this.shiftLeft_ ? 4 : 5, pressed);
+        // don't let the keyEvent bubble up to browser window (arrow causes scrolling)
         keyEvent.preventDefault();
       }
       break;
@@ -281,6 +282,7 @@ handleKeyEvent(keyCode, pressed, keyEvent) {
           this.shiftRight_ = keyEvent.shiftKey;  // remember shift state for release
         thrustRight.setActive(0, pressed);
         thrustRight.setActive(this.shiftRight_ ? 5 : 4, pressed);
+        // don't let the keyEvent bubble up to browser window (arrow causes scrolling)
         keyEvent.preventDefault();
       }
       break;
