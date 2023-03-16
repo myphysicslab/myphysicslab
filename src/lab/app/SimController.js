@@ -434,12 +434,13 @@ doMouseMove(evt, mouseX, mouseY) {
   }
   const loc_screen = this.eventToScreen(mouseX, mouseY);
   // cancel browser's default action, which would be to select the canvas
-  if (evt.target == cvs || evt.target == document.body) {
+  // 2023-03-16: remove preventDefault -- seems to no longer do anything.
+  /*if (evt.target == cvs || evt.target == document.body) {
     if (this.mouseDrag_) {
       //console.log('SimController.mouseMove preventDefault');
       evt.preventDefault();
     }
-  }
+  }*/
   if (this.myViewPanner_ != null) {
     this.myViewPanner_.mouseDrag(loc_screen);
   } else if (this.mouseTracker_ != null) {
@@ -460,12 +461,13 @@ mouseUp(evt) {
     return;
   }
   // cancel browser's default action, which would be to select the canvas
-  if (evt.target == cvs || evt.target == document.body) {
+  // 2023-03-16: remove preventDefault -- seems to no longer do anything.
+  /*if (evt.target == cvs || evt.target == document.body) {
     if (this.mouseDrag_) {
       //console.log('SimController.mouseUp preventDefault');
       evt.preventDefault();
     }
-  }
+  }*/
   this.finishDrag();
 };
 
