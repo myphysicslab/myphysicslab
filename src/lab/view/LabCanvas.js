@@ -158,6 +158,28 @@ constructor(canvas, name) {
   // on side of canvas. However, canvas will no longer get text events.
   // Dec 2014: see places where we set the tabIndex to allow the canvas to get focus.
   canvas.contentEditable = false;
+  // Prevent scrolling when touching the canvas
+  // https://stackoverflow.com/questions/49854201/html5-issue-canvas-scrolling-when-interacting-dragging-on-ios-11-3
+  // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+  // passive: A Boolean which, if true, indicates that the function specified by
+  // listener will never call preventDefault(). If a passive listener does call
+  // preventDefault(), the user agent will do nothing other than generate a console
+  // warning. See Improving scrolling performance with passive listeners to learn more.
+  document.body.addEventListener("touchstart", function (e) {
+      if (e.target == canvas) {
+          e.preventDefault();
+      }
+  }, { passive: false });
+  document.body.addEventListener("touchend", function (e) {
+      if (e.target == canvas) {
+          e.preventDefault();
+      }
+  }, { passive: false });
+  document.body.addEventListener("touchmove", function (e) {
+      if (e.target == canvas) {
+          e.preventDefault();
+      }
+  }, { passive: false });
   /**
   /**
   * @type {!Array<!LabView>}
