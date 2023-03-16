@@ -67,6 +67,8 @@ For example you can use
 or one of the `myphysicslab.lab.Util` number format functions like
 [Util.NF5E](myphysicslab.lab.util.Util.html#NF5E).
 
+To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true;var%20angle1=sim.getVarsList().getVariable('ANGLE_1');var%20angle1v=sim.getVarsList().getVariable('ANGLE_1_VELOCITY');var%20angle2=sim.getVarsList().getVariable('ANGLE_2');var%20angle2v=sim.getVarsList().getVariable('ANGLE_2_VELOCITY');var%20timeVar=sim.getVarsList().getVariable('TIME');var%20printVar=(v)=>v.getValue().toFixed(3);var%20memo=new%20GenericMemo(function(){println(printVar(timeVar)+'\t'+printVar(angle1)+'\t'+printVar(angle1v)+'\t'+printVar(angle2)+'\t'+printVar(angle2v))});pause;simRun.addMemo(memo);memo.memorize();) (and click the "play" button).
+
 Run the simulation as long as you want. Click the "stop" button (or use a script to
 automatically stop at a certain time). You will see output like this:
 
