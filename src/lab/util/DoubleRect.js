@@ -320,7 +320,7 @@ The optional tolerance value corresponds to the `epsilon` in
 magnitude of the numbers being compared.
 * @param {!DoubleRect} rect  the DoubleRect to compare with
 * @param {number=} opt_tolerance optional tolerance for equality test
-* @return {boolean} true` if this DoubleRect is nearly equal to another DoubleRect
+* @return {boolean} `true` if this DoubleRect is nearly equal to another DoubleRect
 */
 nearEqual(rect, opt_tolerance) {
   if (Util.veryDifferent(this.left_, rect.getLeft(), opt_tolerance)) {
