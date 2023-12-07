@@ -149,7 +149,7 @@ constructor(body, vertex1, vertex2, center_body, clockwise, outsideIsOut, opt_sp
   */
   this.radius_ = center_body.distanceTo(vertex1.locBody());
   const r2 = vertex2.locBody().distanceTo(center_body);
-  if (Math.abs(this.radius_ - r2 > CircularEdge.TINY_POSITIVE)) {
+  if (Math.abs(this.radius_ - r2) > CircularEdge.TINY_POSITIVE) {
     throw 'center is not equidistant from the two end points';
   }
   /** when true, arc goes clockwise from startAngle to finishAngle.

@@ -105,10 +105,8 @@ constructor(elem_ids, opt_name) {
   */
   this.graph_controls = GraphCalc2App.getElementById(elem_ids, 'graph_controls');
 
-  const term_output = /** @type {?HTMLInputElement} */
-      (GraphCalc2App.getElementById(elem_ids, 'term_output'));
-  const term_input = /** @type {?HTMLInputElement} */
-      (GraphCalc2App.getElementById(elem_ids, 'term_input'));
+  const term_output = /** @type {?HTMLInputElement} */ (GraphCalc2App.getElementById(elem_ids, 'term_output'));
+  const term_input = /** @type {?HTMLInputElement} */ (GraphCalc2App.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
   * @private

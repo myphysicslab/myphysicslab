@@ -163,8 +163,7 @@ draw(context, map) {
   if (this.offScreen_ == null) {
     asserts.assert(w > 0 && h > 0);
     // make the offscreen buffer that has an alpha channel.
-    this.offScreen_ = /** @type {!HTMLCanvasElement} */
-        (document.createElement('canvas'));
+    this.offScreen_ = /** @type {!HTMLCanvasElement} */ (document.createElement('canvas'));
     this.offScreen_.width = w;
     this.offScreen_.height = h;
     this.needRedraw_ = true;

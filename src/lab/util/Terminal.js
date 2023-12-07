@@ -1434,7 +1434,7 @@ static stdRegex(terminal) {
 
   terminal.addRegex('CoordMap|DisplayClock|DisplayConnector|DisplayLine|DisplayList'
       +'|DisplayPath|DisplayShape|DisplayRope|DisplaySpring|DisplayText'
-      +'|DrawingMode|DrawingStyle|EnergyBarGraph|HorizAlign|LabCanvas|LabView'
+      +'|DrawingMode|DrawingStyle|HorizAlign|LabCanvas|LabView'
       +'|ScreenRect|SimView|VerticalAlign',
        'lab$$view$$', /*addToVars=*/false);
 
@@ -1444,7 +1444,7 @@ static stdRegex(terminal) {
        +'|ThrusterSet|Vertex|Walls',
        'lab$$engine2D$$', /*addToVars=*/false);
 
-  terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine'
+  terminal.addRegex('AutoScale|DisplayGraph|GraphColor|GraphLine|EnergyBarGraph'
        +'|GraphStyle|DisplayAxes|VarsHistory',
        'lab$$graph$$', /*addToVars=*/false);
 

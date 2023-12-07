@@ -77,10 +77,8 @@ constructor(elem_ids) {
   */
   this.sim_controls = BlankSlateApp.getElementById(elem_ids, 'sim_controls');
 
-  const term_output = /** @type {!HTMLInputElement} */
-      (BlankSlateApp.getElementById(elem_ids, 'term_output'));
-  const term_input = /** @type {!HTMLInputElement} */
-      (BlankSlateApp.getElementById(elem_ids, 'term_input'));
+  const term_output = /** @type {!HTMLInputElement} */ (BlankSlateApp.getElementById(elem_ids, 'term_output'));
+  const term_input = /** @type {!HTMLInputElement} */ (BlankSlateApp.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
   * @private

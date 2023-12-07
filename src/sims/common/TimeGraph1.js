@@ -177,7 +177,7 @@ constructor(varsList, graphCanvas, div_controls, div_graph, simRun, color1, colo
     if (this.line1.getXVariable() == timeIdx) {
       const t = simRun.getClock().getTime();
       const tw = this.autoScale.getTimeWindow();
-      this.displayGraph.setUseBuffer(t > tw);
+      this.displayGraph.setUseBuffer(t < tw); // had the test backwards?
     } else {
       this.displayGraph.setUseBuffer(true);
     }

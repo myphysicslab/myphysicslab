@@ -130,7 +130,7 @@ toString() {
       +', sim_bottom_: '+Util.NF(this.sim_bottom_)
       +', pixels_per_unit_x_: '+Util.NF(this.pixel_per_unit_x_)
       +', pixels_per_unit_y_: '+Util.NF(this.pixel_per_unit_y_)
-      + (this.transform_ != null) ? ', transform: '+this.transform_ : ''
+      + (this.transform_ != null ? ', transform: '+this.transform_ : '')
       +'}';
 };
 

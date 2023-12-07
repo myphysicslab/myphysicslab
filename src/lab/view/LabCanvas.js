@@ -157,7 +157,7 @@ constructor(canvas, name) {
   // on canvas would bring up keyboard on iPhone and cause a huge blinking text cursor
   // on side of canvas. However, canvas will no longer get text events.
   // Dec 2014: see places where we set the tabIndex to allow the canvas to get focus.
-  canvas.contentEditable = false;
+  canvas.contentEditable = 'false';
   // Prevent scrolling when touching the canvas
   // https://stackoverflow.com/questions/49854201/html5-issue-canvas-scrolling-when-interacting-dragging-on-ios-11-3
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -180,7 +180,6 @@ constructor(canvas, name) {
           e.preventDefault();
       }
   }, { passive: false });
-  /**
   /**
   * @type {!Array<!LabView>}
   * @private
@@ -427,8 +426,7 @@ paint() {
     const chg = this.getChanged();
     // Draw if there are changes, or to wipe out lingering "trails".
     if (chg || this.counter_ > 0) {
-      const context = /** @type {!CanvasRenderingContext2D} */
-          (this.canvas_.getContext('2d'));
+      const context = /** @type {!CanvasRenderingContext2D} */ (this.canvas_.getContext('2d'));
       context.save();
       try {
         if (this.background_ != '') {

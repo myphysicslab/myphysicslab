@@ -81,10 +81,8 @@ constructor(elem_ids) {
   this.simCanvas.setSize(800, 800);
   div.appendChild(this.simCanvas.getCanvas());
 
-  const term_output = /** @type {?HTMLInputElement} */
-      (GraphCalcApp.getElementById(elem_ids, 'term_output'));
-  const term_input = /** @type {?HTMLInputElement} */
-      (GraphCalcApp.getElementById(elem_ids, 'term_input'));
+  const term_output = /** @type {?HTMLInputElement} */ (GraphCalcApp.getElementById(elem_ids, 'term_output'));
+  const term_input = /** @type {?HTMLInputElement} */ (GraphCalcApp.getElementById(elem_ids, 'term_input'));
   /**
   * @type {!Terminal}
   * @private

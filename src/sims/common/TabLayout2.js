@@ -248,14 +248,12 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   events.listen(window, EventType.ORIENTATIONCHANGE,
       () => this.redoLayout() );
 
-  const term_output = /**@type {?HTMLInputElement}*/
-      (Util.maybeElementById(elem_ids, 'term_output'));
+  const term_output = /** @type {?HTMLInputElement} */ (Util.maybeElementById(elem_ids, 'term_output'));
   /**
   * @type {?HTMLInputElement}
   * @private
   */
-  this.term_input = /**@type {?HTMLInputElement}*/
-      (Util.maybeElementById(elem_ids, 'term_input'));
+  this.term_input = /** @type {?HTMLInputElement} */ (Util.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal}
   * @private
   */
@@ -294,8 +292,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   * @type {!HTMLInputElement}
   * @private
   */
-  this.show_sim_cb = /**@type {!HTMLInputElement}*/
-      (Util.getElementById(elem_ids, 'show_sim'));
+  this.show_sim_cb = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'show_sim'));
   const p = dom.getParentElement(this.show_sim_cb);
   if (p == null || p.tagName != 'LABEL') {
     throw '';
@@ -359,8 +356,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
   }
 
   // 'show terminal' checkbox.
-  const label_term = /**@type {!HTMLInputElement}*/
-      (Util.getElementById(elem_ids, 'label_terminal'));
+  const label_term = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'label_terminal'));
   /**
   * @type {!HTMLInputElement}
   * @private
@@ -370,8 +366,7 @@ constructor(elem_ids, canvasWidth, canvasHeight, opt_terminal) {
     label_term.style.display = 'none';
   } else {
     label_term.style.display = 'inline';
-    this.show_term_cb = /**@type {!HTMLInputElement}*/
-        (Util.getElementById(elem_ids, 'show_terminal'));
+    this.show_term_cb = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'show_terminal'));
     events.listen(this.show_term_cb, EventType.CLICK,
       e => this.showTerminal(this.show_term_cb.checked) );
   }

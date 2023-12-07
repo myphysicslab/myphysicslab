@@ -117,8 +117,7 @@ static makeBikeTimerApp(sound_url) {
   };
 
   // Find the period field which is defined in HTML
-  const field_period = /** @type {!HTMLInputElement} */
-      (document.getElementById('period_field'));
+  const field_period = /** @type {!HTMLInputElement} */ (document.getElementById('period_field'));
   if (field_period != null) {
     field_period.textAlign = 'right'; // this is not working
     field_period.value = period.toFixed(1);
@@ -134,8 +133,7 @@ static makeBikeTimerApp(sound_url) {
     });
   };
 
-  const field_start = /** @type {!HTMLInputElement} */
-      (document.getElementById('start_field'));
+  const field_start = /** @type {!HTMLInputElement} */ (document.getElementById('start_field'));
   if (field_start != null) {
     field_start.textAlign = 'right'; // this is not working
     field_start.value = startTime.toFixed(1);

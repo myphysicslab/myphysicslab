@@ -30,11 +30,11 @@ Here is an example of a GenericObserver that prints any event broadcast by a
     var obs = new GenericObserver(clock, evt => println('event='+evt));
 
 Paste that code into the Terminal command line of any [simple-compiled application](https://www.myphysicslab.com/develop/build/index-en.html), or
-[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,evt => println('event='+evt));layout.showTerminal(true);>)
+[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cevt%20%3D%3E%20println%28%27event%3D%27%2Bevt%29%29%3Blayout.showTerminal%28true%29%3B>)
 which contains the above code running in the simple-compiled pendulum simulation. Click
 the rewind, play, and step buttons to see events in the Terminal output area.
 
-Use the following to turn off the GenericObserver:
+Use the following Terminal command to turn off the GenericObserver:
 
     clock.removeObserver(obs);
 
@@ -49,7 +49,7 @@ This prints only when a particular Clock event occurs:
     });
 
 Paste that code into the Terminal command line of any [simple-compiled application](https://www.myphysicslab.com/develop/build/index-en.html), or
-[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs=new%20GenericObserver(clock,function(evt){if(evt.nameEquals(Clock.CLOCK_PAUSE)){println('event='+evt);}});layout.showTerminal(true);>)
+[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cfunction%28evt%29%7Bif%28evt.nameEquals%28Clock.CLOCK_PAUSE%29%29%7Bprintln%28%27event%3D%27%2Bevt%29%3B%7D%7D%29%3Blayout.showTerminal%28true%29%3B>)
 which contains the above code running in the simple-compiled pendulum simulation. Click
 the pause button to see events in the Terminal output area.
 
@@ -75,7 +75,7 @@ for {@link myphysicslab.lab.engine2D.ExtraAccel}.
 The above script can be entered into the Terminal command line of most
 [simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html)
 which use  {@link myphysicslab.lab.engine2D.ContactSim}, or
-[try this link](<https://www.myphysicslab.com/develop/build/sims/engine2D/ContactApp-en.html?NUMBER_OF_OBJECTS=1;EXTRA_ACCEL=none;ELASTICITY=0.6;SIM_CANVAS.ALPHA=1;SIM_CANVAS.BACKGROUND="";new%20GenericObserver(displayList,function(evt){if(evt.nameEquals(DisplayList.OBJECT_ADDED)){var%20obj=evt.getValue();if(obj%20instanceof%20DisplayLine){var%20f=obj.getSimObjects()[0];if(f.getName().match(/^CONTACT_FORCE1/)){var%20pct=Math.max(0,Math.min(1,f.contactDistance/f.contactTolerance));obj.setColor(Util.colorString3(1-pct,pct,0));}}}});>)
+[try this link](<https://www.myphysicslab.com/develop/build/sims/engine2D/ContactApp-en.html?NUMBER_OF_OBJECTS%3D1%3BEXTRA_ACCEL%3Dnone%3BELASTICITY%3D0.6%3BSIM_CANVAS.ALPHA%3D1%3BSIM_CANVAS.BACKGROUND%3D%22%22%3Bnew%20GenericObserver%28displayList%2Cfunction%28evt%29%7Bif%28evt.nameEquals%28DisplayList.OBJECT_ADDED%29%29%7Bvar%20obj%3Devt.getValue%28%29%3Bif%28obj%20instanceof%20DisplayLine%29%7Bvar%20f%3Dobj.getSimObjects%28%29%5B0%5D%3Bif%28f.getName%28%29.match%28%2F%5ECONTACT_FORCE1%2F%29%29%7Bvar%20pct%3DMath.max%280%2CMath.min%281%2Cf.contactDistance%2Ff.contactTolerance%29%29%3Bobj.setColor%28Util.colorString3%281-pct%2Cpct%2C0%29%29%3B%7D%7D%7D%7D%29%3B>)
 which contains the above code running in simple-compiled ContactApp. That link also
 sets `EXTRA_ACCEL=none` so you will see the gap distance color vary periodically.
 

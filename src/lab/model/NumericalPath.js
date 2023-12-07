@@ -599,7 +599,6 @@ findPointByDistance(p1, p2, x) {
   // sign tells whether p-values are bigger or smaller at p2 compared to p1
   p2 = this.map_p_to_vector(p2p);
   let dist = p1.distanceTo(p2);
-  debugger;
   if (dist < 1E-6) {
     // both points were mapped to same point on the path. Arbitrarily pick a direction.
     p2p = p1p + x;

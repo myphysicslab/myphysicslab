@@ -85,10 +85,8 @@ constructor(elem_ids) {
   * @private
   */
   this.controls_ = [];
-  const term_output = /**@type {?HTMLInputElement}*/
-      (Util.maybeElementById(elem_ids, 'term_output'));
-  const term_input = /**@type {?HTMLInputElement}*/
-      (Util.maybeElementById(elem_ids, 'term_input'));
+  const term_output = /** @type {?HTMLInputElement} */ (Util.maybeElementById(elem_ids, 'term_output'));
+  const term_input = /** @type {?HTMLInputElement} */ (Util.maybeElementById(elem_ids, 'term_input'));
   /** @type {!Terminal}
   * @private
   */
@@ -138,13 +136,11 @@ constructor(elem_ids) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.graph_controls = /**@type {!HTMLElement}*/
-      (Util.getElementById(elem_ids, 'graph_controls'));
+  this.graph_controls = /** @type {!HTMLElement} */ (Util.getElementById(elem_ids, 'graph_controls'));
   this.div_graph.insertBefore(this.graphCanvas.getCanvas(), this.graph_controls);
 
   /* 'show graph' checkbox. */
-  const show_graph_cb = /**@type {!HTMLInputElement}*/
-      (Util.getElementById(elem_ids, 'show_graph'));
+  const show_graph_cb = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'show_graph'));
   /** @type {function(boolean)} */
   this.showGraph = visible => {
     this.div_graph.style.display = visible ? 'block' : 'none';
@@ -157,15 +153,13 @@ constructor(elem_ids) {
   /** @type {!HTMLElement}
   * @private
   */
-  this.sim_controls = /** @type {!HTMLElement} */
-      (Util.getElementById(elem_ids, 'sim_controls'));
+  this.sim_controls = /** @type {!HTMLElement} */ (Util.getElementById(elem_ids, 'sim_controls'));
   if (this.debug_layout) {
     this.sim_controls.style.border = 'dashed 1px red';
   }
 
   /* 'show controls' checkbox. */
-  const show_controls_cb = /**@type {!HTMLInputElement}*/
-      (Util.getElementById(elem_ids, 'show_controls'));
+  const show_controls_cb = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'show_controls'));
   this.sim_controls.style.display = 'none';
   /** @type {function(boolean)} */
   this.showControls = /** @type {function(boolean)}*/(visible => {
@@ -176,14 +170,12 @@ constructor(elem_ids) {
       e => this.showControls(show_controls_cb.checked) );
 
   /* <form> element for Terminal */
-  const form_term = /**@type {!HTMLFormElement}*/
-      (Util.getElementById(elem_ids, 'form_terminal'));
+  const form_term = /** @type {!HTMLFormElement} */ (Util.getElementById(elem_ids, 'form_terminal'));
   form_term.style.display = 'none';
   if (this.debug_layout) {
     form_term.style.border = 'dashed 1px green';
   }
-  const label_term = /**@type {!HTMLInputElement}*/
-      (Util.getElementById(elem_ids, 'label_terminal'));
+  const label_term = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'label_terminal'));
   /** @type {function(boolean)} */
   this.showTerminal;
   if (Util.ADVANCED) {
@@ -192,8 +184,7 @@ constructor(elem_ids) {
     label_term.style.display = 'none';
   } else {
     /* 'show terminal' checkbox. */
-    const show_term_cb = /**@type {!HTMLInputElement}*/
-        (Util.getElementById(elem_ids, 'show_terminal'));
+    const show_term_cb = /** @type {!HTMLInputElement} */ (Util.getElementById(elem_ids, 'show_terminal'));
     this.showTerminal = /** @type {function(boolean)}*/(visible => {
       form_term.style.display = visible ? 'block' : 'none';
       show_term_cb.checked = visible;
@@ -206,8 +197,7 @@ constructor(elem_ids) {
       e => this.showTerminal(show_term_cb.checked) );
   }
 
-  const show_hide_form = /**@type {!HTMLFormElement}*/
-      (Util.getElementById(elem_ids, 'show_hide_form'));
+  const show_hide_form = /** @type {!HTMLFormElement} */ (Util.getElementById(elem_ids, 'show_hide_form'));
   if (this.debug_layout) {
     show_hide_form.style.border = 'dashed 1px green';
   }
