@@ -18,29 +18,38 @@ Source code is available at <https://github.com/myphysicslab/myphysicslab>.
 
 Building
 --------
-It is possible to customize a myPhysicsLab simulation without
-building from source code, see
+It is possible to customize a myPhysicsLab simulation without building from source
+code, see
 [Customizing myPhysicsLab Simulations](http://www.myphysicslab.com/develop/docs/Customizing.html).
 
-To build from source code the required tools are
-
-+ [TypeScript](https://www.typescriptlang.org)
-
-+ [esbuild](https://esbuild.github.io) You will need to set the `ESBUILD` environment
-    variable to the location of `esbuild`, see the `makefile` for details.
-
-+ [Perl](https://www.perl.org)
-
-+ [GNU Make](https://www.gnu.org/software/make/)
-
-Once the prerequisites are on your system, follow these steps:
+To build from source code:
 
 1. Download the myPhysicsLab source code from
     <https://github.com/myphysicslab/myphysicslab>. You can download a zip file
     from that github page, or use
     `git clone https://github.com/myphysicslab/myphysicslab.git`
 
-2. Set your directory with `cd myphysicslab`.
+2. Install the required tools:
+
++ [TypeScript](https://www.typescriptlang.org)
+    You should be able to execute `tsc --version` within the `myphysicslab` directory.
+    Making an alias in your `.bash_profile` like this might be helpful:
+    `alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc`
+
++ [esbuild](https://esbuild.github.io)
+    Make a symbolic link to the `esbuild` executable within `myphysicslab` directory:
+    `ln -s node_modules/esbuild/bin/esbuild esbuild`. You should then be able to
+    execute `./esbuild --version` within the `myphysicslab` directory
+
++ [Perl](https://www.perl.org)
+
++ [GNU Make](https://www.gnu.org/software/make/)
+
++ Optional: [TypeDoc](https://typedoc.org)
+    is only needed if you want to build the documentation.
+    Make a symbolic link to the `typedoc` executable within `myphysicslab` directory:
+    `ln -s node_modules/typedoc/bin/typedoc typedoc`. You should then be able to
+    execute `./typedoc --version` within the `myphysicslab` directory
 
 3. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
     to become JavaScript `.js` files in the `build` directory.
@@ -52,9 +61,6 @@ Once the prerequisites are on your system, follow these steps:
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the files that were built.
 
-NOTE: the HTML files in the source directories **cannot be used directly** from
-a browser. You must complete the build process first.
-
 See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html)
 for more information about the build process.
 
@@ -63,7 +69,7 @@ Installation Hints
 ------------------
 Here are some hints about installing tools, this was on MacOS. Following
 [this page](https://dyclassroom.com/howto-mac/how-to-install-typescript-on-mac-using-node-npm)
-I use `HomeBrew` to install `node`, and then use node's `npm` to install the other
+I used `HomeBrew` to install `node`, and then used node's `npm` to install the other
 tools locally inside the myphysicslab directory:
 
     cd myphysicslab
@@ -76,11 +82,13 @@ the myphysicslab directory that are unrelated to the myphysicslab project. The
 `.gitignore` file contains entries to prevent these from being added to the
 myphysicslab project.
 
-I create alias for these commands in my `.bash_profile` like this
+Test whether your installation is ready to build myphysicslab:
 
-    alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc
-    alias typedoc=~/Documents/Programming/myphysicslab/node_modules/typedoc/bin/typedoc
-    alias esbuild=~/Documents/Programming/myphysicslab/node_modules/esbuild/bin/esbuild
+    cd myphysicslab
+    tsc --version
+    ./esbuild --version
+    perl --version
+    make --version
 
 
 Documentation

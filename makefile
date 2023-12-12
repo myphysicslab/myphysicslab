@@ -4,8 +4,22 @@
 # Use of this source code is governed by the Apache License, Version 2.0.
 # See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
 #
-# NOTE: you need to run 'tsc' before running 'make'.  It's still unclear to me
-# why 'tsc' doesn't work when run from within this makefile.
+# NOTE: you need to run the TypeScript compiler 'tsc' before running 'make'.
+# It's still unclear to me why 'tsc' doesn't work when run from within this makefile.
+#
+# You need to create a symbolic link for esbuild in the myphysicslab directory, with
+# a command like this (using the path to esbuild on your system)
+#    ln -s node_modules/esbuild/bin/esbuild esbuild
+# You can test whether this works by doing:
+#    cd myphysicslab
+#    ./esbuild --version
+#
+# If you want to build the documentation, you also need to make a symbolic link
+# for typedoc, like this  (using the path to typedoc on your system)
+#    ln -s node_modules/typedoc/bin/typedoc typedoc
+# You can test whether this works by doing:
+#    cd myphysicslab
+#    ./typedoc --version
 #
 # Debugging hints:
 # make -d  Print  debugging  information in addition to normal processing.
@@ -36,15 +50,6 @@ COPY_CMD := cp -va
 ifeq ($(detected_OS),Darwin)
     COPY_CMD := cp -vaX
 endif
-
-# If your esbuild or typedoc are in different locations, set these variables
-# either as environment variables or command-line variables
-# To set command-line variables:
-# make ESBUILD='usr/bin/esbuild'
-# To set an environment variable, prior to running make do this:
-# export ESBUILD='usr/bin/esbuild'
-ESBUILD ?= ./node_modules/.bin/esbuild
-TYPEDOC ?= ./node_modules/.bin/typedoc
 
 # BUILD_DIR is name of build directory, relative to makefile location
 BUILD_DIR := build
@@ -386,14 +391,14 @@ $(BUILD_DIR)/test/SingleTest*.html : src/test/macros_test.html
 
 apps_js_en := $(addsuffix -en.js,$(bld_apps))
 $(apps_js_en): $(BUILD_DIR)/%-en.js : $(BUILD_DIR)/%.js
-	$(ESBUILD) $< --outfile=$@ --bundle --format=iife \
+	./esbuild $< --outfile=$@ --bundle --format=iife \
 	--platform=browser  \
 	--global-name=mpl --define:MPL_LOCALE='"en"' \
 	--define:MPL_BUILD_TIME='"$(shell date)"' --minify
 
 apps_js_de := $(addsuffix -de.js,$(bld_apps))
 $(apps_js_de): $(BUILD_DIR)/%-de.js : $(BUILD_DIR)/%.js
-	$(ESBUILD) $< --outfile=$@ --bundle --format=iife \
+	./esbuild $< --outfile=$@ --bundle --format=iife \
 	--platform=browser  \
 	--global-name=mpl --define:MPL_LOCALE='"de"' \
 	--define:MPL_BUILD_TIME='"$(shell date)"' --minify
@@ -468,7 +473,7 @@ docs-md: $(doc_md)
 docs: $(doc_md) $(doc_css) $(doc_svg) $(doc_pdf) $(doc_png) typedoc.json \
   tsconfig.json $(src_js)
 	@mkdir -v -p docs
-	$(TYPEDOC)
+	./typedoc
 
 apps-en: $(BUILD_DIR)/index-en.html $(addsuffix -en.html,$(bld_apps))
 

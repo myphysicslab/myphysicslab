@@ -23,3 +23,6 @@ package.json
 # this json can be deleted, but it shows all the available options
 tsconfig_all_opts.json
 tsconfig_temp.json
+# symbolic links to the esbuild and typedoc on your system
+esbuild
+typedoc
