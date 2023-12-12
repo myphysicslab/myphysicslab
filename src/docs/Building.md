@@ -120,9 +120,9 @@ To build from source code:
 3. Execute `tsc` at the command line. This will compile all the typescript `.ts` files
     to become JavaScript `.js` files in the `build` directory.
 
-4. Execute `make` at the command line.
-    This will create `.html` files in the `build` directory for all applications
-    and tests in all language versions. Execute `make help` to see available options.
+4. Execute `make` at the command line. This creates `.html` files and
+    bundled `.js` files in the `build` directory for all applications and tests in all
+    language versions. Execute `make help` to see available options.
 
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the example files that were built.
