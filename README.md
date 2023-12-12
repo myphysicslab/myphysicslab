@@ -65,7 +65,6 @@ I use `HomeBrew` to install `node`, and then use node's `npm` to install the oth
 tools locally inside the myphysicslab directory:
 
     cd myphysicslab
-    brew install node
     npm install typescript
     npm install esbuild
     npm install typedoc
