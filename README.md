@@ -57,6 +57,26 @@ See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Bu
 for more information about the build process.
 
 
+Installation Hints
+------------------
+Here are some hints about installing tools, this was on MacOS. Following
+[this page](https://dyclassroom.com/howto-mac/how-to-install-typescript-on-mac-using-node-npm)
+I use `HomeBrew` to install `node`, and then use node's `npm` to install the other
+tools locally inside the myphysicslab directory:
+
+    cd myphysicslab
+    brew install node
+    npm install typescript
+    npm install esbuild
+    npm install typedoc
+
+I create alias for these commands in my `.bash_profile` like this
+
+    alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc
+    alias typedoc=~/Documents/Programming/myphysicslab/node_modules/typedoc/bin/typedoc
+    alias esbuild=~/Documents/Programming/myphysicslab/node_modules/esbuild/bin/esbuild
+
+
 Documentation
 -------------
 See [myPhysicsLab Documentation](http://www.myphysicslab.com/develop/docs/index.html)
