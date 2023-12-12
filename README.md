@@ -26,7 +26,8 @@ To build from source code the required tools are
 
 + [TypeScript](https://www.typescriptlang.org)
 
-+ [esbuild](https://esbuild.github.io)
++ [esbuild](https://esbuild.github.io) You will need to set the `ESBUILD` environment
+    variable to the location of `esbuild`, see the `makefile` for details.
 
 + [Perl](https://www.perl.org)
 
@@ -39,11 +40,12 @@ Once the prerequisites are on your system, follow these steps:
     from that github page, or use
     `git clone https://github.com/myphysicslab/myphysicslab.git`
 
-2. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
-    to become JavaScript `.js` files in the `build` directory. (Set your directory to
-    where the `makefile` is).
+2. Set your directory with `cd myphysicslab`.
 
-3. Execute `make` at the command line. (Set your directory to where the `makefile` is).
+3. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
+    to become JavaScript `.js` files in the `build` directory.
+
+4. Execute `make` at the command line.
     This will create `.html` files for all applications and tests in all language
     versions. Execute `make help` to see available options.
 
