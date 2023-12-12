@@ -3,7 +3,7 @@ myPhysicsLab README
 myPhysicsLab provides JavaScript classes to build real-time interactive
 animated physics simulations.
 
-The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations running
+The [myPhysicsLab website](https://www.myphysicslab.com) shows the simulations running
 and contains explanations of the math behind them.
 
 
@@ -20,7 +20,7 @@ Building
 --------
 It is possible to customize a myPhysicsLab simulation without building from source
 code, see
-[Customizing myPhysicsLab Simulations](http://www.myphysicslab.com/develop/docs/Customizing.html).
+[Customizing myPhysicsLab Simulations](https://www.myphysicslab.com/develop/docs/Customizing.html).
 
 To build from source code:
 
@@ -62,13 +62,7 @@ To build from source code:
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the example files that were built.
 
-See [Building myPhysicsLab Software](https://github.com/myphysicslab/myphysicslab/blob/master/src/docs/Building.md)
-for more information about the build process.
-
-See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html)
-for more information about the build process.
-
-See [Building myPhysicsLab Software](src/docs/Building.md)
+See [Building myPhysicsLab Software](https://www.myphysicslab.com/develop/docs/Building.html)
 for more information about the build process.
 
 
@@ -99,11 +93,11 @@ Test whether your installation is ready to build myphysicslab:
 
 Documentation
 -------------
-See [myPhysicsLab Documentation](http://www.myphysicslab.com/develop/docs/index.html)
+See [myPhysicsLab Documentation](https://www.myphysicslab.com/develop/docs/index.html)
 for overview of architecture and for detailed documentation of software.
 
 Building the documentation requires some additional tools, see
-[Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html#buildingthedocumentation)
+[Building myPhysicsLab Software](https://www.myphysicslab.com/develop/docs/Building.html#buildingthedocumentation)
 
 
 Examples
