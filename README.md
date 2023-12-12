@@ -33,18 +33,20 @@ To build from source code:
 2. Install the required tools:
 
     + [TypeScript](https://www.typescriptlang.org)
-        You should be able to execute `tsc --version` within the `myphysicslab` directory.
+        You should be able to execute `tsc --version` within
+        the `myphysicslab` directory.
         Making an alias in your `.bash_profile` like this might be helpful:
 
             alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc
 
     + [esbuild](https://esbuild.github.io)
-        Make a symbolic link to the `esbuild` executable within `myphysicslab` directory.
+        Make a symbolic link to the `esbuild` executable within
+        the `myphysicslab` directory.
 
             ln -s node_modules/esbuild/bin/esbuild esbuild
 
-        You should then be able to
-        execute `./esbuild --version` within the `myphysicslab` directory
+        You should then be able to execute
+        `./esbuild --version` within the `myphysicslab` directory
 
     + [Perl](https://www.perl.org)
 
@@ -107,7 +109,7 @@ has an example file which is mainly for development and testing. Find them in th
 
 History
 -------
-myPhysicsLab was started in 2000 using Java. From 2013 to 2016 the code was converted
+myPhysicsLab was started in 2001 using Java. From 2013 to 2016 the code was converted
 to JavaScript that depended on Google Closure Compiler.
 
 In 2023 the code was converted to TypeScript for a couple of reasons: to be able to

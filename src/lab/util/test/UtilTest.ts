@@ -225,7 +225,7 @@ function testUtil() {
   assertElementsEquals([7, 7, 7, 7], Util.repeat(7, 4));
   assertElementsEquals(['foo', 'foo', 'foo'], Util.repeat('foo', 3));
 
-  // ensure that goog.asserts is working
+  // ensure that Util.assert is working
   let b = 1;
   try {
     Util.assert(false);
