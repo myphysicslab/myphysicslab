@@ -27,39 +27,38 @@ To build from source code:
 1. Download the myPhysicsLab source code from
     <https://github.com/myphysicslab/myphysicslab>. You can download a zip file
     from that github page, or use
-    `git clone https://github.com/myphysicslab/myphysicslab.git`
+
+        git clone https://github.com/myphysicslab/myphysicslab.git
 
 2. Install the required tools:
 
-+ [TypeScript](https://www.typescriptlang.org)
-    You should be able to execute `tsc --version` within the `myphysicslab` directory.
-    Making an alias in your `.bash_profile` like this might be helpful:
-    `alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc`
+    + [TypeScript](https://www.typescriptlang.org)
+        You should be able to execute `tsc --version` within the `myphysicslab` directory.
+        Making an alias in your `.bash_profile` like this might be helpful:
 
-+ [esbuild](https://esbuild.github.io)
-    Make a symbolic link to the `esbuild` executable within `myphysicslab` directory:
-    `ln -s node_modules/esbuild/bin/esbuild esbuild`. You should then be able to
-    execute `./esbuild --version` within the `myphysicslab` directory
+            alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc
 
-+ [Perl](https://www.perl.org)
+    + [esbuild](https://esbuild.github.io)
+        Make a symbolic link to the `esbuild` executable within `myphysicslab` directory.
 
-+ [GNU Make](https://www.gnu.org/software/make/)
+            ln -s node_modules/esbuild/bin/esbuild esbuild
 
-+ Optional: [TypeDoc](https://typedoc.org)
-    is only needed if you want to build the documentation.
-    Make a symbolic link to the `typedoc` executable within `myphysicslab` directory:
-    `ln -s node_modules/typedoc/bin/typedoc typedoc`. You should then be able to
-    execute `./typedoc --version` within the `myphysicslab` directory
+        You should then be able to
+        execute `./esbuild --version` within the `myphysicslab` directory
 
-3. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
+    + [Perl](https://www.perl.org)
+
+    + [GNU Make](https://www.gnu.org/software/make/)
+
+3. Execute `tsc` at the command line. This will compile all the typescript `.ts` files
     to become JavaScript `.js` files in the `build` directory.
 
 4. Execute `make` at the command line.
-    This will create `.html` files for all applications and tests in all language
-    versions. Execute `make help` to see available options.
+    This will create `.html` files in the `build` directory for all applications
+    and tests in all language versions. Execute `make help` to see available options.
 
 5.  Open the file `/build/index-en.html` with a browser. This has
-    links to all the files that were built.
+    links to all the example files that were built.
 
 See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html)
 for more information about the build process.
@@ -72,10 +71,9 @@ Here are some hints about installing tools, this was on MacOS. Following
 I used `HomeBrew` to install `node`, and then used node's `npm` to install the other
 tools locally inside the myphysicslab directory:
 
-    cd myphysicslab
-    npm install typescript
-    npm install esbuild
-    npm install typedoc
+        cd myphysicslab
+        npm install typescript
+        npm install esbuild
 
 Those commands create some directories and files (for example `node_modules`) inside
 the myphysicslab directory that are unrelated to the myphysicslab project. The
@@ -84,17 +82,20 @@ myphysicslab project.
 
 Test whether your installation is ready to build myphysicslab:
 
-    cd myphysicslab
-    tsc --version
-    ./esbuild --version
-    perl --version
-    make --version
+        cd myphysicslab
+        tsc --version
+        ./esbuild --version
+        perl --version
+        make --version
 
 
 Documentation
 -------------
 See [myPhysicsLab Documentation](http://www.myphysicslab.com/develop/docs/index.html)
 for overview of architecture and for detailed documentation of software.
+
+Building the documentation requires some additional tools, see
+[Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html#buildingthedocumentation)
 
 
 Examples
