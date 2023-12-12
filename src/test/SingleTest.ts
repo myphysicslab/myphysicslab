@@ -26,9 +26,6 @@ import scheduleTests from "../lab/util/test/UtilTest.js";
 //import scheduleTests from "../lab/util/test/VectorTest.js";
 
 /** Runs a single test, useful for debugging.
-
-Unlike other tests, the makefile does not set `GOOG_DEBUG` to false for this test, so
-`Util.DEBUG` should be true when this is compiled.
 */
 export function runSingleTest() {
   startTests();

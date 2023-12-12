@@ -58,9 +58,6 @@ import VectorTest from "../lab/util/test/VectorTest.js";
 import VertexTest from "../lab/engine2D/test/VertexTest.js";
 
 /** Runs several unit tests.
-
-Unlike other tests, the makefile does not set `GOOG_DEBUG` to false for this test, so
-`Util.DEBUG` should be true when this is compiled.
 */
 export function runUnitTests() {
   startTests();
