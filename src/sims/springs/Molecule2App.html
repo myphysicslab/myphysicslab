@@ -1,0 +1,83 @@
+#comment Copyright 2016 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.experimental.BlankSlateApp
+#include "#TOP_DIR/macros.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH</h1>
+#HEADER_BAR
+
+&nbsp;
+
+<div id="sim_canvas">
+</div>
+<div id="sim_controls" class="control_group">
+</div>
+<div id=graph_div>
+</div>
+<!-- the "onsubmit=return false" is to prevent the page from reloading after
+enter key is typed in the text input field.
+-->
+<form id="script_terminal" onsubmit="return false;">
+  <label>command:<input type="text" id="term_input" size="80"></label>
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
+</form>
+
+<p>This demonstrates building a spring-mass simulation with MoleculeSim by writing a
+script in the HTML file. The HTML file loads BlankSlateApp and then executes a Terminal
+script to build the simulation.
+</p>
+
+<script src="../experimental/BlankSlateApp-#LOCALE.js"></script>
+<script>
+  (function build() {
+    var elem_ids = {
+      sim_canvas: 'sim_canvas',
+      sim_controls: 'sim_controls',
+      term_output: 'term_output',
+      term_input: 'term_input',
+      images_dir: '#IMAGES_DIR'
+    };
+    app = new mpl.BlankSlateApp(elem_ids);
+    app.defineNames('app');
+  }());
+</script>
+#SHOW_ALL
+#START_APP
+<script>
+app.eval(
+"var simRect = new DoubleRect(-3, -2, 3, 2);\
+simView.setSimRect(simRect);\
+var sim = new MoleculeSim();\
+simCtrl.setEventHandler(sim);\
+var advance = new SimpleAdvance(sim);\
+var simRun = new SimRunner(advance);\
+var simList = sim.getSimList();\
+var rbo = new RigidBodyObserver(simList, displayList);\
+displayList.find('walls').setFillStyle('');\
+var d = 0.5;\
+var p1 = PointMass.makeCircle(d);\
+p1.setPosition(new Vector(-1, 1));\
+sim.addAtom(p1);\
+var p2 = PointMass.makeCircle(d);\
+p2.setPosition(new Vector(1, -1));\
+sim.addAtom(p2);\
+var s1 = new Spring('s1', p1, Vector.ORIGIN, p2, Vector.ORIGIN, 2, 10);\
+sim.addSpring(s1);\
+displayList.find(s1).setWidth(0.25);\
+var axes = new DisplayAxes(simView.getSimRect());\
+displayList.add(axes);\
+simRun.resume();"
+);
+</script>
+#PAGE_FOOTER
+</body>
+</html>

@@ -13,7 +13,7 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>sims/springs/MultiSpringApp #DEBUG_STATUS</h1>
+<h1>sims/springs/MultiSpringApp</h1>
 
 <!--
 * Demonstrates two independent versions of a simulation running simultaneoulsy on a
@@ -31,7 +31,6 @@
 #HEADER_BAR
 #define #APP_NUM 1
 #CONTROLS_CONTAINER
-#COMPILED_MENU
 
 <p style="clear: both;">Second version:</p>
 
@@ -41,7 +40,7 @@
 #define #APP_NUM 2
 #CONTROLS_CONTAINER
 
-#TEST_PAGE{springs/single-spring/single-spring}
+#PAGE_INFO
 
   <p>This demonstrates two independent versions of a simulation running
     simultaneoulsy on a single page. Also demonstrates customizing
@@ -53,27 +52,27 @@
 #LOREM_IPSUM
 
 #LOAD_APP
-  <script>
-  (function() {
-    #define #APP_NUM 1
-    #ELEM_IDS
-    app1 = makeSingleSpringApp(elem_ids1);
-    app1.defineNames('app1');
-    app1.eval('SPRING_STIFFNESS=10;DAMPING=0.01;RUNNING=true');
-    app1.start();
-  })();
-  </script>
-  <script>
-  (function() {
-    #define #APP_NUM 2
-    #define #TAB_LIST_ID tab_list2
-    #ELEM_IDS
-    app2 = makeSingleSpringApp(elem_ids2);
-    app2.defineNames('app2');
-    app2.eval('RUNNING=true;');
-    app2.start();
-  })();
-  </script>
+<script>
+(function() {
+  #define #APP_NUM 1
+  #ELEM_IDS
+  app1 = new mpl.SingleSpringApp(elem_ids1);
+  app1.defineNames('app1');
+  app1.eval('SPRING_STIFFNESS=10;DAMPING=0.01;RUNNING=true');
+  app1.start();
+})();
+</script>
+<script>
+(function() {
+  #define #APP_NUM 2
+  #define #TAB_LIST_ID tab_list2
+  #ELEM_IDS
+  app2 = new mpl.SingleSpringApp(elem_ids2);
+  app2.defineNames('app2');
+  app2.eval('RUNNING=true;');
+  app2.start();
+})();
+</script>
 #SHOW_ALL
 #PAGE_FOOTER
 </body>

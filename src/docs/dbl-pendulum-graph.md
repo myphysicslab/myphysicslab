@@ -54,7 +54,7 @@ Here is an example Python program for graphing numeric data from the Double Pend
     plt.show()
 
 It produces this graph
-<img src='dbl-pendulum-graph.png'>
+<img src='dbl-pendulum-graph.png' width='640' height='480'>
 
 The data file begins with the following lines
 
@@ -76,4 +76,8 @@ The data file begins with the following lines
     0.35	0.06	-1.37	0.28	0.95
     0.38	0.03	-1.31	0.31	0.81
 
+
+&nbsp;
+
+&nbsp;
 

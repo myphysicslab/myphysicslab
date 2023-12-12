@@ -12,18 +12,13 @@ below.
 
 Open the terminal window by clicking the "terminal" checkbox.
 
-<img src='TerminalWindow.jpg'>
+<img src='TerminalWindow.jpg' width='1350' height='1368'>
 &nbsp;
-
-Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
-version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it in the
-[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
 Type `help` in the command box (and hit return of course) to see available Terminal
 commands.
 
-Set your desired initial conditions on the simulation. 
+Set your desired [initial conditions](Set_Initial_Conditions.html) on the simulation.
 
 Find the names of the variables by typing `names` into the Terminal command box. For the
 [Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true)
@@ -59,30 +54,32 @@ the lines at once.)
     simRun.addMemo(memo);
     memo.memorize();
 
-To memorize the starting initial conditions, we call the `memorize()` function once before starting the simulation.
+To memorize the starting initial conditions, call the `memorize()` function once before
+starting the simulation.
 
-You can modify the `printVar` function to format the numbers however you want.
+Modify the `printVar` function to format the numbers however you want.
 For example you can use
 [Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
 or one of the `myphysicslab.lab.Util` number format functions like
-[Util.NF5E](myphysicslab.lab.util.Util.html#NF5E).
+[Util.NF5E](./classes/lab_util_Util.Util.html#NF5E).
 
 To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true;var%20angle1=sim.getVarsList().getVariable('ANGLE_1');var%20angle1v=sim.getVarsList().getVariable('ANGLE_1_VELOCITY');var%20angle2=sim.getVarsList().getVariable('ANGLE_2');var%20angle2v=sim.getVarsList().getVariable('ANGLE_2_VELOCITY');var%20timeVar=sim.getVarsList().getVariable('TIME');var%20printVar=(v)=>v.getValue().toFixed(3);var%20memo=new%20GenericMemo(function(){println(printVar(timeVar)+'\t'+printVar(angle1)+'\t'+printVar(angle1v)+'\t'+printVar(angle2)+'\t'+printVar(angle2v))});pause;simRun.addMemo(memo);memo.memorize();) (and click the "play" button).
 
 Run the simulation as long as you want. Click the "stop" button (or use a script to
 automatically stop at a certain time). You will see output like this:
 
-<img src='dbl-pendulum-data2.png'>
+<img src='dbl-pendulum-data2.png' width='1528' height='1316'>
 
-You can then select the numeric text, copy and paste to a spreadsheet or text file.
-For example I was able to generate this graph from the Double Pendulum with a
+Select the numeric text, copy and paste to a spreadsheet or text file.
+For example, here is a graph generated from the Double Pendulum with a
 [simple Python program](dbl-pendulum-graph.html).
 
-<img src='dbl-pendulum-graph.png'>
+<img src='dbl-pendulum-graph.png' width='640' height='480'>
 
 ## Change Time Interval for Printing
 
-If you want to print less data, you can modify the script to use a time interval. The `lastPrint` variable remembers when we last printed data.
+To print less data, modify the script to use a time interval. The `lastPrint` variable
+remembers when we last printed data.
 
 
     var angle1 = sim.getVarsList().getVariable('ANGLE_1');
@@ -106,9 +103,12 @@ If you want to print less data, you can modify the script to use a time interval
     simRun.addMemo(memo);
     memo.memorize();
 
-(Note that we use 0.24 instead of 0.25 to get output every 0.25 seconds, because the underlying time step is 0.025 and numerical errors mean time is not always an exact multiple of 0.025.)
+(Note we use 0.24 instead of 0.25 to get output every 0.25 seconds, because the
+underlying time step is 0.025 and numerical errors mean time is not always an exact
+multiple of 0.025.)
 
-Here is output from running the above script in the Double Pendulum simulation. Time is in the first column.
+Here is output from running the above script in the Double Pendulum simulation. Time is
+in the first column.
 
     0.000	0.393	0.000	0.000	0.000
     0.250	0.202	-1.363	0.173	1.185

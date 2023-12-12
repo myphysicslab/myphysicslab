@@ -21,17 +21,22 @@ Contents of this page:
     + [Command Short Names][]
 + [Miscellaneous Script Locations][]
     + [Memorizable][]
-    + [ExpressionVariable][]
+    + [FunctionVariable][]
     + [ClockTask][]
     + [GenericObserver][]
 
 Additional information:
 
-+ See [myPhysicsLab Architecture](Architecture.html) for an introduction to classes
++ [Setting Initial Conditions](Set_Initial_Conditions.html)
++ [Getting Numbers with VarsHistory](GetNumbers1.html) to get simulation data over time
++ [Getting Numbers with Javascript](GetNumbers2.html) to get simulation data over time
++ [Getting Collision Data](GetNumbers3.html)
++ [Stop Simulation at a Certain Time](StopScript.html) and other similar tasks.
++ [myPhysicsLab Architecture](Architecture.html) has an introduction to classes
     and interfaces.
-+ See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
++ [myPhysicsLab Documentation](index.html) has detailed documentation of classes and
     interfaces.
-+ See [Building myPhysicsLab Software](Building.html) for information about building,
++ [Building myPhysicsLab Software](Building.html) has information about building,
     testing, internationalization, and general programming issues.
 
 
@@ -64,7 +69,7 @@ the section below about *Customizing with EasyScript*.
 
 EasyScript allows setting any Parameter or Variable of an application.
 
-EasyScript is a very simple scripting language with just one command:
+EasyScript is a simple scripting language with just one command:
 assignment. Here is an example of an EasyScript that you can use in
 [PendulumApp](https://www.myphysicslab.com/pendulum/pendulum-en.html)
 
@@ -131,7 +136,7 @@ specified in that case.
 Here are some ways to use EasyScript:
 
 + Click the **Share Button** which displays a
-    [URL query script](myphysicslab.lab.util.Terminal.html#urlqueryscript)
+    [URL query script](./classes/lab_util_Terminal.Terminal.html#md:url-query-script)
     that replicates the current simulation state. You can then copy the
     URL to the clipboard and paste it in an email.
 
@@ -163,7 +168,7 @@ EasyScript can be mixed with JavaScript, see [Customizing with JavaScript][] bel
 
 See [Customizing the Start-Up HTML Page][] below for more ways to use EasyScript.
 
-See [EasyScriptParser documentation](myphysicslab.lab.util.EasyScriptParser.html) for
+See [EasyScriptParser documentation](./classes/lab_util_EasyScriptParser.EasyScriptParser.html) for
 more details.
 
 
@@ -173,19 +178,6 @@ more details.
 Using JavaScript to customize a simulation allows access to the full set of classes and
 methods of myPhysicsLab, as well as anything that can be done with JavaScript.
 
-JavaScript can only be used with
-[simple-compiled](Building.html#advancedvs.simplecompile) applications. The simulations
-on the myPhysicsLab website are mostly advance-compiled, but there is available a
-[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
-
-The `help` command in [Terminal][Terminal for Script Execution] tells whether the
-application has been simple-compiled or advance-compiled. When advanced-compile is
-used, the names of myPhysicsLab classes and methods are renamed to minimized names, so
-they cannot be called from a script that references the original names. See also the
-section
-[Advanced-compile disables JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compiledisablesjavascript)
-in Terminal documentation.
-
 JavaScript can be put in `<script>` tags on an HTML page. See the section below about
 [Customizing the Start-Up HTML Page][]. In this case the JavaScript is directly
 evaluated by the browser when the page is loaded.
@@ -194,21 +186,18 @@ Everywhere else (other than on the start-up HTML page), JavaScript is evaluated 
 [Terminal][Terminal for Script Execution] class which does some
 transformations and imposes some restrictions:
 
-+ Terminal restricts code to a "safe subset" of JavaScript to prevent execution of
-    malicious scripts.
-
 + Terminal enables usage of some "short names" which are expanded to the actual
     JavaScript identifiers. For example, you can write `PointMass` instead of
-    `myphysicslab.lab.model.PointMass`.
+    `lab$model$PointMass` which is the global identifier for that class.
 
 + Terminal evaluates both EasyScript and JavaScript. They can be mixed together
     and the `result` variable can be used after evaluating EasyScript to access
     the value of a Parameter in JavaScript.
 
-See the [documentation about Terminal](myphysicslab.lab.util.Terminal.html) for details
-about these transformations and restrictions.
+The [documentation about Terminal](./classes/lab_util_Terminal.Terminal.html)
+has details about these transformations.
 
-See the section [Terminal Utilities][] below for helpful commands. For example, the
+The section [Terminal Utilities][] below has some helpful commands. For example, the
 `vars` command shows the names of available variables.
 
 Here are places to put scripts which will be evaluated by Terminal:
@@ -218,78 +207,61 @@ Here are places to put scripts which will be evaluated by Terminal:
 
 2. **URL Query:** This combines the URL of the simulation with a script to execute after
     the page loads. See
-    [URL Query Script](myphysicslab.lab.util.Terminal.html#urlqueryscript)
+    [URL Query Script](./classes/lab_util_Terminal.Terminal.html#md:url-query-script)
     in the Terminal documentation.
 
-3. **HTML Local Storage:** A script can be put in the user's local storage so that it
-    is executed the next time the page is loaded. See the section about
-    [Script Storage](myphysicslab.lab.util.Terminal.html#scriptstorage) in Terminal
-    documentation where the methods `remember`, `forget`, and `recall`
-    are described.
-
-4. **Use `app.eval()`:** On the start-up HTML page, in a `<script>` tag, you can call
+3. **Use `app.eval()`:** On the start-up HTML page, in a `<script>` tag, you can call
     the application's `eval` method which executes the script via Terminal.
 
-5. See [Miscellaneous Script Locations][] for ways to execute a script at a future time.
+4. See [Miscellaneous Script Locations][] for ways to execute a script at a future time.
 
 Here is an example of JavaScript commands which can be pasted into the Terminal input
-area while running
-[DoublePendulumApp](myphysicslab.sims.pendulum.DoublePendulumApp.html).
-You can try it with the online
-[simple-compiled DoublePendulumApp](http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html).
+area of
+[DoublePendulumApp](http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html).
 
-    simRun.pause();
     simRun.reset();
-    sim.setGravity(5.0);
-    statusView.getDisplayList().add(energyGraph);
-    statusView.getDisplayList().add(displayClock);
     var va=sim.getVarsList();
     va.setValue(0, 0.15545);
     va.setValue(1, -0.33548);
     va.setValue(2, -2.30681);
     va.setValue(3, 2.68179);
     sim.saveInitialState();
+    sim.setGravity(5.0);
+    statusView.getDisplayList().add(energyGraph);
+    statusView.getDisplayList().add(displayClock);
     simRun.resume();
 
 Those commands will restart the simulation from the specified initial conditions, set
 gravity to a certain value and show the EnergyBarGraph and DisplayClock.
+The [DoublePendulumApp documentation](./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html)
+has more information about that specific simulation.
+
 
 
 
 # Customizing the Start-Up HTML Page
 
 It is possible to customize a simulation by adding scripts to the
-[start-up HTML page](Architecture.html#start-uphtmlfile). You
-don't need to install Closure Compiler because the start-up HTML page loads the
-compiled code which defines various myPhysicsLab classes.
+[start-up HTML page](Architecture.html#start-uphtmlfile).
 
-You will, however, need to **install the new HTML file somewhere** (such as your local
+You will need to **install the modified HTML file somewhere** (such as your local
 machine or a web server), as well as any other files that are needed such as
 
 + the compiled JavaScript application, for example `PendulumApp-en.js`
 + image files, for example icons on the play-pause controls such as `rewind.png`
 + CSS style file, for example `stylesheet.css`
 
-Whether the JavaScript application is simple-compiled or advanced-compiled determines
-what kind of scripting can be used. See
-[Advanced vs. Simple Compile](Building.html#advancedvs.simplecompile).
-
-If you are **customizing with EasyScript**, you can use either advanced-compiled or
-simple-compiled code. In the application's Start-Up HTML file you can execute
+In the application's Start-Up HTML file you can execute
 EasyScript via the application's `eval` method. Here is an example from the file
 `PendulumApp.html` which runs
-[PendulumApp](http://www.myphysicslab.sims.pendulum.PendulumApp.html)
+[PendulumApp](./classes/sims_pendulum_PendulumApp.PendulumApp.html)
 
     <script>
     app.eval('DRIVE_AMPLITUDE=0; DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; ANGLE_VELOCITY=0;');
     </script>
 
-If you are **customizing with JavaScript**, then you
-**must use the simple-compiled** version of the application, so that you have full
-access to all of the objects, properties, and methods.
-
 Here is an example of JavaScript that can be added to `SingleSpringApp.html`
-to customize [SingleSpringApp](myphysicslab.sims.springs.SingleSpringApp.html). The
+to customize [SingleSpringApp](./classes/sims_springs_SingleSpringApp.SingleSpringApp.html). The
 commands are executed in Terminal via `app.eval`.
 
     <script>
@@ -314,12 +286,12 @@ variables stay local and do not become global variables.
 
 The compiled JavaScript application **determines what classes are available** for
 scripting. Usually the compiled JavaScript file contains code for only a single
-simulation and application (the application builds the various pieces such as the
+simulation and application (the application instantiates the various pieces such as the
 simulation, the display and user interface). But it is possible to include several
 simulation and application classes in a compiled JavaScript file.
 
 An example of **multiple simulations in one JavaScript file** is
-[TerminalSpringApp](myphysicslab.sims.springs.TerminalSpringApp.html) which includes
+[TerminalSpringApp](./classes/sims_springs_TerminalSpringApp.TerminalSpringApp.html) which includes
 most of the spring simulations (those in the namespace `myphysicslab.sims.springs`).
 Each HTML file can have a script which instantiates and runs any of those
 simulations. The following HTML files both use `TerminalSpringApp.js` but show
@@ -339,7 +311,7 @@ different simulations:
 The Terminal class provides a **command line interface** that allows executing script
 commands, both EasyScript and JavaScript, and displays the results of those commands.
 See the above section [Customizing with JavaScript][] for more about using JavaScript.
-See the [Terminal documentation](myphysicslab.lab.util.Terminal.html) for more details.
+See the [Terminal documentation](./classes/lab_util_Terminal.Terminal.html) for more details.
 
 In most myPhysicsLab applications the Terminal input and output text areas can be made
 visible by **clicking the "Terminal" checkbox**, as seen in this screenshot:
@@ -361,8 +333,7 @@ can be given in one line.
 
 Some useful utilities available in Terminal:
 
-+ `help` shows useful commands, and whether the current application is simple or
-    advanced compiled.
++ `help` shows useful commands, and the compilation date.
 
 + `vars` shows the names of available variables. For example there are usually
     variables named `app` for the application and `sim` for the simulation.
@@ -372,7 +343,7 @@ Some useful utilities available in Terminal:
 
 + `prettyPrint(app)` inserts carriage returns and indentation to make the `toString()`
     result more readable. Synonym for
-    [Util.prettyPrint](myphysicslab.lab.util.Util.html#Util.prettyPrint).
+    [Util.prettyPrint](./classes/lab_util_Util.Util.html#prettyPrint).
 
 
 + `prettyPrint(app, 5)` does prettyPrinting with indentation level of 5 instead of
@@ -380,20 +351,14 @@ Some useful utilities available in Terminal:
 
 + `methodsOf(app)` shows the available methods that can be called on the object.
     Synonym for
-    [Util.methodsOf](myphysicslab.lab.util.Util.html#Util.methodsOf).
+    [Util.methodsOf](./classes/lab_util_Util.Util.html#methodsOf).
 
 + `propertiesOf(app)` shows the names of properties of an object. Synonym for
-    [Util.propertiesOf](myphysicslab.lab.util.Util.html#Util.propertiesOf).
+    [Util.propertiesOf](./classes/lab_util_Util.Util.html#propertiesOf).
     Useful especially to see the what is defined on `app` which is the usual name for
     the application that creates the simulation.
 
 + `propertiesOf(app, true)` shows the properties and values of object `app`
-
-+ [Util.get](myphysicslab.lab.util.Util.html#Util.get) and
-    [Util.set](myphysicslab.lab.util.Util.html#Util.set)
-    can be used to access and modify arrays, which gets around the restrictions about
-    using square brackets in Terminal.
-    See [Safe Subset of JavaScript](myphysicslab.lab.util.Terminal.html#safesubsetofjavascript)
 
 
 ## Command Short Names
@@ -404,7 +369,7 @@ For example, in many applications we can type just
 
 + `sim` instead of `app.sim`
 + `simCanvas` instead of `app.layout.simCanvas`
-+ `PointMass` instead of `myphysicslab.lab.model.PointMass`
++ `PointMass` instead of `lab$model$PointMass`
 
 These short-names are implemented by defining a set of regular expression replacements
 which are applied to the Terminal input string.
@@ -414,19 +379,19 @@ short-names.
 
 The regular expressions for short-names are defined in two places:
 
-+ [Terminal.stdRegex](myphysicslab.lab.util.Terminal.html#Terminal.stdRegex) defines a
++ [Terminal.stdRegex](./classes/lab_util_Terminal.Terminal.html#stdRegex) defines a
     standard set of short-name regular expressions; mostly class names, but also useful
     functions like `prettyPrint`, `methodsOf`, `println` and `propertiesOf`.
 
 + Each application usually has a method called `defineNames` which defines short-name
     regular expressions unique to that application. See for example
     [DoublePendulumApp.defineNames]
-    (myphysicslab.sims.pendulum.DoublePendulumApp.html#defineNames).
+    (./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html#defineNames).
 
 For more information, see
-[Short Names](myphysicslab.lab.util.Terminal.html#shortnames) in the
-Terminal class documentation.  See the section
-[Global Variable Usage](Building.html#globalvariableusage) to learn
+[Short Names](./classes/lab_util_Terminal.Terminal.html#shortnames) in the
+Terminal class documentation.  See the section about
+[Global Variables](Building.html#globalvariables) to learn
 about what global variables are available, such as `app` and `myphysicslab`.
 
 
@@ -435,71 +400,66 @@ about what global variables are available, such as `app` and `myphysicslab`.
 Scripts can be set up to execute at a future time.
 
 + To execute a script repeatedly, use Memorizable.
-+ To create a variable whose value is defined by a script, use ExpressionVariable.
++ To create a variable whose value is defined by a script, use FunctionVariable.
 + To execute a script at a certain time, use ClockTask.
 + To execute a script when certain events occur, use GenericObserver.
 
 
 ## Memorizable
 
-[GenericMemo](myphysicslab.lab.util.GenericMemo.html) is a
-[Memorizable](myphysicslab.lab.util.Memorizable.html) which can be installed so that it
+[GenericMemo](./classes/lab_util_Memo.GenericMemo.html) is a
+[Memorizable](./interfaces/lab_util_Memo.Memorizable.html) which can be installed so that it
 is executed after each simulation time step.
 
 The documentation of GenericMemo shows an example that prints the value of a simulation
 variable into the Terminal output area. Here `simRun` is an instance of
-[SimRunner](myphysicslab.lab.app.SimRunner.html).
+[SimRunner](./classes/lab_app_SimRunner.SimRunner.html).
 
     var angle = sim.getVarsList().getVariable('ANGLE');
     var memo = new GenericMemo(()=> println('angle: '+angle.getValue()));
     simRun.addMemo(memo);
 
 That code can be entered as Terminal commands in
-[PendulumApp](myphysicslab.sims.pendulum.PendulumApp.html) if using simple-compile.
+[PendulumApp](./classes/sims_pendulum_PendulumApp.PendulumApp.html).
 
 
-## ExpressionVariable
+## FunctionVariable
 
-[ExpressionVariable](myphysicslab.lab.model.ExpressionVariable.html) is a Variable
-whose value is defined by a JavaScript expression which is evaluated using Terminal.
+[FunctionVariable](./classes/lab_model_FunctionVariable.FunctionVariable.html) is a
+Variable whose value is defined by a JavaScript function.
 
-An example of using ExpressionVariable is in
-[SingleSpringApp](myphysicslab.sims.springs.SingleSpringApp.html).
+An example of using FunctionVariable is in
+[SingleSpringApp](./classes/sims_springs_SingleSpringApp.SingleSpringApp.html).
 This adds a variable whose value is `sin(time)`:
 
     var va = sim.getVarsList();
-    va.addVariable(new ExpressionVariable(va, 'sin_time', 'sin(time)',
-        terminal, 'Math.sin(sim.getTime());'));
+    var fnv = new FunctionVariable(va, 'sin_time', 'sin(time)', () => Math.sin(sim.getTime()))
+    va.addVariable(fnv);
 
 The variable can then be displayed in a graph.
-
-[FunctionVariable](myphysicslab.lab.model.FunctionVariable.html) is similar but
-directly executes a JavaScript function instead of using Terminal to evaluate a script.
 
 
 ## ClockTask
 
-[ClockTask](myphysicslab.lab.util.ClockTask.html) holds a callback function to be
+[ClockTask](./classes/lab_util_Clock.ClockTask.html) holds a callback function to be
 executed at a specified time; it is used with a
-[Clock](myphysicslab.lab.util.Clock.html). The documentation of ClockTask shows an
+[Clock](./classes/lab_util_Clock.Clock.html). The documentation of ClockTask shows an
 example that pauses the Clock after 5 seconds:
 
     var task = new ClockTask(5, () => clock.pause());
     clock.addTask(task);
 
-This can be entered in Terminal if using simple-compile.
-
 
 ## GenericObserver
 
-A [GenericObserver](myphysicslab.lab.util.GenericObserver.html) observes a Subject;
+A [GenericObserver](./classes/lab_util_Observe.GenericObserver.html) observes a Subject;
 when the Subject broadcasts a SubjectEvent then this executes a specified function. See
 the section about [Subject-Observer](Architecture.html#subjectobserverparameter) in the
 Architecture overview.
 
 Here is an example of a GenericObserver that prints
-any event broadcast by a [Clock](myphysicslab.lab.util.Clock.html).
-This code can be entered in Terminal if using simple-compile.
+any event broadcast by a [Clock](./classes/lab_util_Clock.Clock.html).
+This code can be entered in Terminal
 
     var obs = new GenericObserver(clock, evt =>  println('event='+evt));
 
@@ -507,3 +467,7 @@ The next example prints only when a particular event occurs:
 
     var obs = new GenericObserver(clock, evt => {
         if (evt.nameEquals(Clock.CLOCK_PAUSE)) println('event='+evt)});
+
+&nbsp;
+
+&nbsp;

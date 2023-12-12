@@ -18,31 +18,19 @@ Source code is available at <https://github.com/myphysicslab/myphysicslab>.
 
 Building
 --------
-This software has only been built on MacOS. Building on any other platform (Windows,
-Linux) may be possible but will likely involve some significant modifications to the
-build instructions, and possibly to the makefile and other scripts.
-
 It is possible to customize a myPhysicsLab simulation without
 building from source code, see
 [Customizing myPhysicsLab Simulations](http://www.myphysicslab.com/develop/docs/Customizing.html).
 
 To build from source code the required tools are
 
-+ [Java 7 or higher](http://www.java.com)
++ [TypeScript](https://www.typescriptlang.org)
+
++ [esbuild](https://esbuild.github.io)
 
 + [Perl](https://www.perl.org)
 
 + [GNU Make](https://www.gnu.org/software/make/)
-
-+ [Closure Compiler](https://github.com/google/closure-compiler) Note that you don't
-    need to install Maven or NPM. Just go to their Maven repository, click on the
-    version you want, then click on the jar file to download it. myPhysicsLab compiles
-    with closure-compiler release v20210106.
-
-+ [Closure Library](https://github.com/google/closure-library) is a separate
-    download from Closure Compiler. It is a collection of JavaScript source
-    code. You can download a zip file from their github page or use
-    `git clone https://github.com/google/closure-library.git`.
 
 Once the prerequisites are on your system, follow these steps:
 
@@ -51,18 +39,13 @@ Once the prerequisites are on your system, follow these steps:
     from that github page, or use
     `git clone https://github.com/myphysicslab/myphysicslab.git`
 
-2. Copy the file `sampleConfig.mk` to `myConfig.mk` and edit `myConfig.mk` to
-    specify location of Closure Compiler in the `CLOSURE_COMPILER` variable.
+2. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
+    to become JavaScript `.js` files in the `build` directory. (Set your directory to
+    where the `makefile` is).
 
-3. Create a **symbolic link** to `closure-library` in the directory that has
-    the `makefile`. Example of how to create the symbolic link:
-
-        $ ln -s ../closure-library/closure/ closure-library
-
-4. Execute `make` at the command line. (Set your directory to where the `makefile` is).
-    This will compile all applications and tests in all language versions (using the
-    default option `COMPILE_LEVEL=simple`).
-    Execute `make help` to see available options.
+3. Execute `make` at the command line. (Set your directory to where the `makefile` is).
+    This will create `.html` files for all applications and tests in all language
+    versions. Execute `make help` to see available options.
 
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the files that were built.
@@ -83,10 +66,22 @@ for overview of architecture and for detailed documentation of software.
 Examples
 --------
 There are around 50 different simulations in the source code, each of which has
-has an example file which is mainly for development and testing.
+has an example file which is mainly for development and testing. Find them in the
+[examples index](https://www.myphysicslab.com/develop/build/index-en.html).
 
-The example files are available online in two forms:
-[advanced-compiled](https://www.myphysicslab.com/develop/adv-build/index-en.html)
-which loads faster and
-[simple-compiled](https://www.myphysicslab.com/develop/build/index-en.html)
-which allows for more customization.
+
+History
+-------
+myPhysicsLab was started in 2000 using Java. From 2013 to 2016 the code was converted
+to JavaScript using Google Closure Compiler. In 2023 the code was converted to
+TypeScript for a couple of reasons: to be able to generate documentation, and because
+[Google Closure Library is in Maintenance Mode](https://github.com/google/closure-library/issues/1214).
+
+Because of how modules work in TypeScript, sometimes several classes or interfaces
+are combined into a single file. For example the file `util/Observe.ts` contains what
+was previously in 10 separate files. This can make finding things a little harder
+in the new scheme.
+
+&nbsp;
+
+&nbsp;

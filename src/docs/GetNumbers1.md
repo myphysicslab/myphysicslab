@@ -7,8 +7,8 @@ HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1"
 # Getting Numbers with VarsHistory
 
 To get numeric data from a myPhysicsLab simulation using the VarsHistory class, follow the steps below.
-- See the [VarsHistory source code](https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/graph/VarsHistory.js)
-for details and all available options.
+- See [VarsHistory](./classes/lab_graph_VarsHistory.VarsHistory.html) for details
+    and all available options.
 - For more control over the output see
 [Getting Numbers with Javascript](GetNumbers2.html). 
 
@@ -16,13 +16,8 @@ Open the terminal window by clicking the "terminal" checkbox.
 
 &nbsp;
 
-<img src='TerminalWindow.jpg'>
+<img src='TerminalWindow.jpg' width='1350' height='1368'>
 &nbsp;
-
-Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
-version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it in the
-[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
 Type `help` in the command box (and hit return of course) to see available Terminal
 commands.
@@ -48,14 +43,14 @@ the end of that line, the semi-colon suppresses the output in Terminal).
 Here is how this would look in the
 [Double Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true) simulation.
 
-<img src='dbl-pendulum-data.png'>
+<img src='dbl-pendulum-data.png' width='1534' height='930'>
 
 The first line contains the names of the
 variables. You can then select the text, copy and paste to a spreadsheet or text file.
 For example I was able to generate this graph from the Double Pendulum with a
 [simple Python program](dbl-pendulum-graph.html).
 
-<img src='dbl-pendulum-graph.png'>
+<img src='dbl-pendulum-graph.png' width='640' height='480'>
 
 &nbsp;
 
@@ -72,7 +67,7 @@ Use `setNumberFormat` to change the number formatting function. For example to s
 You can use
 [Javascript's Number.toExponential](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential)
 or one of the `myphysicslab.lab.Util` number format functions like
-[Util.NF5E](myphysicslab.lab.util.Util.html#NF5E).
+[Util.NF5E](./classes/lab_util_Util.Util.html#NF5E).
 The above example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 but you can provide any function that takes one numeric argument and returns a string.  Here is an equivalent non-arrow function:
 

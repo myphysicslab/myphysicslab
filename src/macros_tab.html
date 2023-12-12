@@ -63,10 +63,10 @@
     </label>\
   </p>\
   <div id="div_terminal#APP_NUM">\
-    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
     <label style="display:inline-block">command &gt;\
       <input type="text" id="term_input#APP_NUM" size="80">\
     </label>\
+    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
   </div>\
 </div>
 
@@ -95,10 +95,10 @@
     </label>\
   </p>\
   <div id="div_terminal#APP_NUM">\
-    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
     <label style="display:inline-block">command &gt;\
       <input type="text" id="term_input#APP_NUM" size="80">\
     </label>\
+    <textarea id="term_output#APP_NUM" cols=80 rows=20 wrap="soft"></textarea> <br>\
   </div>\
 </div>
 
@@ -124,4 +124,4 @@
       images_dir: '#IMAGES_DIR'\
     };
 
-#define #INSTANTIATE_APP app = make#APP_NAME(elem_ids#APP_NUM);
+#define #INSTANTIATE_APP app = new mpl.#APP_NAME(elem_ids#APP_NUM);

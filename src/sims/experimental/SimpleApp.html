@@ -12,8 +12,10 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
+
+&nbsp;
 
 <div id="canvas_div"></div>
 <p>SimpleApp is a demonstration of using a minimal set of myPhysicsLab classes.</p>
@@ -23,11 +25,9 @@ simple math routine to move the objects instead of a differential equation. Ther
 no DiffEqSolver or Simulation classes involved. This sets up the LabCanvas and
 DisplayObjects and defines the callback that drives the animation.</p>
 
-#COMPILED_MENU
-
 #LOAD_APP
   <script>
-    makeSimpleApp();
+    mpl.makeSimpleApp();
   </script>
 #SHOW_ALL
 #PAGE_FOOTER

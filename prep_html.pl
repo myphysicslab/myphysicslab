@@ -16,10 +16,6 @@
 # @param {string} orderFile = file containing list of files for next/previous links,
 #        (or empty string). Available in #NEXT_LINK, #PREV_LINK macros.
 #
-# @param {string} COMPILE_LEVEL = "simple", "advanced", or "debug" indicates what level
-#        of compilation is being used for the accompanying JavaScript.
-#        "debug" means uncompiled JavaScript. Available in #COMPILE_LEVEL macro.
-#
 #
 # ------------ #define ----------------
 #
@@ -158,7 +154,7 @@
 # The included file can contain macro (rule) definitions or regular text content.
 #
 # Macro rules are applied to the name of the include file. This makes it possible to
-# include different files depending on variables like #LOCALE or #COMPILE_LEVEL.
+# include different files depending on variables like #LOCALE.
 # For example:
 #
 #     #include "macros-#LOCALE.html"
@@ -197,11 +193,6 @@
 # #LOCALE gives the two-letter ISO 639-1 locale (for example en, de) derived
 # from suffix of the target file name (for example -en, -de).
 # If target file doesn't end with a locale, then #LOCALE is empty string.
-#
-# #COMPILE_LEVEL indicates what level of compilation is being used for the
-# accompanying JavaScript. It is equal to the last argument passed to
-# prep_html: "advanced", "simple" or "debug".
-# "debug" means uncompiled JavaScript.
 #
 #
 # ---------- Next/Previous Links ------------------
@@ -324,7 +315,7 @@
 #        the rule since it would have same token).
 # TO DO: add a -d flag for debugging
 # TO DO: instead of the fourth argument being compiled, could define a general
-#        argument to create a macro with any name:  -macro(COMPILE_LEVEL=debug)
+#        argument to create a macro with any name:  -macro(COMPILE_OPTION=debug)
 
 use strict;
 use warnings;
@@ -375,13 +366,6 @@ if ($orderFile) {
 	$orderFile =~ /\.txt$/ or die "$0 ERROR ordering file $orderFile does not end with .txt";
 }
 
-# $COMPILE_LEVEL indicates whether running compiled JavaScript, or uncompiled JavaScript
-defined($ARGV[3]) or die "$0 ERROR COMPILE_LEVEL argument not specified";
-my $COMPILE_LEVEL = $ARGV[3];
-if ($COMPILE_LEVEL ne "simple" && $COMPILE_LEVEL ne "advanced" && $COMPILE_LEVEL ne "debug") {
-   die "$0 ERROR COMPILE_LEVEL=$COMPILE_LEVEL, must be simple, advanced, or debug";
-}
-
 $target =~ m{^(.*)/} or die "$0 ERROR cannot determine targetDir in target: $target";
 my $targetDir = $1;
 make_path("$targetDir");
@@ -406,7 +390,6 @@ if ($debug)	{
 	print STDERR "\$targetName=$targetName\n";
 	print STDERR "\$locale=$locale\n";
 	print STDERR "\$target=$target\n";
-	print STDERR "\$COMPILE_LEVEL=$COMPILE_LEVEL\n";
 }
 
 my $next_link = "";
@@ -614,9 +597,6 @@ $rule = 's/#NEXT_LINK\b#?/$next_link/g';
 addRule();
 
 $rule = 's/#PREV_LINK\b#?/$prev_link/g';
-addRule();
-
-$rule = 's/#COMPILE_LEVEL\b#?/$COMPILE_LEVEL/g';
 addRule();
 
 {

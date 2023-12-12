@@ -115,9 +115,6 @@ textarea {
 label {
   white-space: nowrap; /* keep checkbox and label text together */
 }
-div.slider {
-  display: inline;
-}
 label, div.slider {
   font-family: sans-serif;
   font-size: 90%;

@@ -27,16 +27,15 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
 
-#COMPILED_MENU
   <p id="test_results">Test results:<br></p>
 
 <script src="../../MachineName.js"></script>
 #LOAD_APP
 <!-- Have a small delay so that web page can update before test starts -->
-<script>setTimeout(runTests, 10);</script>
+<script>setTimeout(mpl.runPerformanceTests, 10);</script>
 #SHOW_ALL
 #PAGE_FOOTER
 </body>

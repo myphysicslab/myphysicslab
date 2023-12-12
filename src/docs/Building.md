@@ -32,9 +32,9 @@ Contents of this page:
     + [Performance Tests][]
 
 + [Internationalization (i18n)][]
+    + [How To Set Locale][]
     + [Localized Strings][]
     + [Language Independent Names][]
-    + [How To Set Locale][]
     + [Non-ASCII Characters][]
     + [File Naming Convention][]
     + [Separate File Per Locale][]
@@ -44,22 +44,14 @@ Contents of this page:
 
 + [Programming Details][]
     + [Macros in HTML Files][]
-    + [Advanced vs. Simple Compile][]
-    + [Debugging Compiled Code][]
-    + [Debugging (Running Uncompiled)][]
-    + [Global Variable Usage][]
-    + [Global Namespace Path][]
-    + [Exporting Symbols][]
+    + [Debugging][]
+    + [Global Variables][]
     + [toString() format][]
     + [toStringShort()][]
     + [Programming Style][]
     + [Documentation Guidelines][]
-    + [Enums][]
 
 + [References][]
-    + [Closure Compiler References][]
-    + [Closure Library References][]
-    + [Documentation Tools References][]
 
 Additional information:
 
@@ -96,21 +88,13 @@ source code, see [Customizing myPhysicsLab Simulations](Customizing.html).
 
 To build from source code the required tools are
 
-+ [Java 7 or higher](www.java.com)
++ [TypeScript](https://www.typescriptlang.org)
+
++ [esbuild](https://esbuild.github.io)
 
 + [Perl](https://www.perl.org)
 
 + [GNU Make](https://www.gnu.org/software/make/)
-
-+ [Closure Compiler](https://github.com/google/closure-compiler) Note that you don't
-    need to install Maven or NPM. Just go to their Maven repository, click on the
-    version you want, then click on the jar file to download it. myPhysicsLab compiles
-    with closure-compiler release v20210106.
-
-+ [Closure Library](https://github.com/google/closure-library) is a separate
-    download from Closure Compiler. It is a collection of JavaScript source
-    code. You can download a zip file from their github page or use
-    `git clone https://github.com/google/closure-library.git`.
 
 Once the prerequisites are on your system, follow these steps:
 
@@ -119,18 +103,13 @@ Once the prerequisites are on your system, follow these steps:
     from that github page, or use
     `git clone https://github.com/myphysicslab/myphysicslab.git`
 
-2. Copy the file `sampleConfig.mk` to `myConfig.mk` and edit `myConfig.mk` to
-    specify location of Closure Compiler in the `CLOSURE_COMPILER` variable.
+2. Execute `tsc` at the command line, this will compile all the typescript `.ts` files
+    to become JavaScript `.js` files in the `build` directory. (Set your directory to
+    where the `makefile` is).
 
-3. Create a **symbolic link** to `closure-library` in the directory that has
-    the `makefile`. Example of how to create the symbolic link:
-
-        $ ln -s ../closure-library/closure/ closure-library
-
-4. Execute `make` at the command line. (Set your directory to where the `makefile` is).
-    This will compile all applications and tests in all language versions (using the
-    default option `COMPILE_LEVEL=simple`).
-    Execute `make help` to see available options.
+3. Execute `make` at the command line. (Set your directory to where the `makefile` is).
+    This will create `.html` files for all applications and tests in all language
+    versions. Execute `make help` to see available options.
 
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the files that were built.
@@ -150,24 +129,8 @@ Use the command
 to see available targets and options. See comments in the `makefile` for more info.
 
 There are **variables used in `makefile`** which control important aspects of the
-build process. These variables have default values which can be overridden in
-`myConfig.mk` or via command-line arguments.
-
-+ `COMPILE_LEVEL` - determines whether using [Advanced vs. Simple Compile][] or
-    [Debugging (Running Uncompiled)][]. Examples:
-
-        make COMPILE_LEVEL=advanced
-        make COMPILE_LEVEL=simple
-        make COMPILE_LEVEL=debug
-
-+ `BUILD_DIR` – location of build directory relative to `makefile` location. The
-    `COMPILE_LEVEL` variable determines the default location for `BUILD_DIR` if not
-    specified. You can specify `BUILD_DIR` in `myConfig.mk` or at the command line when
-    giving the `make` command. Examples:
-
-        make BUILD_DIR=adv-build
-        make BUILD_DIR=build
-        make BUILD_DIR=debug
+build process. These variables have default values which can be overridden via
+command-line arguments.
 
 + `LOCALE` – selects which locale to use for [Internationalization (i18n)][], but only
     for single files specified with a shortcut (more about shortcuts below). Examples:
@@ -178,16 +141,8 @@ build process. These variables have default values which can be overridden in
 
     To build all apps for a particular locale use targets `apps-en` or `apps-de`.
 
-+ `GOOG_DEBUG` – turns on the `goog.DEBUG` flag which enables assertions (note that
-    assertions are removed under advanced compile). Examples:
-
-        make GOOG_DEBUG=true
-        make GOOG_DEBUG=false
-
-+ `UTIL_DEBUG` – turns on the `Util.DEBUG` flag which enables debug code. Examples:
-
-        make UTIL_DEBUG=true
-        make UTIL_DEBUG=false
++ `BUILD_DIR` – location of build directory relative to `makefile` location. 
+    The command `make BUILD_DIR=myBuild` changes location.
 
 The `makefile` contains **shortcuts for building applications**. For example, instead
 of typing:
@@ -199,40 +154,23 @@ You can just type
     make doublependulum
 
 The shortcut is the name of the application in all lowercase, minus the "app" suffix.
-You can add your own shortcuts to your `myConfig.mk`. For example, here is the makefile
-instruction that produces the above shortcut:
-
-    doublependulum: $(BUILD_DIR)/sims/pendulum/DoublePendulumApp_$(LOCALE).html
-
-You can combine the above options and shortcuts into a single command, for example:
-
-    make doublependulum COMPILE_LEVEL=advanced LOCALE=de
 
 
 ## Building the Documentation
 
-Building the documentation requires installation of Dossier and MultiMarkdown; see
+Building the documentation requires installation of Typedoc and MultiMarkdown; see
 [References][] for how to obtain these. After installing MultiMarkDown, you should be
 able to execute this command:
 
     multimarkdown -help
 
-To install Dossier follow the build instructions on the
-[Dossier website](https://github.com/jleyba/js-dossier). After installing Dossier, you
-should be able to execute a command like this (the path to `dossier.jar` is likely to
-be different on your system):
-
-    java -jar js-dossier/bazel-bin/src/java/com/github/jsdossier/dossier_deploy.jar --help
-
-Specify the location of `dossier.jar` on your system by
-**editing the `DOSSIER` variable** in your version of `myConfig.mk`.
-
-Dossier creates the documentation by compiling all of the source code (Dossier is
-actually a custom version of Closure Compiler), and interpreting comments as markdown.
-Some Dossier options are specified in the file `dossier_config.json`.
-
 MultiMarkDown is used to create documentation from markdown files such as
 `docs/Building.md`, `docs/Architecture.md` and `docs/Engine2D.md`.
+
+To install Typedoc, see <https://typedoc.org>.
+
+Typedoc creates the documentation by compiling all of the source code, and interpreting
+comments as markdown. Some Typedoc options are specified in the file `typedoc.json`.
 
 All of the documentation can be built with the command
 
@@ -240,7 +178,7 @@ All of the documentation can be built with the command
     open docs/index.html
 
 The file `docs/index.html` is the **home page** for the documentation, it is built by
-Dossier from the `src/docs/doc_start.md` markdown file.
+Typedoc from the `src/docs/doc_start.md` markdown file.
 
 To build only the markdown documentation use the command
 
@@ -265,14 +203,22 @@ See [References][] for information about obtaining OmniGraffle and LaTeX.
 
 ## Inside the Build Process
 
-![](Overview_Build_Process.svg)
+<img src='Overview_Build_Process.svg' width='533' height='550'>
 
 This section describes what happens in the build process.
 
 Once the environment has been set up, the `makefile` can handle building any
-myPhysicsLab application. The two main transformations are shown in the above diagram.
+myPhysicsLab application. The three main transformations are shown in the above diagram.
 
-1. The HTML application file – for example, `DoublePendulumApp.html` – is transformed
+1. TypeScript compiler `tsc` compiles all `.ts` files into the parallel locations in
+    the build directory. For example `src/sims/pendulum/DoublePendulumApp.ts`
+    is compiled to become `build/sims/pendulum/DoublePendulumApp.js`
+
+2. The `esbuild` tool bundles one Javascript file like `DoublePendulumApp.js`, along
+    with all other required files (specified by `import` statements in TypeScript)
+    into one localized file like `DoublePendulumApp-en.js`.
+
+3. The HTML application file – for example, `DoublePendulumApp.html` – is transformed
     via a perl script `prep_html.pl` to a language specific version –
     `DoublePendulumApp-en.html`– with various text transformations such as
     [internationalization][Internationalization (i18n)].
@@ -280,13 +226,6 @@ myPhysicsLab application. The two main transformations are shown in the above di
     transform text within the file, writing a new HTML file.  Many of the macros are
     defined in the file `src/macros.html`.
 
-2. The JavaScript application file – for example, `DoublePendulumApp.js` – is compiled
-    along with hundreds of other JavaScript files via the bash shell script
-    `compile_js.sh` to a single language-specific JavaScript file –
-    `DoublePendulumApp-en.js`. The `compile_js.sh` shell script runs the Closure
-    Compiler (which is a Java program). The JavaScript application is the "entry
-    point"; the compiler finds other JavaScript files to include by examining the
-    `goog.require` statements in the "entry point" file.
 
 The `makefile` also copies over all the image files in `src/images` to `build/images`
 and copies the CSS file `src/stylesheet.css` to `build/stylesheet.css`.
@@ -298,28 +237,9 @@ all of the applications. These links are automatically generated by the macros
 
 There are "index" files that are essentially a "table of contents" for all the
 myPhysicsLab apps. These index files (one for each language such as English and
-German) have links to all of the apps. The links should be in the same order as that
+German) have links to all of the apps. The links are in the order
 given by `src/index_order.txt`.
 
-Note that `sampleConfig.mk` is in the **source code repository** but `myConfig.mk` is
-not. This is because `myConfig.mk` is different in each developer's environment,
-therefore `myConfig.mk` is excluded from the repository (see the `.gitignore` file).
-Similarly, `sampleMachineName.js` is in the source repository, but `MachineName.js` is
-excluded because it will be different in each developer's environment.
-
-Some tools are located in directories which can be different on each developer's
-system. Their locations are specified as `make` variables (typically in the
-`myConfig.mk` file) or via the `closure-library` symbolic link.
-
-+ `CLOSURE_COMPILER` – (`make` variable specified in `myConfig.mk`) Java program that
-    compiles Javascript files; typical location is `closure-compiler/build/compiler.jar`
-
-+ `closure-library` – symbolic link to JavaScript files which define classes in the
-    `goog` namespaces. Also the Python program `depswriter.py` is located within
-    the `closure-library` files, see [Debugging (Running Uncompiled)][].
-
-+ `DOSSIER` – (`make` variable specified in `myConfig.mk`) Java program that creates
-    documentation from Javascript files.
 
 
 
@@ -329,12 +249,9 @@ For reference, the following describes the purpose and origin of the various fil
 
 + `myphysicslab` – top-level directory (can be named whatever you like)
 
-    + `adv-build` -- *(generated by `make`)* – Directory created by the command
-      `make COMPILE_LEVEL=advanced`. Contents are similar to `build` directory except
-      this uses advanced-compile for JavaScript files.
-
     + `build` – *(generated by `make`)* – Directory created by the command
-      `make COMPILE_LEVEL=simple`. Contains compiled applications and HTML files.
+      `tsc` when `outDir` is set to `build`. Contains compiled Javascript applications
+      and HTML files.
 
         + `images` – contains images used in applications; copy of `src/images/`
 
@@ -348,25 +265,11 @@ For reference, the following describes the purpose and origin of the various fil
 
         + `test` – contains compiled tests
 
-    + `closure-library` – *(created manually)* – a symbolic link to Closure Library
-        JavaScript files on your system, see [Build Instructions][].
+    + `convert.pl` – Perl script that partially converts from old Google Closure
+        Compiler based code to new Typescript code.
 
-    + `compile_js.sh` – runs the closure-compiler (which is a Java program)
-
-    + `compile_test.sh` – special compile script for unit tests
-
-    + `debug` – *(generated by `make`)* – Directory created by the command
-      `make COMPILE_LEVEL=debug`. Contents are similar to the `build` directory, except
-      this contains only HTML files, no JavaScript.
-      See [Debugging (Running Uncompiled)][].
-
-        + `deps.js` contains dependency information from `goog.require` and
-          `goog.module` statements in a single file; needed only when running from
-          uncompiled source code.
-
-    + `docs` – *(generated by `make`)* – Contains documentation built from source code.
-
-    + `dossier_config.json` – specifies options for Dossier documentation
+    + `docs` – *(generated by `make docs`)* – Contains documentation built from source
+       code with `typedoc`, and other docs build from `.md` files and other sources.
 
     + `LICENSE` – contains license information
 
@@ -376,35 +279,28 @@ For reference, the following describes the purpose and origin of the various fil
 
     + `makefile` – the instructions used by `make`
 
-    + `myConfig.mk` – *(created manually)* – Specifies information that is unique to
-       your development environment, such as where tools are located, build options,
-       etc. **Create this manually, by copying from `sampleConfig.mk`**
-       see [Build Instructions][].
-
     + `prep_html.pl` – transforms the HTML files into language-specific compiled
         versions, and does macro substitutions.
 
     + `README.md` – Project information
 
-    + `sampleConfig.mk` – sample version of `myConfig.mk`.
-
     + `sampleMachineName.js` – sample version of `MachineName.js`.
 
     + `src` – contains source code
 
-        + `docs` – contains source for documentation
+        + `docs` – contains sources for documentation. Large variety of file types.
 
-            + `doc_start.md` Dossier transforms this to be the documentation
+            + `doc_start.md` Typedoc transforms this to be the documentation
                 "home page" file `docs/index.html`
 
         + `images` – image files for user interface controls
 
-        + `index_order.txt` – lists the example HTML applications in order, used to
-            create the "next" and "previous" links in HTML files
+        + `index_order.txt` – lists the example HTML applications in order, used by
+            `prep_html.pl` to create the "next" and "previous" links in HTML files
 
         + `index.html` – links to all the example HTML applications
 
-        + `lab` – source code directory for myPhysicsLab library code
+        + `lab` – source code directory for general myPhysicsLab library code
 
         + `macros_tab.html` – defines text substitution macros, used for tab layout
 
@@ -415,7 +311,11 @@ For reference, the following describes the purpose and origin of the various fil
 
         + `sims` – source code directory for myPhysicsLab simulations and applications
 
-        + `test` – source code directory for myPhysicsLab tests and test viewers
+        + `test` – source code directory for myPhysicsLab tests and test viewer
+
+    + `tsconfig.json` – specifies options for Typescript compiler `tsc`
+
+    + `typedoc.json` – specifies options for Typedoc documentation generator
 
 The `make` variable `BUILD_DIR` specifies where to put compiled code, see
 [Customizing The Build Process][].
@@ -454,16 +354,6 @@ To build only the German versions:
     make apps-de
     open build/index-de.html
 
-To make [advanced-compiled versions][Advanced vs. Simple Compile] of all apps:
-
-    make COMPILE_LEVEL=advanced
-    open adv-build/index-en.html
-
-To make [debug versions][Debugging (Running Uncompiled)] of all apps:
-
-    make COMPILE_LEVEL=debug
-    open debug/index-en.html
-
 The "next" and "previous" links on each example page are generated by the
 `prep_html.pl` perl script, which gets the order by reading the file
 `src/index_order.txt`.
@@ -471,18 +361,18 @@ The "next" and "previous" links on each example page are generated by the
 Each application has two components:
 
 1. An HTML file that is opened in a browser and loads the JavaScript application.
-    This is typically named with the suffix `App.html` in the source files,
+    The source file is typically named with the suffix `...App.html`,
     for example `DoublePendulumApp.html`.
 
 2. The JavaScript file containing the application code. This is typically built from
-    a source file with the suffix `App.js`, for example `DoublePendulumApp.js`.
-    That file will include many other JavaScript files, but after compilation they are
-    all combined to a single JavaScript file.
+    a source file with the suffix `...App.js`, for example `DoublePendulumApp.js`.
+    That file will include many other JavaScript files, but after compilation and
+    bundling they are all combined to a single JavaScript file.
 
 When adding a new application follow these steps:
 
-1. Add the application to the list in `makefile` so that it is built as part of the
-    `make all` command.
+1. Add the application to appropriate places in `makefile` so that it is
+    built as part of the `make all` command.
 
 2. Add the application to the list in `src/index_order.txt`.
 
@@ -495,47 +385,31 @@ When adding a new application follow these steps:
 ## Unit Tests
 
 These are commands that will build and run the unit tests using various options for
-compilation level and locale:
+locale:
 
-+ English simple-compiled unit tests
++ English tests
 
         make unittest
         open build/test/UnitTest-en.html
 
-+ German simple-compiled unit tests
++ German tests
 
         make unittest LOCALE=de
         open build/test/UnitTest-de.html
 
-+ English debug-compiled unit tests
-
-        make unittest COMPILE_LEVEL=debug
-        open debug/test/UnitTest-en.html
-
-+ German debug-compiled unit tests
-
-        make unittest COMPILE_LEVEL=debug LOCALE=de
-        open debug/test/UnitTest-de.html
-
-+ English advanced-compiled unit tests
-
-        make unittest COMPILE_LEVEL=advanced
-        open adv-build/test/UnitTest-en.html
-
 Unit tests are contained in `/test` subdirectories of many namespaces, for example in
-`myphysicslab.lab.util.test`.
+`lab/util/test`, or `lab/engine2D/test`.
 
-To debug a unit test more easily, run it uncompiled by itself (perhaps by modifying
-`SingleTest.js`). See [Debugging (Running Uncompiled)][]. The error messages will then
-refer to line numbers in source files, which are far easier to interpret than line
-numbers in a compiled file.
+To debug a unit test more easily, use
+[SingleTest](./modules/test_SingleTest.html)
+and remove the `--minify` flag from the `esbuild` command in `makefile`.
 
 *Note that the unit test coverage is far from complete!*
 
 
 ## Engine2D Tests
 
-[Engine2DTests](myphysicslab.test.Engine2DTests.html) are a set of tests of the
+[Engine2DTests](./modules/test_Engine2DTests.html) are a set of tests of the
 `myphysicslab.lab.engine2D` namespace.
 
 These tests are mainly useful as a warning that the behavior of the physics engine has
@@ -543,24 +417,11 @@ changed. This can happen when changes are made to the physics engine or when bro
 behavior changes (because of an update to a browser). These tests don't specify
 "correct" behavior, but rather the historical expected behavior.
 
-To run simple-compiled engine2D tests execute the commands
-
-    make test COMPILE_LEVEL=simple
-    open build/test/Engine2DTests-en.html
-
-To run advanced-compiled engine2D tests execute the commands
-
-    make test COMPILE_LEVEL=advanced
-    open adv-build/test/Engine2DTests-en.html
-
-To debug engine2D tests see [Debugging (Running Uncompiled)][] and execute
-the commands
-
-    make test COMPILE_LEVEL=debug
-    open debug/test/Engine2DTests-en.html
+To run engine2D tests, open the file `build/test/Engine2DTests-en.html` in a browser.
 
 The engine2D tests will run the simulation, usually
-[ContactSim](myphysicslab.test.ContactSim.html), without any user interface view or
+[ContactSim](./classes/lab_engine2D_ContactSim.ContactSim.html), without any user
+interface view or
 controller. A typical test will create the simulation, set up initial conditions, run
 the simulation for a set amount of time, and then analyze the resulting simulation
 state. Typically the simulation variables are compared to a pre-computed "good" state.
@@ -572,73 +433,45 @@ possible that the *expected results* for tests need to be modified. Changing the
 expected results should be avoided unless you are sure that the changes you've made are
 correct.
 
-[SingleTest](myphysicslab.test.SingleTest.html) runs a single test and is useful
+[SingleTest](./modules/test_SingleTest.html) runs a single test and is useful
 for debugging a test.
 
 
 ## TestViewerApp
 
-[TestViewerApp](myphysicslab.test.TestViewerApp.html) is an application that
+[TestViewerApp](./classes/test_TestViewerApp.TestViewerApp.html) is an application that
 provides the ability to interactively run the tests found in
-[Engine2DTests](myphysicslab.test.Engine2DTests.html).
+[Engine2DTests](./modules/test_Engine2DTests.html).
 This is useful to ensure that the tests are functioning as designed, and for debugging.
 
-To run simple-compiled TestViewerApp execute the commands
-
-    make testviewer COMPILE_LEVEL=simple
-    open build/test/TestViewer-en.html
-
-To run advanced-compiled TestViewerApp execute the commands
-
-    make testviewer COMPILE_LEVEL=advanced
-    open adv-build/test/TestViewer-en.html
-
-To debug TestViewerApp, see [Debugging (Running Uncompiled)][]
-and execute the commands
-
-    make testviewer COMPILE_LEVEL=debug
-    open debug/test/TestViewer-en.html
+TO run it, open the file `build/test/TestViewerApp-en.html` in a browser.
 
 TestViewerApp has a set of menus for selecting which test to run. It looks for global
 functions whose name ends `_setup` and includes those in the menus. Therefore these
 `_setup` functions must be exported, see [Exporting Symbols][].
 
 TestViewerApp only does the *setup* portion of the test, it won't check the test
-results. It is useful for understanding what a test is doing, and in some cases for
-debugging a test.
+results.
 
 Note that subtle differences can occur in TestViewerApp which can make the results
 different from when tests are run by Engine2DTestRig. There are many options available
 with ContactSim, so you need to be careful to make sure they are the same in both
 places when debugging.  The state of the
-[random number generator](myphysicslab.lab.util.RandomLCG.html) is particularly
+[random number generator](./classes/lab_util_Random.RandomLCG.html) is particularly
 important; the test setup function should set the seed of the random number generaotor
 for this reason.
 
 
 ## Performance Tests
 
-[PerformanceTests](myphysicslab.test.PerformanceTests.html) runs a small set of
+[PerformanceTests](./modules/test_PerformanceTests.html) runs a small set of
 performance tests of the engine2D physics engine.
 
 **Copy the file `sampleMachineName.js`** to `MachineName.js` and edit the file to have
 a unique name for your development machine.
 
-To run uncompiled engine2D performance tests see [Debugging (Running Uncompiled)][]
-and execute the commands
-
-    make perf COMPILE_LEVEL=debug
-    open debug/test/PerformanceTests-en.html
-
-To run simple-compiled engine2D performance tests execute the commands
-
-    make perf COMPILE_LEVEL=simple
-    open build/test/PerformanceTests-en.html
-
-To run advanced-compiled engine2D performance tests execute the commands
-
-    make perf COMPILE_LEVEL=advanced
-    open adv-build/test/PerformanceTests-en.html
+To run engine2D performance tests open the file `build/test/PerformanceTests-en.html`
+in a browser.
 
 A performance test gets an **expected time limit** from properties defined in
 `src/test/ExpectedPerf.js`. Each combination of test, browser, and machine has a
@@ -674,22 +507,10 @@ To set the locale when building an application, set the `LOCALE` variable during
 
 The
 [ISO 639-1 language code](http://www.loc.gov/standards/iso639-2/php/English_list.php)
-is a two-letter lowercase code. For example, English is `en`, and German is `de`. The
-Closure Library property `goog.LOCALE` stores this language code. `goog.LOCALE` is a
-constant so that under [advanced-compile mode][Advanced vs. Simple Compile] the other
-language strings are not included in the compiled version.
-
-The `goog.LOCALE` symbol is set as part of the compilation process by giving the
-compiler option `define=goog.LOCALE='de'`. The `makefile` does this automatically
-depending on what file is requested to be built, see [Customizing The Build Process][].
-
-When [Debugging (Running Uncompiled)][], you can add a `goog.define` command to the
-HTML file like this:
-
-    <script>
-    goog.define('goog.LOCALE', 'de');
-    goog.require('myphysicslab.sims.pendulum.DoublePendulumApp');
-    </script>
+is a two-letter lowercase code. For example, English is `en`, and German is `de`.
+The `LOCALE` variable seen in the `makefile` is inserted into the compiled code
+via the `esbuild` option `--define:MPL_LOCALE='"en"'`. This defines the `MPL_LOCALE` variable which is then stored into
+[Util.LOCALE](./classes/lab_util_Util.Util.html#LOCALE).
 
 
 ## Localized Strings
@@ -698,26 +519,22 @@ Most classes have a static `i18n` property where localized strings are stored. S
 are defined in versions for each supported language. The localized strings are found at
 the end of a class file. Here is an example with English and German:
 
-    /** Set of internationalized strings.
-    @typedef {{
+    type i18n_strings = {
       TIME_STEP: string,
       DISPLAY_PERIOD: string
-      }}
-    */
-    SimRunner.i18n_strings;
+    }
 
-    SimRunner.en = {
+    static readonly en: i18n_strings = {
       TIME_STEP: 'time step',
       DISPLAY_PERIOD: 'display period'
     };
 
-    SimRunner.de_strings = {
+    static readonly de_strings: i18n_strings = {
       TIME_STEP: 'Zeitschritt',
       DISPLAY_PERIOD: 'Bild Dauer'
     };
 
-    SimRunner.i18n = goog.LOCALE === 'de' ? SimRunner.de_strings :
-        SimRunner.en;
+    static readonly i18n = Util.LOCALE === 'de' ? SimRunner.de_strings : SimRunner.en;
 
 Code that refers to `SimRunner.i18n.TIME_STEP` will use the localized version of that
 string in the current locale.
@@ -729,7 +546,7 @@ For scripting purposes it is often necessary to have a language independent name
 so that a script can work regardless of the current locale. A language independent
 name is **derived from the English version** of the name by running it through
 the function
-[Util.toName()](myphysicslab.lab.util.Util.html#Util.toName)
+[Util.toName()](./classes/lab_util_Util.Util.html#toName)
 which turns the name into all caps and replaces spaces and dashes with underscores. For
 example:
 
@@ -741,7 +558,7 @@ will return `'TIME_STEP'`. Equivalently, you can use the property name:
 
 Many methods that deal with finding objects by name will do the `toName()` conversion
 automatically. For example, in the following code fragment, the
-[VarsList.getVariable()](myphysicslab.lab.model.VarsList.html#getVariable) method
+[VarsList.getVariable()](./classes/lab_model_VarsList.VarsList.html#getVariable) method
 converts the input argument string `'angle-1'` to the language independent form
 `'ANGLE_1'`:
 
@@ -752,20 +569,20 @@ converts the input argument string `'angle-1'` to the language independent form
 Other methods that *convert an input string argument to a language independent version*
 include:
 
-+ [SimObject.nameEquals()](myphysicslab.lab.model.SimObject.html#nameEquals)
++ [SimObject.nameEquals()](./interfaces/lab_model_SimObject.SimObject.html#nameEquals)
 
-+ [SubjectEvent.nameEquals()](myphysicslab.lab.util.SubjectEvent.html#nameEquals) This
-    is inherited by `Parameter` and `Variable` as well.
++ [SubjectEvent.nameEquals()](./interfaces/lab_util_Observe.SubjectEvent.html#nameEquals)
+    This is inherited by `Parameter` and `Variable` as well.
 
-+ [ParametricPath.nameEquals()](myphysicslab.lab.model.ParametricPath.html#nameEquals)
++ [ParametricPath.nameEquals()](./interfaces/lab_model_ParametricPath.ParametricPath.html#nameEquals)
 
-+ [DiffEqSolver.nameEquals()](myphysicslab.lab.model.DiffEqSolver.html#nameEquals)
++ [DiffEqSolver.nameEquals()](./interfaces/lab_model_DiffEqSolver.DiffEqSolver.html#nameEquals)
 
-+ [RigidBodySim.getBody()](myphysicslab.lab.engine2D.RigidBodySim.html#getBody)
++ [RigidBodySim.getBody()](./classes/lab_engine2D_RigidBodySim.RigidBodySim.html#getBody)
 
-+ [Subject.getParameter()](myphysicslab.lab.util.Subject.html#getParameter)
++ [Subject.getParameter()](./interfaces/lab_util_Observe.Subject.html#getParameter)
 
-+ [VarsList.getVariable()](myphysicslab.lab.model.VarsList.html#getVariable)
++ [VarsList.getVariable()](./classes/lab_model_VarsList.VarsList.html#getVariable)
 
 Using the above methods helps avoid errors like the following from
 `RigidBodyRollerApp`:
@@ -794,14 +611,15 @@ section about Special Characters.
 
 ## File Naming Convention
 
-Compilation with Closure Compiler results in a JavaScript file that is targeted for a particular locale, depending on the setting of `goog.LOCALE`. The HTML web
-page decides which localized compiled version to load.
-
-This is reflected in the *file naming convention*.
 The **last characters of a file name specify the locale**, for example
 `DoublePendulumApp-en.html` is the English version which loads
 `DoublePendulumApp-en.js`, whereas `DoublePendulumApp-de.html` is the German version
 which loads `DoublePendulumApp-de.js`.
+
+Bundling with `esbuild` creates a JavaScript file that is targeted for a particular
+locale, depending on the setting of the `LOCALE` variable in the `makefile`. So we
+typically make a separate bundled file for each language locale. The HTML web page then
+decides which localized compiled version to load.
 
 The `makefile` handles the details about how to produce the desired localized version,
 you only have to tell it the name of the file you want to build, and the `makefile`
@@ -817,6 +635,10 @@ Equivalently, you can use the shortcut name and specify the locale like this:
 See [Customizing The Build Process][].
 
 ## Separate File Per Locale
+
+*Note: before 2023, myPhysicsLab was built with the Google Closure Compiler.
+Since 2023 myPhysicsLab is built with TypeScript and esbuild.
+But the following approach to i18n is still in place, for now.*
 
 This approach of having a **separate file for each locale** is recommended in the book
 [*Closure: The Definitive Guide*][References] by Michael Bolin:
@@ -849,13 +671,13 @@ This approach of having a **separate file for each locale** is recommended in th
 
 >*From Closure: The Definitive Guide, by Michael Bolin, p. 67.*
 
-The code size savings only happen with
-[ADVANCED compilation][Advanced vs. Simple Compile] which removes dead code. When
-myPhysicsLab is compiled with SIMPLE compilation – which is necessary to use some types
-of [scripting](Customizing.html) – then there are no savings of code size, in fact all
-the strings for each locale are included, but only one set of locale strings are used.
+The code size savings only happen when using the Google Closure Compiler with
+"advanced" compilation which removes dead code. When
+myPhysicsLab is compiled by bundling with `esbuild` there are no savings of code size,
+in fact all the strings for each locale are included, but only one set of locale
+strings are used.
 
-Nonetheless, it is still most practical to **regard the locale as fixed** when the web
+It is most practical to **regard the locale as fixed** when the web
 page loads so that we don't have to rebuild or modify user interface controls when
 switching locale. Plus we may want to provide translated text on the web page itself,
 which usually requires having a separate web page per locale.
@@ -904,7 +726,8 @@ language-independent names. These include:
 
 + SimObject names other than Polygon (because not used for generating variable names)
 
-For example in [SimList](myphysicslab.lab.model.SimList.html) there are GenericEvents
+For example in [SimList](./classes/lab_model_SimList.SimList.html) there are
+GenericEvents
 that occur when objects are added or removed; SimList defines only language independent
 names for these:
 
@@ -912,7 +735,7 @@ names for these:
     SimList.OBJECT_REMOVED = 'OBJECT_REMOVED';
 
 Using the static property reference `SimList.OBJECT_ADDED` rather than the literal
-string 'OBJECT_ADDED' will result in smaller code under advanced-compile and will
+string 'OBJECT_ADDED' will
 remain correct in case the string is ever changed.
 
 
@@ -941,7 +764,7 @@ words starting with a hash-tag. for example:
     </head>
     <body>
     #SITE_LOGO
-    <h1>#APP_PATH #DEBUG_STATUS</h1>
+    <h1>#APP_PATH</h1>
     #HEADER_BAR
     #CONTROLS_CONTAINER
 
@@ -956,306 +779,48 @@ script interprets text-replacement rules defined in the `macros.html` and
 See the documentation at the start of `prep_html.pl` for more information.
 
 
-## Advanced vs. Simple Compile
+## Debugging
 
-The simulations on the myPhysicsLab website are mostly advance-compiled, but there is
-available a
-[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
+In the `makefile` find the `esbuild` command and remove the `--minify` option. Then the
+generated code will look just like it does in the source code.
 
-Google [Closure Compiler][References] is used to compile the myPhysicsLab code.
-Closure Compiler has many options, but the most important is
-[compilation_level](https://developers.google.com/closure/compiler/docs/compilation_levels)
-which can be set to:
+There are various debugging flags that can be turned on in the code.
 
-1. **WHITESPACE_ONLY** removes comments and whitespace (useful for debugging).
++ [Util.DEBUG](./classes/lab_util_Util.Util.html#DEBUG) is widely used
 
-2. **SIMPLE**  minimizes local variables; removes comments and whitespace.
++ [CollisionAdvance](./classes/lab_model_CollisionAdvance.CollisionAdvance.html)
+    has ways to set various levels of debugging messages by specifiying
+    [WayPoint](./enums/lab_model_CollisionAdvance.WayPoint.html) or
+    [DebugLevel](./enums/lab_model_CollisionAdvance.DebugLevel.html)
 
-3. **ADVANCED** minimizes all code that is not global or [exported][Exporting Symbols];
-    removes "dead code" that can never be reached from the entry point of the program;
-    rewrites code to logically equivalent but shorter versions in many cases.
++ [ComputeForces](./classes/lab_engine2D_ComputeForces.ComputeForces.html#compute_forces)
+    has a debug boolean argument that can be turned on in the code.
 
-*Minimize* means that names of functions, variables, classes, interfaces, etc. are
-renamed to very short names. Another term for *minimization* is *obfuscation* because
-the resulting code is unreadable by humans. Here is an example of how code looks after
-advanced-compile:
+## Global Variables
 
-    function vc(a,b){return new I(a.h+(b.M()-a.f)/a.a,a.g+(a.c-(b.K()+b.D()))/
-    a.b,a.h+(b.M()+b.G()-a.f)/a.a,a.g+(a.c -b.K())/a.b)}function wc(a,b){return new
-    H(J(a,b.u()),xc(a,b.s()))}function J(a,b){return a.f+(b-a.h)*a.a}function
-    xc(a,b){return a.c-(b-a.g)*a.b};
+**TO BE WRITTEN**
 
-The main advantage of advanced-compile is that the resulting code is **smaller** –
-about 20% of the size compared to simple-compile. As a result, page load time is much
-faster: from roughly 3 seconds with simple-compile to 0.5 second with advanced-compile.
++ `mpl` created by `esbuild --global-name=mpl`
 
-The main disadvantage of advanced-compile is that we **cannot use JavaScript scripts**
-to customize a simulation at runtime. See
-[Customizing myPhysicsLab Simulations](Customizing.html) and
-[Advanced-compile disables JavaScript](myphysicslab.lab.util.Terminal.html#advanced-compiledisablesjavascript).
++ `app` and various others?
 
-The myPhysicsLab `makefile` has a variable named `COMPILE_LEVEL` that determines which
-compilation level is used. `COMPILE_LEVEL` also determines the value of `BUILD_DIR` –
-what directory the resulting files are output to (if `BUILD_DIR` is not already set).
-`COMPILE_LEVEL` can be set to:
++ all the classes, like `lab$util$Vector`, these are for usage in Terminal scripts
 
-+ `COMPILE_LEVEL=advanced` also sets `BUILD_DIR=adv-build`
-+ `COMPILE_LEVEL=simple` also sets `BUILD_DIR=build`
-+ `COMPILE_LEVEL=debug` also sets `BUILD_DIR=debug`. Creates the HTML file that runs
-    from source code, see [Debugging (Running Uncompiled)][]
+**OLD TEXT TO REWRITE**
 
-The [Util.ADVANCED](myphysicslab.lab.util.Util.html#ADVANCED) flag is set
-to `true` when advanced-compile is used. This flag is mostly used to avoid defining
-`toString` functions under advanced-compile.
-
-See the following pages for more information about Closure Compiler:
-
-+ [Closure Compiler Compilation Levels](https://developers.google.com/closure/compiler/docs/compilation_levels)
-    explains simple and advanced compilation
-
-+ [Advanced Compilation and Externs](https://developers.google.com/closure/compiler/docs/api-tutorial3)
-    explains problems to watch for with advanced compilation
-
-## Debugging Compiled Code
-
-If you need to debug compiled code, be aware of the following compiler flags that
-format the compiled code to be more readable.
-
-+ `--debug` prevents names being minimized and obfuscated
-+ `--formatting=PRETTY_PRINT` maintains line breaks similar to original code
-+ `--formatting=PRINT_INPUT_DELIMITER` adds a comment for every new input file
-    processed, so you can tell what file the compiled code is from.
-
-
-## Debugging (Running Uncompiled)
-
-It is possible to run myPhysicsLab simulations from
-**uncompiled JavaScript source code** which makes debugging easier. Running from
-source code preserves line numbers and symbols which makes error messages and stack
-traces easy to interpret.
-
-In contrast, advanced-compiled code is very difficult to interpret because of
-minimization of symbols. Even simple-compiled code is concatenated into very long lines
-that don't correspond to the source code, and local variable names are minimized.
-
-[Python 2.7](https://www.python.org) or above is required in order to create the
-`deps.js` file. The `deps.js` file is created automatically by the `makefile` when you
-specify `COMPILE_LEVEL=debug`. It is created by using the
-[depswriter.py](https://developers.google.com/closure/library/docs/depswriter) tool
-which is supplied in [Closure Library][Closure Library References].
-
-See also the section below [Generating closure-library's deps.js][].
-
-To run, for example, [DoubleSpringApp](myphysicslab.sims.springs.DoubleSpringApp.html)
-from source code:
-
-    make doublespring COMPILE_LEVEL=debug
-    open debug/sims/springs/DoubleSpringApp-en.html
-
-The rest of this section gives more details about how the process of running from
-source code works.
-
-Running from uncompiled source code requires a different way of loading the Google
-Closure Library and the myPhysicsLab code. This is why the start-up HTML file is very
-different in the uncompiled case versus the compiled case.
-
-+ For **compiled code**, the JavaScript code from many source files is compiled into a
-    single JavaScript file. The start-up HTML file loads the compiled JavaScript code
-    with a script like this:
-
-        <script src='DoubleSpringApp-en.js'></script>
-
-    The compiled code *defines* the classes needed for the application, it does not
-    instantiate the application and start it running.
-    See [Start-Up HTML File](Architecture.html#start-uphtmlfile) for more information.
-
-
-+ For **uncompiled code**, the start-up HTML file calls Closure Library file `base.js`,
-    and also a dependency file `deps.js` which tells for each class where to find it's
-    source code and what its required classes are. Then the class of interest is loaded
-    with a `goog.require` statement (which causes a cascade of all other needed classes
-    to be loaded first). Here is an example from
-    `debug/sims/springs/DoubleSpringApp-de.html`:
-
-        <script src='../../../closure-library/goog/base.js'></script>
-        <script src='../../deps.js'></script>
-        <script>
-          goog.define('goog.LOCALE', 'de');
-          goog.define('goog.DEBUG', true);
-          goog.require('myphysicslab.sims.springs.DoubleSpringApp');
-        </script>
-
-Note that `closure-library` is a symbolic link to wherever Closure Library is on your
-system, see [Build Instructions][].
-
-Setting `goog.LOCALE` (seen in the script above) is optional, if you leave that out
-then the default locale will be used. Similarly for `goog.DEBUG`, setting it is
-optional.
-
-See also:
-[Debugging Uncompiled Source Code](https://github.com/google/closure-compiler/wiki/Debugging-Uncompiled-Source-Code).
-
-### Generating closure-library's deps.js
-
-When running from uncompiled source code, there is an extra step needed to generate
-the closure-library's `deps.js` file.
-
-To initially download closure-library, you can download a zip file from their github
-page at <https://github.com/google/closure-library/>, or use `git clone`.
-
-    git clone https://github.com/google/closure-library.git
-
-You will then need to install [npm](https://www.npmjs.com/get-npm). Go to the
-closure-library directory and run
-
-    npm install
-
-Thereafter, whenever you update closure-library, run this command to update the
-`closure/goog/deps.js` file
-
-    npm run gen_deps_js
-
-Note that after doing `npm install` there will be two versions within the closure-library directory:
-
-+ closure-library/node_modules/google-closure-library/
-+ closure-library/closure/goog/
-
-Therefore it is important that the symbolic link to `closure-library` that is made in
-the myphysicslab directory, that this go to only one of those two versions. In fact, it
-needs to be a link to `closure-library/closure/` so that we are also able to run the
-python program to generate the myphysicslab `deps.js` file. The makefile calls that
-python program with this command:
-
-    python ./closure-library/bin/build/depswriter.py \
-    --root_with_prefix="src ../../src" > $@
-
-See also:
-+ [unable to generate deps.js](https://github.com/google/closure-library/issues/1109#)
-+ [many compile errors after `npm install`](https://github.com/google/closure-library/issues/1111)
-
-## Global Variable Usage
-
-myPhysicsLab applications are written to
-**minimize the number of global variables created**. For most applications there are
-only four global variables created:
-
-+ **`myphysicslab`** is the root object of the myPhysicsLab namespace which contains
-    the definitions of all the classes needed for the given application. For example,
-    in a simple-optimized application, you can find the constructor
-    `myphysicslab.lab.model.GravityLaw` at the end of a chain of properties starting
-    with the `myphysicslab` object.
-
-+ **`app`** is the application that has been instantiated (the symbol `app`
-    can vary). It will typically have properties for its simulation, canvas, and many
-    other objects. For example, you can reference the simulation as `app.sim` in many
-    cases. Storing the application object in a global variable ensures that it and
-    anything it refers to will not be garbage collected.
-
-+ **`goog`** is the global namespace object holding the Closure Library.
-
-+ **`COMPILED`** is created by the Closure Library, it indicates that the code
-    has been compiled.
-
-Of these, only `app` can be renamed to avoid conflicts with other namespaces.
-
-There is an additional global variable for the current machine name but this is only
-needed for [Performance Tests][].
-
-
-## Global Namespace Path
-
-**NOTE: THIS IS ALL CHANGING AS OF JAN 2018... CONVERTING TO USE GOOG.MODULE**
-See https://github.com/google/closure-library/wiki/goog.module:-an-ES6-module-like-alternative-to-goog.provide
-
-
-Each object must be accessible from the global namespace, otherwise it is garbage
-collected. Conversely, to free an object we simply erase any references to it that are
-visible from the global namespace. In JavaScript, global variables are properties of
-the window object.
-
-The myPhysicsLab classes are accessible via the `myphysicslab` global variable. Object
-instances are accessible via the application object, often stored in the global variable
-called `app`.
-
-Classes are grouped into *namespaces* by a naming convention. For example, the class
-PointMass is in the namespace `myphysicslab.lab.model`. These namespace names are
-actual JavaScript objects which you can examine directly, as in this
-[Terminal](Customizing.html#terminal:forscriptexecution) session:
-
-    myphysicslab
-    // [object Object]
-    propertiesOf(myphysicslab)
-    // lab,sims
-    propertiesOf(myphysicslab.lab)
-    // app,controls,graph,model,util,view
-    propertiesOf(myphysicslab.lab.model)
-    // CoordType,ShapeType
-    methodsOf(myphysicslab.lab.model)
-    // AbstractMassObject,AbstractODESim,AbstractSimObject,AdaptiveStepSolver,
-        AdvanceStrategy,Arc,ConcreteLine,ConcreteVariable,DiffEqSolver,
-        DiffEqSolverSubject,EnergyInfo,EnergySystem,EulersMethod,ExpressionVariable,
-        Force,ForceLaw,Line,MassObject,ModifiedEuler,ODEAdvance,ODESim,PointMass,
-        RungeKutta,SimList,SimObject,SimpleAdvance,Simulation,Spring,Variable,VarsList
-    propertiesOf(myphysicslab.sims)
-    // layout,springs
-    methodsOf(myphysicslab.sims.springs)
-    // SingleSpringApp,SingleSpringSim
-
-Note that the list of objects shown is a small subset of what is available.
-This is because the compilation process selects which classes
-are needed and only includes those. The above session was run within the
-SingleSpringApp simulation compiled with simple-compile, so only the classes needed by
-that simulation have been
-included. This process of selecting which classes are needed is governed by the
-**`goog.module` and `goog.require`**
-statements that are at the top of each source code file.
-
-The namespace path symbols are subject to minimization when advance-compiled. To avoid
-minimization of symbols see [Exporting Symbols][] below.
-
-
-## Exporting Symbols
-
-[Advanced-compilation][Advanced vs. Simple Compile] minimizes names of any objects that
-are not global variables (in JavaScript a global is a property of the `window` object).
-For example, `myphysicslab.lab.model.PointMass` will become something like
-`myphysicslab.g.s.a3` when advance-compiled.
-
-Under advanced-compilation, you can specify that a symbol should be **exported**, and
-then the entire pathname of that object will remain intact.
-
-Exporting can be done in two ways:
-
-1. An `@export` tag is added to the comments of a method or property; the compiler
-    interprets this and the symbol not minimized.
-
-2. Use the Closure Library functions `goog.exportSymbol` or
-    `goog.exportProperty` to specify symbols that should not be minimized.
-
-The main usage of exporting symbols in myPhysicsLab is:
-
-+ for an application's `makeApp` function, so that it can be instantiated from the
-    [Start-Up HTML File](Architecture.html#start-uphtmlfile).
-
-+ for certain application methods such as `setup`, `start`, `eval` which are called
-    from the start-up HTML file.
-
-+ in [Engine2D Tests][], the functions whose name ends with '_setup' are added to the
-    list of tests that can be run in [TestViewerApp][], even when advanced-compiled.
-
-Exporting symbols has no effect with simple-compiled programs.
-
-See [Advanced Compilation and Externs](https://developers.google.com/closure/compiler/docs/api-tutorial3)
-for discussion of when and how to export symbols.
-
-
+No global variables are created other than two root global variables: {--the
+`myphysicslab` global holds all of the myPhysicsLab classes;--} and a global variable is
+created for an application instance. This application global is created outside of the
+"App.js" file in the HTML where the constructor is called. The name of that global
+variable holding the application (usually `app`) is passed to `app.defineNames()`
+method so that short-names in scripts can be properly expanded.
 
 
 ## toString() format
 
 The `toString()` method should print a format that looks somewhat
 **like a JavaScript object literal** preceded by the name of the class. Here is an
-example of a [PointMass](myphysicslab.lab.model.PointMass.html) object; note that there
+example of a [PointMass](./classes/lab_model_PointMass.PointMass.html) object; note that there
 are nested Vector objects inside it.
 
     PointMass{
@@ -1283,7 +848,7 @@ are nested Vector objects inside it.
       height_: 0.8
     }
 The indentation shown above is done automatically by the function
-[Util.prettyPrint](myphysicslab.lab.util.Util.html#Util.prettyPrint).
+[Util.prettyPrint](./classes/lab_util_Util.Util.html#prettyPrint).
 Without pretty-printing, the above output of `toString()` looks like this:
 
     PointMass{name_: "BLOCK", expireTime_: Infinity, mass_: 0.5, loc_world_: Vector{x:
@@ -1291,18 +856,13 @@ Without pretty-printing, the above output of `toString()` looks like this:
     0, cm_body_: Vector{x: 0, y: 0}, zeroEnergyLevel_: null, moment_: 0, shape_: 1,
     width_: 0.4, height_: 0.8}
 
-The `toString()` method should have an `if (Util.ADVANCED)` statement that disables the
-code under advanced-compile. This is because we don't do debugging or JavaScript
-scripting under advanced-compile, and this makes the resulting compiled code size
-smaller.
-
 
 ## toStringShort()
 
 There is an alternate version of `toString()` called `toStringShort()` which prints
 **minimal identifying information** for the object, often just the class name and the
 name of the object. Many myPhysicsLab classes implement the
-[Printable](myphysicslab.lab.util.Printable.html) interface which specifies
+[Printable](./interfaces/lab_util_Util.Printable.html) interface which specifies
 the `toStringShort()` method. There are two reasons for using the `toStringShort()`
 method:
 
@@ -1352,13 +912,6 @@ those style guidelines are mostly followed by myPhysicsLab code.
 + Use markdown in comments.  See [Documentation Tools References][] about `Dossier`
     and `CommonMark`. HTML tags can be
     used as well, for example `<img>` and `<pre>` tags.
-
-+ Each class should have a `toString()` method that uses `Util.ADVANCED`
-    to disable its code under advanced-compile. The `toString` method
-    should appear right after the constructor.
-
-+ The `toString()` method should list actual property names, so that those
-    properties can be easily examined in Terminal or console.
 
 The order of items in a JavaScript source code file is as follows:
 
@@ -1410,128 +963,11 @@ Here are general documentation guidelines:
 6. Supply links to relevant classes, to functions within the class, or to other docs.
 
 
-## Enums
-
-The following describes how enums are defined and used in myphysicslab. This is based on
-how closure compiler defines enums, see [Closure Compiler References][] for more
-information.
-
-The reasons to use an enum include:
-
-+ an enum activates compile-time checking, which ensures that only valid enum values
-    are used.
-
-+ an enum provides documentation and clarity about the meaning of the enum values.
-
-+ an enum can define the set of allowed values and the corresponding set of "choice"
-    strings that can be used in a user interface menu.
-
-Here is an example enum, for which the underlying type is *string*:
-
-```
-/** DrawingMode enum, specifies how the line of a graph is drawn.
-* @enum {string}
-*/
-myphysicslab.lab.view.DrawingMode = {
-  DOTS: 'dots',
-  LINES: 'lines'
-};
-```
-An enum can take several forms:
-
-+ the enum value, for example `myphysicslab.lab.view.DrawingMode.DOTS`
-
-+ the underlying string or numeric value, for example 'dots'
-
-+ a localized choice string; for example 'Dots' or 'Punkte' depending on the current
-    language
-
-The standard names for converting among these forms is
-
-+ `stringToEnum` or `numberToEnum`
-+ `choiceToEnum`
-+ `enumToChoice`
-
-Because an enum can be used as its underlying type there is no `enumToNumber` or
-`enumToString`.
-
-An enum value can be used as its underlying type (string, number, or boolean), but to
-go the other way you must use a function like `numberToEnum` or `stringToEnum`. Think of
-it like this:
-
-+ every enum value has a certain underlying value (a string, number, or boolean)
-
-+ not every string, number, or boolean corresponds to a valid enum
-
-
-In myPhysicsLab, some enums also define functions that return the set of valid
-enum values:
-
-+ `getValues` returns the set of valid enums.
-
-+ `getChoices` returns the localized string versions of the enums in `getValues`.
-
-Those are used to define the allowed set of choices and values for a
-[ParameterString](myphysicslab.lab.util.ParameterString.html)
-or [ParameterNumber](myphysicslab.lab.util.ParameterNumber.html),
-which can then present a menu to the user with a
-[ChoiceControl](myphysicslab.lab.controls.ChoiceControl.html).
-
-
-
 # References
 
+[esbuild](https://esbuild.github.io)
 
-## Closure Compiler References
-
-[Annotating JavaScript for the Closure Compiler](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler)
-lists tags and type expressions that Closure Compiler understands.
-
-[Closure: The Definitive Guide](http://shop.oreilly.com/product/0636920001416.do) by
-Michael Bolin, O'Reilly Publishing, Sept 2010; is essential reading – still the best
-introduction and reference for using Closure Compiler and Closure Library. Published in
-2010 it is out of date in some details.
-
-[Closure Compiler on github](https://github.com/google/closure-compiler) has pre-built
-versions of the compiler, source code and some documentation. The Closure Compiler can
-either be gotten pre-built as a Java `jar` file, or built from source code. To see
-compiler options execute this command:
-
-    java -jar ../closure-compiler/build/compiler.jar --help
-
-[Closure Compiler Wiki](https://github.com/google/closure-compiler/wiki) has up-to-date
-information.
-
-[Closure Compiler Error and Warning Reference](https://developers.google.com/closure/compiler/docs/error-ref)
-
-[Closure Tools](https://developers.google.com/closure/) has information about Closure
-Compiler and Closure Library.  Somewhat out-of-date, but still useful.
-
-[How to tell closure compiler which warnings you want](https://github.com/google/closure-compiler/wiki/Warnings)
-
-
-## Closure Library References
-
-[Closure Library on github](https://github.com/google/closure-library) is mostly a set
-of JavaScript files, though there is also a Python script
-[`depswriter.py`](https://github.com/google/closure-library/blob/master/closure/bin/build/depswriter.py).
-The file
-[`base.js`](https://github.com/google/closure-library/blob/master/closure/goog/base.js)
-defines key functions such as `goog.module` and `goog.require`. The modules
-`goog.events` and `goog.array` are frequently used in myPhysicsLab.
-
-[Closure Library docs](http://google.github.io/closure-library/api/index.html)
-A set of HTML documentation for Closure Library (generated with Dossier).
-
-
-## Documentation Tools References
-
-[Dossier](https://github.com/jleyba/js-dossier) is used for creating documentation from
-JavaScript source code comments. It uses [CommonMark](http://commonmark.org) to process
-the markdown within source code comments. CommonMark is a more rigorous version of
-[standard markdown](http://daringfireball.net/projects/markdown/syntax).
-
-[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
+[GNU Make](https://www.gnu.org/software/make/)
 
 [LaTeX](https://en.wikipedia.org/wiki/LaTeX) is used to produce `.pdf` files from
 `.tex` files using the `pdflatex` command.
@@ -1549,3 +985,14 @@ for summary of available commands.
 [OmniGraffle](https://www.omnigroup.com/omnigraffle) is used for creating documentation
 diagrams. Files have suffix `.graffle`. They are exported to `.svg` or `.pdf` files
 which are included in the documentation. Version 4.2.2 of OmniGraffle was used.
+
+[Perl](https://www.perl.org)
+
+[Typedoc](https://typedoc.org)
+
+[TypeScript](https://www.typescriptlang.org)
+
+&nbsp;
+
+&nbsp;
+

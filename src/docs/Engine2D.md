@@ -66,7 +66,7 @@ information.
 + [contact force calculation](http://www.myphysicslab.com/engine2D/contact-en.html)
 + [ContactSim Math](ContactSim_Math.html) has details about the math involved in
     the physics engine.
-+ [ContactSim documentation](myphysicslab.lab.engine2D.ContactSim.html) has
++ [ContactSim documentation](./classes/lab_engine2D_ContactSim.ContactSim.html) has
     a summary of how ContactSim works.
 
 Relevant papers:
@@ -97,7 +97,7 @@ Information about myPhysicsLab software in general:
 
 # RigidBody
 
-A [RigidBody](myphysicslab.lab.engine2D.RigidBody.html) in the 2D world of the engine2D
+A [RigidBody](./classes/lab_engine2D_RigidBody.RigidBody.html) in the 2D world of the engine2D
 physics engine has 3 degrees of freedom: it can translate in the X and Y directions, or
 rotate about its center of gravity. The position of a RigidBody is specified by the X
 and Y location of its center of gravity, and the angle of rotation about the center
@@ -118,7 +118,7 @@ mass.
 Each RigidBody has its own local coordinate system called *body coordinates*,
 distinct from *world coordinates* (also called *simulation coordinates*). There are
 methods for converting between body and world coordinates, see
-[MassObject](myphysicslab.lab.model.MassObject.html).
+[MassObject](./classes/lab_model_MassObject.MassObject.html).
 
 In the diagram below we show a Polygon drawn in its body coordinates on the left. On the
 right is the Polygon moved so that its center of mass (cm) is at a certain world
@@ -126,10 +126,10 @@ coordinates position, and the Polygon is rotated clockwise approximately 45 degr
 body coordinate axes for the Polygon are superimposed as well – this shows that you can
 convert between the two coordinate systems.
 
-<img src="Engine2D_Body_World_Coords.svg">
+<img src="Engine2D_Body_World_Coords.svg" width="785" height="442">
 
 In the diagram, `cm` is the center of mass; it can be anywhere within the body, see
-[RigidBody.setCenterOfMass()](myphysicslab.lab.engine2D.RigidBody.html#setCenterOfMass).
+[RigidBody.setCenterOfMass()](./interfaces/lab_engine2D_RigidBody.RigidBody.html#setCenterOfMass).
 
 When the Polygon is positioned in world coordinates, we specify the location of the
 center of mass and the rotation around the center of mass. The rotation is with respect
@@ -139,23 +139,23 @@ would rotate the body 90 degrees counter clockwise.
 
 ## Polygon
 
-[Polygon](myphysicslab.lab.engine2D.Polygon.html) is the concrete class that implements
+[Polygon](./classes/lab_engine2D_Polygon.Polygon.html) is the concrete class that implements
 the RigidBody interface. A Polygon has a particular fixed geometry specified by a list
-of [Vertexes](myphysicslab.lab.engine2D.Vertex.html) and
-[Edges](myphysicslab.lab.engine2D.Edge.html) which are defined using body coordinates.
+of [Vertexes](./interfaces/lab_engine2D_RigidBody.Vertex.html) and
+[Edges](./interfaces/lab_engine2D_RigidBOdy.Edge.html) which are defined using body coordinates.
 
 The two concrete implementations of Edge are
-[StraightEdge](myphysicslab.lab.engine2D.StraightEdge.html) and
-[CircularEdge](myphysicslab.lab.engine2D.CircularEdge.html). Each Edge has knowledge
+[StraightEdge](./classes/lab_engine2D_StraightEdge.StraightEdge.html) and
+[CircularEdge](./classes/lab_engine2D_CircularEdge.CircularEdge.html). Each Edge has knowledge
 about which side of the Edge is inside or outside of the Polygon. Therefore a
 CircularEdge can be concave or convex.
 
 A Polygon can have a more complex shape, for example a
-[doughnut shape](myphysicslab.lab.engine2D.Shapes.html#Shapes.makeFrame). Edges cannot
+[doughnut shape](./classes/lab_engine2D_Shapes.Shapes.html#makeFrame). Edges cannot
 cross but there can be several paths. For the doughnut shape there are two paths – the
 outside and inside path of the doughnut.
 
-Each Polygon has 6 variables in the [VarsList](myphysicslab.lab.model.VarsList.html)
+Each Polygon has 6 variables in the [VarsList](./classes/lab_model_VarsList.VarsList.html)
 to specify the position and velocity of its center of mass (in world coordinates)
 
 1. **X-position** of center of mass in world coordinates
@@ -170,7 +170,7 @@ These variables evolve over time based on what forces are applied to the bodies.
 
 ## Scrim
 
-[Scrim](myphysicslab.lab.engine2D.Scrim.html) is a concrete class that implements the
+[Scrim](./classes/lab_engine2D_Scrim.Scrim.html) is a concrete class that implements the
 RigidBody interface. It is used as the **fixed background** which objects can be
 attached to with Joints or Ropes. It has infinite mass, infinite extent, never collides
 with anything, has no edges or Vertexes, and is an immutable singleton object. Scrim
@@ -189,16 +189,16 @@ some work on 3D objects, some handle deformable bodies, etc.
 
 The physics engine described here works on 2D non-penetrating RigidBody objects,
 without surface friction, and the bodies are not deformable. The physics engine is
-implemented by [RigidBodySim](myphysicslab.lab.engine2D.RigidBodySim.html) and its
-sub-classes [ImpulseSim](myphysicslab.lab.engine2D.ImpulseSim.html) and
-[ContactSim](myphysicslab.lab.engine2D.ContactSim.html), along with several other
+implemented by [RigidBodySim](./classes/lab_engine2D_RigidBodySim.RigidBodySim.html) and its
+sub-classes [ImpulseSim](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html) and
+[ContactSim](./classes/lab_engine2D_ContactSim.ContactSim.html), along with several other
 `engine2D` classes such as ComputeForces, CollisionAdvance, CircularEdge, StraightEdge
 and others.
 
 The simulation state is stored in an array of variables in a VarsList object. There are
 six variables for each Polygon as described earlier.
 
-Like any other [ODESim](myphysicslab.lab.model.ODESim.html), RigidBodySim defines
+Like any other [ODESim](./interfaces/lab_model_ODESim.ODESim.html), RigidBodySim defines
 differential equations in its `evaluate()` method. Those differential equations
 implement the forces on the RigidBody objects and are integrated over time by a
 DiffEqSolver resulting in the movement of the RigidBody objects. Forces appear as
@@ -261,7 +261,7 @@ collision.
 
 The *back up in time* process is done with a binary search, taking successively smaller
 steps until the objects are very close to each other but not overlapping. See
-[`CollisionAdvance.advance()`](myphysicslab.lab.model.CollisionAdvance.html#advance)
+[`CollisionAdvance.advance()`](./classes/lab_model_CollisionAdvance.CollisionAdvance.html#advance)
 where the "back up in time" process occurs.
 
 If a collision cannot be resolved by the above process, then the simulation becomes
@@ -282,15 +282,15 @@ unable to continue. This is discussed further in the section
 
 There are additional "non-physical" policies that are used to preserve the gap between
 objects that are in contact. See
-[`ContactSim.getExtraAccel`](myphysicslab.lab.engine2D.ContactSim.html#getExtraAccel)
+[`ContactSim.getExtraAccel`](./classes/lab_engine2D_ContactSim.ContactSim.html#getExtraAccel)
 for one such policy.
 
 Some objects *are* allowed to overlap each other, as for example two objects that are
 connected by a Joint to form a pendulum. This is done by explicitly stating that the
 objects do not collide with each other, see
-[`RigidBody.addNonCollide`](myphysicslab.lab.engine2D.RigidBody.html#addNonCollide)
+[`RigidBody.addNonCollide`](./interfaces/lab_engine2D_RigidBody.RigidBody.html#addNonCollide)
 and
-[`Polygon.setNonCollideEdge`](myphysicslab.lab.engine2D.Polygon.html#setNonCollideEdge).
+[`RigidBody.setNonCollideEdge`](./interfaces/lab_engine2D_Polygon.Polygon.html#setNonCollideEdge).
 
 
 ## Solving for Contact Forces
@@ -326,7 +326,7 @@ a simplified overview of the process of solving for contact forces:
 
 The `A` matrix and `b` vector are set up in ContactSim. The solving of the matrix
 equation to find contact forces is done in
-[ComputeForces](myphysicslab.lab.engine2D.ComputeForces.html).
+[ComputeForces](./classes/lab_engine2D_ComputeForces.ComputeForces.html).
 
 
 
@@ -346,20 +346,20 @@ calculating collision impulses. And even the `A` matrix used is the same in both
 We include contacts and Connectors like Joint in the set of collisions when solving for
 collision impulse, because a collision can "ricochet" (bounce back-and-forth) among
 several objects. Examples include
-[Newton's Cradle](myphysicslab.sims.engine2D.NewtonsCradleApp.html),
+[Newton's Cradle](./classes/sims_engine2D_NewtonsCradleApp.NewtonsCradleApp.html),
 or a block crashing into a group of blocks that are in resting contact.
 
 
 
 # Advance Strategy
 
-The [AdvanceStrategy](myphysicslab.lab.model.AdvanceStrategy.html) controls the process
+The [AdvanceStrategy](./interfaces/lab_model_AdvanceStrategy.AdvanceStrategy.html) controls the process
 of advancing the simulation in time. This is where the "binary search" happens to "back
 up in time" to the moment before a collision, and then requests that the collisions
 should be handled. The AdvanceStrategy typically used in Engine2D simulations is
-[CollisionAdvance](myphysicslab.lab.model.CollisionAdvance.html). If you like to read
+[CollisionAdvance](./classes/lab_model_CollisionAdvance.CollisionAdvance.html). If you like to read
 code in the order that things happen, the place to start is
-[`CollisionAdvance.advance`](myphysicslab.lab.model.CollisionAdvance.html#advance).
+[`CollisionAdvance.advance`](./classes/lab_model_CollisionAdvance.CollisionAdvance.html#advance).
 
 CollisionAdvance has some additional features that improve performance including
 dealing with imminent collisions, and estimating collision time.
@@ -375,7 +375,7 @@ or unresolveable collisions can occur.
 
 Objects are considered to be touching when the distance between them is smaller than
 the "gap" distance which is returned by
-[`ContactSim.getDistanceTol`](myphysicslab.lab.engine2D.ContactSim.html#getDistanceTol).
+[`ContactSim.getDistanceTol`](./classes/lab_engine2D_ContactSim.ContactSim.html#getDistanceTol).
 The default gap distance is 0.01. When objects are closer than around 0.0001 then
 unresolveable collisions can occur. So we try to maintain the distance between objects
 at the **half-gap distance** of 0.005 or greater.
@@ -403,16 +403,16 @@ of collisions. This can avoid binary search steps, resulting in better performan
 
 The collision time is estimated from the distance and velocity of the collision in the
 pre-backup and post-backup states. See
-[`RigidBodyCollision.getEstimatedTime`](myphysicslab.lab.engine2D.RigidBodyCollision.html#getEstimatedTime).
+[`RigidBodyCollision.getEstimatedTime`](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html#getEstimatedTime).
 There are cases where an estimated time is not available, in which case
 CollisionAdvance reverts to using binary search algorithm.
 
 After doing the "back up in time", we advance the simulation in a single step to get to
 just before the estimated collision time. Then whatever collisions satisfy the "close
 enough" criteria specified in
-[`RigidBodyCollision.closeEnough`](myphysicslab.lab.engine2D.RigidBodyCollision.html#closeEnough)
+[`RigidBodyCollision.closeEnough`](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html#closeEnough)
 are passed to
-[`ImpulseSim.handleCollisions`](myphysicslab.lab.engine2D.ImpulseSim.html#handleCollisions)
+[`ImpulseSim.handleCollisions`](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#handleCollisions)
 which figures out and applies the appropriate impulses to reverse the collisions.
 
 
@@ -421,7 +421,7 @@ which figures out and applies the appropriate impulses to reverse the collisions
 To improve the accuracy of collision handling, we recalculate much of the information
 stored in a RigidBodyCollision when we are doing the "back up in time" process and
 seeking to get close to the moment of collision. This recalculation is done in
-[`RigidBodyCollision.updateCollision`](myphysicslab.lab.engine2D.RigidBodyCollision.html#updateCollision).
+[`RigidBodyCollision.updateCollision`](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html#updateCollision).
 
 Because a collision is usually detected when the bodies are penetrating, the initial
 information in the RigidBodyCollision will show a negative distance (indicating
@@ -439,7 +439,7 @@ well, such as the vector from the center of mass to the impact point.
 Imminent collisions are generated by contact detection code;
 their distance is positive; their velocity is
 negative and large. As long as the collision satisfies the
-[Collision.closeEnough](myphysicslab.lab.model.Collision.html#closeEnough)
+[Collision.closeEnough](./interfaces/lab_model_Collision.Collision.html#closeEnough)
 criteria, we can handle
 an imminent collision when it is detected. Because they have too much velocity,
 ContactSim ignores imminent collisions for determining contact forces.
@@ -447,10 +447,10 @@ ContactSim ignores imminent collisions for determining contact forces.
 Imminent collisions are somewhat rare, but handling them can improve performance a bit
 by avoiding the need to backup again to handle them. In a situation where a group of
 objects are in contact when the collision occurs (for example in
-[Newton's Cradle](myphysicslab.sims.engine2D.NewtonsCradleApp.html) and are bouncing
+[Newton's Cradle](./classes/sims_engine2D_NewtonsCradleApp.NewtonsCradleApp.html) and are bouncing
 rapidly back-and-forth against each other, this can save a lot of time because it all
 happens inside of
-[ImpulseSim.handleCollisions](myphysicslab.lab.engine2D.ImpulseSim.html#handleCollisions).
+[ImpulseSim.handleCollisions](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#handleCollisions).
 This contrasts with handling each collision separately, trying to step forward, and
 coming back to the same time to handle another ricochet collision; which can happen over
 and over.
@@ -465,7 +465,7 @@ observe it with the browser console. In the constructor for the application, fin
 
 then turn on debug messages:
 
-    this.advance.setDebugLevel(CollisionAdvance.DebugLevel.OPTIMAL);
+    this.advance.setDebugLevel(DebugLevel.OPTIMAL);
 
 Alternatively, you can specify a particular set of debug waypoints to observe like this:
 
@@ -483,12 +483,8 @@ simulation helps to be able read the messages, because then the simulation view
 corresponds to the debug messages you are reading. Turn on the "show forces" option to
 see contact forces and collision impulses as they are applied.
 
-You can use the "remember" function of Terminal to save these various settings for the
-next time you run the simulation.
-See [Script Storage](myphysicslab.lab.util.Terminal.html#scriptstorage).
-
 It is helpful to show the names of the objects in the simulation view.
-See [RigidBodyObserver](myphysicslab.sims.engine2D.RigidBodyObserver.html)
+See [RigidBodyObserver](./classes/sims_engine2D_RigidBodyObserver.RigidBodyObserver.html)
 where the following code snippet is explained:
 
     this.rbo.protoPolygon.setNameFont('10pt sans-serif');
@@ -500,11 +496,11 @@ of CollisionAdvance.
 # Collisions and Contacts
 
 Collisions and contacts are represented as instances of a sub-class of
-[RigidBodyCollision](myphysicslab.lab.engine2D.RigidBodyCollision.html).
+[RigidBodyCollision](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html).
 Collisions and contacts are found within
-[`ImpulseSim.findCollisions`](myphysicslab.lab.engine2D.ImpulseSim.html#findCollisions)
+[`ImpulseSim.findCollisions`](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#findCollisions)
 by calling
-[`Polygon.checkCollision`](myphysicslab.lab.engine2D.Polygon.html#checkCollision)
+[`Polygon.checkCollision`](./classes/lab_engine2D_Polygon.Polygon.html#checkCollision)
 for each pair of bodies that can possibly collide.
 
 
@@ -514,13 +510,13 @@ A collision between two RigidBodys is a momentary event that results in an
 [impulse](https://en.wikipedia.org/wiki/Impulse_(physics))
 which reverses the collision. Collisions are resolved *between* time steps of the
 differential equation solver during the method
-[ImpulseSim.handleCollisions](myphysicslab.lab.engine2D.ImpulseSim.html#handleCollisions). See the myPhysicsLab website for math details about
+[ImpulseSim.handleCollisions](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#handleCollisions). See the myPhysicsLab website for math details about
 [how collision impulse is calculated](http://www.myphysicslab.com/collision.html).
 
 For any Polygon you can specify what other objects it *does not* collide with, see
-[`Polygon.addNonCollide`](myphysicslab.lab.engine2D.Polygon.html#addNonCollide)
+[`RigidBody.addNonCollide`](./interfaces/lab_engine2D_RigidBody.RigidBody.html#addNonCollide)
 and
-[`Polygon.setNonCollideEdge`](myphysicslab.lab.engine2D.Polygon.html#setNonCollideEdge).
+[`Polygon.setNonCollideEdge`](./classes/lab_engine2D_Polygon.Polygon.html#setNonCollideEdge).
 Those objects will then be able to overlap. This is useful when connecting objects
 together with [Joints][].
 
@@ -547,7 +543,7 @@ colliding. See the myPhysicsLab website for math details about
 At each contact point an appropriate contact force is determined which is just enough
 to keep the objects from penetrating into each other – but not more than that, so the
 objects do not push each other apart. This calculation is done within
-[`ContactSim.evaluate`](myphysicslab.lab.engine2D.ContactSim.html#evaluate).
+[`ContactSim.evaluate`](./classes/lab_engine2D_ContactSim.ContactSim.html#evaluate).
 
 A contact involves two points, one on each of the two bodies involved. Those two points
 must be very close together and not colliding. The "not colliding" criteria means that
@@ -557,11 +553,11 @@ they are not in contact. If their relative normal velocity is negative, this ind
 that a [collision is imminent][Imminent Collisions].
 
 The bodies are "close together" when the distance at the contact point is less than
-[`ContactSim.getDistanceTol`](myphysicslab.lab.engine2D.ContactSim.html#getDistanceTol).
+[`ContactSim.getDistanceTol`](./classes/lab_engine2D_ContactSim.ContactSim.html#getDistanceTol).
 A contact can have a separation distance of no more than this amount.
 
 The maximum relative normal velocity for a contact is given by
-[`ContactSim.getVelocityTol`](myphysicslab.lab.engine2D.ContactSim.html#getVelocityTol).
+[`ContactSim.getVelocityTol`](./classes/lab_engine2D_ContactSim.ContactSim.html#getVelocityTol).
 If the absolute value of the relative normal velocity is greater than this amount, then
 a contact is not detected, because the objects are either separating or colliding.
 
@@ -569,20 +565,20 @@ a contact is not detected, because the objects are either separating or collidin
 ## Collision Detection
 
 Collisions and contacts are found within
-[`ImpulseSim.findCollisions`](myphysicslab.lab.engine2D.ImpulseSim.html#findCollisions)
+[`ImpulseSim.findCollisions`](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#findCollisions)
 by calling
-[`Polygon.checkCollision`](myphysicslab.lab.engine2D.Polygon.html#checkCollision)
+[`Polygon.checkCollision`](./interfaces/lab_engine2D_RigidBody.RigidBody.html#checkCollision)
 for each pair of bodies that can possibly collide.
 
 There are several varieties of collisions and contacts:
 
-+ [CornerEdgeCollision](myphysicslab.lab.engine2D.CornerEdgeCollision.html) between
++ [CornerEdgeCollision](./classes/lab_engine2D_CornerEdgeCollision.CornerEdgeCollision.html) between
     a Vertex and an Edge.
 
-+ [EdgeEdgeCollision](myphysicslab.lab.engine2D.EdgeEdgeCollision.html) between two
++ [EdgeEdgeCollision](./classes/lab_engine2D_EdgeEdgeCollision.EdgeEdgeCollision.html) between two
     Edges.
 
-+ [ConnectorCollision](myphysicslab.lab.engine2D.ConnectorCollision.html) generated
++ [ConnectorCollision](./classes/lab_engine2D_ConnectorCollision.ConnectorCollision.html) generated
     by a Connector like Joint or Rope
 
 Each of these types of collisions have significant differences in how they are detected,
@@ -603,9 +599,9 @@ Negative distance indicates penetration; positive distance indicates the Vertex 
 are separated by that distance.
 
 Vertex/Edge collision detection is done by
-[`UtilityCollision.checkVertexes`](myphysicslab.lab.engine2D.UtilityCollision.html#UtilityCollision.checkVertexes).
+[`UtilityCollision.checkVertexes`](./classes/lab_engine2D_UtilCollision.UtilCollision.html#checkVertexes).
 See also the method
-[`Polygon.getOldCoords`](myphysicslab.lab.engine2D.Polygon.html#getOldCoords)
+[`RigidBody.getOldCoords`](./interfaces/lab_engine2D_RigidBody.RigidBody.html#getOldCoords)
 which gives the state of a Polygon at the last time step; `getOldCoords` is used to
 determine the old position of a Vertex.
 
@@ -638,22 +634,22 @@ positive (non-penetrating) and the current distance is negative (penetrating). S
 is some usage of the "previous" position information. However, that test only works in
 low velocity situations because of how the geometry of the "distance of penetration" is
 calculated between the edges. See
-[`CircleStraight.testCollision`](myphysicslab.lab.engine2D.CircleStraight.html#CircleStraight.testCollision).
+[`CircleStraight.testCollision`](./classes/lab_engine2D_CircularEdge.CircleStraight.html#testCollision).
 
 For CircularEdge/CircularEdge collisions we only look at the current positions. And we
 ignore situations where we detect a deep penetration (more than the "chord depth" of the
 circular arcs). This is because of how the "distance of penetration" is calculated
 based on the geometry. See
-[`CircleCircle.testCollision`](myphysicslab.lab.engine2D.CircleCircle.html#CircleCircle.testCollision).
+[`CircleCircle.testCollision`](./classes/lab_engine2D_CircularEdge.CircleCircle.html#testCollision).
 
 The distance between the edges is calculated such that negative distance indicates
 penetration, and positive distance indicates the edges are separated and not
 overlapping.
 
 Edge/Edge collision detection starts in the methods
-[`CircularEdge.testCollisionEdge`](myphysicslab.lab.engine2D.CircularEdge.html#testCollisionEdge)
+[`CircularEdge.testCollisionEdge`](./classes/lab_engine2D_CircularEdge.CircularEdge.html#testCollisionEdge)
 and
-[`StraightEdge.testCollisionEdge`](myphysicslab.lab.engine2D.StraightEdge.html#testCollisionEdge).
+[`StraightEdge.testCollisionEdge`](./classes/lab_engine2D_StraightEdge.StraightEdge.html#testCollisionEdge).
 
 
 ## Decorated Vertexes
@@ -664,7 +660,7 @@ pass thru each other at high speed the collision would be missed. By
 detected by the high speed Vertex/Edge collision detection scheme, which looks at both
 the previous and current positions of Vertexes.
 
-<img src="Engine2D_Decorated_Vertexes.svg">
+<img src="Engine2D_Decorated_Vertexes.svg" width="384" height="192">
 
 Curved edges are "decorated" with numerous "artificial" Vertexes to aid collision
 detection. These *decorated Vertexes* are optional as to their density of placement
@@ -710,9 +706,9 @@ for a discussion. The `engine2D` code makes several collision handling methods
 available.
 
 The desired method is specified via
-[`ImpulseSim.setCollisionHandling`](myphysicslab.lab.engine2D.ImpulseSim.html#setCollisionHandling)
+[`ImpulseSim.setCollisionHandling`](./classes/lab_engine2D_ImpulseSim.ImpulseSim.html#setCollisionHandling)
 with a
-[CollisionHandling](myphysicslab.lab.engine2D.CollisionHandling.html) enum with
+[CollisionHandling](./enums/lab_engine2D_CollisionHandling.CollisionHandling.html) enum with
 the following choices:
 
 + **simultaneous**
@@ -744,7 +740,7 @@ Either result can be argued to be valid, because in the real world
 it is pretty much impossible to have such perfectly aligned and smooth objects.
 
 Another example is
-[Newton's Cradle](myphysicslab.sims.engine2D.NewtonsCradleApp.html)
+[Newton's Cradle](./classes/sims_engine2D_NewtonsCradleApp.NewtonsCradleApp.html)
 where one object collides into several objects that are in stationary contact. In that
 case the serial method clearly gives the correct result and the simultaneous method
 gives an incorrect result.
@@ -753,30 +749,30 @@ gives an incorrect result.
 
 # Connectors
 
-A [Connector](myphysicslab.lab.engine2D.Connector.html) connects RigidBody objects to
+A [Connector](./interfaces/lab_engine2D_RigidBody.Connector.html) connects RigidBody objects to
 each other or to another object like a NumericalPath or Scrim. An example is connecting
 a Polygon to a Scrim which simulates a pendulum under gravity. A Connector generates
 collisions or contacts to enforce the connection.
 
 ContactSim holds the list of Connectors, see
-[`ContactSim.addConnector`](myphysicslab.lab.engine2D.ContactSim.html#addConnector).
+[`ContactSim.addConnector`](./classes/lab_engine2D_ContactSim.ContactSim.html#addConnector).
 During
-[`ContactSim.findCollisions`](myphysicslab.lab.engine2D.ContactSim.html#findCollisions)
+[`ContactSim.findCollisions`](./classes/lab_engine2D_ContactSim.ContactSim.html#findCollisions)
 the Connectors are able to generate collisions or contacts.
 
 There is a method to align the bodies attached to Connectors, see
-[`Connector.align`](myphysicslab.lab.engine2D.Connector.html#align) and
-[`ContactSim.alignConnectors`](myphysicslab.lab.engine2D.ContactSim.html#alignConnectors).
+[`Connector.align`](./interfaces/lab_engine2D_RigidBody.Connector.html#align) and
+[`ContactSim.alignConnectors`](./classes/lab_engine2D_ContactSim.ContactSim.html#alignConnectors).
 
 
 ## Joints
 
-A [Joint](myphysicslab.lab.engine2D.Joint.html) is a Connector that links two
+A [Joint](./classes/lab_engine2D_Joint.Joint.html) is a Connector that links two
 RigidBodys to keep specified points on each body aligned together. An example is
 connecting a Polygon to a Scrim to model a pendulum under gravity.
 
 A Joint operates by generating
-[ConnectorCollisions](myphysicslab.lab.engine2D.ConnectorCollision.html),
+[ConnectorCollisions](./classes/lab_engine2D_ConnectorCollision.ConnectorCollision.html),
 a sub-class of RigidBodyCollision. Those collisions specify an impact point and a
 normal vector. Because the normal vector can generate force or impulse only in one
 direction, two Joints with orthogonal normals are needed to hold two objects together
@@ -786,7 +782,7 @@ connection.
 Joint collisions do not cause the collision binary search mechanism to back up in
 time, because Joint collisons are happening continuously and are never resolved.
 Joint collisions are marked with a special "joint" boolean flag for this reason, see
-[`RigidBodyCollision.bilateral`](myphysicslab.lab.engine2D.RigidBodyCollision.html#bilateral).
+[`RigidBodyCollision.bilateral`](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html#bilateral).
 
 The contacts generated by a Joint ensure that enough contact force is generated to keep
 the two bodies aligned at the Joint point. At a regular contact the bodies can only
@@ -797,22 +793,22 @@ contacts are treated specially during the process of solving for contact forces.
 Although contact forces tend to keep Joints aligned between two rigid body objects, the
 bodies will tend to drift, especially when rotating rapidly. This can be seen in the
 test
-[`PileTest.connected_blocks_pile_test`](myphysicslab.test.PileTest.html#PileTest.connected_blocks_pile_test).
+[`PileTest.connected_blocks_pile_test`](./functions/test_PileTest.html#connected_blocks_pile_test).
 
 Contact forces can reduce the acceleration between objects to zero, but not the
 relative velocities. Only collision impact can correct the non-zero relative velocity
 between objects. There is an optional policy that can be set to help with this:
-[`CollisionAdvance.setJointSmallImpacts`](myphysicslab.lab.model.CollisionAdvance.html#setJointSmallImpacts)
+[`CollisionAdvance.setJointSmallImpacts`](./classes/lab_model_CollisionAdvance.CollisionAdvance.html#setJointSmallImpacts)
 will cause small collision impacts to occur at a Joint are at every time step to stop
 the slow drifting apart of the Joint. See also the section below [How to Stop Jitter][].
 
 
 ## Ropes
 
-[Rope](myphysicslab.lab.engine2D.Rope.html) is similar to Joint in that it connects two
+[Rope](./classes/lab_engine2D_Rope.Rope.html) is similar to Joint in that it connects two
 RigidBodys. The difference is that a Rope allows the two connected points to be a large
 distance apart. A Rope generates
-[ConnectorCollisions](myphysicslab.lab.engine2D.ConnectorCollision.html)
+[ConnectorCollisions](./classes/lab_engine2D_ConnectorCollision.ConnectorCollision.html)
 to ensure that the connected points of the objects stay separated by the specified
 distance. ConnectorCollision is a sub-class of RigidBodyCollision.
 
@@ -841,7 +837,7 @@ There are two types of Rope:
 This section describes how to stop "jitter" -- continuous small shaking, bouncing
 movements -- of objects that should be at rest. You can see the problem in
 [ContactApp](https://www.myphysicslab.com/engine2D/contact-en.html?NUMBER_OF_OBJECTS=2;RANDOM_SEED=1313594222;EXTRA_ACCEL=none;FIRING=true;TIME=72.89999999999945;BLOCK1_X_POSITION=-2.9632326540461316;BLOCK1_X_VELOCITY=0.06638147623841413;BLOCK1_Y_POSITION=-3.020906561945242;BLOCK1_Y_VELOCITY=-0.030942379968168232;BLOCK1_ANGLE=-2.44559703984784;BLOCK1_ANGULAR_VELOCITY=0.00822402851883133;BLOCK2_X_POSITION=0.06829588959131906;BLOCK2_X_VELOCITY=0.07742031767527323;BLOCK2_Y_POSITION=-2.0913303270761627;BLOCK2_Y_VELOCITY=-0.07988926009663815;BLOCK2_ANGLE=-6.286252358424133;BLOCK2_ANGULAR_VELOCITY=-0.0314376041333151;) when we execute this
-script in [Terminal](Customizing.html#terminal:forscriptexecution):
+script in [Terminal](Customizing.html#terminalforscriptexecution):
 
     EXTRA_ACCEL=none
 
@@ -878,19 +874,19 @@ The following solutions have been found to help stop jitter:
 2. Add *extra acceleration* at each contact to reduce the relative velocity to zero.
     This is a "non-physical" mechanism, though one could argue that this corresponds
     to surface tension or friction. See
-    [`ContactSim.setExtraAccel`](myphysicslab.lab.engine2D.ContactSim.html#setExtraAccel).
+    [`ContactSim.setExtraAccel`](./classes/lab_engine2D_ContactSim.ContactSim.html#setExtraAccel).
     This also helps maintain a healthy gap distance at contact points – when the gap
     becomes close to zero, the simulation can become stuck from having low speed
     collisions that cannot be resolved. Similarly the extra acceleration helps keep
     joints "tight" meaning they are aligned.
 
 3. Apply *small impacts to joints* on every time step to help Joints stay aligned. See
-    [`CollisionAdvance.setJointSmallImpacts`](myphysicslab.lab.model.CollisionAdvance.html#setJointSmallImpacts).
+    [`CollisionAdvance.setJointSmallImpacts`](./classes/lab_model_CollisionAdvance.CollisionAdvance.html#setJointSmallImpacts).
 
 
 ## ComputeForces Performance
 
-The process done in [ComputeForces](myphysicslab.lab.engine2D.ComputeForces.html) of
+The process done in [ComputeForces](./classes/lab_engine2D_ComputeForces.ComputeForces.html) of
 solving the matrix equation for contact forces is an iterative process. The iteration
 starts by ignoring all contact points but one, and solving for only that contact point.
 Then the second contact point is added, modifying the force at the first contact point
@@ -945,8 +941,12 @@ Here are some references which describe a technique that might accomplish this:
 
 The [Baraff '94 paper][Baraff_94] outlines changes to the algorithm to add
 friction forces. The damping forces given by
-[DampingLaw](myphysicslab.lab.model.DampingLaw.html) are only based on the
+[DampingLaw](./classes/lab_model_DampingLaw.DampingLaw.html) are only based on the
 velocity of each object. In contrast, friction forces happen at contact points and their
 magnitude is based on the relative velocity and force at the contact point. Adding
 friction doubles the size of the `A` matrix: we are solving for both contact force and
 lateral friction force at each contact.
+
+&nbsp;
+
+&nbsp;

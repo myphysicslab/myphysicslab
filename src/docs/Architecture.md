@@ -56,16 +56,24 @@ connects all the other objects needed to run and display the Simulation. For exa
 here is JavaScript code from `DoublePendulumApp.html` which creates and starts a
 simulation:
 
-    app = new myphysicslab.sims.pendulum.DoublePendulumApp(elem_ids);
+    app = new mpl.DoublePendulumApp(elem_ids);
     app.defineNames('app');
     app.start();
 
 The `new` command creates the DoublePendulumApp, which in turn **creates the network
-of objects** that comprise the simulation. (The `elem_ids` object specifies the id's of
-elements on the web page where the simulation can place things like canvas and
-controls).
+of objects** that comprise the simulation.
 
-<img src='Overview_Architecture_MVC.svg'>
+The app constructor takes an argument (usually of type
+[ElementIDs](./types/sims_common_Layout.ElementIDs.html) that specifies the
+names of the HTML elementId's to look for in the HTML document; these elements are
+where the user interface of the simulation is created, or where to put things like the
+canvas or controls.
+
+These `ElementIDs` names are passed in so that we can have two separate simulation apps
+running concurrently on a single page. The two apps would give unique names to the HTML
+Elements on the page that they occupy.
+
+<img src='Overview_Architecture_MVC.svg' width='835' height='720'>
 
 The above diagram shows a typical set of objects created at startup; these include a
 simulation **model** (the blue objects); a set of objects to display a **view** of the
@@ -92,16 +100,16 @@ code is executed:
     The callback advances the simulation to synchronize with Clock time and
     then redraws the scene.
 
-A [Timer](myphysicslab.lab.util.Timer.html) object periodically executes the
+A [Timer](./classes/lab_util_Timer.Timer.html) object periodically executes the
 callback function. Timer is a fancier version of JavaScript's `setInterval()` function.
 
-A [Clock](myphysicslab.lab.util.Clock.html) keeps track of the
+A [Clock](./classes/lab_util_Clock.Clock.html) keeps track of the
 current time. The Clock can run at different speeds; it can be paused; it can be
 set to a specific time; and it can keep track of any slippage from real time.
 
 The callback function is typically
-[`SimRunner.callback`](myphysicslab.lab.app.SimRunner.html#callback).
-The callback tells an [AdvanceStrategy](myphysicslab.lab.model.AdvanceStrategy.html)
+[`SimRunner.callback`](./classes/lab_app_SimRunner.SimRunner.html#callback).
+The callback tells an [AdvanceStrategy](./interfaces/lab_model_AdvanceStrategy.AdvanceStrategy.html)
 to advance the simulation to the current Clock time.
 
 See [Start-Up HTML File][] for more about when the callback is started.
@@ -127,58 +135,58 @@ The model consists of the blue colored objects in the
 [Model-View-Controller Architecture][MVC_arch] diagram:
 ODESim, AdvanceStrategy, VarsList, SimList, SimObjects, Parameters, etc.
 
-<img src='Overview_Model_Classes.svg'>
+<img src='Overview_Model_Classes.svg' width='797' height='518'>
 
 The above diagram shows relationships of the main interfaces and classes for a typical
 ODESim simulation. These classes are found mostly in the `myphysicslab.lab.model`
 namespace.
 
 Most of the myPhysicsLab simulations implement the
-[ODESim](myphysicslab.lab.model.ODESim.html) interface. These are simulations based on
+[ODESim](./interfaces/lab_model_ODESim.ODESim.html) interface. These are simulations based on
 Ordinary Differential Equations (hence the name ODESim). An ODESim has a
-[VarsList](myphysicslab.lab.model.VarsList.html) which contains the set of variables
+[VarsList](./classes/lab_model_VarsList.VarsList.html) which contains the set of variables
 that represent the state of the system.
 
-An [AdvanceStrategy](myphysicslab.lab.model.AdvanceStrategy.html) advances the
+An [AdvanceStrategy](./interfaces/lab_model_AdvanceStrategy.AdvanceStrategy.html) advances the
 simulation state in time via the `AdvanceStrategy.advance` method; this is what
 `SimRunner.callback` calls to drive the simulation forward in time. An AdvanceStrategy
-uses a [DiffEqSolver](myphysicslab.lab.model.DiffEqSolver.html) to advance the ODESim
+uses a [DiffEqSolver](./interfaces/lab_model_DiffEqSolver.DiffEqSolver.html) to advance the ODESim
 by integrating the differential equations, thus changing the variables. There are 2
 implementations of AdvanceStrategy:
 
-+ [SimpleAdvance](myphysicslab.lab.model.SimpleAdvance.html) advances the
++ [SimpleAdvance](./classes/lab_model_SimpleAdvance.SimpleAdvance.html) advances the
     simulation by the requested time step. Used for simulations that do not have
     collisions.
 
-+ [CollisionAdvance](myphysicslab.lab.model.CollisionAdvance.html) handles
++ [CollisionAdvance](./classes/lab_model_CollisionAdvance.CollisionAdvance.html) handles
     collisions with binary search algorithm to go back
     in time as necessary.
 
-The ODESim keeps a set of [SimObjects](myphysicslab.lab.model.SimObject.html) in its
-[SimList](myphysicslab.lab.model.SimList.html). Examples of SimObjects include:
-[PointMass](myphysicslab.lab.model.PointMass.html),
-[Spring](myphysicslab.lab.model.Spring.html),
-[RigidBody](myphysicslab.lab.engine2D.RigidBody.html), and others. These SimObjects
+The ODESim keeps a set of [SimObjects](./interfaces/lab_model_SimObject.SimObject.html) in its
+[SimList](./classes/lab_model_SimList.SimList.html). Examples of SimObjects include:
+[PointMass](./classes/lab_model_PointMass.PointMass.html),
+[Spring](./classes/lab_model_Spring.Spring.html),
+[RigidBody](./interfaces/lab_engine2D_RigidBody.RigidBody.html), and others. These SimObjects
 represent the current state of the simulation and might also be used in the process of
 calculating the state at the next moment in time. As a Subject, the SimList notifies
 any of its Observers when it adds or removes a SimObject from the SimList; see the
 [Subject, Observer, Parameter][] section below.
 
-The simulation state is kept in the [VarsList](myphysicslab.lab.model.VarsList.html).
+The simulation state is kept in the [VarsList](./classes/lab_model_VarsList.VarsList.html).
 The SimObjects reflect the current state by their position, orientation, velocity, etc.
 Anything that varies over time should be stored in the VarsList. The SimObjects
 communicate the simulation state with the outside world (they are depicted in a
-LabView, as described below).
+SimView, as described below).
 
-Because Simulation implements the [Subject](myphysicslab.lab.util.Subject.html)
-interface, it can provide various [Parameters](myphysicslab.lab.util.Parameter.html)
+Because Simulation implements the [Subject](./interfaces/lab_util_Observe.Subject.html)
+interface, it can provide various [Parameters](./interfaces/lab_util_Observe.Parameter.html)
 for controlling aspects of the simulation which do not change over time. For example, a
-[ParameterNumber](myphysicslab.lab.util.ParameterNumber.html) could represent the
+[ParameterNumber](./classes/lab_util_Observe.ParameterNumber.html) could represent the
 strength of gravity. See the [Subject, Observer, Parameter][] section below.
 
 A Simulation model **can be used alone** without any view or controller classes. For
 example, tests such as
-[myphysicslab.test.Engine2DTests](myphysicslab.test.Engine2DTests.html) are usually run
+[Engine2DTests](./modules/test_Engine2DTests.html) are usually run
 without any display or user interface.
 
 See [2D Physics Engine Overview](Engine2D.html) which extends
@@ -190,13 +198,13 @@ contact forces, gravity, and more.
 
 _Key Points:_
 
-+ LabCanvas manages an HTML5 canvas and draws one or more LabViews
++ LabCanvas manages an HTML5 canvas and draws one or more SimViews
 
-+ SimView is a LabView that draws DisplayObjects which mirror SimObjects
++ SimView draws DisplayObjects which mirror SimObjects
 
 + A DisplayObject is created for each SimObject
 
-+ A LabView has a `screenRect` and a `simRect`
++ SimView has a `screenRect` and a `simRect`
 
 + CoordMap provides mapping between simulation coordinates and screen coordinates
 
@@ -210,20 +218,20 @@ DisplayObjects, and others. These objects are initially created by the applicati
 application can customize these objects as desired to modify the look of the
 simulation. Most of these classes are part of the `myphysicslab.lab.view` namespace.
 
-<img src='Overview_View_Classes.svg'>
+<img src='Overview_View_Classes.svg' width='682' height='523'>
 
-A [LabCanvas](myphysicslab.lab.view.LabCanvas.html) manages an HTML5 canvas
+A [LabCanvas](./classes/lab_view_LabCanvas.LabCanvas.html) manages an HTML5 canvas
 element. A LabCanvas displays one or more
-[LabViews](myphysicslab.lab.view.LabView.html) which can draw into a
+[SimViews](./classes/lab_view_SimView.SimView.html) which can draw into a
 LabCanvas.
 
-A [SimView](myphysicslab.lab.view.SimView.html) is a LabView that draws a set of
-[DisplayObjects](myphysicslab.lab.view.DisplayObject.html) (such as
+A [SimView](./classes/lab_view_SimView.SimView.html) draws a set of
+[DisplayObjects](./interfaces/lab_view_DisplayObject.DisplayObject.html) (such as
 DisplaySpring, DisplayShape) which mirror the state of the
-[SimObjects](myphysicslab.lab.model.SimObject.html) (such as PointMass,
+[SimObjects](./interfaces/lab_model_SimObject.SimObject.html) (such as PointMass,
 Spring, Polygon).  The DisplayObjects are stored in a
-[DisplayList](myphysicslab.lab.view.DisplayList.html) which is accessed via SimView's
-[getDisplayList](myphysicslab.lab.view.SimView.html#getDisplayList) method.
+[DisplayList](./classes/lab_view_DisplayList.DisplayList.html) which is accessed via SimView's
+[getDisplayList](./classes/lab_view_SimView.SimView.html#getDisplayList) method.
 
 The application decides how to represent each SimObject: what DisplayObject to use,
 what color or patterns to use when drawing an object, etc. Such display information is
@@ -232,10 +240,10 @@ not part of the model.
 For relatively simple simulations, the application will create all the DisplayObjects at
 start up. For more complex simulations where
 SimObjects are being created and destroyed as the simulation runs, we can create an
-[Observer](myphysicslab.lab.util.Observer.html) that watches for additions of
+[Observer](./interfaces/lab_util_Observe.Observer.html) that watches for additions of
 SimObjects to the SimList. The Observer can automatically create an appropriate
 DisplayObject for the new SimObject. An example is
-[RigidBodyObserver](myphysicslab.sims.engine2D.RigidBodyObserver.html).
+[RigidBodyObserver](./classes/sims_engine2D_RigidBodyObserver.RigidBodyObserver.html).
 See the [Subject, Observer, Parameter][] section below for more about Observers.
 
 Many DisplayObjects allow specifying a **prototype** DisplayObject. When a display
@@ -248,11 +256,11 @@ SimObject may change, and therefore the DisplayObject that mirrors that SimObjec
 change over time. A DisplayObject has a reference to the SimObject that it represents so
 it can query the current state.
 
-A LabView has a `screenRect` and a `simRect` which are respectively the size that the
-LabView should occupy in "screen space" (the JavaScript canvas coordinates) and the
+A SimView has a `screenRect` and a `simRect` which are respectively the size that the
+SimView should occupy in "screen space" (the JavaScript canvas coordinates) and the
 rectangle of "simulation space" presented in that screen space.
 
-A LabView has a [CoordMap](myphysicslab.lab.view.CoordMap.html)
+A SimView has a [CoordMap](./classes/lab_view_CoordMap.CoordMap.html)
 which provides a mapping between *simulation coordinates*
 and *screen coordinates*:
 
@@ -262,34 +270,36 @@ and *screen coordinates*:
 + *screen coordinates*: y coordinate increases **downwards**. Uses integers where a unit
     equals a pixel on the screen.
 
-**Pan and zoom** effects can be done by changing the LabView's `simRect`. For
+**Pan and zoom** effects can be done by changing the SimView's `simRect`. For
 example, making the `simRect` smaller has the effect of zooming in. Changing the
 `simRect` results in the CoordMap being recalculated accordingly.
 
-A [ModifySimRect](myphysicslab.lab.view.ModifySimRect.html) is designed to easily do
+Methods like [SimView.panLeft()](./classes/lab_view_SimView.SimView.html#panLeft) and
+[SimView.zoomOut()](./classes/lab_view_SimView.SimView.html#zoomOut) can be used to
+easily do
 pan and zoom effects on a SimView. See
-[makePanZoomControls](myphysicslab.sims.common.CommonControls.html#makePanZoomControls)
-which makes user interface controls that affect a ModifySimRect.
+[makePanZoomControls](./classes/sims_common_CommonControls.CommonControls.html#makePanZoomControls)
+which makes user interface controls for pan and zoom.
 
 It is common to have two overlapping SimViews in a single LabCanvas: one SimView for
 the DisplayObjects that show the simulation state, and another SimView (called the
 "status view") where objects such as
-[DisplayClock](myphysicslab.lab.view.DisplayClock.html) or
-[EnergyBarGraph](myphysicslab.lab.graph.EnergyBarGraph.html) are placed. This allows
+[DisplayClock](./classes/lab_view_DisplayClock.DisplayClock.html) or
+[EnergyBarGraph](./classes/lab_graph_EnergyBarGraph.EnergyBarGraph.html) are placed. This allows
 panning and zooming the simulation objects without affecting the energy or clock
 display.
 
 The layout of the canvas and controls on the web page is handled
 using **standard HTML and CSS**
 techniques. The application is in control of the layout, but it typically will use
-classes such as [TabLayout](myphysicslab.sims.common.TabLayout.html),
-[CommonControls](myphysicslab.sims.common.CommonControls.html),
-[Engine2DApp](myphysicslab.sims.engine2D.Engine2DApp.html) and
-[AbstractApp](myphysicslab.sims.common.AbstractApp.html); these aggregate common boiler
+classes such as [TabLayout](./classes/sims_common_TabLayout.TabLayout.html),
+[CommonControls](./classes/sims_common_CommonControls.CommonControls.html),
+[Engine2DApp](./classes/sims_engine2D_Engine2DApp.Engine2DApp.html) and
+[AbstractApp](./classes/sims_common_AbstractApp.AbstractApp.html); these aggregate common boiler
 plate code for creating controls and views.
 
 The LabCanvas is **periodically repainted** by the callback function, which is
-typically [SimRunner.callback](myphysicslab.lab.app.SimRunner.html#callback).
+typically [SimRunner.callback](./classes/lab_app_SimRunner.SimRunner.html#callback).
 
 
 # Graph
@@ -309,31 +319,31 @@ The classes in the `myphysicslab.lab.graph` namespace provide the ability to dra
 graphs of simulation variables. The graph updates in real time as the simulation
 proceeds. A graph is composed of several objects as shown in the diagram below.
 
-<img src='Overview_Graph_Classes.svg'>
+<img src='Overview_Graph_Classes.svg' width='759' height='525'>
 
 An ODESim provides access to its Variables through its
-[VarsList](myphysicslab.lab.model.VarsList.html) object.
+[VarsList](./classes/lab_model_VarsList.VarsList.html) object.
 The graph classes only know about the VarsList object, they do not know
 about the ODESim object. Therefore a graph can also be made to draw from
 other data sources that have a VarsList object; see for example
-[GraphCalcApp](myphysicslab.sim.experimental.GraphCalcApp.html) which draws graphs from
+[GraphCalcApp](./classes/sims_experimental_GraphCalcApp.GraphCalcApp.html) which draws graphs from
 equations that are entered in a text field.
 
 A GraphLine stores the current variable values into a
-[HistoryList](myphysicslab.lab.util.HistoryList.html), which is later used to draw the
+[HistoryList](./interfaces/lab_util_HistoryList.HistoryList.html), which is later used to draw the
 graph. Storing of the current variable value happens during the GraphLine's
-[memorize](myphysicslab.lab.graph.GraphLine.html#memorize) method. For the `memorize`
-method to be called automatically, the GraphLine can be registered with it's LabView by
-calling [addMemo](myphysicslab.lab.util.MemoList.html#addMemo) on the LabView, for
+[memorize](./classes/lab_graph_GraphLine.GraphLine.html#memorize) method. For the `memorize`
+method to be called automatically, the GraphLine can be registered with it's SimView by
+calling [addMemo](./interfaces/lab_util_Memo.MemoList.html#addMemo) on the SimView, for
 example:
 
-    labView.addMemo(graphLine);
+    simView.addMemo(graphLine);
 
 That will cause the GraphLine's `memorize` method to be called after each simulation
-time step. See [MemoList](myphysicslab.lab.util.MemoList.html) for more about that
+time step. See [MemoList](./interfaces/lab_util_Memo.MemoList.html) for more about that
 process.
 
-A GraphLine defines [Parameters](myphysicslab.lab.util.Parameter.html) that
+A GraphLine defines [Parameters](./interfaces/lab_util_Observe.Parameter.html) that
 specify which X and Y variables to draw. A GraphLine has other methods that control how
 the graph is drawn such as color, line thickness and whether to draw dots or lines.
 These choices can be set by JavaScript commands (in the startup application
@@ -342,21 +352,21 @@ that the user can easily modify these.
 
 The application creates the graph and the various controls to modify the graph. There
 are convenience classes such as
-[StandardGraph1](myphysicslab.sims.common.StandardGraph1.html) and
-[TimeGraph1](myphysicslab.sims.common.TimeGraph1.html) which create the various
+[StandardGraph1](./classes/sims_common_StandardGraph1.StandardGraph1.html) and
+[TimeGraph1](./classes/sims_common_TimeGraph1.TimeGraph1.html) which create the various
 graph objects and connect them together. The application will typically use classes such
 as TabLayout and CommonControls which aggregate common boiler plate code for creating
 canvases, HTML divs, and controls.
 
-A [DisplayGraph](myphysicslab.lab.graph.DisplayGraph.html) implements
-[DisplayObject](myphysicslab.lab.view.DisplayObject.html) and can be added to
+A [DisplayGraph](./classes/lab_graph_DisplayGraph.DisplayGraph.html) implements
+[DisplayObject](./interfaces/lab_view_DisplayObject.DisplayObject.html) and can be added to
 a SimView's DisplayList like any other DisplayObject. Just like other DisplayObjects,
 the DisplayGraph draws into the SimView using simulation coordinates.
 Therefore the **simulation rectangle** of the SimView determines what part of the graph
 is visible.
 
 To ensure that a graph is fully visible and occupies the entire SimView, we can make an
-[AutoScale](myphysicslab.lab.graph.AutoScale.html) object. The AutoScale observes one
+[AutoScale](./classes/lab_graph_AutoScale.AutoScale.html) object. The AutoScale observes one
 or more GraphLines and keeps track of the rectangle that encloses all of the graph
 data. The AutoScale then adjusts the SimView's simulation rectangle when the enclosing
 rectangle changes.
@@ -383,14 +393,14 @@ click and drag within a LabCanvas to apply a force to an object in the simulatio
 purpose of the controller classes being separate from the model and view is so that the
 user interaction techniques can be modified independent of the model and view.
 
-<img src='Overview_Controller_Classes.svg'>
+<img src='Overview_Controller_Classes.svg' width='753' height='633'>
 
 The application creates the controller objects and connects them to the other objects.
-In the typical case a [SimController](myphysicslab.lab.app.SimController.html) is
-connected to a [LabCanvas](myphysicslab.lab.view.LabCanvas.html) so that the
+In the typical case a [SimController](./classes/lab_app_SimController.SimController.html) is
+connected to a [LabCanvas](./classes/lab_view_LabCanvas.LabCanvas.html) so that the
 SimController receives user mouse and keyboard events. The SimController does some
 pre-processing of events and then sends the events to the
-[EventHandler](myphysicslab.lab.app.EventHandler.html) to actually do something.
+[EventHandler](./interfaces/lab_app_EventHandler.EventHandler.html) to actually do something.
 
 The **pre-processing** that the SimController does includes translating the events to
 simulation coordinates and finding the nearest dragable DisplayObject to the mouse
@@ -404,27 +414,27 @@ that implements the EventHandler interface.
 
 In some cases it makes sense for the EventHandler to be a **separate class** from the
 Simulation; an example is
-[RigidBodyEventHandler](myphysicslab.lab.app.RigidBodyEventHandler.html) which is
-a separate class from [RigidBodySim](myphysicslab.lab.engine2D.RigidBodySim.html).
+[RigidBodyEventHandler](./classes/lab_app_RigidBodyEventHandler.RigidBodyEventHandler.html) which is
+a separate class from [RigidBodySim](./classes/lab_engine2D_RigidBodySim.RigidBodySim.html).
 Because RigidBodySim has a rich API it is easy to separate the model and controller. If
 desired, it would be possible to invent a different custom EventHandler (other than
 RigidBodyEventHandler) to use with RigidBodySim.
 
 Another way to modify a Simulation is by changing its publicly available
-[Parameters](myphysicslab.lab.util.Parameter.html). For example, DoublePendulumSim has
-a [ParameterNumber](myphysicslab.lab.util.ParameterNumber.html) that represents the
-strength of gravity. A [NumericControl](myphysicslab.lab.controls.NumericControl.html)
-or [SliderControl](myphysicslab.lab.controls.SliderControl.html) can be connected with
+[Parameters](./interfaces/lab_util_Observe.Parameter.html). For example, DoublePendulumSim has
+a [ParameterNumber](./classes/lab_util_Observe.ParameterNumber.html) that represents the
+strength of gravity. A [NumericControl](./classes/lab_controls_NumericControl.NumericControl.html)
+or [SliderControl](./classes/lab_controls_SliderControl.SliderControl.html) can be connected with
 that gravity Parameter so that the user can change gravity by typing a number or
 changing the position of a slider. See the [Subject, Observer, Parameter][] section
 below for more about how Parameters work.
 
 Parameters are not required for making user interface controls. For example, you can
-make a [NumericControlBase](myphysicslab.lab.controls.NumericControlBase.html) with
+make a [NumericControlBase](./classes/lab_controls_NumericControl.NumericControlBase.html) with
 just getter and setter functions. Similarly for
-[CheckBoxControlBase](myphysicslab.lab.controls.CheckBoxControlBase.html),
-[ChoiceControlBase](myphysicslab.lab.controls.ChoiceControlBase.html), and
-[ButtonControl](myphysicslab.lab.controls.ButtonControl.html) – these do not need a
+[CheckBoxControlBase](./classes/lab_controls_CheckBoxControl.CheckBoxControlBase.html),
+[ChoiceControlBase](./classes/lab_controls_ChoiceControl.ChoiceControlBase.html), and
+[ButtonControl](./classes/lab_controls_ButtonControl.ButtonControl.html) – these do not need a
 Parameter but only a function or two.
 
 
@@ -450,10 +460,10 @@ throughout myPhysicsLab. They comprise an implementation of the
 [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern). They are
 defined in the `myphysicslab.lab.util` namespace.
 
-<img src='Overview_Subject_Observer_Classes.svg'>
+<img src='Overview_Subject_Observer_Classes.svg' width='689' height='539'>
 
 The diagram shows the relationships of a
-[AbstractSubject](myphysicslab.lab.util.AbstractSubject.html) which has 4 Observers and
+[AbstractSubject](./classes/lab_util_AbstractSubject.AbstractSubject.html) which has 4 Observers and
 3 Parameters and a temporary GenericEvent.
 
 The **Observer Design Pattern** allows objects to interact while knowing very little
@@ -462,13 +472,13 @@ modify the value of a ParameterNumber belonging to any class, even though the
 NumericControl knows nothing about that class except that it implements the Subject
 interface. This promotes *information hiding and reuse of software components*.
 
-A [Subject](myphysicslab.lab.util.Subject.html) provides access to a set of
-[Parameters](myphysicslab.lab.util.Parameter.html) and notifies all
-of its [Observers](myphysicslab.lab.util.Observer.html) when a Parameter
+A [Subject](./interfaces/lab_util_Observe.Subject.html) provides access to a set of
+[Parameters](./interfaces/lab_util_Observe.Parameter.html) and notifies all
+of its [Observers](./interfaces/lab_util_Observe.Observer.html) when a Parameter
 changes. There are three types of Parameter:
-[ParameterNumber](myphysicslab.lab.util.ParameterDouble.html),
-[ParameterBoolean](myphysicslab.lab.util.ParameterBoolean.html), and
-[ParameterString](myphysicslab.lab.util.ParameterString.html).
+[ParameterNumber](./classes/lab_util_Observe.ParameterNumber.html),
+[ParameterBoolean](./classes/lab_util_Observe.ParameterBoolean.html), and
+[ParameterString](./classes/lab_util_Observe.ParameterString.html).
 
 A Parameter combines these pieces of information:
 
@@ -483,19 +493,19 @@ A Parameter combines these pieces of information:
 + _setter:_ a function that sets the value of the Parameter
 
 Whenever the value of the Parameter changes, the Subject will
-[broadcast](myphysicslab.lab.util.Subject.html#broadcast) the change to all its
+[broadcast](./interfaces/lab_util_Observe.Subject.html#broadcast) the change to all its
 registered Observers. This happens regardless of how the change occurred: whether by
 using the `setValue` method of the Parameter, or by directly calling the setter method
 on the Subject.
 
 A Subject also notifies its Observers when a
-[GenericEvent](myphysicslab.lab.util.GenericEvent.html) occurs. These are momentary
+[GenericEvent](./classes/lab_util_Observe.GenericEvent.html) occurs. These are momentary
 events that occur in the Subject. For example, Clock broadcasts a GenericEvent when it
 is paused; an Observer like a CheckBoxControl could then modify its appearance to match
 the current state of the Clock.
 
 Note that Parameters and GenericEvent all implement the
-[SubjectEvent](myphysicslab.lab.util.SubjectEvent.html) interface.
+[SubjectEvent](./interfaces/lab_util_Observe.SubjectEvent.html) interface.
 
 # Application
 
@@ -534,35 +544,35 @@ controls or an HTML5 canvas element.
 
 The process of constructing the set of objects in the application is fairly
 straightforward. You can read the application code to see what is happening, for example
-in [DoublePendulumApp](myphysicslab.sims.pendulum.DoublePendulumApp.html). There
+in [DoublePendulumApp](./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html). There
 are many possible ways to set up a simulation and its display and user interface.
 
 Applications often make use of **helper classes** to build the user interface and
 display. Using these classes allows sharing code that is identical between applications.
 Here are some of them:
 
-+ [AbstractSubject](myphysicslab.lab.util.AbstractSubject.html) is an abstract
++ [AbstractSubject](./classes/lab_util_AbstractSubject.AbstractSubject.html) is an abstract
     base class that provides everything needed to implement the
-    [Subject](myphysicslab.lab.util.Subject.html) interface.
+    [Subject](./interfaces/lab_util_Observe.Subject.html) interface.
 
-+ [AbstractApp](myphysicslab.sims.common.AbstractApp.html) is an abstract base class
++ [AbstractApp](./classes/sims_common_AbstractApp.AbstractApp.html) is an abstract base class
     that creates the standard set of views, graphs and controls which are common to
     many applications that run an ODESim.
 
-+ [Engine2DApp](myphysicslab.sims.engine2D.Engine2DApp.html) is an abstract base class
++ [Engine2DApp](./classes/sims_engine2D_Engine2DApp.Engine2DApp.html) is an abstract base class
     that creates the standard set of views, graphs and controls which are common to
     many applications that run a RigidBodySim, ImpulseSim, or ContactSim.
 
-+ [CommonControls](myphysicslab.sims.common.CommonControls.html) provides
++ [CommonControls](./classes/sims_common_CommonControls.CommonControls.html) provides
     various functions for constructing user interface elements; for example the
     "play, pause, rewind" controls are created with
-    [makePlaybackControls](myphysicslab.sims.common.CommonControls.html#CommonControls.makePlaybackControls).
+    [makePlaybackControls](./classes/sims_common_CommonControls.CommonControls.html#makePlaybackControls).
 
-+ [TabLayout](myphysicslab.sims.common.TabLayout.html) implements specific ways to
++ [TabLayout](./classes/sims_common_TabLayout.TabLayout.html) implements specific ways to
     present the application on the web page; in this case with a tab-based layout
     to show the simulation view, graphs, and controls.
 
-+ [RigidBodyObserver](myphysicslab.sims.engine2D.RigidBodyObserver.html)
++ [RigidBodyObserver](./classes/sims_engine2D_RigidBodyObserver.RigidBodyObserver.html)
     automatically creates a DisplayObject for any SimObject added to the simulation;
     used with RigidBodySim or its subclasses.
 
@@ -585,7 +595,7 @@ _Key Points:_
 + It is possible to have multiple applications running on a single web page.
 
 When the web page loads, a script creates the application and starts a
-[callback Timer](myphysicslab.lab.util.Timer.html) running that drives the simulation.
+[callback Timer](./classes/lab_util_Timer.Timer.html) running that drives the simulation.
 This section describes that start-up process.
 
 In myPhysicsLab the convention is to **use the same name** for the JavaScript
@@ -598,7 +608,7 @@ indicate what **language** they use. For example, the German versions would be
 Here is a **typical start-up script** from the HTML start-up file
 `DoublePendulumApp-en.html` (the `-en` suffix means it is
 an English version). This script creates a
-[DoublePendulumApp](myphysicslab.sims.pendulum.DoublePendulumApp.html) application
+[DoublePendulumApp](./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html) application
 object which is stored in the `app` global variable.
 
     <script src='DoublePendulumApp-en.js'></script>
@@ -616,7 +626,7 @@ object which is stored in the `app` global variable.
             div_terminal: 'div_terminal',
             images_dir: '../../images/'
         };
-        app = makeDoublePendulumApp(elem_ids);
+        app = new mpl.DoublePendulumApp(elem_ids);
         app.defineNames('app');
     }());
     </script>
@@ -624,20 +634,19 @@ object which is stored in the `app` global variable.
     <script>app.start();</script>
 
 The first script tag **loads the compiled version** of the application and various
-classes it needs from the file `DoublePendulumApp-en.js`. Loading the compiled JavaScript file **defines the classes**, but does not instantiate
-the application. (Note that the loading process is considerably different when
-[debugging – running uncompiled)](Building.html#debuggingrunninguncompiled)).
+classes it needs from the file `DoublePendulumApp-en.js`. Loading the compiled
+JavaScript file **defines the classes**, but does not instantiate the application.
 
 The second script tag is where the application is actually **instantiated**. The
 `elem_ids` object specifies the **id's of various HTML elements** that the application
-will use (see below for more on this). The app might create new HTML elements that are
-added to these HTML elements. The `defineNames` method is where
-[command short names](Customizing.html#commandshortnames) are defined, which are important
-for further customization and scripting.
+will use (see below for more on this). The app might create additional HTML elements.
+The `defineNames` method is where
+[command short names](Customizing.html#commandshortnames) are defined, which are
+important for further customization and scripting.
 
 The third script tag runs the application's `setup` method, which can do various
-operations such as parse a URL Query Script, or load a script from HTML5 local storage.
-See [Terminal for Script Execution](Customizing.html#terminal:forscriptexecution).
+operations such as parse a URL Query Script.
+See [Terminal for Script Execution](Customizing.html#terminalforscriptexecution).
 
 The last script tag is what **starts the callback running** which drives the animation.
 See [Event-Driven Programming][].
@@ -667,11 +676,10 @@ the following fragment you can see the id's such as `container`, `sim_applet`,
 Additionally `elem_ids` contains a property `images_dir` which specifies the relative
 URL of the directory containing images used by certain user interface controls.
 
-Note that a [global variable](Building.html#globalvariableusage) `app` is created in
-the script. This **global variable holds the application object** and ensures that the
-application and its objects are **not garbage collected**. It also makes it possible to
+Note that a [global variable](Building.html#globalvariables) `app` is created in
+the script which holds the application object. It also makes it possible to
 access the various objects from a script, as is discussed further in the section
-[Terminal for Script Execution](Customizing.html#terminal:forscriptexecution)
+[Terminal for Script Execution](Customizing.html#terminalforscriptexecution)
 
 It is possible to have **two independent versions** of an application running on a
 single page. This is demonstrated in
@@ -690,7 +698,7 @@ meters, kilograms, seconds. The units of measurement are **dimensionless**, they
 interpreted however you want, but they must be **consistent within the simulation**.
 
 Consider the
-[single spring simulation](myphysicslab.sims.springs.SingleSpringSim.html) as an
+[single spring simulation](./classes/sims_springs_SingleSpringSim.SingleSpringSim.html) as an
 example. The units involved are time, distance, mass, and the spring stiffness. The
 time, distance and mass are independent of each other and can be regarded as being
 whatever units you want. But spring stiffness combines time, distance and mass so its
@@ -713,4 +721,10 @@ are also derived and given the previous choices should be interpreted as
 Note in particular that a **unit of time** can mean anything from a millisecond to a
 millenium. However, the Clock class is used to advance the Simulation time along with
 real time as though each unit of time is equal to one second of real time. See
-[Clock](myphysicslab.lab.util.Clock.html) for more information.
+[Clock](./classes/lab_util_Clock.Clock.html) for more information.
+
+
+&nbsp;
+
+&nbsp;
+

@@ -9,7 +9,7 @@ HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1"
 # ContactSim Math
 
 This describes details of the math involved in the class
-[ContactSim](myphysicslab.lab.engine2D.ContactSim.html) which is part of the
+[ContactSim](./classes/lab_engine2D_ContactSim.ContactSim.html) which is part of the
 [2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine-en.html)
 of [myPhysicsLab](http://www.myphysicslab.com).
 
@@ -244,7 +244,8 @@ D-2).
       body 2 is normal object in contact j -->  -fj affects p2 --> +1
 
 Terminology: "primary" object just means it is the non-normal object in the contact, it
-is the object whose corner is colliding. See the fields of `RigidBodyCollision` object.
+is the object whose corner is colliding. See the fields of
+[RigidBodyCollision](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html) object.
 
 Note that in the case where `fj` affects both bodies 1 and 2 (which happens for
 the contact force at the contact point) then `Aij` is the sum of these two.
@@ -283,7 +284,9 @@ It turns out that this is the same when substituting `U`:
     T = F x R = F x U
 
 It has to do with both `R` and `U` being on the line of the normal thru the contact
-point.  See docs for `RigidBodyCollision` for a diagram and explanation; the section
+point.  See docs for
+[RigidBodyCollision](./classes/lab_engine2D_RigidBody.RigidBodyCollision.html)
+for a diagram and explanation; the section
 is called "Equivalence of Using R or U Vector For Normal Velocity".
 
 
@@ -493,3 +496,7 @@ acceleration `a` which over a single time step `h` will reduce the normal veloci
     ∆v = (v - 0) = integral(a dt) = a h.
 
 Therefore we get `a = -v / h`.
+
+&nbsp;
+
+&nbsp;

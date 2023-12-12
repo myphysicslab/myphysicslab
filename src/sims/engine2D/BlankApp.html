@@ -13,19 +13,13 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
 #CONTROLS_CONTAINER
-#COMPILED_MENU
 
 <p>BlankApp lets you experiment building a rigid body simulation via scripting.
 It has a ContactSim, LabCanvas, SimView, Terminal and other objects already created.
 Below is a sample script to try by entering in Terminal.</p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
-</p>
 
 <pre>
 ELASTICITY=0.9;
@@ -42,7 +36,7 @@ sim.saveInitialState();
 app.addStandardControls();
 </pre>
 
-<p>A script can be provided in the
+<p>A script can also be provided in the
 <a href="https://en.wikipedia.org/wiki/Query_string">query string</a>
 of the URL (after the question mark)
 for this page. For example, the following URL contains the above script.
@@ -73,6 +67,9 @@ we must substitute in the URL:
 <p>See this
 <a href="https://perishablepress.com/stop-using-unsafe-characters-in-urls/">character
 encoding chart</a> to learn which other characters must be percent-encoded.
+Also see
+<a href="https://www.myphysicslab.com/develop/docs/classes/lab_util_Terminal.Terminal.html#md:url-query-script">URL Query Script</a>
+in Terminal documentation.
 </p>
 
 #PAGE_INFO

@@ -12,34 +12,35 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
+
+&nbsp;
 
 <div id="sim_canvas">
 </div>
 <div id="sim_controls" class="control_group">
 </div>
+<div id=graph_div>
+</div>
 <!-- the "onsubmit=return false" is to prevent the page from reloading after
 enter key is typed in the text input field.
 -->
 <form id="script_terminal" onsubmit="return false;">
-  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
   <label>command:<input type="text" id="term_input" size="80"></label>
-  #COMPILED_MENU
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
 </form>
 
 <p>BlankSlateApp has a LabCanvas and Terminal, and lets you experiment building
-things with scripts.  Below is a sample script to try.
-</p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
+things with scripts. Here is a sample script to try (copy the text and paste into
+Terminal input area).
 </p>
 
 <pre>
 var r = PointMass.makeSquare(4);
-var dr = new DisplayShape(r).setStrokeStyle('red').setThickness(4);
+var dr = new DisplayShape(r);
+dr.setStrokeStyle('red');
+dr.setThickness(4);
 displayList.add(dr);
 r.setPosition(new Vector(0, 0));
 var clock = new Clock();
@@ -53,17 +54,336 @@ clock.resume();
 timer.startFiring();
 </pre>
 
-<p>A script can be provided in the query portion of the URL (after the question mark)
-  for this page. For example, the following URL contains the above script.
-</p>
-<pre><a href="#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp-en.html?var%20r=PointMass.makeSquare(4);var%20dr=new%20DisplayShape(r).setStrokeStyle('red').setThickness(4);displayList.add(dr);r.setPosition(new%20Vector(0,0));var%20clock=new%20Clock();var%20timer=new%20Timer();var%20callback=function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();};timer.setCallBack(callback);clock.resume();">
-#MYPHYSICSLAB_URL/develop/build/sims/experimental/BlankSlateApp-en.html?var r=PointMass.makeSquare(4);
-var dr=new DisplayShape(r);displayList.add(dr);dr.strokeStyle='red';r.setPosition(new Vector(0,0));
-var clock=new Clock();var timer=new Timer();
-timer.setCallBack(function(){r.setAngle(Math.sin(clock.getTime()));simCanvas.paint();});
-clock.resume();</a>
+Here is another script to try, this one replicates what
+<a href="./SimpleApp-#LOCALE.html">SimpleApp</a> does.
+
+<pre>
+var point1 = PointMass.makeRectangle(1, 1.5, 'block');
+var fixedPt = PointMass.makeSquare(1, 'fixed');
+fixedPt.setMass(Infinity);
+fixedPt.setPosition(new Vector(-4, 0));
+var spring1 = new Spring('spring', fixedPt, Vector.ORIGIN,
+    point1, Vector.ORIGIN, 1, 3);
+var shape1 = new DisplayShape(point1);
+shape1.setFillStyle('orange');
+displayList.add(shape1);
+var dspring = new DisplaySpring(spring1);
+dspring.setWidth(1.0);
+dspring.setColorCompressed('yellow');
+dspring.setColorExpanded('blue');
+displayList.add(dspring);
+var clock = new Clock();
+var timer = new Timer();
+timer.setCallBack(() => {
+  point1.setPosition(new Vector(1 + 3*Math.sin(3*clock.getTime()), 0));
+  simCanvas.paint();
+});
+timer.startFiring();
+clock.resume();
 </pre>
 
+Here is a script that runs the
+<a href="../springs/SingleSpringApp-#LOCALE.html">SingleSpringSim</a>
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+var deSolver = new ModifiedEuler(sim);
+var clock = new Clock();
+var lastTime = 0;
+timer.setCallBack(() => {
+  var now = clock.getTime();
+  deSolver.step(now - lastTime);
+  lastTime = now;
+  sim.modifyObjects();
+  simCanvas.paint();
+});
+timer.startFiring();
+clock.resume();
+</pre>
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, so you don't need
+to set up your own callback for stepping the diffeq forward.
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+simRun.resume();
+</pre>
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, and adds a
+pan-zoom control.
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+var panzoom = CommonControls.makePanZoomControls(simView);
+simDiv.appendChild(panzoom);
+panzoom.style.display = 'block';
+simRun.resume();
+</pre>
+
+This script runs <a href="../pendulum/PendulumApp-#LOCALE.html">PendulumSim</a> with a
+SimRunner and SimpleAdvance.
+
+<pre>
+var simRect = new DoubleRect(-1.4, -0.9, 1.4, 0.9);
+simView.setSimRect(simRect);
+var sim = new PendulumSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var rod = new DisplayLine(simList.getConcreteLine('rod'));
+displayList.add(rod);
+var drive = new DisplayArc(simList.getArc('drive'));
+displayList.add(drive);
+var bob = new DisplayShape(simList.getPointMass('bob'));
+bob.setFillStyle('blue');
+displayList.add(bob);
+sim.getVarsList().getVariable(PendulumSim.en.ANGLE).setValue(Math.PI/8);
+simRun.resume();
+</pre>
+
+This script runs <a href="../roller/RollerSingleApp-#LOCALE.html">RollerSingleSim</a>
+with a SimRunner and SimpleAdvance.
+
+<pre>
+var simRect = new DoubleRect(-3.4, -3.4, 3.4, 3.4);
+simView.setSimRect(simRect);
+var sim = new RollerSingleSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var npath = new NumericalPath(new CirclePath(3));
+var displayPath = new DisplayPath();
+displayPath.setScreenRect(simView.getScreenRect());
+displayPath.addPath(npath);
+displayList.add(displayPath);
+sim.setPath(npath);
+var ball1 = new DisplayShape(simList.getPointMass('ball1'));
+ball1.setFillStyle('blue');
+displayList.add(ball1);
+var axes = new DisplayAxes(simView.getSimRect());
+displayList.add(axes);
+simRun.resume();
+</pre>
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, and adds a
+checkbox to show the clock.
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+simRun.resume();
+var dispClock = new DisplayClock(()=>sim.getTime(), ()=>simRun.getClock().getRealTime());
+dispClock.setPosition(new Vector(1.2, -1.6));
+var cb = new CheckBoxControlBase('show clock', ()=>displayList.contains(dispClock), (value)=>{if (value) {displayList.add(dispClock)} else {displayList.remove(dispClock) }});
+app.addControl(cb);
+</pre>
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, and includes
+DisplayAxes and EnergyBarGraph.
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+var axes = new DisplayAxes(simView.getSimRect());
+displayList.add(axes);
+var energy = new EnergyBarGraph(sim);
+var r = simView.getCoordMap().screenToSimRect(simView.getScreenRect());
+energy.setVisibleArea(r);
+displayList.add(energy);
+simRun.resume();
+</pre>
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, and includes
+a DisplayGraph with some controls for which variables to graph.
+<pre>
+simView.setSimRect(new DoubleRect(-3, -2, 3, 2));
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+var axes = new DisplayAxes(simView.getSimRect());
+displayList.add(axes);
+const graphDiv = document.getElementById('graph_div');
+const canvas = document.createElement('canvas');
+graphDiv.appendChild(canvas);
+var graphCanvas = new LabCanvas(canvas, 'canvas1');
+graphCanvas.setSize(800, 800);
+simRun.addCanvas(graphCanvas);
+var graphView = new SimView('graphView', new DoubleRect(-3, -8, 3, 8));
+graphView.setHorizAlign('FULL');
+graphView.setVerticalAlign('FULL');
+graphCanvas.addView(graphView);
+var line = new GraphLine('X_Y_GRAPH_LINE', sim.getVarsList());
+line.setXVariable('position');
+line.setYVariable(1);
+line.setColor('lime');
+graphView.addMemo(line);
+var displayGraph = new DisplayGraph(line);
+displayGraph.setScreenRect(graphView.getScreenRect());
+graphView.getDisplayList().prepend(displayGraph);
+var axes = new DisplayAxes(graphView.getSimRect());
+graphView.getDisplayList().add(axes);
+var xChoice = new ChoiceControl(line.getParameterNumber('X_VARIABLE'));
+app.addControl(xChoice);
+var yChoice = new ChoiceControl(line.getParameterNumber('Y_VARIABLE'));
+app.addControl(yChoice);
+simRun.resume();
+</pre>
+
+
+This script runs SingleSpringSim with a SimRunner and SimpleAdvance, and adds a
+NumericControlBase to modify the block mass, and a NumericControl to modify the spring
+stiffness.
+
+<pre>
+var simRect = new DoubleRect(-3, -2, 3, 2);
+simView.setSimRect(simRect);
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = simList.getPointMass('block');
+var blockDisp = new DisplayShape(block);
+blockDisp.setFillStyle('blue');
+displayList.add(blockDisp);
+var spring = simList.getSpring('spring');
+var springDisp = new DisplaySpring(spring);
+springDisp.setWidth(0.4);
+springDisp.setThickness(6);
+displayList.add(springDisp);
+var massControl = new NumericControlBase('mass', ()=>block.getMass(), (value)=>block.setMass(value));
+app.addControl(massControl);
+var springControl = new NumericControl(sim.getParameterNumber('spring stiffness'));
+app.addControl(springControl);
+var startButton = new ButtonControl('start', ()=>simRun.resume());
+app.addControl(startButton);
+var img =  Util.createImage(Util.IMAGES_DIR+'/pause.png', 30);
+var stopButton = new ButtonControl('stop', ()=>simRun.pause(), img);
+app.addControl(stopButton);
+</pre>
+
+This script runs SingleSpringSim with a DisplayGraph that has an AutoScale resizing it,
+a 'clear graph' button, and an Observer that resizes the DisplayAxes.
+<pre>
+simView.setSimRect(new DoubleRect(-3, -2, 3, 2));
+var sim = new SingleSpringSim();
+simCtrl.setEventHandler(sim);
+var advance = new SimpleAdvance(sim);
+var simRun = new SimRunner(advance);
+var simList = sim.getSimList();
+var block = new DisplayShape(simList.getPointMass('block'));
+block.setFillStyle('blue');
+displayList.add(block);
+var spring = new DisplaySpring(simList.getSpring('spring'));
+spring.setWidth(0.4);
+spring.setThickness(6);
+displayList.add(spring);
+var axes = new DisplayAxes(simView.getSimRect());
+displayList.add(axes);
+const graphDiv = document.getElementById('graph_div');
+const canvas = document.createElement('canvas');
+graphDiv.appendChild(canvas);
+var graphCanvas = new LabCanvas(canvas, 'canvas1');
+graphCanvas.setSize(800, 800);
+simRun.addCanvas(graphCanvas);
+var graphView = new SimView('graphView', new DoubleRect(-3, -8, 3, 8));
+graphView.setHorizAlign('FULL');
+graphView.setVerticalAlign('FULL');
+graphCanvas.addView(graphView);
+var line = new GraphLine('X_Y_GRAPH_LINE', sim.getVarsList());
+line.setXVariable('position');
+line.setYVariable(1);
+line.setColor('lime');
+graphView.addMemo(line);
+var displayGraph = new DisplayGraph(line);
+displayGraph.setScreenRect(graphView.getScreenRect());
+graphView.getDisplayList().prepend(displayGraph);
+var axes = new DisplayAxes(graphView.getSimRect());
+graphView.getDisplayList().add(axes);
+var xChoice = new ChoiceControl(line.getParameterNumber('X_VARIABLE'));
+app.addControl(xChoice);
+var yChoice = new ChoiceControl(line.getParameterNumber('Y_VARIABLE'));
+app.addControl(yChoice);
+const auto = new AutoScale('auto-scale', line, graphView);
+new GenericObserver(graphView, evt => { if (evt.nameEquals(SimView.COORD_MAP_CHANGED)) {
+  const r = graphView.getCoordMap().screenToSimRect(graphView.getScreenRect());
+  axes.setSimRect(r); }}, 'resize axes');
+var clearButton = new ButtonControl('clear graph', ()=>line.reset());
+app.addControl(clearButton);
+simRun.resume();
+</pre>
 
 #LOAD_APP
 <script>
@@ -75,7 +395,7 @@ clock.resume();</a>
       term_input: 'term_input',
       images_dir: '#IMAGES_DIR'
     };
-    app = makeBlankSlateApp(elem_ids);
+    app = new mpl.BlankSlateApp(elem_ids);
     app.defineNames('app');
   }());
 </script>

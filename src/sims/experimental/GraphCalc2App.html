@@ -12,7 +12,7 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
 
 <div id="graph_div1">
@@ -23,18 +23,12 @@
 enter key is typed in the text input field.
 -->
 <form id="script_terminal" onsubmit="return false;">
-  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
   <label>command:<input type="text" id="term_input" size="80"></label>
-  #COMPILED_MENU
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
 </form>
 
 <p>This demonstrates using the myPhysicsLab library to draw graphs. The equation of the
 graph can be entered as JavaScript in the Terminal command line interface.</p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
-</p>
 
 <p>This graph shows a single GraphLine. However, you can change the style (color, line
 width, dots vs. lines) at any time, so it can look like there are several different
@@ -97,7 +91,7 @@ default is 200). To add points to the GraphLine in a new color:</p>
         b_increments: 200,
         b_value: 5
       };
-      app = makeGraphCalc2App(elem_ids);
+      app = new mpl.GraphCalc2App(elem_ids);
       app.defineNames('app');
       app.eval('plot("x*Math.sin(b*x)", -10, 10)');
     }());

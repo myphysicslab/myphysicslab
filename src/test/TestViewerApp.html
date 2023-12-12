@@ -13,7 +13,7 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 
 #HEADER_BAR
 
@@ -23,18 +23,17 @@
   <form id="show_hide_form"  style="margin: 5px 0px 5px 0px;">
     <label><input type="checkbox" id="show_controls">controls</label>
     <label><input type="checkbox" id="show_graph">graph</label>
-    #COMPILED_MENU
     <label id="label_terminal">
       <input type="checkbox" id="show_terminal">terminal
     </label>
   </form>
-  <form id="sim_controls" onsubmit="return false;" style="margin: 5px 0px 5px 0px;">
+  <div id="sim_controls" style="margin: 5px 0px 5px 0px;">
     <label>damping <input type="text" id="damping_control"></label>
     <label>gravity <input type="text" id="gravity_control"></label>
-  </form>
+  </div>
   <div id="div_graph" style="margin: 0px;">
-    <form id="graph_controls" onsubmit="return false;">
-    </form>
+    <div id="graph_controls" >
+    </div>
   </div>
   <form id="form_terminal" onsubmit="return false;" style="margin: 0px;">
     <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
@@ -45,12 +44,6 @@
 <p>Interactively runs a test from the Engine2DTests suite of tests. This lets us see
 what a test is doing.
 </p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
-</p>
-
 
 #PAGE_INFO
 #LOREM_IPSUM

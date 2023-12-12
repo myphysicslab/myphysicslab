@@ -21,7 +21,7 @@ div.control_group {
   display: inline-block;
 }
 
-div.control_group label {
+div.control_group label, div.control_group div.slider {
   display: block;
   /* "width: max-content" ensures that labels report their true width, not the
    * width of their container.

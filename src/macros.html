@@ -6,7 +6,7 @@
 #comment which are used in .html files.
 #comment The perl program prep_html.pl is what does the macro substitution.
 #comment We expect the calling HTML file to define macros: #TOP_DIR, #APP_PATH.
-#comment Macros #LOCALE and #COMPILE_LEVEL are predefined by prep_html.pl.
+#comment Macro #LOCALE is predefined by prep_html.pl.
 #comment We expect layout macros to define: #ELEM_IDS, #CONTROLS_CONTAINER.
 #comment The layout macros are defined in macros_tab.html and macros_vert.html.
 #comment
@@ -127,24 +127,11 @@
 #comment (see for example TerminalSpring2DApp).
 #defineFrom #APP_NAME {#APP_PATH} s~.*\.~~g
 
-#comment "compiled" menu lets user select between "simple" and "advanced" versions.
-#define #COMPILED_MENU ##COMPILE_LEVEL#_COMPILED_MENU
-#define #debug_COMPILED_MENU
-#define #simple_COMPILED_MENU <label>compiled: \
-  <select id="compiled_menu"\
-    onchange="location = this.options[this.selectedIndex].value;">\
-    <option value="#FILE_NAME#-#LOCALE#.html" selected>simple</option>\
-    <option value="#TOP_DIR/../adv-build/#FILE_PATH#-#LOCALE#.html">advanced</option>\
-  </select>\
-  </label>
-#define #advanced_COMPILED_MENU <label>compiled: \
-  <select id="compiled_menu"\
-    onchange="location = this.options[this.selectedIndex].value;">\
-    <option value="#TOP_DIR/../build/#FILE_PATH#-#LOCALE#.html">simple</option>\
-    <option value="#FILE_NAME#-#LOCALE#.html" selected>advanced</option>\
-  </select>\
-  </label>
-
+#comment when there are multiple apps on same page, then APP_NUM = 1 or 2 or 3 etc.
+#comment and in macros we refer to 'app#APP_NUM' instead of just 'app'
+#comment That translates into 'app1', 'app2', 'app3' when APP_NUM is non-empty,
+#comment or just 'app' when #APP_NUM is empty string.
+#define #APP_NUM
 
 #comment Set MYPHYSICSLAB_DIR to relative URL for testing on local machine
 #define #MYPHYSICSLAB_DIR #TOP_DIR/../..
@@ -161,53 +148,13 @@ version of this simulation.</p>
 <a href="#MYPHYSICSLAB_URL">myPhysicsLab</a> f&uuml; die\
 ver&ouml;ffentlichte Version dieser Simulation.</p>
 
-#comment Perl requires to escape left bracket \{ in regexp (as of 2023)
-#define #TEST_PAGE ##LOCALE#_TEST_PAGE
-#rule s~#en_TEST_PAGE\{(.+?)}~<p style="clear: both;">This is a <em>test page for development</em>, please see the <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">published version of this simulation</a>.</p>~g
-
-#rule s~#de_TEST_PAGE\{(.+?)}~<p style="clear: both;">Dies ist eine <em>Test Web Seite f&uuml;r Entwicklung</em>, bitte nutzen Sie die <a href="#MYPHYSICSLAB_DIR/$1-#LOCALE#.html">ver&ouml;ffentlichte Version dieser Simulation</a> um das vollst&auml;ndige Experiment zu sehen.</p>~g
-
-
-#define #LOAD_APP ##COMPILE_LEVEL#_LOAD_APP
-
-#define #simple_LOAD_APP <script src="#APP_NAME#-#LOCALE.js"></script>
-
-#define #advanced_LOAD_APP #simple_LOAD_APP
-
-#define #debug_LOAD_APP \
-<!-- When running from uncompiled source code, the goog.require() \
-* statement writes many script tags at this point in the html file; \
-* these define the classes needed for the required class, \
-* in the correct dependency order specified by deps.js. \
-* We must do "new App" from a separate script tag, to ensure all those \
-* emitted class definitions have executed. \
-* \
-* More info:  Closure: The Definitive Guide, Chapter 3, the section on \
-* Dependency Management. See especially the html example at end of the \
-* section about goog.addDependency. --> \
-  <script src="#TOP_DIR/../closure-library/goog/base.js"></script>\
-  <script src="#TOP_DIR/deps.js"></script>\
-  <script>\
-    goog.define('goog.LOCALE', '#LOCALE');\
-    goog.require('myphysicslab.#APP_PATH');\
-  </script>
-
-#define #DEBUG_STATUS ##COMPILE_LEVEL#_DEBUG_STATUS
-#define #simple_DEBUG_STATUS
-#define #advanced_DEBUG_STATUS
-#define #debug_DEBUG_STATUS – UNCOMPILED
-
-#comment (in debug mode there is no compiled menu, but this prevents error)
-#define #COMPILED_MENU_IDX ##COMPILE_LEVEL#_COMPILED_MENU_IDX
-#define #simple_COMPILED_MENU_IDX 0
-#define #advanced_COMPILED_MENU_IDX 1
-#define #debug_COMPILED_MENU_IDX 0
+#define #LOAD_APP <script src="#APP_NAME#-#LOCALE.js"></script>
 
 #define #LANG_MENU_IDX ##LOCALE#_LANG_MENU_IDX
 #define #en_LANG_MENU_IDX 0
 #define #de_LANG_MENU_IDX 1
 
-#define #INSTANTIATE_APP app = make#APP_NAME(elem_ids);
+#define #INSTANTIATE_APP app#APP_NUM = new mpl.#APP_NAME(elem_ids, '#LOCALE');
 
 #comment BUILD_APP notes:
 #comment In Browsers that support BFCache (FireFox and Safari) using the back-button
@@ -226,19 +173,17 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
   (function build() {\
     #ELEM_IDS\
     #INSTANTIATE_APP\
-    app.defineNames('app');\
+    app#APP_NUM.defineNames('app#APP_NUM');\
     window.addEventListener('pageshow', function(event){\
-      // set language menu and compiled menus in case of back-button \
+      // set language menu in case of back-button \
       var menu = document.getElementById('language_menu');\
       if (menu) { menu.selectedIndex = #LANG_MENU_IDX; }\
-      menu = document.getElementById('compiled_menu');\
-      if (menu) { menu.selectedIndex = #COMPILED_MENU_IDX; }\
     }, /*capturing=*/false);\
     window.addEventListener('blur', function(event){\
-      app.eval('FIRING=false;', /*output=*/false);\
+      app#APP_NUM.eval('FIRING=false;', /*output=*/false);\
     }, /*capturing=*/false);\
     window.addEventListener('focus', function(event){\
-      app.eval('FIRING=true;', /*output=*/false);\
+      app#APP_NUM.eval('FIRING=true;', /*output=*/false);\
     }, /*capturing=*/false);\
   }());\
 </script>
@@ -253,8 +198,8 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #comment running.
 
 #define #START_APP \
-<script>var app; if (app) app.setup();</script>\
-<script>var app; if (app) app.start();</script>
+<script>var app#APP_NUM; if (app#APP_NUM) app#APP_NUM.setup();</script>\
+<script>var app#APP_NUM; if (app#APP_NUM) app#APP_NUM.start();</script>
 
 #define #PAGE_FOOTER <div id="footer2" >\
   <div id="copyright">\
@@ -273,9 +218,7 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 
 #comment "Lorem ipsum" text is used to test scrolling of the web page.
 
-#define #LOREM_IPSUM
-
-#define #LOREM_IPSUM_ACTUAL  \
+#define #LOREM_IPSUM  \
   <p style="clear: both;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
   Donec accumsan erat mi,\
   in ornare ex pretium vel. Duis at lectus id tortor varius facilisis sed sed sem. Ut\

@@ -12,7 +12,7 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
 
 <div id="graph_div">
@@ -21,18 +21,12 @@
 enter key is typed in the text input field.
 -->
 <form id="script_terminal" onsubmit="return false;">
-  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
   <label>command:<input type="text" id="term_input" size="80"></label>
-  #COMPILED_MENU
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
 </form>
 
 <p>This demonstrates using the myPhysicsLab library to draw graphs with JavaScript in
 the Terminal command line.</p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
-</p>
 
 <p>This graph shows a single GraphLine. However, you can change the style (color, line
 width, dots vs. lines) at any time, so it can look like there are several different
@@ -100,7 +94,7 @@ page. Example:
         term_input: 'term_input',
         images_dir: '#IMAGES_DIR'
       };
-      app = makeGraphCalcApp(elem_ids);
+      app = new mpl.GraphCalcApp(elem_ids);
       app.defineNames('app');
       app.eval('plot("x*Math.sin(5*x)", -10, 10)');
     }());

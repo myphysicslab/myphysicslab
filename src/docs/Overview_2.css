@@ -9,8 +9,8 @@ The img tag solves some Google "mobile-friendly"  tests. It ensures images are n
 than then screen,and therefore  prevents the entire page from being  shrunk to fit. That
 shrinking causes errors like "Text too small  to read" and "Clickable elements too close
 together"
-*/
 @import url(https://fonts.googleapis.com/css?family=Lato:400, 700, 400italic, 700italic|Inconsolata);
+*/
 * {
     margin: 0;
     padding: 0;
@@ -40,6 +40,7 @@ body a[id] {
 }
 img {
   max-width: 100%;
+  height: auto;
   display: block;
 }
 a, a:visited {

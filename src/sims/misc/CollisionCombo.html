@@ -1,0 +1,52 @@
+#comment Copyright 2020 Erik Neumann. All Rights Reserved.
+#comment Use of this source code is governed by the Apache License, Version 2.0.
+#comment See the LICENSE file and http://www.apache.org/licenses/LICENSE-2.0.
+#define #TOP_DIR ../..
+#define #APP_PATH sims.misc.CollisionCombo
+#include "#TOP_DIR/macros.html"
+#include "#TOP_DIR/macros_tab.html"
+#DOC_TYPE
+<html lang="en">
+<head>
+#META_TAGS
+#HIDE_ALL
+</head>
+<body>
+#SITE_LOGO
+<h1>#APP_PATH</h1>
+#HEADER_BAR
+
+#define #APP_NUM 1
+#CONTROLS_CONTAINER
+
+<p>
+<br>
+This page shows two different simulations running on the same page.
+These simulations are needed for the
+<a href="https://www.myphysicslab.com/engine2D/collision-methods-en.html">
+multiple simultaneous collisions</a> page on the myphysicslab website.
+<br>
+</p>
+
+#define #APP_NUM 2
+#CONTROLS_CONTAINER
+
+#PAGE_INFO
+#LOREM_IPSUM
+
+<script src="CollisionCombo-#LOCALE.js"></script>
+
+#define #APP_NUM 1
+#define #INSTANTIATE_APP app#APP_NUM = mpl.CollisionCombo.makeMultipleCollisionApp(elem_ids#APP_NUM);
+#BUILD_APP
+#START_APP
+
+#define #APP_NUM 2
+#define #INSTANTIATE_APP app#APP_NUM = mpl.CollisionCombo.makeCollideSpringApp(elem_ids#APP_NUM);
+#BUILD_APP
+#START_APP
+
+#SHOW_ALL
+#PAGE_FOOTER
+</body>
+</html>

@@ -12,6 +12,7 @@
 *.prep  text
 *.mk    text
 *.pl    text
+*.ts    text
 
 *.pdf   binary
 *.jpg   binary

@@ -1,4 +1,5 @@
 sims/engine2D/BilliardsApp
+sims/engine2D/Billiards2App
 sims/engine2D/BlankApp
 sims/engine2D/CarSuspensionApp
 sims/engine2D/CartPendulum2App
@@ -29,11 +30,13 @@ sims/experimental/GraphCalcApp
 sims/experimental/GraphCalc2App
 sims/experimental/MultiGraphCalc2App
 sims/experimental/SimpleApp
+sims/misc/CollisionCombo
 sims/misc/MagnetWheelApp
 sims/misc/RobotSpeedApp
 sims/pde/StringApp
 sims/pendulum/CartPendulumApp
 sims/pendulum/CompareDoublePendulumApp
+sims/pendulum/CompareDoublePendulumApp2
 sims/pendulum/ComparePendulumApp
 sims/pendulum/DoublePendulumApp
 sims/pendulum/MoveableDoublePendulumApp
@@ -41,6 +44,7 @@ sims/pendulum/MoveablePendulumApp
 sims/pendulum/PendulumApp
 sims/pendulum/ReactionPendulumApp
 sims/pendulum/RigidDoublePendulumApp
+sims/pendulum/RigidDoublePendulumApp2
 sims/pendulum/VectorGraphPendulumApp
 sims/roller/BrachistoApp
 sims/roller/LagrangeRollerApp
@@ -56,10 +60,8 @@ sims/springs/DangleStickApp
 sims/springs/Double2DSpringApp
 sims/springs/DoubleSpringApp
 sims/springs/Molecule1App
+sims/springs/Molecule2App
 sims/springs/Molecule3App
-sims/springs/Molecule4App
-sims/springs/Molecule5App
-sims/springs/Molecule6App
 sims/springs/MultiSpringApp
 sims/springs/SingleSpringApp
 sims/springs/SingleSpring2App

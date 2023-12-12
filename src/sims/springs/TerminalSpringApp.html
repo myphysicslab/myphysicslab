@@ -13,19 +13,13 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>#APP_PATH #DEBUG_STATUS</h1>
+<h1>#APP_PATH</h1>
 #HEADER_BAR
 #CONTROLS_CONTAINER
-#COMPILED_MENU
 
-<p>TerminalSpringApp shows the SingleSpringSim simulation using only Terminal commands.
-These commands are stored in the HTML file and don't require the Closure Compiler, so
-the command script is easy to create or modify.
-</p>
-
-<p>NOTE: This will only work on
-<a href="#MYPHYSICSLAB_URL/develop/docs/Building.html#advancedvs.simplecompile">simple-compiled versions</a>
-of this app; advanced-compiled versions cannot execute JavaScript.
+<p>TerminalSpringApp creates the SingleSpringSim simulation with JavaScript commands
+executed via the Terminal interface. The JavaScript commands are stored in this HTML
+file, so the command script is easy to create or modify.
 </p>
 
 #PAGE_INFO
@@ -35,44 +29,54 @@ of this app; advanced-compiled versions cannot execute JavaScript.
 #BUILD_APP
 #SHOW_ALL
 <script>
-app.eval('layout.showTerminal(true);'
-+'var sim = new SingleSpringSim();'
-+'var simList = sim.getSimList();'
-+'var simCtrl = new SimController(simCanvas, /*eventHandler=*/sim);'
-+'var advance  = new SimpleAdvance(sim);'
-+'var simRect = new DoubleRect(-3, -2, 3, 2);'
-+'var simView = new SimView("sim-view", simRect);'
-+'var displayList = simView.getDisplayList();'
-+'simCanvas.addView(simView);'
-+'var statusView = new SimView("status-view", new DoubleRect(-10, -10, 10, 10));'
-+'simCanvas.addView(statusView);'
-+'var axes = CommonControls.makeAxes(simView,true);'
-+'var simRun = new SimRunner(advance);'
-+'simRun.addCanvas(simCanvas);'
-+'var clock = simRun.getClock();'
-+'simRun.startFiring();'
-+'var block = new DisplayShape(simList.get("block"));'
-+'displayList.add(block);'
-+'block.setFillStyle("blue");'
-+'var spring = new DisplaySpring(simList.get("spring"));'
-+'displayList.add(spring);'
-+'spring.setWidth(0.4);'
-+'spring.setColorCompressed("blue");'
-+'spring.setColorExpanded("green");'
-+'clock.resume();'
-+'layout.addControl(CommonControls.makePlaybackControls(simRun));'
-+'layout.addControl(new NumericControl(sim.getParameterNumber(SingleSpringSim.en.SPRING_STIFFNESS)));'
-+'layout.addControl(new NumericControl(sim.getParameterNumber(SingleSpringSim.en.SPRING_LENGTH)));'
-+'layout.addControl(new NumericControl(sim.getParameterNumber(SingleSpringSim.en.DAMPING)));'
-+'layout.addControl(new NumericControl(sim.getParameterNumber(SingleSpringSim.en.MASS)));'
-+'layout.addControl(new NumericControl(simRun.getParameterNumber(SimRunner.en.TIME_STEP)));'
-+'layout.addControl(new NumericControl(clock.getParameterNumber(Clock.en.TIME_RATE)));'
-+'var subjects = new Array(sim, simRun, clock, simView, statusView, sim.getVarsList());'
-+'CommonControls.makeEasyScript(subjects, [], simRun, terminal);'
-+'terminal.parseURLorRecall();'
-+'sim.saveInitialState();'
-+'sim.modifyObjects();'
-+'simRun.startFiring();');
+app.eval(
+'layout.showTerminal(true);\
+var sim = new SingleSpringSim();\
+var simList = sim.getSimList();\
+var simCtrl = new SimController(simCanvas, /*eventHandler=*/sim);\
+var advance  = new SimpleAdvance(sim);\
+var simRect = new DoubleRect(-3, -2, 3, 2);\
+var simView = new SimView("sim-view", simRect);\
+var displayList = simView.getDisplayList();\
+simCanvas.addView(simView);\
+var statusView = new SimView("status-view", new DoubleRect(-10, -10, 10, 10));\
+simCanvas.addView(statusView);\
+var axes = CommonControls.makeAxes(simView,true);\
+var simRun = new SimRunner(advance);\
+simRun.addCanvas(simCanvas);\
+var clock = simRun.getClock();\
+simRun.startFiring();\
+var block = new DisplayShape(simList.get("block"));\
+displayList.add(block);\
+block.setFillStyle("blue");\
+var spring = new DisplaySpring(simList.get("spring"));\
+displayList.add(spring);\
+spring.setWidth(0.4);\
+spring.setColorCompressed("blue");\
+spring.setColorExpanded("green");\
+layout.addControl(CommonControls.makePlaybackControls(simRun));\
+layout.addControl(new NumericControl(\
+  sim.getParameterNumber(SingleSpringSim.en.SPRING_STIFFNESS)));\
+layout.addControl(new NumericControl(\
+  sim.getParameterNumber(SingleSpringSim.en.SPRING_LENGTH)));\
+layout.addControl(new NumericControl(\
+  sim.getParameterNumber(SingleSpringSim.en.DAMPING)));\
+layout.addControl(new NumericControl(\
+  sim.getParameterNumber(SingleSpringSim.en.MASS)));\
+layout.addControl(new NumericControl(\
+  simRun.getParameterNumber(SimRunner.en.TIME_STEP)));\
+layout.addControl(new NumericControl(\
+  clock.getParameterNumber(Clock.en.TIME_RATE)));\
+var graph = new StandardGraph1(sim.getVarsList(), layout.getGraphCanvas(),\
+  layout.getGraphControls(), layout.getGraphDiv(), simRun);\
+graph.line.setDrawingMode("lines");\
+var subjects = [sim, simRun, clock, simView, statusView, sim.getVarsList(), graph];\
+CommonControls.makeEasyScript(subjects, [], simRun, terminal);\
+clock.resume();\
+terminal.parseURL();\
+sim.saveInitialState();\
+simRun.startFiring();'
+);
 </script>
 #PAGE_FOOTER
 </body>

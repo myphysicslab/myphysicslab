@@ -10,13 +10,8 @@ To stop a simulation at a specified time, try the following script.
 
 Open the terminal window by clicking the "terminal" checkbox.
 
-<img src='TerminalWindow.jpg'>
+<img src='TerminalWindow.jpg' width='1350' height='1368'>
 &nbsp;
-
-Make sure you are using the [simple-compiled](Building.html#advancedvs.simplecompile)
-version of the simulation. There should be a link to the simple-compiled version on the
-simulation's web page, or find it in the
-[set of simple-compiled applications](https://www.myphysicslab.com/develop/build/index-en.html).
 
 Type `help` in the command box (and hit return of course) to see available Terminal
 commands.
@@ -49,12 +44,12 @@ To continue running the simulation after it stops:
 
 Explanation of things in the script:
 
-- A [GenericMemo](myphysicslab.lab.util.GenericMemo.html) is called whenever the
+- A [GenericMemo](./classes/lab_util_Memo.GenericMemo.html) is called whenever the
     simulation steps forward in time. Therefore the
     only way to cancel it is to remove it, or change its `stopTime` to far in the future.
 
 - The `simRun` variable is an instance of
-    [SimRunner](myphysicslab.lab.app.SimRunner.html) which controls the advancement of
+    [SimRunner](./classes/lab_app_SimRunner.SimRunner.html) which controls the advancement of
      the simulation over time.
 
 - The `sim` variable is an instance of whichever simulation is running,
@@ -105,25 +100,25 @@ Here are some other tasks that can be triggered by various events.
 
 - Change the time rate of the `clock` to slow down or speed up at a certain
     time. See the `setTimeRate` method of
-    [Clock](myphysicslab.lab.util.Clock.html).
+    [Clock](./classes/lab_util_Clock.Clock.html).
 
 - Print information when certain events happen using the `println` command
-    which is available in [Terminal](myphysicslab.lab.util.Terminal.html). For
+    which is available in [Terminal](./classes/lab_util_Terminal.Terminal.html). For
     example, when an object's position crosses a certain line you can print the time
     and other variables.
 
 - Cause a simulation to loop, going back to time zero, by executing
     `simRun.reset()` at a certain time. See the `reset` method of
-    [SimRunner](myphysicslab.lab.app.SimRunner.html).
+    [SimRunner](./classes/lab_app_SimRunner.SimRunner.html).
 
 - Change a parameter like gravity or damping at a certain time.
 
 ## Using ClockTask to Stop a Simulation
 
 Another way to stop a simulation at a certain time is to create a
-[ClockTask](myphysicslab.lab.util.ClockTask.html)
+[ClockTask](./classes/lab_util_Clock.ClockTask.html)
 and add it to a
-[Clock](myphysicslab.lab.util.Clock.html).
+[Clock](./classes/lab_util_Clock.Clock.html).
 For example, this script stops the simulation after 2 seconds.
 
     var task = new ClockTask(2, () => simRun.pause());
@@ -148,7 +143,7 @@ Here is a ClockTask that slows the time rate the Clock after 2 seconds:
 ## Using GenericObserver to React to Events
 
 Another way to execute a script is by making a
-[GenericObserver](myphysicslab.lab.util.GenericObserver.html)
+[GenericObserver](./classes/lab_util_Observe.GenericObserver.html)
 that looks for certain events to occur.
 
 Suppose you have installed one of the above scripts that slows the time rate of the Clock.  You run the simulation, and it slows down.  But now you want to try it again. It's annoying to need to manually reset the time rate to 1 every time. Here is a script that does that automatically whenever you hit the rewind (reset) button.
@@ -168,4 +163,3 @@ Architecture overview.
 &nbsp;
 
 &nbsp;
-

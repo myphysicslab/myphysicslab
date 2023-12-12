@@ -1,0 +1,16 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPointStrategy": "expand",
+    "entryPoints": ["./src"],
+    "out": "docs",
+    "name": "myPhysicsLab Docs",
+    "cleanOutputDir": false,
+    "tsconfig": "tsconfig.json",
+    "excludeNotDocumented": true,
+    "readme": "src/docs/doc_start.md",
+    "validation": {
+            "notExported": true,
+            "invalidLink": true,
+            "notDocumented": false
+        }
+}

@@ -16,7 +16,7 @@
 </head>
 <body>
 #SITE_LOGO
-<h1>sims.engine2D.Billiards2App #DEBUG_STATUS</h1>
+<h1>sims.engine2D.Billiards2App</h1>
 #HEADER_BAR
 #CONTROLS_CONTAINER
 
@@ -55,7 +55,9 @@ const body0 = Shapes.makeBall(r, 'ball'+0);
 body0.setPosition(new Vector(-6+1, 0), 0);
 body0.setVelocity(new Vector(speed, 0), 0);
 sim.addBody(body0);
-displayList.findShape(body0).setStrokeStyle('black').setFillStyle('white');
+var ds = displayList.findShape(body0);
+ds.setStrokeStyle('black');
+ds.setFillStyle('white');
 
 const body1 = Shapes.makeBall(r, 'ball'+1);
 body1.setPosition(new Vector(0, 0), 0);
