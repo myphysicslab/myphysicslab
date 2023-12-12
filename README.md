@@ -70,6 +70,11 @@ tools locally inside the myphysicslab directory:
     npm install esbuild
     npm install typedoc
 
+Those commands create some directories and files (for example `node_modules`) inside
+the myphysicslab directory that are unrelated to the myphysicslab project. The
+`.gitignore` file contains entries to prevent these from being added to the
+myphysicslab project.
+
 I create alias for these commands in my `.bash_profile` like this
 
     alias tsc=~/Documents/Programming/myphysicslab/node_modules/typescript/bin/tsc
@@ -93,9 +98,11 @@ has an example file which is mainly for development and testing. Find them in th
 History
 -------
 myPhysicsLab was started in 2000 using Java. From 2013 to 2016 the code was converted
-to JavaScript using Google Closure Compiler. In 2023 the code was converted to
-TypeScript for a couple of reasons: to be able to generate documentation, and because
-[Google Closure Library is in Maintenance Mode](https://github.com/google/closure-library/issues/1214).
+to JavaScript that depended on Google Closure Compiler.
+
+In 2023 the code was converted to TypeScript for a couple of reasons: to be able to
+generate documentation, and because
+[Google Closure Library is being retired](https://github.com/google/closure-library/issues/1214).
 
 Because of how modules work in TypeScript, sometimes several classes or interfaces
 are combined into a single file. For example the file `util/Observe.ts` contains what
