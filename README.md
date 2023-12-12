@@ -62,7 +62,13 @@ To build from source code:
 5.  Open the file `/build/index-en.html` with a browser. This has
     links to all the example files that were built.
 
+See [Building myPhysicsLab Software](https://github.com/myphysicslab/myphysicslab/blob/master/src/docs/Building.md)
+for more information about the build process.
+
 See [Building myPhysicsLab Software](http://www.myphysicslab.com/develop/docs/Building.html)
+for more information about the build process.
+
+See [Building myPhysicsLab Software](src/docs/Building.md)
 for more information about the build process.
 
 
