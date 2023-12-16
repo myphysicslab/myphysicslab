@@ -99,8 +99,8 @@ view.
 
 The 'show sim' checkbox is visible in the graph views. Clicking the 'show sim' checkbox
 will change the layout to pick the appropriate version of the current layout, for
-example either 'sim+graph' or 'graph'. The method {@link TabLayout.showSim} can be used from
-JavaScript to accomplish the same result.
+example either 'sim+graph' or 'graph'. The method {@link TabLayout.showSim} can be used
+from JavaScript to accomplish the same result.
 
 ### Size of Sim, Graph, TimeGraph
 
