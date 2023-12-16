@@ -93,7 +93,7 @@ var memo = new GenericMemo(()=> println('angle: '+angle.getValue()));
 simRun.addMemo(memo);
 ```
 This code can be entered as Terminal commands in
-[PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html).
+[Pendulum](https://www.myphysicslab.com/pendulum/pendulum-en.html?show-terminal=true).
 
 Use the following to turn off the GenericMemo:
 ```
@@ -117,7 +117,7 @@ var memo = new GenericMemo(function() {
 simRun.addMemo(memo);
 ```
 This script can be entered as Terminal commands in
-[CartPendulum2App](https://www.myphysicslab.com/develop/build/sims/engine2D/CartPendulum2App-en.html).
+[Cart + Pendulum with Physics Engine](https://www.myphysicslab.com/engine2D/cart-pendulum-en.html?show-terminal=true).
 
 Example 3
 ---------

@@ -64,21 +64,21 @@ The `new` command creates the DoublePendulumApp, which in turn **creates the net
 of objects** that comprise the simulation.
 
 The app constructor takes an argument (usually of type
-[ElementIDs](./types/sims_common_Layout.ElementIDs.html) that specifies the
+[ElementIDs](./types/sims_common_Layout.ElementIDs.html)) that specifies the
 names of the HTML elementId's to look for in the HTML document; these elements are
-where the user interface of the simulation is created, or where to put things like the
-canvas or controls.
+where the app will put the canvas, controls, and other user interface of the
+simulation.
 
-These `ElementIDs` names are passed in so that we can have two separate simulation apps
-running concurrently on a single page. The two apps would give unique names to the HTML
-Elements on the page that they occupy.
+These `ElementIDs` names are passed in (instead of hard-coded in the app) so that we
+can have two separate simulation apps running concurrently on a single page. The two
+apps can give unique names to the HTML Elements on the page that they occupy.
 
 <img src='Overview_Architecture_MVC.svg' width='835' height='720'>
 
-The above diagram shows a typical set of objects created at startup; these include a
-simulation **model** (the blue objects); a set of objects to display a **view** of the
-simulation (the red objects); and means for interacting with the model, the
-**controller** (the green objects). This follows the well known
+The above diagram shows a typical set of JavaScript objects created at startup; these
+include a simulation **model** (the blue objects); a set of objects to display a
+**view** of the simulation (the red objects); and means for interacting with the model,
+the **controller** (the green objects). This follows the well known
 [Model, View, Controller Pattern](http://en.wikipedia.org/wiki/Model–view–controller).
 
 The Observer pattern is widely used.  See the section
@@ -608,7 +608,7 @@ indicate what **language** they use. For example, the German versions would be
 Here is a **typical start-up script** from the HTML start-up file
 `DoublePendulumApp-en.html` (the `-en` suffix means it is
 an English version). This script creates a
-[DoublePendulumApp](./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html) application
+[DoublePendulumApp](./classes/sims_pendulum_DoublePendulumApp.DoublePendulumApp.html)
 object which is stored in the `app` global variable.
 
     <script src='DoublePendulumApp-en.js'></script>
@@ -633,13 +633,16 @@ object which is stored in the `app` global variable.
     <script>app.setup();</script>
     <script>app.start();</script>
 
-The first script tag **loads the compiled version** of the application and various
-classes it needs from the file `DoublePendulumApp-en.js`. Loading the compiled
+The first script tag **loads the bundled version** of the application and various
+classes it needs from the file `DoublePendulumApp-en.js`. Loading the bundled
 JavaScript file **defines the classes**, but does not instantiate the application.
 
 The second script tag is where the application is actually **instantiated**. The
-`elem_ids` object specifies the **id's of various HTML elements** that the application
-will use (see below for more on this). The app might create additional HTML elements.
+[ElementIDs](./types/sims_common_Layout.ElementIDs.html) object `elem_ids`
+specifies the **id's of various HTML elements** that the application
+will use. The app itself might create additional HTML elements that are added to
+the web page.
+
 The `defineNames` method is where
 [command short names](Customizing.html#commandshortnames) are defined, which are
 important for further customization and scripting.
@@ -683,7 +686,7 @@ access the various objects from a script, as is discussed further in the section
 
 It is possible to have **two independent versions** of an application running on a
 single page. This is demonstrated in
-[MultiSpringApp](http://www.myphysicslab.com/develop/adv-build/sims/springs/MultiSpringApp-en.html)
+[MultiSpringApp](https://www.myphysicslab.com/develop/build/sims/springs/MultiSpringApp-en.html)
 which has two versions of SingleSpringApp running.
 Note that there are two separate sets of HTML elements on that page, each with unique
 names specified in the `elem_ids`. To be able to run two or more versions of an

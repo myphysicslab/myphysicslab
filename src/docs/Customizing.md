@@ -217,7 +217,7 @@ Here are places to put scripts which will be evaluated by Terminal:
 
 Here is an example of JavaScript commands which can be pasted into the Terminal input
 area of
-[DoublePendulumApp](http://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html).
+[DoublePendulumApp](https://www.myphysicslab.com/pendulum/double-pendulum-en.html).
 
     simRun.reset();
     var va=sim.getVarsList();

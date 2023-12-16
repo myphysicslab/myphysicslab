@@ -819,28 +819,45 @@ There are various debugging flags that can be turned on in the code.
 
 ## Global Variables
 
-These are the global variables created when running a myphysicslab simulation in a browser. You can examine these directly with the browser developer tools.
+These are the global variables created when running a myphysicslab simulation in a
+browser. You can examine these directly with the browser developer tools (just type the
+name of the global variable into the debugger).
 
-+ `mpl` is created by `esbuild --global-name=mpl`, it contains the code for building
-    an application. Here is a typical usage inside of `SingleSpringApp-en.html`
++ each class has a global name, for example `lab$util$Vector`. These class names
+    are used in [Terminal Scripts](Customizing.html#terminalforscriptexecution) for
+    interactive programming. These are created when the bundled JavaScript file is
+    loaded, for example
+
+        <script src="SingleSpringApp-en.js"></script>
+
+    At the end of each class source file is a command that generates these names, for example
+
+        Util.defineGlobal('lab$util$Vector', Vector);
+
++ `mpl` is another global created when the bundled JavaScript file (such as
+    `SingleSpringApp-en.js`) is loaded. The name `mpl` is specified in the `makefile`
+    when `esbuild` is bundling the code for the application:
+
+        `esbuild SingleSpringApp.js --global-name=mpl --bundle`
+
+    The `esbuild` tool bundles the specified JavaScript application object and all its
+    needed classes into a single JavaScript file. The resulting bundled script also
+    creates the global variable `mpl` to access the JavaScript application object. The
+    `mpl` global has a single property, which is the JavaScript application object
+    being bundled. Here is a typical usage inside of `SingleSpringApp-en.html`
 
         app = new mpl.SingleSpringApp(elem_ids);
 
 + `app` is typically the global name for the application object that is instantiated
     by code in the `html` file (though it might be `app1`, `app2`, etc. when there are
-    multiple applications on a page). The name of this global (usually `app`) is passed
+    multiple applications on a page). The name of this global is passed
     to the `app.defineNames()` method so that short-names in scripts can be properly
-    expanded during Terminal script execution.
+    expanded during
+    [Terminal script execution](Customizing.html#terminalforscriptexecution).
 
         app.defineNames('app');
 
-+ each class has a global name, for example `lab$util$Vector`. These class names
-    can be used in Terminal scripts for interactive programming.  These are generated
-    at the end of the class source file with a command like
 
-        Util.defineGlobal('lab$util$Vector', Vector);
-
-See [Terminal for Script Execution](Customizing.html#terminalforscriptexecution).
 
 
 ## toString() format

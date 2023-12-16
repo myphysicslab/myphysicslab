@@ -26,7 +26,8 @@ Paste into the Terminal command box this script
     });
     simRun.addMemo(memo);
 
-To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?reset;show-terminal=true;show-clock=true;var%20stopTime=1.99;var%20memo=new%20GenericMemo(function(){if(sim.getTime()>=stopTime){simRun.pause()}});simRun.addMemo(memo);)
+To see it working
+[try this link](https://www.myphysicslab.com/pendulum/double-pendulum-en.html?reset;show-terminal=true;show-clock=true;var%20stopTime=1.99;var%20memo=new%20GenericMemo(function(){if(sim.getTime()>=stopTime){simRun.pause()}});simRun.addMemo(memo);)
 (hit "play" after it loads).
 
 Check that time is set to zero by typing `time` or `sim.getTime()` in the Terminal
@@ -61,8 +62,8 @@ Similar techniques can be used to stop the simulation based on other conditions.
 
 Determine which variable holds the energy.
 Find the names of the variables by typing `names` into the Terminal command box. For the
-[Pendulum](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?reset;show-terminal=true)
-simulation you would see this
+[Pendulum](https://www.myphysicslab.com/pendulum/pendulum-en.html?reset;show-terminal=true)
+simulation you would see a list ending with this
 
     SIM_VARS.ANGLE;
     SIM_VARS.ANGLE_VELOCITY;
@@ -82,7 +83,7 @@ the lines at once.)
     });
     simRun.addMemo(memo);
 
-To see it working [try this link](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?pause;show-terminal=true;damping=0.7;show-clock=true;show-energy=true;var%20energyVar=sim.getVarsList().getVariable('TOTAL_ENERGY');var%20energyLimit=0.1;var%20memo=new%20GenericMemo(function(){if(energyVar.getValue()%3CenergyLimit){simRun.pause()}});simRun.addMemo(memo);save;)
+To see it working [try this link](https://www.myphysicslab.com/pendulum/pendulum-en.html?pause;show-terminal=true;damping=0.7;show-clock=true;show-energy=true;var%20energyVar=sim.getVarsList().getVariable('TOTAL_ENERGY');var%20energyLimit=0.1;var%20memo=new%20GenericMemo(function(){if(energyVar.getValue()%3CenergyLimit){simRun.pause()}});simRun.addMemo(memo);save;)
 (hit "play" after it loads).
 
 Check that time time is set to zero by typing `time` or `sim.getTime()` in the Terminal command box.  If time is not zero, click the reset button or execute the `reset` command. 

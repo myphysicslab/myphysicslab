@@ -460,7 +460,7 @@ var obs = new GenericObserver(clock, evt => println('event='+evt));
 ```
 Paste that code into the Terminal command line of any
 [application](https://www.myphysicslab.com/develop/build/index-en.html), or
-[try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cevt%20%3D%3E%20println%28%27event%3D%27%2Bevt%29%29%3Blayout.showTerminal%28true%29%3B>).
+[try this link](<https://www.myphysicslab.com/pendulum/pendulum-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cevt%20%3D%3E%20println%28%27event%3D%27%2Bevt%29%29%3Blayout.showTerminal%28true%29%3B>).
 which contains the above code running in the pendulum simulation.
 Click the rewind, play, and step buttons to see events in the Terminal output area.
 
@@ -481,7 +481,7 @@ var obs = new GenericObserver(clock, evt => {
 ```
 Paste that code into the Terminal command line of any
 [application](https://www.myphysicslab.com/develop/build/index-en.html),
-or [try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cfunction%28evt%29%7Bif%28evt.nameEquals%28Clock.CLOCK_PAUSE%29%29%7Bprintln%28%27event%3D%27%2Bevt%29%3B%7D%7D%29%3Blayout.showTerminal%28true%29%3B>)
+or [try this link](<https://www.myphysicslab.com/pendulum/pendulum-en.html?var%20obs%3Dnew%20GenericObserver%28clock%2Cfunction%28evt%29%7Bif%28evt.nameEquals%28Clock.CLOCK_PAUSE%29%29%7Bprintln%28%27event%3D%27%2Bevt%29%3B%7D%7D%29%3Blayout.showTerminal%28true%29%3B>)
 which contains the above code running in the pendulum simulation.
 Click the pause button to see events in the Terminal output area.
 

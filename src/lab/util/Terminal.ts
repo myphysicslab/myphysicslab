@@ -115,7 +115,7 @@ Terminal can execute two types of scripts:
 These two types of script can be intermixed in a single script as long as they are
 separated by a semicolon. For example, here are both types of scripts in
 one script which could be entered in
-[PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?SHOW_TERMINAL=true).
+[PendulumApp](https://www.myphysicslab.com/pendulum/pendulum-en.html?SHOW_TERMINAL=true).
 ```text
 DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; bob.setFillStyle('red');
 ```
@@ -125,8 +125,8 @@ a JavaScript command.
 
 In most applications EasyScriptParser is available in the variable
 `easyScript`, which you can use to execute EasyScript from within JavaScript. Here are
-examples that can be entered in
-[PendulumApp](https://www.myphysicslab.com/develop/build/sims/pendulum/PendulumApp-en.html?SHOW_TERMINAL=true).
+examples that can be entered (as individual lines) in
+[PendulumApp](https://www.myphysicslab.com/pendulum/pendulum-en.html?SHOW_TERMINAL=true).
 ```js
 easyScript.parse('angle')
 
@@ -382,28 +382,27 @@ Most myPhysicsLab applications do this.
 Some websites will only accept user-supplied URLs that follow the strict guidelines of
 [URL percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding). Therefore
 we must substitute in the URL:
-```text
+
 + `%20` for space
 + `%22` for `"`
 + `%3C` for `<`
 + `%3E` for `>`
-```
++ `%5C` for `\`
 
 See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
 to learn which other characters must be percent-encoded. You can use
-{@link Terminal.encodeURIComponent} which is a more stringent version of doing the
-character encoding; it percent-encodes other symbols such as:
-```text
+{@link Terminal.encodeURIComponent} which is a more stringent version
+of doing the character encoding; it percent-encodes other symbols such as:
+
 + `%27` for `'`
 + `%28` for `(`
 + `%29` for `)`
 + `%3B` for `;`
-```
 
 Here is an example of a URL query script using JavaScript in an application:
 ```text
-https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?
+https://www.myphysicslab.com/pendulum/double-pendulum-en.html?
 simRun.pause();simRun.reset();sim.setGravity(5.0);statusView.getDisplayList()
 .add(energyGraph);statusView.getDisplayList().add(displayClock);
 var%20va=sim.getVarsList();va.setValue(0,0.15545);va.setValue(1,-0.33548);
@@ -411,7 +410,7 @@ va.setValue(2,-2.30681);va.setValue(3,2.68179);sim.saveInitialState();
 simRun.resume();layout.showTerminal(true);
 ```
 
-[Try this link](<https://www.myphysicslab.com/develop/build/sims/pendulum/DoublePendulumApp-en.html?simRun.pause%28%29%3BsimRun.reset%28%29%3Bsim.setGravity%285.0%29%3BstatusView.getDisplayList%28%29.add%28energyGraph%29%3BstatusView.getDisplayList%28%29.add%28displayClock%29%3Bvar%20va%3Dsim.getVarsList%28%29%3Bva.setValue%280%2C0.15545%29%3Bva.setValue%281%2C-0.33548%29%3Bva.setValue%282%2C-2.30681%29%3Bva.setValue%283%2C2.68179%29%3Bsim.saveInitialState%28%29%3BsimRun.resume%28%29%3Blayout.showTerminal%28true%29%3B>)
+[Try this link](<https://www.myphysicslab.com/pendulum/double-pendulum-en.html?simRun.pause%28%29%3BsimRun.reset%28%29%3Bsim.setGravity%285.0%29%3BstatusView.getDisplayList%28%29.add%28energyGraph%29%3BstatusView.getDisplayList%28%29.add%28displayClock%29%3Bvar%20va%3Dsim.getVarsList%28%29%3Bva.setValue%280%2C0.15545%29%3Bva.setValue%281%2C-0.33548%29%3Bva.setValue%282%2C-2.30681%29%3Bva.setValue%283%2C2.68179%29%3Bsim.saveInitialState%28%29%3BsimRun.resume%28%29%3Blayout.showTerminal%28true%29%3B>)
 which contains the above code; you should also see the code in the Terminal output area.
 
 Here is an interactive tool for trying out
