@@ -33,7 +33,7 @@ Cell[TextData[{
 Cell[TextData[{
  "This notebook shows derivation of the equations of motion for the double \
 pendulum simulation.  See ",
- StyleBox["http://www.myphysicslab.com/dbl_pendulum.html.",
+ StyleBox["https://www.myphysicslab.com/dbl_pendulum.html.",
   FontFamily->"Courier"],
  "\n\nAuthor: Erik Neumann\n\nWe regard ",
  Cell[BoxData[

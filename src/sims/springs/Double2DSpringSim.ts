@@ -65,7 +65,7 @@ m = mass of bob
 
 Equations of Motion
 -------------------------
-See also <http://www.myphysicslab.com/dbl_spring2d.html>.
+See also <https://www.myphysicslab.com/dbl_spring2d.html>.
 ```text
 F1x = -k1 L1 sin(th1) + k2 L2 sin(th2) - b1 V1x = m1 V1x'
 F1y = -m1 g + k1 L1 cos(th1) - k2 L2 cos(th2) - b1 V1y = m1 V1y'

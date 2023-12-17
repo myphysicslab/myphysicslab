@@ -40,8 +40,8 @@ brachistos (shortest) and chronos (time).
 
 The equations of motion are the same as those of
 {@link sims/roller/RollerSingleSim.RollerSingleSim}.
-For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>
-and <http://www.myphysicslab.com/RollerSpring.html>.
+For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>
+and <https://www.myphysicslab.com/RollerSpring.html>.
 
 Variables Array
 --------------------

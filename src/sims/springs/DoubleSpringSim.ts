@@ -64,7 +64,7 @@ F = force
 
 Equations of Motion
 -------------------------
-See also <http://www.myphysicslab.com/dbl_spring1.html>.
+See also <https://www.myphysicslab.com/dbl_spring1.html>.
 
 Forces:
 ```text

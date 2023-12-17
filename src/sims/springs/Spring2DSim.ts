@@ -71,7 +71,7 @@ m = mass of bob
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown in more detail at
-<http://www.myphysicslab.com/spring2d.html>.
+<https://www.myphysicslab.com/spring2d.html>.
 ```text
 Fx = - k L sin(th) - b Vx = m Vx'
 Fy = - m g + k L cos(th) - b Vy = m Vy'

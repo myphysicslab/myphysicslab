@@ -42,8 +42,8 @@ attached to the ball. The track can take any shape as defined by a NumericalPath
 simulation is not functional until a path has been provided with
 {@link RollerSingleSim.setPath}.
 
-For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>
-and <http://www.myphysicslab.com/RollerSpring.html>.
+For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>
+and <https://www.myphysicslab.com/RollerSpring.html>.
 */
 export class RollerSingleSim extends AbstractODESim implements Simulation, ODESim, EventHandler, HasPath, EnergySystem {
 

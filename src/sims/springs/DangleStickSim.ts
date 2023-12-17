@@ -55,7 +55,7 @@ k = spring constant
 Equations of Motion
 -------------------------
 The derivation of the equations of motion is shown at
-<http://www.myphysicslab.com/dangle_stick.html>.
+<https://www.myphysicslab.com/dangle_stick.html>.
 See also the Mathematica notebook [DangleStick.nb](DangleStick.pdf).
 ```text
 theta'' = (-4 m1(m1+m2)r' theta'

@@ -7,7 +7,7 @@ HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1"
 # Customizing myPhysicsLab Simulations
 
 This page describes how to customize
-[myPhysicsLab simulations](http://www.myphysicslab.com) using only a browser and
+[myPhysicsLab simulations](https://www.myphysicslab.com) using only a browser and
 text editor.
 
 Contents of this page:
@@ -298,10 +298,10 @@ simulations. The following HTML files both use `TerminalSpringApp.js` but show
 different simulations:
 
 + `TerminalSpringApp.html` runs `SingleSpringSim`, you can try the
-    [online version](http://www.myphysicslab.com/develop/build/sims/springs/TerminalSpringApp-en.html).
+    [online version](https://www.myphysicslab.com/develop/build/sims/springs/TerminalSpringApp-en.html).
 
 + `TerminalSpring2DApp.html` runs `Spring2DSim`, you can try the
-    [online version](http://www.myphysicslab.com/develop/build/sims/springs/TerminalSpring2DApp-en.html).
+    [online version](https://www.myphysicslab.com/develop/build/sims/springs/TerminalSpring2DApp-en.html).
 
 
 

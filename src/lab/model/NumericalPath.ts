@@ -45,7 +45,7 @@ Many of the NumericalPath methods pass information via a
 {@link PathPoint} for both input and output.
 
 See the myPhysicsLab page showing the
-[Roller Coaster](http://www.myphysicslab.com/roller/roller-single-en.html)
+[Roller Coaster](https://www.myphysicslab.com/roller/roller-single-en.html)
 for more about the math involved here.
 
 ## Path Length 'p'

@@ -38,9 +38,9 @@ const TIME = 7;
 /** Simulation of 2 balls along a curved roller coaster track, with a spring connecting
 them. The simulation is not functional until a path has been provided with {@link RollerDoubleSim.setPath}.
 
-For derivation equations of motion see <http://www.myphysicslab.com/RollerSimple.html>,
-<http://www.myphysicslab.com/RollerSpring.html> and
-<http://www.myphysicslab.com/RollerDouble.html>.
+For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>,
+<https://www.myphysicslab.com/RollerSpring.html> and
+<https://www.myphysicslab.com/RollerDouble.html>.
 
 Variables Array
 -------------------------

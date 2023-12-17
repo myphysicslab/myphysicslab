@@ -64,7 +64,7 @@ b = damping constant
 ```
 Equations Of Motion
 -----------------------------
-See also <http://www.myphysicslab.com/collideSpring.html>.
+See also <https://www.myphysicslab.com/collideSpring.html>.
 
 Spring force and damping look like this:
 ```text

@@ -7,13 +7,13 @@ Documentation
 
 Besides the links on this page for each class and interface, see also:
 
-+ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
++ The [myPhysicsLab website](https://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 
 + [Building myPhysicsLab Software](Building.html) has information about building,
     testing, internationalization, and general programming issues.
 
-+ The [How Does It Work?](http://www.myphysicslab.com/index-en.html#how-does-it-work)
++ The [How Does It Work?](https://www.myphysicslab.com/index-en.html#how-does-it-work)
     section of myPhysicsLab explains how physics simulations work in general.
 
 + [myPhysicsLab Architecture](Architecture.html) is the best place to start for

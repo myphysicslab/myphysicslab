@@ -21,7 +21,7 @@ expressed as a {@link ODESim}; operates by using the
 differential equations to advance the variables by a small time step.
 
 This is the most numerically accurate DiffEqSolver provided in myPhysicsLab. See
-[Runge-Kutta Algorithm](http://www.myphysicslab.com/runge_kutta.html) for an
+[Runge-Kutta Algorithm](https://www.myphysicslab.com/runge_kutta.html) for an
 explanation of the algorithm.
 */
 export class RungeKutta implements DiffEqSolver {

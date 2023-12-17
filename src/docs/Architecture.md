@@ -10,7 +10,7 @@ HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1"
 
 # myPhysicsLab Architecture
 
-[myPhysicsLab](http://www.myphysicslab.com) provides classes to build real-time
+[myPhysicsLab](https://www.myphysicslab.com) provides classes to build real-time
 interactive animated physics simulations. This page gives an introduction to the
 architecture of the myPhysicsLab software.
 
@@ -33,7 +33,7 @@ Additional information:
     interfaces.
 + See [2D Physics Engine Overview](Engine2D.html) for an overview of the 2d rigid body physics
     engine.
-+ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
++ The [myPhysicsLab website](https://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 + See [Customizing myPhysicsLab Simulations](Customizing.html) about how to customize
     using only a browser and text editor.

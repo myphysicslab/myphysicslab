@@ -10,8 +10,8 @@ HTML Header: <meta name="viewport" content="width=device-width, initial-scale=1"
 
 This describes details of the math involved in the class
 [ContactSim](./classes/lab_engine2D_ContactSim.ContactSim.html) which is part of the
-[2d Rigid Body Physics Engine](http://www.myphysicslab.com/explain/physics-engine-en.html)
-of [myPhysicsLab](http://www.myphysicslab.com).
+[2d Rigid Body Physics Engine](https://www.myphysicslab.com/explain/physics-engine-en.html)
+of [myPhysicsLab](https://www.myphysicslab.com).
 
 + [Resources][]
 + [Calculate the 'A' Matrix][]
@@ -42,7 +42,7 @@ Information about myPhysicsLab software in general:
     and interfaces.
 + See [myPhysicsLab Documentation](index.html) for detailed documentation of classes and
     interfaces.
-+ The [myPhysicsLab website](http://www.myphysicslab.com) shows the simulations
++ The [myPhysicsLab website](https://www.myphysicslab.com) shows the simulations
     running and contains explanations of the math behind them.
 + See [Building myPhysicsLab Software](Building.html) for information about building,
     testing, internationalization, and general programming issues.
