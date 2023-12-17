@@ -102,6 +102,14 @@ will change the layout to pick the appropriate version of the current layout, fo
 example either 'sim+graph' or 'graph'. The method {@link TabLayout.showSim} can be used
 from JavaScript to accomplish the same result.
 
+The default state of the 'show sim' checkbox is set inside the application's HTML file
+by the presence or absence of the word `checked` in a line like this:
+
+    <input type="checkbox" id="show_sim" checked>show simulation
+
+This is usually determined by a macro in the `macros_tab.html` file.
+
+
 ### Size of Sim, Graph, TimeGraph
 
 There are three 'levels' which affect how the Simulation, Graph and TimeGraph appear:
@@ -263,6 +271,9 @@ constructor(elem_ids: ElementIDs, canvasWidth: number = 800, canvasHeight: numbe
   this.simCanvas.setSize(canvasWidth, canvasHeight);
   this.div_sim.appendChild(this.simCanvas.getCanvas());
 
+  // the 'show sim' checkbox.  The default 'checked' property is determined by the
+  // presence of the word 'checked' in the HTML for the checkbox like this:
+  //     <input type="checkbox" id="show_sim" checked>show simulation
   this.show_sim_cb = Util.getElementById(elem_ids.show_sim) as HTMLInputElement;
   const p = this.show_sim_cb.parentElement;
   if (p == null || p.tagName != 'LABEL') {
