@@ -259,3 +259,4 @@ setTurningForce(value: number) {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$PendulumClockApp', PendulumClockApp);

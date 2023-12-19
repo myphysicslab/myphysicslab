@@ -52,11 +52,12 @@
 #LOREM_IPSUM
 
 #LOAD_APP
+#define APP_CLASS sims\$springs\$SingleSpringApp
 <script>
 (function() {
   #define #APP_NUM 1
   #ELEM_IDS
-  app1 = new mpl.SingleSpringApp(elem_ids1);
+  app1 = new sims$springs$SingleSpringApp(elem_ids1);
   app1.defineNames('app1');
   app1.eval('SPRING_STIFFNESS=10;DAMPING=0.01;RUNNING=true');
   app1.start();
@@ -67,7 +68,7 @@
   #define #APP_NUM 2
   #define #TAB_LIST_ID tab_list2
   #ELEM_IDS
-  app2 = new mpl.SingleSpringApp(elem_ids2);
+  app2 = new sims$springs$SingleSpringApp(elem_ids2);
   app2.defineNames('app2');
   app2.eval('RUNNING=true;');
   app2.start();

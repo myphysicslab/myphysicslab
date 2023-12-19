@@ -132,3 +132,4 @@ override makeLayout(elem_ids: ElementIDs): Layout {
 };
 
 } // end class
+Util.defineGlobal('sims$pendulum$VectorGraphPendulumApp', VectorGraphPendulumApp);

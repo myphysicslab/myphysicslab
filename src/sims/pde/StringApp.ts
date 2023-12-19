@@ -377,3 +377,4 @@ eval(script: string, output: boolean = true): any {
 };
 
 } // end class
+Util.defineGlobal('sims$pde$StringApp', StringApp);

@@ -53,7 +53,6 @@ menu will store that name in local storage (and perhaps reload the page or re-ru
 test).
 
 */
-
 export function runPerformanceTests(): void {
   startTests();
   // 'warm up' the test environment by running a non-performance test first.
@@ -64,3 +63,4 @@ export function runPerformanceTests(): void {
   schedule(finishTests);
   runTests();
 };
+Util.defineGlobal('test$runPerformanceTests', runPerformanceTests);

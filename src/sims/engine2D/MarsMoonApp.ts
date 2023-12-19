@@ -339,3 +339,4 @@ type i18n_strings = {
   ASTERIOD: string,
   DISTANCE: string
 };
+Util.defineGlobal('sims$engine2D$MarsMoonApp', MarsMoonApp);

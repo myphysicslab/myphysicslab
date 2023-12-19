@@ -313,3 +313,4 @@ type i18n_strings = {
   HOLLOW_BOX: string,
   BALL_IN_BOX: string
 };
+Util.defineGlobal('sims$engine2D$PolygonTestApp', PolygonTestApp);

@@ -110,3 +110,4 @@ override defineNames(myName: string) {
 };
 
 } // end class
+Util.defineGlobal('sims$pendulum$PendulumApp', PendulumApp);

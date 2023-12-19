@@ -232,3 +232,4 @@ private makeMagnets(): void {
 };
 
 } // end class
+Util.defineGlobal('sims$misc$MagnetWheelApp', MagnetWheelApp);

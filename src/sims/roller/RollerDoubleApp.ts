@@ -168,3 +168,4 @@ setSimRect(simRect: DoubleRect) {
 };
 
 } // end class
+Util.defineGlobal('sims$roller$RollerDoubleApp', RollerDoubleApp);

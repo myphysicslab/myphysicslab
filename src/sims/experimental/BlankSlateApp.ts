@@ -246,3 +246,4 @@ addControl(control: LabControl): void {
 };
 
 } // end class
+Util.defineGlobal('sims$experimental$BlankSlateApp', BlankSlateApp);

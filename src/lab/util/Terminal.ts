@@ -92,7 +92,7 @@ separately. (Semi-colons within braces are ignored).
 becomes `app.z.foo`.
 
 + Short-names are transformed to long-names. Example: `DoubleRect` becomes
-`lab$util$DoubleRect`. Also existing variables are transformed, for example `foo` it
+`lab$util$DoubleRect`. Also existing variables are transformed, for example `foo`
 becomes `app.z.foo`.
 
 + Javascript's `eval` function executes the resulting line.
@@ -114,7 +114,7 @@ Terminal can execute two types of scripts:
 
 These two types of script can be intermixed in a single script as long as they are
 separated by a semicolon. For example, here are both types of scripts in
-one script which could be entered in
+one line which could be entered in
 [PendulumApp](https://www.myphysicslab.com/pendulum/pendulum-en.html?SHOW_TERMINAL=true).
 ```text
 DAMPING=0.1; GRAVITY=9.8; ANGLE=2.5; bob.setFillStyle('red');
@@ -193,7 +193,7 @@ more shortcuts via {@link Terminal.addRegex}.
 
 
 <a id="thezobject"></a>
-Variables and the z Object
+Variables and the 'z' Object
 ----------------------------
 Scripts are executed with
 [indirect eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#direct_and_indirect_eval) under

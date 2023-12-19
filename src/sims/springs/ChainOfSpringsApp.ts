@@ -221,3 +221,4 @@ setAttachRight(value: boolean) {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$ChainOfSpringsApp', ChainOfSpringsApp);

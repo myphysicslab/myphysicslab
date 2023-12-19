@@ -22,6 +22,7 @@ import { PileTest } from './PileTest.js';
 import { RopeTest } from './RopeTest.js';
 import { SpeedTest } from './SpeedTest.js';
 import { StraightStraightTest } from './StraightStraightTest.js';
+import { Util } from '../lab/util/Util.js';
 
 import { startTests, schedule, runTests, finishTests } from './TestRig.js';
 
@@ -54,3 +55,4 @@ export function runEngine2DTests(): void {
   schedule(finishTests);
   runTests();
 };
+Util.defineGlobal('test$runEngine2DTests', runEngine2DTests);

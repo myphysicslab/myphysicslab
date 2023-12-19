@@ -120,10 +120,15 @@
 <ul id="header_bar">\
 </ul>
 
-#comment #FILE_PATH will be whatever #APP_PATH is, modified by the regexp
-#defineFrom #FILE_PATH {#APP_PATH} s~\.~/~g
+#comment APP_CLASS is global name of the class in JavaScript
+#comment example: when APP_PATH = sims.springs.SingleSpringApp,
+#comment then APP_CLASS = sims$springs$SingleSpringApp
+#defineFrom #APP_CLASS {#APP_PATH} s~\.~\\\$~g
 
-#comment #APP_NAME allows the HTML file to use a JavaScript app with a different name
+#comment APP_NAME is the last part of APP_PATH
+#comment example: when APP_PATH = sims.springs.SingleSpringApp,
+#comment then APP_NAME = SingleSpringApp
+#comment APP_NAME allows the HTML file to use a JavaScript app with a different name
 #comment (see for example TerminalSpring2DApp).
 #defineFrom #APP_NAME {#APP_PATH} s~.*\.~~g
 
@@ -154,7 +159,7 @@ ver&ouml;ffentlichte Version dieser Simulation.</p>
 #define #en_LANG_MENU_IDX 0
 #define #de_LANG_MENU_IDX 1
 
-#define #INSTANTIATE_APP app#APP_NUM = new mpl.#APP_NAME(elem_ids, '#LOCALE');
+#define #INSTANTIATE_APP app#APP_NUM = new #APP_CLASS(elem_ids#APP_NUM);
 
 #comment BUILD_APP notes:
 #comment In Browsers that support BFCache (FireFox and Safari) using the back-button

@@ -236,3 +236,5 @@ type i18n_strings = {
   SPRING_LENGTH: string,
   SPRING_STIFFNESS: string
 };
+
+Util.defineGlobal('sims$springs$Molecule1App', Molecule1App);

@@ -233,3 +233,4 @@ setStartPosition(value: number) {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$CollideSpringApp', CollideSpringApp);

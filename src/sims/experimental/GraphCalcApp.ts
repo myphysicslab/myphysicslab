@@ -204,3 +204,4 @@ start(): void {
 };
 
 } // end GraphCalcApp class
+Util.defineGlobal('sims$experimental$GraphCalcApp', GraphCalcApp);

@@ -648,3 +648,4 @@ type i18n_strings = {
   SEPARATION: string,
   SHOW_ENERGY_2: string
 };
+Util.defineGlobal('sims$pendulum$ReactionPendulumApp', ReactionPendulumApp);

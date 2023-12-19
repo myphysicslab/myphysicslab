@@ -51,6 +51,7 @@ import SpringTest from "../lab/model/test/SpringTest.js";
 import StraightEdgeTest from "../lab/engine2D/test/StraightEdgeTest.js";
 import TerminalTest from "../lab/util/test/TerminalTest.js";
 import TimerTest from "../lab/util/test/TimerTest.js";
+import { Util } from '../lab/util/Util.js';
 import UtilEngineTest from "../lab/engine2D/test/UtilEngineTest.js";
 import UtilTest from "../lab/util/test/UtilTest.js";
 import VarsListTest from "../lab/model/test/VarsListTest.js";
@@ -106,3 +107,4 @@ export function runUnitTests() {
   schedule(finishTests);
   runTests();
 };
+Util.defineGlobal('test$runUnitTests', runUnitTests);

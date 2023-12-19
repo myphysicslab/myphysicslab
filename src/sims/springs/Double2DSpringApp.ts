@@ -132,3 +132,4 @@ override defineNames(myName: string): void {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$Double2DSpringApp', Double2DSpringApp);

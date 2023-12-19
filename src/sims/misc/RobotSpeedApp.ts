@@ -178,3 +178,4 @@ observe(event: SubjectEvent): void {
 };
 
 } // end class
+Util.defineGlobal('sims$misc$RobotSpeedApp', RobotSpeedApp);

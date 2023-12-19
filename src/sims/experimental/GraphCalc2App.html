@@ -91,7 +91,7 @@ default is 200). To add points to the GraphLine in a new color:</p>
         b_increments: 200,
         b_value: 5
       };
-      app = new mpl.GraphCalc2App(elem_ids);
+      app = new sims$experimental$GraphCalc2App(elem_ids);
       app.defineNames('app');
       app.eval('plot("x*Math.sin(b*x)", -10, 10)');
     }());

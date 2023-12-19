@@ -149,3 +149,4 @@ static loadClass(): void {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$TerminalSpringApp', TerminalSpringApp);

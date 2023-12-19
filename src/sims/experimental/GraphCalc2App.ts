@@ -301,3 +301,4 @@ static readonly i18n = Util.LOCALE === 'de' ? GraphCalc2App.de_strings : GraphCa
 type i18n_strings = {
   B_PARAM: string
 };
+Util.defineGlobal('sims$experimental$GraphCalc2App', GraphCalc2App);

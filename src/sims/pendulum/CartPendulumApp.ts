@@ -125,3 +125,4 @@ override defineNames(myName: string) {
 };
 
 } // end class
+Util.defineGlobal('sims$pendulum$CartPendulumApp', CartPendulumApp);

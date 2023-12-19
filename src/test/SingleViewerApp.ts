@@ -72,3 +72,4 @@ getClassName() {
 };
 
 } // end class
+Util.defineGlobal('test$SingleViewerApp', SingleViewerApp);

@@ -287,3 +287,5 @@ type i18n_strings = {
   START_T_VALUE: string,
   FINISH_T_VALUE: string
 };
+
+Util.defineGlobal('sims$roller$RollerSingleApp', RollerSingleApp);

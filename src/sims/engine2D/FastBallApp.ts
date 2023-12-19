@@ -81,3 +81,4 @@ static readonly i18n = Util.LOCALE === 'de' ? FastBallApp.de_strings : FastBallA
 type i18n_strings = {
   FAST_BALL: string
 };
+Util.defineGlobal('sims$engine2D$FastBallApp', FastBallApp);

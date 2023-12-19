@@ -343,3 +343,4 @@ type i18n_strings = {
   WHEEL: string,
   CAR: string
 };
+Util.defineGlobal('sims$engine2D$CarSuspensionApp', CarSuspensionApp);

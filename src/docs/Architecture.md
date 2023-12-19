@@ -56,7 +56,7 @@ connects all the other objects needed to run and display the Simulation. For exa
 here is JavaScript code from `DoublePendulumApp.html` which creates and starts a
 simulation:
 
-    app = new mpl.DoublePendulumApp(elem_ids);
+    app = new sims$pendulum$DoublePendulumApp(elem_ids);
     app.defineNames('app');
     app.start();
 
@@ -626,7 +626,7 @@ object which is stored in the `app` global variable.
             div_terminal: 'div_terminal',
             images_dir: '../../images/'
         };
-        app = new mpl.DoublePendulumApp(elem_ids);
+        app = new sims$pendulum$DoublePendulumApp(elem_ids);
         app.defineNames('app');
     }());
     </script>

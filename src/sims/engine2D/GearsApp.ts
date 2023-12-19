@@ -241,3 +241,4 @@ setTwoGears(value: boolean) {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$GearsApp', GearsApp);

@@ -79,3 +79,4 @@ getClassName() {
 };
 
 } // end class
+Util.defineGlobal('test$StuckTestApp', StuckTestApp);

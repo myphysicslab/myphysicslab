@@ -294,3 +294,4 @@ type i18n_strings = {
   LENGTH: string,
   RADIUS: string
 };
+Util.defineGlobal('sims$engine2D$NewtonsCradleApp', NewtonsCradleApp);

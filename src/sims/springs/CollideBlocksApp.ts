@@ -129,3 +129,4 @@ override defineNames(myName: string): void {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$CollideBlocksApp', CollideBlocksApp);

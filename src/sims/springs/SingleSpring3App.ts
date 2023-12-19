@@ -115,3 +115,4 @@ override makeLayout(elem_ids: ElementIDs): Layout {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$SingleSpring3App', SingleSpring3App);

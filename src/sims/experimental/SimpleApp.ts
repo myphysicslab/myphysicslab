@@ -76,3 +76,4 @@ export function makeSimpleApp(): void {
   timer.startFiring();
   clock.resume();
 };
+Util.defineGlobal('sims$experimental$makeSimpleApp', makeSimpleApp);

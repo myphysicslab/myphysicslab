@@ -157,3 +157,4 @@ static readonly i18n = Util.LOCALE === 'de' ? TestBodyApp.de_strings : TestBodyA
 type i18n_strings = {
   BLOCK: string
 };
+Util.defineGlobal('sims$engine2D$TestBodyApp', TestBodyApp);

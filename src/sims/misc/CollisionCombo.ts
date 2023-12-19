@@ -18,7 +18,8 @@ import { ElementIDs } from '../common/Layout.js';
 import { Util } from '../../lab/util/Util.js';
 
 /** This class exists only to compile MultipleCollisionApp and CollideSpringApp
-* into a single compiled file.  We don't actually ever instantiate this class.
+* into a single compiled file.  We don't ever instantiate this class,
+* or even use the static methods defined.
 */
 export class CollisionCombo {
 

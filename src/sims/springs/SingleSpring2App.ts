@@ -111,3 +111,4 @@ makeTimeGraph(): TimeGraph2 {
 };
 
 }; // end class
+Util.defineGlobal('sims$springs$SingleSpring2App', SingleSpring2App);

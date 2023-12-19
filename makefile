@@ -393,14 +393,14 @@ apps_js_en := $(addsuffix -en.js,$(bld_apps))
 $(apps_js_en): $(BUILD_DIR)/%-en.js : $(BUILD_DIR)/%.js
 	./esbuild $< --outfile=$@ --bundle --format=iife \
 	--platform=browser  \
-	--global-name=mpl --define:MPL_LOCALE='"en"' \
+	--define:MPL_LOCALE='"en"' \
 	--define:MPL_BUILD_TIME='"$(shell date)"' --minify
 
 apps_js_de := $(addsuffix -de.js,$(bld_apps))
 $(apps_js_de): $(BUILD_DIR)/%-de.js : $(BUILD_DIR)/%.js
 	./esbuild $< --outfile=$@ --bundle --format=iife \
 	--platform=browser  \
-	--global-name=mpl --define:MPL_LOCALE='"de"' \
+	--define:MPL_LOCALE='"de"' \
 	--define:MPL_BUILD_TIME='"$(shell date)"' --minify
 
 # rules for HTML file which requires same-named JS file (most apps are like this)

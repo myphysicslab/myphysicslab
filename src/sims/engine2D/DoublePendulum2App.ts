@@ -223,3 +223,4 @@ static readonly i18n = Util.LOCALE === 'de' ? DoublePendulum2App.de_strings : Do
 type i18n_strings = {
   BLOCK: string
 };
+Util.defineGlobal('sims$engine2D$DoublePendulum2App', DoublePendulum2App);

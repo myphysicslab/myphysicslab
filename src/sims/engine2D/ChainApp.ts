@@ -399,3 +399,4 @@ setBlockWidth(value: number) {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$ChainApp', ChainApp);

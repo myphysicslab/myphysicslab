@@ -384,3 +384,4 @@ setSquareBlocks(value: boolean) {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$PileApp', PileApp);

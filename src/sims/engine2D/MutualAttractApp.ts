@@ -219,3 +219,4 @@ type i18n_strings = {
   NUMBER_BODIES: string,
   OBJECTS: string
 };
+Util.defineGlobal('sims$engine2D$MutualAttractApp', MutualAttractApp);

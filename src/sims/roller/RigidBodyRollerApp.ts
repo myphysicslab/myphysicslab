@@ -309,3 +309,4 @@ type i18n_strings = {
   PATH_POSITION: string,
   PATH_VELOCITY: string
 };
+Util.defineGlobal('sims$roller$RigidBodyRollerApp', RigidBodyRollerApp);

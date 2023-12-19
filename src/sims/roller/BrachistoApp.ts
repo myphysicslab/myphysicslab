@@ -192,3 +192,4 @@ static readonly i18n = Util.LOCALE === 'de' ? BrachistoApp.de_strings : Brachist
 type i18n_strings = {
   REPEAT_TIME: string
 };
+Util.defineGlobal('sims$roller$BrachistoApp', BrachistoApp);

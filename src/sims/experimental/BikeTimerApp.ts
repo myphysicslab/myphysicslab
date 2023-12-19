@@ -122,3 +122,4 @@ export function makeBikeTimerApp(sound_url: string): void {
   timer.startFiring();
   clock.pause();
 };
+Util.defineGlobal('sims$experimental$makeBikeTimerApp', makeBikeTimerApp);

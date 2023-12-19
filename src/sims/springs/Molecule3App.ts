@@ -658,3 +658,4 @@ type i18n_strings = {
   SPRING_TYPE: string,
   WALL_SIZE: string,
 };
+Util.defineGlobal('sims$springs$Molecule3App', Molecule3App);

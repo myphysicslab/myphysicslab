@@ -307,3 +307,4 @@ type i18n_strings = {
   FIX_BALL: string,
   FIX_BLOCK: string
 };
+Util.defineGlobal('sims$engine2D$CurvedTestApp', CurvedTestApp);

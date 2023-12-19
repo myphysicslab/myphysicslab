@@ -45,7 +45,7 @@
         b_increments: 200,
         b_value: 5
       };
-      app = new mpl.GraphCalc2App(elem_ids);
+      app = new sims$experimental$GraphCalc2App(elem_ids);
       app.defineNames('app');
       app.setBParam(5);
       app.eval('plot("x*Math.sin(b*x)", -10, 10)');
@@ -60,7 +60,7 @@
         term_input: '',
         images_dir: '#IMAGES_DIR'
       };
-      app2 = new mpl.GraphCalc2App(elem_ids);
+      app2 = new sims$experimental$GraphCalc2App(elem_ids);
       app2.defineNames('app2');
       app2.setBParam(3);
       app2.eval('graphLine.setColor("blue");plot("x*Math.cos(b*x)", -10, 10)');

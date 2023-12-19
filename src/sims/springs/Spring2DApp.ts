@@ -118,3 +118,4 @@ override defineNames(myName: string): void {
 };
 
 } // end class
+Util.defineGlobal('sims$springs$Spring2DApp', Spring2DApp);

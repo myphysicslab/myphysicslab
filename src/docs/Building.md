@@ -45,7 +45,9 @@ Contents of this page:
 + [Programming Details][]
     + [Macros in HTML Files][]
     + [Debugging][]
-    + [Global Variables][]
+    + [Bundling and Minification][]
+    + [Class Global Variables][]
+    + [App Global Variable][]
     + [toString() format][]
     + [toStringShort()][]
     + [Programming Style][]
@@ -817,47 +819,59 @@ There are various debugging flags that can be turned on in the code.
 + [ComputeForces](./classes/lab_engine2D_ComputeForces.ComputeForces.html#compute_forces)
     has a debug boolean argument that can be turned on in the code.
 
-## Global Variables
+## Bundling and Minification
 
-These are the global variables created when running a myphysicslab simulation in a
-browser. You can examine these directly with the browser developer tools (just type the
-name of the global variable into the debugger).
+The [esbuild](https://esbuild.github.io) tool is used to bundle all the various classes
+needed for a particular application into a single JavaScript file. This tool also
+performs some minification, which reduces the length of names in the code that are not
+visible to the outside.
 
-+ each class has a global name, for example `lab$util$Vector`. These class names
-    are used in [Terminal Scripts](Customizing.html#terminalforscriptexecution) for
-    interactive programming. These are created when the bundled JavaScript file is
-    loaded, for example
+For the [SingleSpringApp](./classes/sims_springs_SingleSpringApp.SingleSpringApp.html)
+the resulting single JavaScript file for English is `SingleSpringApp-en.js`.
+In `SingleSpringApp-en.html` the code is executed like this
 
-        <script src="SingleSpringApp-en.js"></script>
+    <script src="SingleSpringApp-en.js"></script>
 
-    At the end of each class source file is a command that generates these names, for example
+This causes the class `SingleSpringApp` to be defined, along with many other classes.
 
-        Util.defineGlobal('lab$util$Vector', Vector);
+## Class Global Variables
 
-+ `mpl` is another global created when the bundled JavaScript file (such as
-    `SingleSpringApp-en.js`) is loaded. The name `mpl` is specified in the `makefile`
-    when `esbuild` is bundling the code for the application:
+Many classes define a global variable for the class. To avoid conflicts with
+pre-existing global variables, these globals have a longer name, for example
+`sims$springs$SingleSpringApp`. At the end of most class source files is a command that
+creates the global variable, for example
 
-        `esbuild SingleSpringApp.js --global-name=mpl --bundle`
+    Util.defineGlobal('sims$springs$SingleSpringApp', SingleSpringApp);
 
-    The `esbuild` tool bundles the specified JavaScript application object and all its
-    needed classes into a single JavaScript file. The resulting bundled script also
-    creates the global variable `mpl` to access the JavaScript application object. The
-    `mpl` global has a single property, which is the JavaScript application object
-    being bundled. Here is a typical usage inside of `SingleSpringApp-en.html`
+The global variable for the application is used in the HTML file to instantiate the
+application. In `SingleSpringApp-en.html` it happens here:
 
-        app = new mpl.SingleSpringApp(elem_ids);
+    app = new sims$springs$SingleSpringApp(elem_ids);
 
-+ `app` is typically the global name for the application object that is instantiated
-    by code in the `html` file (though it might be `app1`, `app2`, etc. when there are
-    multiple applications on a page). The name of this global is passed
-    to the `app.defineNames()` method so that short-names in scripts can be properly
-    expanded during
-    [Terminal script execution](Customizing.html#terminalforscriptexecution).
+The other class names are used in
+[Terminal Scripts](Customizing.html#terminalforscriptexecution) for interactive
+programming.  For example, to instantiate a `Vector` you can execute in Terminal
+
+    new lab$util$Vector(1, 2)
+
+Terminal provides translations from "short names" to "long names" so that you can simply write
+
+    new Vector(1, 2)
+
+## App Global Variable
+When an application is instantiated, a global variable `app` is created to hold it.
+For example, in `SingleSpringApp-en.html`
+
+    app = new sims$springs$SingleSpringApp(elem_ids);
+
+When there are multiple applications on a page, these might be called `app1`, `app2`,
+etc.
+
+The name of this global is passed to `app.defineNames()` so that short-names in scripts
+can be properly expanded during
+[Terminal script execution](Customizing.html#terminalforscriptexecution).
 
         app.defineNames('app');
-
-
 
 
 ## toString() format

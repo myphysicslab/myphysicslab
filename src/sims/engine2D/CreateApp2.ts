@@ -15,6 +15,7 @@
 import { CreateApp } from './CreateApp.js';
 import { Layout, ElementIDs } from '../common/Layout.js';
 import { TabLayout3 } from '../common/TabLayout3.js';
+import { Util } from '../../lab/util/Util.js';
 
 /** CreateApp2 makes it easier for users to create their own simulation via scripting.
 CreateApp2 provides an editor text field for the script that is being run, and an
@@ -52,3 +53,4 @@ override makeLayout(elem_ids: ElementIDs): Layout {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$CreateApp2', CreateApp2);

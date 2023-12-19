@@ -335,3 +335,4 @@ static override loadClass(): void {
 };
 
 } // end class
+Util.defineGlobal('sims$engine2D$CreateApp', CreateApp);

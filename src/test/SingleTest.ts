@@ -24,6 +24,7 @@ import { schedule, startTests, runTests, finishTests } from "./TestRig.js";
 //import scheduleTests from "../lab/util/test/TimerTest.js";
 import scheduleTests from "../lab/util/test/UtilTest.js";
 //import scheduleTests from "../lab/util/test/VectorTest.js";
+import { Util } from '../lab/util/Util.js';
 
 /** Runs a single test, useful for debugging.
 */
@@ -33,3 +34,4 @@ export function runSingleTest() {
   schedule(finishTests);
   runTests();
 };
+Util.defineGlobal('test$runSingleTest', runSingleTest);

@@ -310,3 +310,4 @@ type i18n_strings = {
   CART: string,
   PENDULUM: string
 };
+Util.defineGlobal('sims$engine2D$CartPendulum2App', CartPendulum2App);

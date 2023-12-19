@@ -37,12 +37,12 @@ multiple simultaneous collisions</a> page on the myphysicslab website.
 <script src="CollisionCombo-#LOCALE.js"></script>
 
 #define #APP_NUM 1
-#define #INSTANTIATE_APP app#APP_NUM = mpl.CollisionCombo.makeMultipleCollisionApp(elem_ids#APP_NUM);
+#define #INSTANTIATE_APP app#APP_NUM = new sims\$engine2D\$MultipleCollisionApp(elem_ids#APP_NUM);
 #BUILD_APP
 #START_APP
 
 #define #APP_NUM 2
-#define #INSTANTIATE_APP app#APP_NUM = mpl.CollisionCombo.makeCollideSpringApp(elem_ids#APP_NUM);
+#define #INSTANTIATE_APP app#APP_NUM = new sims\$springs\$CollideSpringApp(elem_ids#APP_NUM);
 #BUILD_APP
 #START_APP
 

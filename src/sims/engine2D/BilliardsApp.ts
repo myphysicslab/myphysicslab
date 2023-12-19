@@ -305,3 +305,4 @@ type i18n_strings = {
   SPEED: string,
   BALL: string
 };
+Util.defineGlobal('sims$engine2D$BilliardsApp', BilliardsApp);

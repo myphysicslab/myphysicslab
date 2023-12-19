@@ -262,3 +262,4 @@ type i18n_strings = {
   BLOCK: string,
   PENDULUM: string
 };
+Util.defineGlobal('sims$engine2D$PendulumSpringApp', PendulumSpringApp);

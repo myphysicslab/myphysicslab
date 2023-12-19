@@ -421,3 +421,4 @@ static readonly i18n = Util.LOCALE === 'de' ? ComparePendulumApp.de_strings : Co
 type i18n_strings = {
   ANGLE_DELTA: string
 };
+Util.defineGlobal('sims$pendulum$ComparePendulumApp', ComparePendulumApp);
