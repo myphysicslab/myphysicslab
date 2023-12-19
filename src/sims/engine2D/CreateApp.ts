@@ -153,6 +153,8 @@ setGistLink(url: null|string) {
     if (e) {
       const a = e as HTMLAnchorElement;
       a.href = url;
+      // '_blank' means "open the GitHub Gist in a new tab"
+      a.target = '_blank';
       //a.text = url;
     }
   }
