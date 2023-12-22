@@ -1001,6 +1001,8 @@ the code more readable.
 
 ## Documentation Guidelines
 
+See [Documentation Links](Doc_Links.html) for the numerous wasy of writing links in myphysicslab documentation.
+
 Every public class, interface, method, function, enum, etc. should have documentation.
 Use markdown, following examples found in the code.
 
