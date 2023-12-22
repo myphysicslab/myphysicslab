@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** Enum that specifies whether a {@link lab/util/Vector.Vector} is
+/** Enum that specifies whether a {@link lab/util/Vector.Vector | Vector} is
 in body or world coordinates.
 See [Body Coordinates](../Engine2D.html#bodycoordinates)
 in 2D Physics Engine Overview and
-{@link lab/model/MassObject.MassObject}.
+{@link lab/model/MassObject.MassObject | MassObject}.
 */
 export const enum CoordType {
   BODY = 0,

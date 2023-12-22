@@ -29,8 +29,8 @@ forward events to an {@link EventHandler}.
 + No EventHandler is specified.
 
 + `dragDispObj` does not have a {@link SimObject}. Examples include
-{@link lab/view/DisplayClock.DisplayClock} and
-{@link lab/graph/EnergyBarGraph.EnergyBarGraph}.
+{@link lab/view/DisplayClock.DisplayClock | DisplayClock} and
+{@link lab/graph/EnergyBarGraph.EnergyBarGraph | EnergyBarGraph}.
 
 + `dragDispObj` has a SimObject but it is not recognized by the EventHandler.
 An EventHandler indicates that it doesn't recognize a SimObject by returning `false`
@@ -47,7 +47,8 @@ to simulation coordinates for the SimView that the DisplayObject is in.
 + `dragDispObj` is `null`. In this case, events are translated to simulation
 coordinates of the specified SimView.
 
-See *Mouse Events* in {@link lab/app/SimController.SimController}.
+See [Mouse Events](./lab_app_SimController.SimController.html#md:mouse-events)
+in {@link lab/app/SimController.SimController | SimController}.
 
 **TO DO**  what to do when there are multiple SimObjects, as with DisplayPath?
 

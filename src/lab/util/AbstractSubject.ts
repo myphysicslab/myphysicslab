@@ -138,7 +138,7 @@ broadcastParameter(name: string): void {
 };
 
 /** Returns whether broadcasting is enabled for this Subject.
-See {@link AbstractSubject.setBroadcast}.
+See {@link setBroadcast}.
 @return whether broadcasting is enabled for this Subject
 */
 protected getBroadcast(): boolean {

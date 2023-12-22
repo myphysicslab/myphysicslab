@@ -49,7 +49,7 @@ to the starting time.
 reset(): void;
 
 /** Save the initial conditions, which can be returned to with
-{@link AdvanceStrategy.reset}.
+{@link reset}.
 */
 save(): void;
 
@@ -66,7 +66,8 @@ setTimeStep(timeStep: number): void;
 
 // *************************** ODEAdvance *******************************
 
-/** An AdvanceStrategy for advancing an {@link lab/model/ODESim.ODESim} thru time.
+/** An AdvanceStrategy for advancing an {@link lab/model/ODESim.ODESim | ODESim}
+thru time.
 */
 export interface ODEAdvance extends AdvanceStrategy {
 

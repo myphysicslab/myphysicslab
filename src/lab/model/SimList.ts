@@ -35,8 +35,10 @@ The purpose of SimObjects and the SimList is two-fold:
 
 2. SimObjects are often used by the Simulation's internal calculations.
 
-See {@link lab/view/DisplayObject.DisplayObject} for a discussion of how SimObjects are
-made visible to the user. See {@link lab/app/SimController.SimController} for
+See {@link lab/view/DisplayObject.DisplayObject | DisplayObject} for a discussion of
+how SimObjects are made visible to the user.
+
+See {@link lab/app/SimController.SimController | SimController} for
 information about how SimObjects participate in user interface interactions like
 dragging an object.
 
@@ -44,16 +46,16 @@ Events Broadcast
 ----------------
 A SimList is a Subject, so you can add one or more Observers to it. When SimObjects are
 added or removed, the SimList broadcasts a GenericEvent with the name
-{@link SimList.OBJECT_ADDED} or {@link SimList.OBJECT_REMOVED} to inform the Observers.
+{@link OBJECT_ADDED} or {@link OBJECT_REMOVED} to inform the Observers.
 The value of the GenericEvent is the SimObject that was added or removed.
 
 Similar Objects Are Not Added
 -----------------------------
 We avoid adding a SimObject when it has finite
 {@link SimObject.getExpireTime expiration time} and is similar
-to an existing SimObject as found using {@link SimList.getSimilar}.
+to an existing SimObject as found using {@link getSimilar}.
 There is a *tolerance setting* that determines when SimObjects are similar,
-see {@link SimList.getTolerance}.
+see {@link getTolerance}.
 
 This is to prevent thousands of similar SimObjects being created which would only slow
 performance without adding any significant information to the visual display. An example
@@ -90,11 +92,11 @@ getClassName() {
 };
 
 /** Adds the SimObject to this SimList. Notifies Observers by broadcasting
-the {@link SimList.OBJECT_ADDED} event. For SimObjects with finite
+the {@link OBJECT_ADDED} event. For SimObjects with finite
 {@link SimObject.getExpireTime expiration time}, we remove
 any existing similar SimObject in this SimList, as found using
-{@link SimList.getSimilar} with the default tolerance from
-{@link SimList.getTolerance}.
+{@link getSimilar} with the default tolerance from
+{@link getTolerance}.
 @param objs the SimObjects to add
 */
 add(...objs: SimObject[]) {
@@ -118,7 +120,7 @@ add(...objs: SimObject[]) {
 };
 
 /** Adds the set of SimObjects to this SimList. Notifies Observers by broadcasting the
-{@link SimList.OBJECT_ADDED} event for each SimObject added.
+{@link OBJECT_ADDED} event for each SimObject added.
 @param objList the SimObjects to add
 */
 addAll(objList: SimObject[]) {
@@ -128,7 +130,7 @@ addAll(objList: SimObject[]) {
 };
 
 /** Removes all SimObjects from this SimList. Notifies Observers by broadcasting the
-{@link SimList.OBJECT_REMOVED} event for each SimObject removed.
+{@link OBJECT_REMOVED} event for each SimObject removed.
 */
 clear(): void {
   this.removeAll(this.toArray());
@@ -225,7 +227,7 @@ getPointMass(name: string): PointMass {
 See {@link SimObject.similar} for how similarity is determined.
 @param simObj the SimObject to use for comparison
 @param tolerance the tolerance used when testing for similarity; default is
-    given by {@link SimList.getTolerance}
+    given by {@link getTolerance}
 @return a similar looking SimObject on this SimList,
     or `null` if there isn't one
 */
@@ -276,7 +278,7 @@ length(): number {
 };
 
 /** Removes the SimObject from this SimList. Notifies Observers by broadcasting the
-{@link SimList.OBJECT_REMOVED} event.
+{@link OBJECT_REMOVED} event.
 @param simObj the SimObject to remove
 */
 remove(simObj: SimObject) {
@@ -286,7 +288,7 @@ remove(simObj: SimObject) {
 };
 
 /** Removes the set of SimObjects from this SimList. Notifies Observers by broadcasting
-the {@link SimList.OBJECT_REMOVED} event for each SimObject removed.
+the {@link OBJECT_REMOVED} event for each SimObject removed.
 @param objList the SimObjects to remove
 */
 removeAll(objList: SimObject[]) {
@@ -296,7 +298,7 @@ removeAll(objList: SimObject[]) {
 };
 
 /** Removes SimObjects from this SimList whose *expiration time* is less than the given
-time. Notifies Observers by broadcasting the {@link SimList.OBJECT_REMOVED} event for
+time. Notifies Observers by broadcasting the {@link OBJECT_REMOVED} event for
 each SimObject removed.
 See {@link SimObject.getExpireTime}
 @param time the current simulation time

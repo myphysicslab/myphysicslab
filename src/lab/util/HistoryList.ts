@@ -66,7 +66,7 @@ HistoryList has a limited capacity and old values will be dropped if necessary f
 HistoryList to make room for new values to be added.
 
 HistoryList contains only those values whose index is between
-{@link HistoryList.getStartIndex} and {@link HistoryList.getEndIndex} (inclusive).
+{@link getStartIndex} and {@link getEndIndex} (inclusive).
 The start and end index can change when writing a
 new value to the list, because a new value might overwrite an old value.
 
@@ -372,10 +372,10 @@ Util.defineGlobal('lab$util$CircularList', CircularList);
 //**************************** CircularListIterator *****************************
 
 /** Provides access to items in a {@link CircularList}.
-Call {@link CircularListIterator.nextValue} to get to the first item.
+Call {@link nextValue} to get to the first item.
 
 To do incremental drawing, we need to know about our place in the circular
-list. So we need the {@link CircularListIterator.getIndex} method to remember
+list. So we need the {@link getIndex} method to remember
 where we left off during the iteration.
 */
 export class CircularListIterator<T> implements HistoryIterator<T>{

@@ -29,18 +29,14 @@ import { Vector } from '../util/Vector.js';
 
 ### Making a CircularEdge
 
-+ If you know the center of the circle use the constructor: `new CircularEdge(...)`.
++ If you know the center of the circle use the {@link constructor}:
+
+        new CircularEdge(...)
+
 + If you know the radius but not the center, use the static method
       {@link CircularEdge.make}.
-+ Use {@link lab/engine2D/Polygon.Polygon.addCircularEdge}
-+ Use {@link lab/engine2D/Polygon.Polygon.addCircularEdge2}
-
-For the CircularEdge constructor, the Edge starts at `vertex1` (given in body
-coordinates) proceeding along a circular arc with given center to the ending `vertex2`.
-The direction of the arc is given by the `clockwise` parameter. When the `outsideIsOut`
-variable is `true`, the outside of the circle is considered the outside of the
-RigidBody. Both Vertexes must be equidistant from the center, otherwise an exception is
-thrown.
++ Use {@link lab/engine2D/Polygon.Polygon.addCircularEdge | Polygon.addCircularEdge}
++ Use {@link lab/engine2D/Polygon.Polygon.addCircularEdge2 | Polygon.addCircularEdge2}
 
 ### Full Circle
 
@@ -72,7 +68,7 @@ and *angle increases counter-clockwise*.  Also called **world coordinates**.
 increases clockwise* in `canvas.arc()`.
 
 The transformation between these coordinate systems is handled by
-{@link lab/view/CoordMap.CoordMap}.
+{@link lab/view/CoordMap.CoordMap | CoordMap}.
 
 The table below summarizes the conventions used for angles. CircularEdge uses
 the *math convention for angles* shown in this table.
@@ -88,7 +84,7 @@ the *math convention for angles* shown in this table.
 ### Details About Coordinates and Drawing
 
 The *'y increases up'* convention interacts with drawing in Javascript via
-{@link CircularEdge.addPath}, and {@link lab/view/DisplayShape.DisplayShape}.
+{@link CircularEdge.addPath}, and {@link lab/view/DisplayShape.DisplayShape | DisplayShape}.
 In DisplayShape we use
 the AffineTransform from the CoordMap which applies a negative factor to the vertical
 scale as seen in this line of code from CoordMap's constructor:
@@ -155,7 +151,12 @@ export class CircularEdge extends AbstractEdge implements CurvedEdge, Edge {
   /** position of the center, in body coords */
   private center_body_: Vector;
 
-/**
+/** The Edge starts at `vertex1` (given in body
+* coordinates) proceeding along a circular arc with given center to the ending
+* `vertex2`. The direction of the arc is given by the `clockwise` parameter.
+* When the `outsideIsOut` variable is `true`, the outside of the circle is considered
+* the outside of the RigidBody. Both Vertexes must be equidistant from the
+* center, otherwise an exception is thrown.
 * @param body Edge will be added to this RigidBody
 * @param vertex1 Edge starts at this Vertex, given in body coordinates
 * @param vertex2 Edge finishes at this Vertex, given in body coordinates
@@ -609,7 +610,7 @@ getPointOnEdge(p_body: Vector): Vector[] {
 };
 
 /** Returns radius of the edge. Radius is always positive, but
-* {@link CircularEdge.getCurvature} returns negative for concave edge.
+* {@link getCurvature} returns negative for concave edge.
 * @return radius of the edge
 */
 getRadius(): number {
@@ -832,7 +833,7 @@ isWithinReflectedArc(p_edge: Vector): boolean {
 };
 
 /** Returns true if the angle of the given point is within the reflection of this arc
-through the center. Same as {@link CircularEdge.isWithinReflectedArc}
+through the center. Same as {@link isWithinReflectedArc}
 but accepts a point in world coordinates.
 
 @param p_world the point of interest, in world coordinates.

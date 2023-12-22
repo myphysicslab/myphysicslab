@@ -63,8 +63,8 @@ import { ClockTask } from '../../lab/util/Clock.js';
 
 /** Abstract base class that creates the standard set of views, graphs and controls
 which are common to applications that run a {@link RigidBodySim},
-{@link lab/engine2D/ImpulseSim.ImpulseSim}, or
-{@link lab/engine2D/ContactSim.ContactSim},
+{@link lab/engine2D/ImpulseSim.ImpulseSim | ImpulseSim}, or
+{@link lab/engine2D/ContactSim.ContactSim | ContactSim},
 
 Creates instance objects such as the simulation and display objects;
 defines regular expressions for easy Terminal scripting of these objects using short
@@ -79,7 +79,7 @@ No global variables are created other than two root global variables: the `myphy
 global holds all of the myPhysicsLab classes; and a global variable is created for this
 application instance. This application global is created outside of this file in the
 HTML where the constructor is called. The name of that global variable holding the
-application is passed to {@link Engine2DApp.defineNames} method so that short-names in
+application is passed to {@link defineNames} method so that short-names in
 scripts can be properly expanded.
 */
 export abstract class Engine2DApp<SimType extends RigidBodySim> extends AbstractSubject implements Subject, SubjectList {

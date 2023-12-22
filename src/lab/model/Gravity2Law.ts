@@ -31,14 +31,14 @@ F = G m1 m2 / r^2
 for two objects with masses `m1, m2` separated by distance `r`,
 with strength of gravity `G`.
 
-The set of objects can be specified with the {@link Gravity2Law.addBody} method, or the
+The set of objects can be specified with the {@link addBody} method, or the
 Gravity2Law can observe a SimList and automatically add all bodies that have mass to
 the set of objects.
 
 Parameters Created
 ------------------
 
-+ ParameterNumber named `GRAVITY`, see {@link Gravity2Law.setGravity}
++ ParameterNumber named `GRAVITY`, see {@link setGravity}
 
 */
 export class Gravity2Law extends AbstractSubject implements Subject, Observer, ForceLaw {

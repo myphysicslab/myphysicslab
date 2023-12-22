@@ -109,7 +109,7 @@ view.
 
 The 'show simulation' checkbox is visible in the graph views. Clicking the checkbox
 will change the layout to pick the appropriate version of the current layout, for
-example either 'sim+graph' or 'graph'. The method {@link TabLayout3.showSim} can be used from
+example either 'sim+graph' or 'graph'. The method {@link showSim} can be used from
 JavaScript to accomplish the same result.
 
 ### Size of Sim, Graph, TimeGraph
@@ -172,15 +172,15 @@ A 'show terminal' checkbox is added to the controls div in all layouts, unless t
 Parameters Created
 ------------------
 
-+ ParameterNumber named `SIM_WIDTH`, see {@link TabLayout3.setSimWidth}
++ ParameterNumber named `SIM_WIDTH`, see {@link setSimWidth}
 
-+ ParameterNumber named `GRAPH_WIDTH`, see {@link TabLayout3.setGraphWidth}
++ ParameterNumber named `GRAPH_WIDTH`, see {@link setGraphWidth}
 
-+ ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link TabLayout3.setTimeGraphWidth}
++ ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link setTimeGraphWidth}
 
-+ ParameterString named `LAYOUT`, see {@link TabLayout3.setLayout}
++ ParameterString named `LAYOUT`, see {@link setLayout}
 
-+ ParameterBoolean named `SHOW_TERMINAL`, see {@link TabLayout3.showTerminal}
++ ParameterBoolean named `SHOW_TERMINAL`, see {@link showTerminal}
 
 */
 export class TabLayout3 extends AbstractSubject implements Subject, Layout, SubjectList {

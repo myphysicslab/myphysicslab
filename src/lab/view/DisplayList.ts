@@ -329,13 +329,13 @@ toArray(): DisplayObject[] {
   return Array.from(this.drawables_);
 };
 
-/** Name of event broadcast when a DisplayObject is added, see {@link DisplayList.add},
-* {@link DisplayList.prepend}.
+/** Name of event broadcast when a DisplayObject is added, see {@link add},
+* {@link prepend}.
 */
 static readonly OBJECT_ADDED = 'OBJECT_ADDED';
 
 /** Name of event broadcast when a DisplayObject is removed,
-* see {@link DisplayList.remove}, {@link DisplayList.removeAll}.
+* see {@link remove}, {@link removeAll}.
 */
 static readonly OBJECT_REMOVED = 'OBJECT_REMOVED';
 

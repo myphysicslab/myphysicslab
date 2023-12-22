@@ -19,13 +19,13 @@ import { Printable } from "../util/Util.js"
 import { SimObject } from "../model/SimObject.js"
 import { Vector, GenericVector } from "../util/Vector.js"
 
-/** An object that can be displayed in a {@link lab/view/SimView.SimView}, often it
-is the visible representation of a {@link SimObject}.
+/** An object that can be displayed in a {@link lab/view/SimView.SimView | SimView},
+often it is the visible representation of a {@link SimObject}.
 The SimView determines the simulation coordinates and
 {@link CoordMap} which are used to place the object on the screen.
 
 Each DisplayObject has a default policy about when the SimObject it represents is
-dragable; this can be overridden via the {@link DisplayObject.setDragable} method.
+dragable; this can be overridden via the {@link setDragable} method.
 
 Many DisplayObjects allow specifying a **prototype** DisplayObject. When a display
 property is `undefined`, then the property is fetched from the prototype. If it is also
@@ -98,7 +98,7 @@ will have an effect. Generally the policies are:
 + If the SimObject's position is dependent on other objects, then the position cannot
   be set.  Examples are DisplayConnector, DisplayRope, DisplaySpring.
 
-+ If the SimObject can be moved independently and {@link DisplayObject.isDragable}
++ If the SimObject can be moved independently and {@link isDragable}
   is `true`, then the position of the SimObject is modified. Example: DisplayShape.
 
 @param position this DisplayObject's position, in simulation coordinates.

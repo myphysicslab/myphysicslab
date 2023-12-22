@@ -27,7 +27,7 @@ import { Vector } from '../util/Vector.js';
 Damping is a friction force like air resistance, or the surface friction of objects
 sliding on a table.
 
-The set of objects can be specified with the {@link DampingLaw.addBody} method, or the
+The set of objects can be specified with the {@link addBody} method, or the
 DampingLaw can observe a SimList and automatically add all bodies that have mass to the
 set of objects.
 
@@ -49,9 +49,9 @@ rotational damping by adjusting only the damping constant.
 Parameters Created
 ------------------
 
-+ ParameterNumber named `DAMPING`, see {@link DampingLaw.setDamping}
++ ParameterNumber named `DAMPING`, see {@link setDamping}
 
-+ ParameterNumber named `ROTATE_RATIO`, see {@link DampingLaw.setRotateRatio}
++ ParameterNumber named `ROTATE_RATIO`, see {@link setRotateRatio}
 
 */
 export class DampingLaw extends AbstractSubject implements Subject, Observer, ForceLaw {

@@ -50,7 +50,7 @@ x_min = S/(G*m1*m2)
 We subtract the minimum PE from the reported PE so that PE is zero at it's minimum.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
-{@link lab/engine2D/Scrim.Scrim}.
+{@link lab/engine2D/Scrim.Scrim | Scrim}.
 */
 export class SpringNonLinear2 extends Spring {
 

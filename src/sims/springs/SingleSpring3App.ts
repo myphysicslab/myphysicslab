@@ -29,7 +29,7 @@ import { Util } from '../../lab/util/Util.js';
 
 /** Displays the {@link SingleSpringSim} simulation.
 
-The difference between this and {@link sims/springs/SingleSpringApp.SingleSpringApp} is
+The difference between this and {@link sims/springs/SingleSpringApp.SingleSpringApp | SingleSpringApp} is
 that this uses {@link TabLayout3} for layout.
 */
 export class SingleSpring3App extends AbstractApp<SingleSpringSim> implements Subject, SubjectList {

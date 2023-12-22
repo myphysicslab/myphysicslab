@@ -280,7 +280,8 @@ function testClock1() {
   myClock.clearStepMode();  // we've done what was needed for the step
   assertFalse(myClock.isStepping());
 
-  // 20. pause mode.  Advance system time, and callback happens, but time doesn't advance.
+  // 20. pause mode.  Advance system time, and callback happens, but time
+  // doesn't advance.
   mockClock.tick(40);  // fires callback, reschedules for sys:430, sim:255
   assertRoughlyEquals(0.390, mockClock.systemTime(), tol);
   assertEquals(8, mockObsvr1.numEvents);  // pause and step events happened

@@ -64,7 +64,7 @@ to do:  another to add:  1x3 block on ground, lying horizontally, pick up one co
       the corner in contact stays in contact (unrealistic).  With hybrid or serial
       it alternates which corner is bouncing.
 
-This app has a {@link MultipleCollisionApp.config} function which looks at a set of
+This app has a {@link config} function which looks at a set of
 options and rebuilds the simulation accordingly. UI controls are created to change the
 options.
 */

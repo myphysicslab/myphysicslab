@@ -16,16 +16,17 @@ import { Parameter, SubjectEvent } from '../util/Observe.js';
 import { Printable } from '../util/Util.js';
 
 /** Represents a variable with a numeric value; usually stored in a
-{@link lab/model/VarsList.VarsList}.
+{@link lab/model/VarsList.VarsList | VarsList}.
 
-Variable extends Parameter so that {@link lab/util/EasyScriptParser.EasyScriptParser}
+Variable extends Parameter so that
+{@link lab/util/EasyScriptParser.EasyScriptParser | EasyScriptParser}
 can easily set a simulation's initial conditions (the set of starting Variables).
 EasyScriptParser can then use the same mechanisms for setting or reporting values of
 Parameters and Variables.
 
 Variables differ from "normal" Parameters in that a Variable does not broadcast when
 its value changes. Except that you can tell a Variable to broadcast on a discontinuous
-change, see {@link Variable.setBroadcast}.
+change, see {@link setBroadcast}.
 */
 export interface Variable extends Parameter, SubjectEvent, Printable {
 
@@ -36,7 +37,7 @@ getBroadcast(): boolean;
 
 /** Returns the sequence number of this Variable. The sequence number is incremented
 whenever a discontinuity occurs in the value of the variable.
-See {@link Variable.incrSequence}.
+See {@link incrSequence}.
 
 For example, when the variables are set back to initial conditions that is a
 discontinuous change. Then a graph knows to not draw a connecting line between the
@@ -59,7 +60,7 @@ getValue(): number;
 /** Increments the sequence number of this Variable, which indicates that a
 discontinuity has occurred in the value of this variable. This information is used in a
 graph to prevent drawing a line between points that have a discontinuity.
-See {@link Variable.getSequence}.
+See {@link getSequence}.
 */
 incrSequence(): void;
 
@@ -79,8 +80,7 @@ setBroadcast(value: boolean): void;
 setValue(value: number): void;
 
 /** Sets the value of this Variable without changing the sequence number which means
-it is a 'smooth' continuous change to the variable.
-See {@link Variable.getSequence}.
+it is a 'smooth' continuous change to the variable. See {@link getSequence}.
 @param value the value of this Variable
 */
 setValueSmooth(value: number): void;

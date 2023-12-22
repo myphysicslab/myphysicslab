@@ -23,12 +23,12 @@ import { MassObject } from "../model/MassObject.js"
 
 /** Displays a {@link Rope} by showing a straight line when the Rope
 is tight, or a jagged line when the Rope has slack. Can have a different color when
-tight or slack, see {@link DisplayRope.setColorTight} and
-{@link DisplayRope.setColorSlack}.
+tight or slack, see {@link setColorTight} and
+{@link setColorSlack}.
 
 The position is reported as the midpoint of the Rope by
-{@link DisplayRope.getPosition}. The position is determined by the position of the
-Rope, so {@link DisplayRope.setPosition} has no effect, and the DisplayRope is never
+{@link getPosition}. The position is determined by the position of the
+Rope, so {@link setPosition} has no effect, and the DisplayRope is never
 dragable.
 */
 export class DisplayRope implements DisplayObject {

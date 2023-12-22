@@ -36,7 +36,7 @@ export const enum NextContactPolicy {
 
 
 /** Computes forces at contact points between RigidBodys, or impulses at collision
-points between RigidBodys. The {@link ComputeForces.compute_forces} method is an implementation of
+points between RigidBodys. The {@link compute_forces} method is an implementation of
 the algorithm given in the paper
 
 + *Fast contact force computation for nonpenetrating rigid bodies* by David Baraff,
@@ -48,9 +48,9 @@ More info at:
 
 + [The Math and Physics Underlying ContactSim](https://www.myphysicslab.com/contact.html)
 
-+ {@link lab/engine2D/ContactSim.ContactSim}
++ {@link lab/engine2D/ContactSim.ContactSim | ContactSim}
 
-+ {@link lab/engine2D/ImpulseSim.ImpulseSim}
++ {@link lab/engine2D/ImpulseSim.ImpulseSim | ImpulseSim}
 
 This documentation is written assuming that *contact forces* and resulting accelerations
 are being calculated, but everything applies equally when calculating multiple
@@ -108,13 +108,13 @@ acceleration is always exactly zero.
 
 ### Return Value
 
-The return value from {@link ComputeForces.compute_forces} is `-1` if successful,
+The return value from {@link compute_forces} is `-1` if successful,
 meaning that a set of forces were found so that the acceleration satisfies the above
 constraints. If not successful, the caller can check the set of forces that were
 calculated to see if the resulting acceleration at each contact point is still
 acceptable.
 
-See the method {@link ComputeForces.checkForceAccel} for how to check the
+See the method {@link checkForceAccel} for how to check the
 accelerations. For example, the following code calculates and checks the acceleration
 from the calculated forces.
 ```js
@@ -192,7 +192,7 @@ force on it.
 ### Order of Treating Contacts
 
 The order in which we handle (or 'treat') contacts is important and can affect what
-solution is found. The policy is set via the {@link ComputeForces.setNextContactPolicy}
+solution is found. The policy is set via the {@link setNextContactPolicy}
 method. The default policy is {@link NextContactPolicy.HYBRID} which first treats
 Joints in random order, and then non-Joints in the order defined by which has the most
 negative acceleration.

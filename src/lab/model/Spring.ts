@@ -27,7 +27,7 @@ generates a {@link Force} which depends on how the Spring is stretched.
 Damping is proportional to the relative velocity of the two objects.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
-{@link lab/engine2D/Scrim.Scrim}.
+{@link lab/engine2D/Scrim.Scrim | Scrim}.
 
 ## Compress-only mode
 

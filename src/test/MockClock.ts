@@ -22,7 +22,7 @@ type mockCallback = {
 };
 
 /** Implementation of a {@link SystemClock} for testing.
-We can advance the time manually via {@link MockClock.tick},
+We can advance the time manually via {@link tick},
 and then scheduled callbacks will be executed as appropriate.
 */
 export class MockClock implements SystemClock {

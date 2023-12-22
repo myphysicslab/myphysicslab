@@ -218,7 +218,7 @@ handleKeyEvent(_evt: KeyboardEvent, _pressed: boolean, _modifiers: ModifierKeys)
 };
 
 /** Sets the given MutableVector to the position of a point on the string
-* @param idx index of point on the string, from 0 to {@link StringSim.getNumPoints}
+* @param idx index of point on the string, from 0 to {@link getNumPoints}
 * @param point the MutableVector which will be set to the position
 */
 getPoint(idx: number, point: MutableVector): void {
@@ -263,7 +263,7 @@ initializeFromShape(): void  {
 };
 
 /** Advances the simulation state by the time step given by
-{@link StringSim.getTimeStep}.
+{@link getTimeStep}.
 */
 advance(): void {
   let wNew: number[];

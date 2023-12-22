@@ -29,58 +29,58 @@ import { SimObject } from "../model/SimObject.js"
 import { Util } from "../util/Util.js"
 
 /** A visual representation of a Simulation which can be displayed in a
-{@link lab/view/LabCanvas.LabCanvas}; has a {@link DisplayList} which
+{@link lab/view/LabCanvas.LabCanvas | LabCanvas}; has a {@link DisplayList} which
 represents the {@link SimObject}s of the Simulation;
 defines how to translate simulation coordinates to LabCanvas screen coordinates.
 
-A SimView is shown inside a {@link lab/view/LabCanvas.LabCanvas}, possibly overlaid
-with other SimViews.
+A SimView is shown inside a {@link lab/view/LabCanvas.LabCanvas | LabCanvas},
+possibly overlaid with other SimViews.
 
 Boundary Rectangles
 -------------------
 A SimView keeps track of two boundary rectangles: the simulation and screen rectangles.
 
 + The **simulation rectangle** specifies what area of the simulation space to display
-in this SimView. See {@link SimView.getSimRect}.
+in this SimView. See {@link getSimRect}.
 
 + The **screen rectangle** specifies where to show this SimView within the containing
-LabCanvas. See {@link SimView.getScreenRect}. The screen rectangle is initially set to
+LabCanvas. See {@link getScreenRect}. The screen rectangle is initially set to
 a default size of 800 by 600.
 
 A {@link CoordMap} maps the simulation rectangle onto the screen
 rectangle, in accordance with various alignment options;
-see {@link SimView.setHorizAlign}, {@link SimView.setVerticalAlign},
-{@link SimView.setAspectRatio}. The CoordMap is available via
-{@link SimView.getCoordMap}. The CoordMap is passed to each DisplayObject during the
-{@link SimView.paint} method.
+see {@link setHorizAlign}, {@link setVerticalAlign},
+{@link setAspectRatio}. The CoordMap is available via
+{@link getCoordMap}. The CoordMap is passed to each DisplayObject during the
+{@link paint} method.
 
 Pan-Zoom Controls
 -----------------
-The methods such as {@link SimView.panUp}, {@link SimView.panLeft},
-{@link SimView.zoomIn}, {@link SimView.zoomOut}
+The methods such as {@link panUp}, {@link panLeft},
+{@link zoomIn}, {@link zoomOut}
 are used to make a 'pan-zoom control' in
-{@link sims/common/CommonControls.CommonControls.makePanZoomControls}. The amount of
-pan-zoom that is done by each invocation of those methods can be changed via the
-properties {@link SimView.panX}, {@link SimView.panY}, {@link SimView.zoom}.
+{@link sims/common/CommonControls.CommonControls.makePanZoomControls | CommonControls.makePanZoomControls}.
+The amount of pan-zoom that is done by each invocation of those methods can be changed
+via the properties {@link panX}, {@link panY}, {@link zoom}.
 
 Parameters Created
 ------------------
 
-+ ParameterBoolean named `SCALE_TOGETHER`, see {@link SimView.setScaleTogether}.
++ ParameterBoolean named `SCALE_TOGETHER`, see {@link setScaleTogether}.
 
-+ ParameterNumber named `WIDTH`, see {@link SimView.setWidth}
++ ParameterNumber named `WIDTH`, see {@link setWidth}
 
-+ ParameterNumber named `HEIGHT`, see {@link SimView.setHeight}
++ ParameterNumber named `HEIGHT`, see {@link setHeight}
 
-+ ParameterNumber named `CENTER_X`, see {@link SimView.setCenterX}
++ ParameterNumber named `CENTER_X`, see {@link setCenterX}
 
-+ ParameterNumber named `CENTER_Y`, see {@link SimView.setCenterY}
++ ParameterNumber named `CENTER_Y`, see {@link setCenterY}
 
-+ ParameterString named `VERTICAL_ALIGN`, see {@link SimView.setVerticalAlign}
++ ParameterString named `VERTICAL_ALIGN`, see {@link setVerticalAlign}
 
-+ ParameterString named `HORIZONTAL_ALIGN`, see {@link SimView.setHorizAlign}
++ ParameterString named `HORIZONTAL_ALIGN`, see {@link setHorizAlign}
 
-+ ParameterNumber named `ASPECT_RATIO`, see {@link SimView.setAspectRatio}
++ ParameterNumber named `ASPECT_RATIO`, see {@link setAspectRatio}
 
 Events Broadcast
 ----------------
@@ -349,32 +349,32 @@ paint(context: CanvasRenderingContext2D) {
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') down by fraction
-{@link SimView.panY}, which causes the image to move up.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+{@link panY}, which causes the image to move up.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 panDown(): void {
   this.setCenterY(this.centerY_ - this.panY * this.height_);
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') left by fraction
-{@link SimView.panX}, which causes the image to move right.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+{@link panX}, which causes the image to move right.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 panLeft(): void {
   this.setCenterX(this.centerX_ - this.panX * this.width_);
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') right by fraction
-{@link SimView.panX}, which causes the image to move left.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+{@link panX}, which causes the image to move left.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 panRight(): void {
   this.setCenterX(this.centerX_ + this.panX * this.width_);
 };
 
 /** Moves the center of the simulation rectangle (the 'camera') up by fraction
-{@link SimView.panY}, which causes the image to move down.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+{@link panY}, which causes the image to move down.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 panUp(): void {
   this.setCenterY(this.centerY_ + this.panY * this.height_);
@@ -410,7 +410,7 @@ setAspectRatio(aspectRatio: number): void {
 };
 
 /** Sets the horizontal coordinate of simulation rectangle's center,
-* and broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+* and broadcasts a {@link SIM_RECT_CHANGED} event.
 * @param value the horizontal coordinate of simulation rectangle's center.
 */
 setCenterX(value: number): void {
@@ -421,7 +421,7 @@ setCenterX(value: number): void {
 };
 
 /** Sets the vertical coordinate of simulation rectangle's center,
-* and broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+* and broadcasts a {@link SIM_RECT_CHANGED} event.
 * @param value the vertical coordinate of simulation rectangle's center.
 */
 setCenterY(value: number): void {
@@ -444,7 +444,7 @@ setCoordMap(map: CoordMap): void {
 };
 
 /** Sets height of the simulation rectangle, and broadcasts a
-* {@link SimView.SIM_RECT_CHANGED} event
+* {@link SIM_RECT_CHANGED} event
 * @param value height of the simulation rectangle
 */
 setHeight(value: number): void {
@@ -541,7 +541,7 @@ setVerticalAlign(alignVert: VerticalAlign): void {
 };
 
 /** Sets width of the simulation rectangle, and broadcasts a
-* {@link SimView.SIM_RECT_CHANGED} event.
+* {@link SIM_RECT_CHANGED} event.
 * @param value width of the simulation rectangle
 */
 setWidth(value: number): void {
@@ -555,33 +555,33 @@ setWidth(value: number): void {
 };
 
 /** Makes the height of the simulation rectangle smaller by fraction
-1/{@link SimView.zoom},
-and also the width if {@link SimView.getScaleTogether} is true.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+1/{@link zoom},
+and also the width if {@link getScaleTogether} is true.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 zoomIn(): void {
   this.setHeight(this.height_ / this.zoom);
 };
 
-/** Makes the height of the simulation rectangle bigger by factor {@link SimView.zoom},
-and also the width if {@link SimView.getScaleTogether} is true.
-Also broadcasts a {@link SimView.SIM_RECT_CHANGED} event.
+/** Makes the height of the simulation rectangle bigger by factor {@link zoom},
+and also the width if {@link getScaleTogether} is true.
+Also broadcasts a {@link SIM_RECT_CHANGED} event.
 */
 zoomOut(): void {
   this.setHeight(this.height_ * this.zoom);
 };
 
-/** Name of event broadcast when the CoordMap changes, see {@link SimView.setCoordMap}.
+/** Name of event broadcast when the CoordMap changes, see {@link setCoordMap}.
 */
 static COORD_MAP_CHANGED = 'COORD_MAP_CHANGED';
 
 /** Name of event broadcast when the screen rectangle size changes, see
-* {@link SimView.setScreenRect}.
+* {@link setScreenRect}.
 */
 static SCREEN_RECT_CHANGED = 'SCREEN_RECT_CHANGED';
 
 /** Name of event broadcast when the simulation rectangle size changes, see
-* {@link SimView.setSimRect}.
+* {@link setSimRect}.
 */
 static SIM_RECT_CHANGED = 'SIM_RECT_CHANGED';
 

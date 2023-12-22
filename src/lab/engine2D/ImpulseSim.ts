@@ -40,16 +40,16 @@ const TE = 3;
 collision detection and collision handling to the superclass RigidBodySim.
 
 The overall collision handling algorithm is implemented in
-{@link lab/model/CollisionAdvance.CollisionAdvance}. The two main methods that
-CollisionAdvance asks ImpulseSim to perform are:
+{@link lab/model/CollisionAdvance.CollisionAdvance | CollisionAdvance}. The two main
+methods that CollisionAdvance asks ImpulseSim to perform are:
 
-+ {@link ImpulseSim.findCollisions} Returns the current set of collisions and also
++ {@link findCollisions} Returns the current set of collisions and also
 contacts. Checks each corner and edge of each body to see if it is penetrating into
 another body (or nearby for a contact). Creates a
 {@link RigidBodyCollision} corresponding to each
 collision (or contact) found and returns them in an array.
 
-+ {@link ImpulseSim.handleCollisions} For each collision, calculates and applies the
++ {@link handleCollisions} For each collision, calculates and applies the
 appropriate impulse to handle the collision.
 
 More information:
@@ -62,8 +62,8 @@ More information:
     [ContactSim](https://www.myphysicslab.com/engine2D/contact-en.html) are
     described on the myPhysicsLab website.
 
-+ {@link lab/engine2D/ContactSim.ContactSim} has more about how resting contacts are
-found.
++ {@link lab/engine2D/ContactSim.ContactSim | ContactSim} has more about how resting
+    contacts are found.
 
 + {@link ComputeForces} is the algorithm used when finding
 multiple simultaneous impulses during collision handling.
@@ -71,16 +71,16 @@ multiple simultaneous impulses during collision handling.
 ### Parameters Created
 
 + ParameterString named `COLLISION_HANDLING`,
-see {@link ImpulseSim.setCollisionHandling}
+see {@link setCollisionHandling}
 
 + ParameterNumber named `COLLISION_ACCURACY`,
-see {@link ImpulseSim.setCollisionAccuracy}
+see {@link setCollisionAccuracy}
 
-+ ParameterNumber named `DISTANCE_TOL`, see {@link ImpulseSim.setDistanceTol}
++ ParameterNumber named `DISTANCE_TOL`, see {@link setDistanceTol}
 
-+ ParameterNumber named `VELOCITY_TOL`, see {@link ImpulseSim.setVelocityTol}
++ ParameterNumber named `VELOCITY_TOL`, see {@link setVelocityTol}
 
-+ ParameterNumber named `RANDOM_SEED`, see {@link ImpulseSim.setRandomSeed}
++ ParameterNumber named `RANDOM_SEED`, see {@link setRandomSeed}
 
 See also the super class for additional Parameters.
 
@@ -94,7 +94,7 @@ the {@link CollisionHandling} enum.
 
 Resting contacts, joints, and imminent collisions are involved in the collision handling
 mechanism, as part of a multiple simultaneous collision.
-The {@link ImpulseSim.handleCollisions} method can calculate the impulse needed at each
+The {@link handleCollisions} method can calculate the impulse needed at each
 point, which can be a big performance win.
 
 Consider for example a situation where there are 2 or more bodies in resting contact,
@@ -109,7 +109,7 @@ more compute time than doing the equivalent inside of `handleCollisions`.
 
 ### Finding the Collision Impulse
 
-This reviews some of the math involved in {@link ImpulseSim.handleCollisions}.
+This reviews some of the math involved in {@link handleCollisions}.
 
 Define these symbols
 ```text
@@ -199,7 +199,7 @@ way to communicate the distance/velocity tolerance to the RigidBody.
 **TO DO** collision impact:  make these into a SimObject, similar to Force,
 and add to SimList;  then user can decide how to represent them
 
-**TO DO** The method {@link ImpulseSim.findCollisions} is doing twice as much work as
+**TO DO** The method {@link findCollisions} is doing twice as much work as
 it needs to:  once you check if body A collides with body B, you don't have
 to check if body B collides with body A.
 
@@ -434,7 +434,7 @@ getShowCollisions(): boolean {
 };
 
 /** Sets whether to show collisions visually.
-* Note that {@link ImpulseSim.setShowForces}
+* Note that {@link setShowForces}
 * will also change whether to show collisions.
 * @param value whether to show collisions visually.
 */
@@ -445,7 +445,7 @@ setShowCollisions(value: boolean): void {
 /** Sets a function for printing collisions. The function is called for each collision
 that occurs. The function takes two variables: a RigidBodyCollision and a Terminal.
 This can be defined from within the Terminal by the user. Here is an example function
-({@link sims/engine2D/FastBallApp.FastBallApp} is a good place to try it).
+({@link sims/engine2D/FastBallApp.FastBallApp | FastBallApp} is a good place to try it).
 ```js
 sim.setCollisionFunction(function(c,t) {
 const s = c.getDetectedTime().toFixed(2)+"\t"
@@ -600,7 +600,7 @@ ci(0, 1), cj(2, 3)
 Suppose there is an additional contact/collision c(1,2). Still, the impulse at
 cj(2,3) only affects bodies 2 and 3, which has no direct effect at the contact
 ci(0,1) between bodies 1 and 2. Indirectly, you can get an effect. While the matrix
-entry (see {@link ImpulseSim.makeCollisionMatrix} for the above combo would be zero, you would
+entry (see {@link makeCollisionMatrix} for the above combo would be zero, you would
 have non-zero entries for:
 ```text
 ci(0,1), cj(1, 2)
@@ -877,12 +877,12 @@ integers each time thru the loop. For example if the same sequence were used eve
 time thru the loop, then the contacts at the start of the sequence would be processed
 much more frequently, and the algorithm would be much less efficient.
 
-To provide a non-random option you can use the {@link ImpulseSim.setRandomSeed} method
+To provide a non-random option you can use the {@link setRandomSeed} method
 to set the seed used by the random number generator. This will provide a reproducible
 series of random numbers. This is done when running tests.
 
 Turn on the `showVelo` flag to show visually the velocity at each contact point and get
-a sense of how this algorithm works. See {@link ImpulseSim.setDebugPaint} for
+a sense of how this algorithm works. See {@link setDebugPaint} for
 additional steps needed to have the contact forces drawn while stepping thru this
 method.
 

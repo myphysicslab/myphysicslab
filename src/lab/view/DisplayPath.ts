@@ -28,8 +28,8 @@ import { MassObject } from "../model/MassObject.js"
 
 /** Displays one or more {@link Path}'s within a specified screen
 rectangle in the canvas. The screen rectangle is initially empty, so it must be set
-with {@link DisplayPath.setScreenRect}. Paths can be added or removed with methods
-{@link DisplayPath.addPath}, {@link DisplayPath.removePath}.
+with {@link setScreenRect}. Paths can be added or removed with methods
+{@link addPath}, {@link removePath}.
 
 + **TO DO** make DRAW_POINTS settable.
 
@@ -52,7 +52,7 @@ export class DisplayPath implements DisplayObject {
   /** to detect when redraw needed;  when the coordmap changes, we need to redraw. */
   private lastMap_: null|CoordMap = null;
   private zIndex_: number|undefined;
-  /** Default style for drawing a path, used as default in {@link DisplayPath.addPath}.
+  /** Default style for drawing a path, used as default in {@link addPath}.
   */
   private defaultStyle_: DrawingStyle|undefined;
   private proto_: null|DisplayPath;
@@ -84,7 +84,7 @@ toStringShort() {
 /** Adds a Path to the set of paths to display.
 * @param path the Path to display
 * @param opt_style the DrawingStyle to use for drawing this Path;
-*     uses the default style if not specified, see {@link DisplayPath.setStyle}.
+*     uses the default style if not specified, see {@link setStyle}.
 */
 addPath(path: Path, opt_style?: DrawingStyle) {
   if (!this.containsPath(path)) {
@@ -234,7 +234,7 @@ getChanged(): boolean {
   return this.redraw_;
 };
 
-/** Sets default DrawingStyle used in {@link DisplayPath.addPath}.
+/** Sets default DrawingStyle used in {@link addPath}.
 * @return the default DrawingStyle to use when adding a Path
 */
 getDefaultStyle(): DrawingStyle {
@@ -347,7 +347,7 @@ removePath(path: Path): void {
   }
 };
 
-/** Sets default DrawingStyle used in {@link DisplayPath.addPath}.
+/** Sets default DrawingStyle used in {@link addPath}.
 * @param value the default DrawingStyle to use when adding
 *      a Path
 * @return this object for chaining setters

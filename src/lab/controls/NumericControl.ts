@@ -20,7 +20,7 @@ import { Util } from '../util/Util.js'
 object.
 
 Because this is an {@link Observer}, you can connect it to a Subject;
-when the Subject broadcasts events, the {@link NumericControlBase.observe} method
+when the Subject broadcasts events, the {@link observe} method
 ensures that this control reflects the current target value.
 
 ### Number Formatting
@@ -29,13 +29,13 @@ The number is formatted without any thousands separators and with the number of
 fractional decimal places depending on the "mode".
 
 + **Fixed decimal places mode** shows the number of decimal places given by
-{@link NumericControlBase.getDecimalPlaces}.
+{@link getDecimalPlaces}.
 Ignores significant digits setting. *Fixed decimal places mode* is active when
 `getDecimalPlaces()` returns 0 or greater.
 
 + **Variable decimal places mode** ensures that the requested number of significant
 digits are visible. Adjusts decimal places shown based on the magnitude of the value.
-See {@link NumericControlBase.setSignifDigits}. *Variable decimal places mode* is
+See {@link setSignifDigits}. *Variable decimal places mode* is
 active when `getDecimalPlaces()` returns –1.
 
 The default setting is *variable decimal places mode* with 3 significant digits.
@@ -43,7 +43,7 @@ The default setting is *variable decimal places mode* with 3 significant digits.
 The displayed value is rounded to a certain number of digits, and therefore the
 displayed value can differ from the target value. NumericControlBase allows for
 this difference by only making changes to the target value when the the user
-modifies the displayed value, or when {@link NumericControlBase.setValue} is called.
+modifies the displayed value, or when {@link setValue} is called.
 
 ### Preventing Forbidden Values
 
@@ -257,7 +257,7 @@ getParameter(): null|Parameter {
 
 /** Returns the number of significant digits to show when formatting the number. Only
 has an effect in *variable decimal places mode*,
-see {@link NumericControlBase.getDecimalPlaces}.
+see {@link getDecimalPlaces}.
 @return the number of significant digits to show when formatting the number
 */
 getSignifDigits(): number {
@@ -265,7 +265,7 @@ getSignifDigits(): number {
 };
 
 /** Returns the value of this control (which should match the target value if
-{@link NumericControlBase.observe} is being called). The displayed value may be
+{@link observe} is being called). The displayed value may be
 different due to rounding.
 @return the value of this control
 */
@@ -291,7 +291,7 @@ observe(_event: SubjectEvent): void {
 /** Sets the fixed number of fractional decimal places to show when formatting the
 number, or a value of –1 puts this into *variable decimal places mode* where
 the number of decimal places depends on the desired number of significant digits.
-See {@link NumericControlBase.setSignifDigits}.
+See {@link setSignifDigits}.
 @param decimalPlaces the fixed number of fractional decimal places to show when
     formatting the number, or –1 to have variable number of fractional decimal places.
 @return this object for chaining setters
@@ -311,7 +311,7 @@ setEnabled(enabled: boolean): void {
 
 /** Sets the number of significant digits to show when formatting the number. Only
 has an effect in *variable decimal places mode*,
-see {@link NumericControlBase.setDecimalPlaces}.
+see {@link setDecimalPlaces}.
 @param signifDigits the number of significant digits to show when
     formatting the number
 @return this object for chaining setters

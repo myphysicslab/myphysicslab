@@ -38,7 +38,7 @@ See [2D Physics Engine Overview](../Engine2D.html) about the rigid body physics 
 
 For explanation of **body vs. world coordinates** see
 [Body Coordinates](../Engine2D.html#bodycoordinates),
-{@link MassObject} and {@link lab/model/CoordType.CoordType}.
+{@link MassObject} and {@link lab/model/CoordType.CoordType | CoordType}.
 
 Methods that return a location often have names ending with either 'body' or 'world' to
 indicate the coordinate system. Similarly, parameters of methods often end with 'body'
@@ -77,23 +77,22 @@ Edges. See {@link Vertex} about end-point vs. mid-point Vertexes.
 
 + First create a Polygon with the constructor; it has no Vertexes or Edges.
 
-+ Call {@link Polygon.startPath} to begin making a path. You can start with a single Vertex or
++ Call {@link startPath} to begin making a path. You can start with a single Vertex or
 an Edge.
 
-+ Use {@link Polygon.addEdge} as many times as desired to add Edges. Or use the shortcut
-methods {@link Polygon.addStraightEdge}, {@link Polygon.addCircularEdge} or
-{@link Polygon.addCircularEdge2}.
++ Use {@link addEdge} as many times as desired to add Edges. Or use the shortcut
+methods {@link addStraightEdge}, {@link addCircularEdge} or {@link addCircularEdge2}.
 
-+ (optional) Use {@link Polygon.closePath} if you want to add another path with `startPath`.
++ (optional) Use {@link closePath} if you want to add another path with `startPath`.
 
-+ Call {@link Polygon.finish} which will close the current path and calculate the centroid for
++ Call {@link finish} which will close the current path and calculate the centroid for
 the Polygon.
 
 Note that just creating an Edge can add it to the existing linked list of Vertexes
-and Edges being formed in the currently open path. The {@link Polygon.addEdge} method completes
+and Edges being formed in the currently open path. The {@link addEdge} method completes
 the process of adding the Edge to the Polygon.
 
-For examples of creating a Polygon see {@link lab/engine2D/Shapes.Shapes}.
+For examples of creating a Polygon see {@link lab/engine2D/Shapes.Shapes | Shapes}.
 
 ### Centroids & Proximity Testing
 
@@ -119,7 +118,7 @@ Walls are a special case for proximity testing. Because they are typically long 
 thin, their proximity circle is huge compared to the wall object; and so the proximity
 test fires many false positives.
 
-To remedy this, we allow specifying a 'special edge' via {@link Polygon.setSpecialEdge}
+To remedy this, we allow specifying a 'special edge' via {@link setSpecialEdge}
 which changes how the proximity testing is done for this object.
 
 When there is a special edge (there can only be one per object), then the proximity test
@@ -136,16 +135,16 @@ being able to collide into any of the non-special edge walls.
 A Polygon keeps a copy of its local coordinate system before the last time step of the
 differential equation solver. The copy is used for collision detection, to determine
 how a collision may have happened; for example whether a Vertex crossed over an Edge
-during the last time step. See {@link Polygon.saveOldCoords},
-{@link Polygon.getOldCoords}, and {@link Polygon.eraseOldCoords}.
+during the last time step. See {@link saveOldCoords},
+{@link getOldCoords}, and {@link eraseOldCoords}.
 
 ### Minimum Height
 
 The minimum height of a Polygon is used for potential energy calculations, see
-{@link Polygon.getMinHeight}.
+{@link getMinHeight}.
 
 The minimum height can be explicitly set for each Polygon, see
-{@link Polygon.setMinHeight}. If it is not set, the method {@link Polygon.getMinHeight}
+{@link setMinHeight}. If it is not set, the method {@link getMinHeight}
 will try to determine the minumum height by calculating the smallest distance between
 the center of mass and the body's Edges.
 
@@ -274,7 +273,7 @@ getClassName() {
 /** Adds a CircularEdge to the open path of this Polygon, starting at the current last
 Vertex and ending at the given point, with the given center for the circular arc, and
 moving clockwise or counter-clockwise from the start Vertex. See
-{@link Polygon.lastOpenVertex} and {@link Polygon.startPath}.
+{@link lastOpenVertex} and {@link startPath}.
 
 @param p_body the endpoint of the new Edge, in body coordinates
 @param center_body the center point in body coordinates
@@ -298,7 +297,7 @@ addCircularEdge(p_body: Vector, center_body: Vector, clockwise: boolean, outside
 /** Adds a CircularEdge to the open path of this Polygon, starting at the current last
 Vertex and ending at the given point, with the given radius for the circular arc, and
 moving clockwise or counter-clockwise from the start Vertex. See
-{@link Polygon.lastOpenVertex} and {@link Polygon.startPath}.
+{@link lastOpenVertex} and {@link startPath}.
 
 The center point is calculated from the two end-points, the radius, the direction
 (clockwise or counter-clockwise), and the `aboveRight` parameter. The center is at the
@@ -331,9 +330,8 @@ addCircularEdge2(p_body: Vector, radius: number, aboveRight: boolean, clockwise:
 };
 
 /** Adds the Edge to current open path. The start Vertex of the Edge must
-* match the end Vertex of last Edge in open path as given by
-* {@link Polygon.lastOpenVertex}.
-* See {@link Polygon.startPath}.
+* match the end Vertex of last Edge in open path as given by {@link lastOpenVertex}.
+* See {@link startPath}.
 * @param edge the Edge to add to current open path
 * @throws if there is no open path, or the start Vertex of the Edge does not
 *     match the end Vertex of last Edge in open path.
@@ -366,8 +364,8 @@ addNonCollide(bodies: RigidBody[]): void {
 };
 
 /** Adds a StraightEdge to the open path of this Polygon, starting at the current last
-Vertex and ending at the given point. See {@link Polygon.lastOpenVertex} and
-{@link Polygon.startPath}.
+Vertex and ending at the given point. See {@link lastOpenVertex} and
+{@link startPath}.
 
 @param p_body the end point of the new Edge, in body coordinates
 @param outsideIsUp true means that any point above this Edge is
@@ -384,7 +382,7 @@ addStraightEdge(p_body: Vector, outsideIsUp: boolean): StraightEdge {
   return edge;
 };
 
-/** Calculates the bounding box for this object.  See {@link Polygon.getBoundsBody}.
+/** Calculates the bounding box for this object.  See {@link getBoundsBody}.
 */
 private calculateSize(): void {
   let xmin = Infinity;
@@ -466,8 +464,8 @@ private checkConsistent(): void {
 };
 
 /** Closes the current path of the Polygon. Connects the starting Vertex of the open
-path with the last Edge of the open path. See {@link Polygon.startPath},
-{@link Polygon.lastOpenEdge}, and {@link Polygon.getStartVertex}.
+path with the last Edge of the open path. See {@link startPath}, {@link lastOpenEdge},
+and {@link getStartVertex}.
 @return `true` if there was an open path that was successfully closed
 @throws if Polygon construction was previously finished
 @throws if start and end Vertex of the path are not at the same location
@@ -493,7 +491,8 @@ closePath(): boolean {
   return true;
 };
 
-/**  Closes an open path by connecting the Edges whose given Vertexes are at the same location.
+/** Closes an open path by connecting the Edges whose given Vertexes are at the same
+location.
 
 Each Vertex must be connected to only one Edge. The previous Edge for v1 must be null.
 The next Edge for v2 must be null. Both Vertexes must be at (nearly) the same location
@@ -786,7 +785,7 @@ getSpecialNormalWorld(): Vector|null {
 };
 
 /** Returns starting Vertex for current open path, or `null` if there is no open path.
-* See {@link Polygon.startPath}.
+* See {@link startPath}.
 * @return starting Vertex for the current open path,
 *    or `null` if there is no open path.
 */
@@ -874,7 +873,7 @@ lastOpenEdge(): null|Edge {
 
 /** Returns last Vertex in current open path. This is the ending Vertex of the last Edge
 in the linked list of Edges that makes up the open path. If there is no Edge in the path
-then this is the starting Vertex, see {@link Polygon.startPath} and {@link Polygon.getStartVertex}.
+then this is the starting Vertex, see {@link startPath} and {@link getStartVertex}.
 
 @return last Vertex in current open path
 @throws if there is no open path
@@ -1048,7 +1047,7 @@ be called on a rectangular Polygon.
 Sets the centroid radius of the non-special edges on this Polygon to zero, which makes
 all those non-special edges inoperative for collision detection purposes.
 See [Special Edge for Proximity Testing](#md:special-edge-for-proximity-testing).
-See {@link Polygon.getSpecialNormalWorld}.
+See {@link getSpecialNormalWorld}.
 @param edgeIndex the index of the Edge that takes priority
     for collision handling, within the Polygon's list of edges
 @param radius the radius of the circle to use for proximity testing.

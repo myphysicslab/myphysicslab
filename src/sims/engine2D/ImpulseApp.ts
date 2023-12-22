@@ -34,7 +34,7 @@ import { Walls } from '../../lab/engine2D/Walls.js';
 /**  ImpulseApp demonstrates using ImpulseSim (instead of the usual ContactSim) with
 a set of simple rectangular objects.
 
-This app has a {@link ImpulseApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 */
 export class ImpulseApp extends Engine2DApp<ImpulseSim> implements Subject, SubjectList {

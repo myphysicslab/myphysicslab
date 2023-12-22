@@ -57,13 +57,13 @@ The number is formatted without any thousands separators and with the number of
 fractional decimal places depending on the "mode".
 
 + **Fixed decimal places mode** shows the number of decimal places given by
-{@link SliderControl.getDecimalPlaces}.
+{@link getDecimalPlaces}.
 Ignores significant digits setting. *Fixed decimal places mode* is active when
 `getDecimalPlaces()` returns 0 or greater.
 
 + **Variable decimal places mode** ensures that the requested number of significant
 digits are visible. Adjusts decimal places shown based on the magnitude of the value.
-See {@link SliderControl.setSignifDigits}. *Variable decimal places mode* is active when
+See {@link setSignifDigits}. *Variable decimal places mode* is active when
 `getDecimalPlaces()` returns –1.
 
 The default settings are gotten from the ParameterNumber:
@@ -73,7 +73,7 @@ and {@link ParameterNumber.setSignifDigits}.
 The displayed value is rounded to a certain number of digits, and therefore the
 displayed value can differ from the target value. SliderControl allows for
 this difference by only making changes to the target value when the the user
-modifies the displayed value, or when {@link SliderControl.setValue} is called.
+modifies the displayed value, or when {@link setValue} is called.
 
 Preventing Forbidden Values
 ---------------------------
@@ -89,7 +89,7 @@ How SliderControl Works
 
 Both the slider and the text are approximations of the value of the ParameterNumber.
 SliderControl allows for this difference by only making changes to the target value
-when the the user modifies the displayed value, or when {@link SliderControl.setValue}
+when the the user modifies the displayed value, or when {@link setValue}
 is called.
 
 There are 3 entities to coordinate: ParameterNumber, textbox, slider. Each has its own
@@ -372,7 +372,8 @@ getParameter(): null|Parameter {
 };
 
 /** Returns the number of significant digits to show when formatting the number. Only
-has an effect in *variable decimal places mode*, see {@link SliderControl.getDecimalPlaces}.
+has an effect in *variable decimal places mode*,
+see {@link getDecimalPlaces}.
 @return the number of significant digits to show when formatting the number
 */
 getSignifDigits(): number {
@@ -380,7 +381,7 @@ getSignifDigits(): number {
 };
 
 /** Returns the value of this control (which should match the Parameter value if
-{@link SliderControl.observe} is being called).
+{@link observe} is being called).
 @return the value that this control is currently displaying
 */
 getValue(): number {
@@ -425,7 +426,7 @@ private static rangeToDelta(min: number, max: number, increments: number,
 /** Sets the fixed number of fractional decimal places to show when formatting the
 number, or puts this SliderControl into *variable decimal places mode* where
 the number of decimal places depends on the desired number of significant digits.
-See {@link SliderControl.setSignifDigits}.
+See {@link setSignifDigits}.
 @param decimalPlaces the fixed number of fractional decimal places to show when
     formatting the number, or –1 to have variable number of fractional decimal places.
 @return this SliderControl for chaining
@@ -446,7 +447,8 @@ setEnabled(enabled: boolean): void {
 };
 
 /** Sets the number of significant digits to show when formatting the number. Only
-has an effect in *variable decimal places mode*, see {@link SliderControl.setDecimalPlaces}.
+has an effect in *variable decimal places mode*,
+see {@link setDecimalPlaces}.
 @param signifDigits the number of significant digits to show when
     formatting the number
 @return this object for chaining setters

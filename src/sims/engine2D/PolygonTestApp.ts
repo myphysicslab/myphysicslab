@@ -39,7 +39,7 @@ import { Walls } from '../../lab/engine2D/Walls.js';
 /** PolygonTestApp shows some unusual shapes such as hexagon, L-shape, hollow box with
 a ball inside, and blocks with both curved and straight edges.
 
-This app has a {@link PolygonTestApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 */
 export class PolygonTestApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

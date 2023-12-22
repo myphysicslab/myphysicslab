@@ -18,7 +18,8 @@ import { Printable, Util } from "./Util.js";
 
 /** An object that memorizes simulation data or performs some other function that needs
 to happen regularly. The `memorize` method is meant to be called after each simulation
-time step, as is done in {@link lab/model/AdvanceStrategy.AdvanceStrategy.advance}.
+time step, as is done in
+{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance | AdvanceStrategy.advance}.
 See {@link MemoList} for how to add a Memorizable
 object so that it will be called frequently.
 */
@@ -35,27 +36,27 @@ memorize(): void;
 /** A {@link Memorizable} object that keeps a list of other Memorizable objects and
 frequently tells them to `memorize` simulation data. The `memorize` method is meant to
 be called after each simulation time step, as is done in
-{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance}.
+{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance | AdvanceStrategy.advance}.
 
 This is an example of
 [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern): it is a
 tree structure where every node on the tree defines the `memorize` method and calls that
 method on its sub-nodes.
 
-The base of the tree structure is usually {@link lab/app/SimRunner.SimRunner}. You
-can add a Memorizable directly to SimRunner using {@link MemoList.addMemo}.
-Or you can add a
-Memorizable to one of the branches of the tree, such as a
-{@link lab/view/LabCanvas.LabCanvas} contained in the SimRunner, or a
-{@link lab/view/SimView.SimView} contained in the LabCanvas.
+The base of the tree structure is usually
+{@link lab/app/SimRunner.SimRunner | SimRunner}.
+You can add a Memorizable directly to SimRunner using {@link MemoList.addMemo}.
+Or you can add a Memorizable to one of the branches of the tree, such as a
+{@link lab/view/LabCanvas.LabCanvas | LabCanvas} contained in the SimRunner, or a
+{@link lab/view/SimView.SimView | SimView} contained in the LabCanvas.
 
 In a typical simulation, a graph is **periodically updated** because
-{@link lab/app/SimRunner.SimRunner.callback} causes the
-{@link lab/model/AdvanceStrategy.AdvanceStrategy} to both
+{@link lab/app/SimRunner.SimRunner.callback | SimRunner.callback} causes the
+{@link lab/model/AdvanceStrategy.AdvanceStrategy | AdvanceStrategy} to both
 advance the simulation and also call `memorize` on each LabCanvas. The `memorize` of
 the LabCanvas calls `memorize` on each SimView, which in turn calls `memorize` on any
 Memorizable objects contained in the SimView, such as a
-{@link lab/graph/GraphLine.GraphLine}.
+{@link lab/graph/GraphLine.GraphLine | GraphLine}.
 */
 export interface MemoList extends Memorizable {
 
@@ -85,8 +86,8 @@ removeMemo(memorizable: Memorizable): void;
 Example 1
 ---------
 Make a GenericMemo that prints the angle variable of a simulation
-into the {@link lab/util/Terminal.Terminal} output area.
-Here `simRun` is an instance of {@link lab/app/SimRunner.SimRunner}.
+into the {@link lab/util/Terminal.Terminal | Terminal} output area.
+Here `simRun` is an instance of {@link lab/app/SimRunner.SimRunner | SimRunner}.
 ```
 var angle = sim.getVarsList().getVariable('ANGLE');
 var memo = new GenericMemo(()=> println('angle: '+angle.getValue()));

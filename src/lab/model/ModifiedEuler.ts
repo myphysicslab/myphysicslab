@@ -21,7 +21,7 @@ expressed as a {@link ODESim}; operates by using the
 differential equations to advance the variables by a small time step.
 
 This is a numerically stable version of the numerically unstable
-{@link lab/model/EulersMethod.EulersMethod}.
+{@link lab/model/EulersMethod.EulersMethod | EulersMethod}.
 */
 export class ModifiedEuler implements DiffEqSolver {
   /**  the set of differential equations to solve. */

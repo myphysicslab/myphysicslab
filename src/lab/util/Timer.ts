@@ -18,7 +18,7 @@ import { SystemClock, StdSystemClock } from "./Clock.js";
 /** Periodically executes a callback function.
 
 Timer uses JavaScript's `requestAnimationFrame` to repeatedly schedule the callback.
-On older browsers the `setTimeout` function is used, see {@link Timer.setLegacy}.
+On older browsers the `setTimeout` function is used, see {@link setLegacy}.
 
 If the period is left at the default value of zero, then the callback fires at the
 rate determined by `requestAnimationFrame`, usually 60 frames per second.
@@ -129,7 +129,7 @@ isFiring(): boolean {
 };
 
 /** Sets the callback function to be executed periodically, and calls
-* {@link Timer.stopFiring} to stop the Timer and any previously scheduled callback.
+* {@link stopFiring} to stop the Timer and any previously scheduled callback.
 * @param callBack the function to be called periodically; can be `null`
 */
 setCallBack(callBack: (()=>void)|null): void {

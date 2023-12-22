@@ -96,7 +96,7 @@ Then `Σ torques = I a` becomes
 -L m g sin(th) - b v + A cos(w) = m L^2 v'
 ```
 This can be rearranged to get the equations of motion (these are implemented in
-{@link PendulumSim.evaluate}):
+{@link evaluate}):
 ```text
 th' = v
 v' = -(g / L) sin(th) -(b /m L^2) v + (A / m L^2) cos(k t)

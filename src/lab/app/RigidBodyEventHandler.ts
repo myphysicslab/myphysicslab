@@ -24,15 +24,15 @@ import { ThrusterSet } from '../engine2D/ThrusterSet.js';
 import { Util } from '../util/Util.js';
 import { Vector } from '../util/Vector.js';
 
-/** User interface controller for {@link RigidBodySim},
-provides mouse dragging of nearest moveable {@link RigidBody},
-and keyboard thrust controls for one or two selected RigidBodys.
+/** User interface controller for {@link RigidBodySim}, provides mouse dragging of
+nearest moveable {@link RigidBody}, and keyboard thrust controls for one or two
+selected RigidBodys.
 
 Mouse Drag
 ----------
 When the Clock is running, mouse dragging is accomplished by connecting a spring between
 the RigidBody and the mouse position. The spring has zero rest length. The spring
-stiffness can be set via {@link RigidBodyEventHandler.setDragStiffness}.
+stiffness can be set via {@link setDragStiffness}.
 
 When the Clock is not running, mouse dragging will move the RigidBody. Holding down the
 alt, meta, or control key will rotate the RigidBody when moving the mouse.
@@ -40,9 +40,8 @@ alt, meta, or control key will rotate the RigidBody when moving the mouse.
 Thrusters
 ---------
 One or two RigidBodys can be specified to have keyboard activated thruster controls with
-{@link RigidBodyEventHandler.setThrusters}. You can specify a
-{@link ThrusterSet} of thrust forces for each RigidBody. The
-keyboard commands to fire thrusters are:
+{@link setThrusters}. You can specify a {@link ThrusterSet} of thrust forces for each
+RigidBody. The keyboard commands to fire thrusters are:
 
 + Right hand controls: keys J, K, L, I and arrow keys.
 + Left hand controls: keys S, D, F, E.
@@ -322,7 +321,8 @@ static readonly de_strings: i18n_strings = {
   DRAG: 'ziehen'
 };
 
-static readonly i18n = Util.LOCALE === 'de' ? RigidBodyEventHandler.de_strings : RigidBodyEventHandler.en;
+static readonly i18n = Util.LOCALE === 'de' ? RigidBodyEventHandler.de_strings :
+    RigidBodyEventHandler.en;
 
 } // end RigidBodyEventHandler class
 

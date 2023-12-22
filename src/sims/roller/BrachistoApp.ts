@@ -33,9 +33,9 @@ import { Vector } from '../../lab/util/Vector.js';
 curved paths to see which path is fastest.
 
 The various curves shown are defined in the {@link BrachistoPaths} module.
-The Mathematica notebook [Brachistochrone Curves(../Brachistochrone_Curves.pdf) shows how
-the curves were chosen. The goal is to find a variety of curves that start at
-the origin (0, 0) and pass thru the point (3, -2).
+The Mathematica notebook [Brachistochrone Curves(../Brachistochrone_Curves.pdf)
+shows how the curves were chosen. The goal is to find a variety of curves that start at
+the origin `(0, 0)` and pass thru the point `(3, -2)`.
 */
 export class BrachistoApp extends AbstractApp<BrachistoSim> implements Subject, SubjectList {
 

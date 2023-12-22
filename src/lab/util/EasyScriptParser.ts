@@ -45,11 +45,11 @@ EasyScriptParser (ESP) is given a list of Subjects in its constructor. ESP inter
 all the Subjects and remembers their settable Parameters and initial values.
 
 ESP is typically used with {@link Terminal}. ESP is installed via
-{@link Terminal.setParser}. Note that {@link EasyScriptParser.saveStart} must be called
+{@link Terminal.setParser}. Note that {@link saveStart} must be called
 before using ESP; in Terminal this is done as part of {@link Terminal.parseURL}.
 
 When a script is executed in Terminal, the script is first
-offered to ESP by calling {@link EasyScriptParser.parse}.
+offered to ESP by calling {@link parse}.
 
 + If ESP recognizes the Subject and Parameter name in the script then `parse`
     will get or set the Parameter value and return the value.
@@ -96,7 +96,7 @@ replaced. If not surrounded with quotes then the string ends at the semicolon or
 line.
 
 With both setter and getter syntax the value of the Parameter is available as the
-result of the {@link EasyScriptParser.parse} method, or in the `result` variable of 
+result of the {@link parse} method, or in the `result` variable of
 {@link Terminal}, or displayed in the Terminal output area.
 
 The English language version of Parameter or Subject names can also be given, they are
@@ -107,7 +107,7 @@ Leading and trailing spaces are trimmed from names and (unquoted) values.
 Single Word Commands
 --------------------
 A small set of single word commands are recognized by EasyScriptParser.
-Use {@link EasyScriptParser.addCommand} to add more single word commands. The built-in
+Use {@link addCommand} to add more single word commands. The built-in
 commands are:
 
 + `help` lists the available single word commands and other help information
@@ -118,8 +118,9 @@ commands are:
 
 Variables define Initial Conditions
 -----------------------------------
-The {@link lab/model/Variable.Variable}'s of a Simulation determine its state, and the
-starting Variables are the "initial conditions" which determine what will happen.
+The {@link lab/model/Variable.Variable | Variable}'s of a Simulation determine its
+state, and the starting Variables are the "initial conditions" which determine what
+will happen.
 
 Because Variable extends Parameter, it is simple for EasyScriptParser to treat the set
 of Variables as part of the same process that reports or sets other available
@@ -139,11 +140,11 @@ angle_1 = -1
 
 Generate a Script that Recreates the Simulation
 -----------------------------------------------
-The {@link EasyScriptParser.script} method makes a script that sets all Parameters and
+The {@link script} method makes a script that sets all Parameters and
 Variables to match the current simulation state.
 
 To keep the generated script as small as possible, EasyScriptParser remembers the
-initial value of all Parameters at startup (the {@link EasyScriptParser.saveStart}
+initial value of all Parameters at startup (the {@link saveStart}
 method can be used to update the initial values after startup). The `script` method
 only creates commands to set Parameters whose value has changed.
 {@link Parameter.isComputed | Computed Parameters} are ignored
@@ -186,22 +187,24 @@ example, in
 [Newtons Cradle](https://www.myphysicslab.com/engine2D/newtons-cradle-en.html)
 the number of pendulums is controlled by a Parameter called `PENDULUMS` which is
 connected to the
-{@link sims/engine2D/NewtonsCradleApp.NewtonsCradleApp.setNumBodies} method.
+{@link sims/engine2D/NewtonsCradleApp.NewtonsCradleApp.setNumBodies | NewtonsCradleApp.setNumBodies}
+method.
 
-The dependent Subject is typically the {@link lab/model/VarsList.VarsList} that holds
-the Variables corresponding to the positions of the objects. If the configuration
-Parameter also sets the viewing rectangle, then the {@link lab/view/SimView.SimView}
+The dependent Subject is typically the {@link lab/model/VarsList.VarsList | VarsList}
+that holds the Variables corresponding to the positions of the objects.
+If the configuration Parameter also sets the viewing rectangle, then the
+{@link lab/view/SimView.SimView | SimView}
 might also a dependent Subject (an example is
-{@link sims/roller/RollerSingleApp.RollerSingleApp} where selecting a path changes the
-viewing rectangle).
+{@link sims/roller/RollerSingleApp.RollerSingleApp | RollerSingleApp}
+where selecting a path changes the viewing rectangle).
 
 When the configuration changes, the application must call
-{@link EasyScriptParser.update} to update the remembered initial values of the
+{@link update} to update the remembered initial values of the
 dependent Subjects. Having this new set of initial values makes it possible for the
-{@link EasyScriptParser.script} method to generate a very short script like
+{@link script} method to generate a very short script like
 `PENDULUMS=4;` instead of setting all the Variables.
 
-The {@link EasyScriptParser.script} method ensures that dependent Subjects are modified
+The {@link script} method ensures that dependent Subjects are modified
 at the end of the script, so that those changes are not overridden by a configuration
 Parameter.
 
@@ -210,7 +213,7 @@ Parameter.
 EasyScript Embedded in URL
 --------------------------
 To save a customized version of a simulation, or share it with someone else, use
-{@link EasyScriptParser.scriptURL}. That method returns the URL of the current page
+{@link scriptURL}. That method returns the URL of the current page
 along with a script that sets Parameters to their current values.
 
 The script follows a question mark in the URL, so it is called a 'query script' or
@@ -576,8 +579,8 @@ saveStart(): void {
 *    {@link Parameter.isComputed}.
 *
 * + this ignores Parameters whose value is unchanged since 
-*   {@link EasyScriptParser.saveStart} was called (or for a dependent Subject,
-*   since {@link EasyScriptParser.update} was called).
+*   {@link saveStart} was called (or for a dependent Subject,
+*   since {@link update} was called).
 *
 * + when a Parameter name is unique, we don't include the Subject name.
 *
@@ -607,7 +610,7 @@ script(): string {
 * The script is [percent-encoded](https://en.wikipedia.org/wiki/Percent-encoding)
 * to ensure it forms a valid URL.
 *
-* See {@link EasyScriptParser.script} for details about how the script is created.
+* See {@link script} for details about how the script is created.
 * @return percent-encoded URL query script that sets Parameters to current
 *    values
 */
@@ -672,7 +675,7 @@ static unquote(text: string): string {
 /** Updates the set of Parameters associated with the Subjects, and remembers the
 * initial settings of any ["dependent" Subject's](#md:dependent-subjects) Parameters.
 *
-* This is different from {@link EasyScriptParser.saveStart} in two ways:
+* This is different from {@link saveStart} in two ways:
 * 1. this updates initial values only for dependent Subjects.
 * 2. this updates the remembered list of available Parameter names.
 */

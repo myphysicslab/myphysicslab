@@ -376,8 +376,8 @@ See {@link Polygon.getSpecialNormalWorld}.
 @param width width of the wall, horizontal dimension in body orientation
 @param height height of the wall, vertical dimension in body orientation
 @param edgeIndex index of the special edge: use the constants
-    {@link Shapes.BOTTOM_EDGE}, {@link Shapes.LEFT_EDGE}, {@link Shapes.RIGHT_EDGE},
-    {@link Shapes.TOP_EDGE}
+    {@link BOTTOM_EDGE}, {@link LEFT_EDGE}, {@link RIGHT_EDGE},
+    {@link TOP_EDGE}
 @param opt_name name of the Polygon
 @param opt_localName  localized name of the Polygon
 @return a rectangular Polygon with a special edge

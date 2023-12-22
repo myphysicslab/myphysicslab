@@ -21,7 +21,7 @@ import { Util } from '../util/Util.js';
 executing specified `getter` and `setter` functions.
 
 Because this is an {@link Observer}, you can connect it to a Subject;
-when the Subject broadcasts events, the {@link CheckBoxControlBase.observe} method
+when the Subject broadcasts events, the {@link observe} method
 ensures that this control reflects the current target value.
 */
 export class CheckBoxControlBase implements Observer, LabControl {
@@ -109,7 +109,7 @@ getParameter(): null|Parameter {
 };
 
 /** Returns the checked state of this control (which should match the target state if
-{@link CheckBoxControlBase.observe} is being called).
+{@link observe} is being called).
 @return the checked state of this control
 */
 getState(): boolean {

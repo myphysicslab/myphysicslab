@@ -15,7 +15,7 @@
 import { Util } from "../util/Util.js"
 
 /** GraphColor enum, used to present a set of colors for user to choose from for
-setting the color of a {@link lab/graph/GraphLine.GraphLine}.
+setting the color of a {@link lab/graph/GraphLine.GraphLine | GraphLine}.
 */
 export const enum GraphColor {
   AQUA = 'aqua',

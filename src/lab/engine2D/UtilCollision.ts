@@ -504,7 +504,8 @@ yet again when making the collision record).
 @param vertex2 the Vertex of body2
 @param v_body  the current position of vertex2 in body coords of body1
 @param v_body_old the position of vertex2 at the last time step in body
-    coords of body1, see {@link lab/engine2D/Polygon.Polygon.saveOldCoords}
+    coords of body1, see
+    {@link lab/engine2D/Polygon.Polygon.saveOldCoords | Polygon.saveOldCoords}
 @param travelDist  the distance between v_body and v_body_old
 @param time current simulation time
 */

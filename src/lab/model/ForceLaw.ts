@@ -27,8 +27,8 @@ export interface ForceLaw extends Printable {
 calculateForces(): Force[];
 
 /** Ensures this ForceLaw is not connected to anything and so can be garbage collected.
-For example, if this ForceLaw is an {@link lab/util/Observe.Observer}, this will
-stop observing its Subject.
+For example, if this ForceLaw is an {@link lab/util/Observe.Observer | Observer},
+this will stop observing its Subject.
 */
 disconnect(): void;
 

@@ -41,11 +41,11 @@ const TE = 3;
 
 /** Simulation of rigid body movement with external forces like gravity or springs, but
 no collisions or contact forces. RigidBodys will pass thru each other unless you use the
-{@link lab/engine2D/ImpulseSim.ImpulseSim} or
-{@link lab/engine2D/ContactSim.ContactSim} sub-class.
+{@link lab/engine2D/ImpulseSim.ImpulseSim | ImpulseSim} or
+{@link lab/engine2D/ContactSim.ContactSim | ContactSim} sub-class.
 
 The AdvanceStrategy tells the DiffEqSolver to advance the simulation. The DiffEqSolver
-advances the simulation by calling {@link RigidBodySim.evaluate} to calculate rates of
+advances the simulation by calling {@link evaluate} to calculate rates of
 change in each of the simulation variables. The DiffEqSolver then uses an algorithm like
 Runge-Kutta to integrate forward over a small time step to reach the new simulation
 state. Within `evaluate()`, the forces operate by modifying the rate of change of each
@@ -63,12 +63,12 @@ More information:
 
 ### Parameters Created
 
-+ ParameterBoolean named `SHOW_FORCES`, see {@link RigidBodySim.setShowForces}
++ ParameterBoolean named `SHOW_FORCES`, see {@link setShowForces}
 
 ### Events Broadcast
 All the Parameters are broadcast when their values change.  In addition:
 
-+ GenericEvent named `ELASTICITY_SET`, see {@link RigidBodySim.setElasticity}.
++ GenericEvent named `ELASTICITY_SET`, see {@link setElasticity}.
 
 ### RigidBodys
 
@@ -81,9 +81,9 @@ removed when the RigidBody is removed).
 
 RigidBodySim maintains a list of {@link ForceLaw}'s which are each
 given an opportunity to apply their force to RigidBodys during `evaluate()`. Some
-ForceLaws such as {@link lab/model/GravityLaw.GravityLaw} and
-{@link lab/model/DampingLaw.DampingLaw} are set up so that they observe the SimList and
-can therefore apply their force to every RigidBody.
+ForceLaws such as {@link lab/model/GravityLaw.GravityLaw | GravityLaw} and
+{@link lab/model/DampingLaw.DampingLaw | DampingLaw} are set up so that they observe
+the SimList and can therefore apply their force to every RigidBody.
 
 ### Variables
 
@@ -115,16 +115,16 @@ Variables at the beginning of the VariablesList:
 + potential energy
 + total energy
 
-The set of RigidBodys can change over time via {@link RigidBodySim.addBody} and
-{@link RigidBodySim.removeBody}.
+The set of RigidBodys can change over time via {@link addBody} and
+{@link removeBody}.
 Therefore the set of variables can change accordingly. Removing a RigidBody results in
 its 6 variables each being marked with the reserved name `deleted` and those slots in
 the VarsList are then available for later reuse. Adding a RigidBody either extends the
 length of the VarsList or reuses some previously deleted slots of variables. But the 6
 variables allocated for a RigidBody are guaranteed to be contiguous.
 
-{@link lab/model/FunctionVariable.FunctionVariable}'s can be added to a
-VarsList. Their position in the VarsList remains constant after they are allocated.
+{@link lab/model/FunctionVariable.FunctionVariable | FunctionVariables} can be added to
+a VarsList. Their position in the VarsList remains constant after they are allocated.
 */
 export class RigidBodySim extends AbstractSubject implements Subject, Simulation, ODESim, EnergySystem, DebugEngine2D {
   /** The RigidBodys in this simulation. */
@@ -658,7 +658,7 @@ setElasticity(value: number): void {
   this.broadcast(new GenericEvent(this, RigidBodySim.ELASTICITY_SET, value));
 };
 
-/** Name of event broadcast from {@link RigidBodySim.setElasticity}. */
+/** Name of event broadcast from {@link setElasticity}. */
 static ELASTICITY_SET = 'ELASTICITY_SET';
 
 static readonly en: i18n_strings = {

@@ -38,8 +38,8 @@ const PE = 8;
 const TE = 9;
 
 /** Single pendulum done with reaction forces instead of the analytic equations of
-motion as in {@link sims/pendulum/PendulumSim.PendulumSim}. This is similar to how the
-rigid body physics engine in {@link lab/engine2D/ContactSim.ContactSim} calculates
+motion as in {@link sims/pendulum/PendulumSim.PendulumSim | PendulumSim}. This is similar to how the
+rigid body physics engine in {@link lab/engine2D/ContactSim.ContactSim | ContactSim} calculates
 forces, but this is specific to only this particular single pendulum scenario.
 
 The pendulum is regarded as a _rigid body_ consisting of a uniform disk at end of a

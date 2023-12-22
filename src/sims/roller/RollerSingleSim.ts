@@ -39,8 +39,7 @@ const ANCHOR_Y = 9;
 
 /** Simulation of a ball moving on a roller coaster track, optionally with a spring
 attached to the ball. The track can take any shape as defined by a NumericalPath. The
-simulation is not functional until a path has been provided with
-{@link RollerSingleSim.setPath}.
+simulation is not functional until a path has been provided with {@link setPath}.
 
 For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>
 and <https://www.myphysicslab.com/RollerSpring.html>.

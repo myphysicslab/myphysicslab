@@ -24,7 +24,7 @@ export const enum Side {
 };
 
 /** Collision between an atom and a wall in
-{@link sims/springs/MoleculeSim.MoleculeSim} simulation.
+{@link sims/springs/MoleculeSim.MoleculeSim | MoleculeSim} simulation.
 */
 export class MoleculeCollision implements Collision {
 

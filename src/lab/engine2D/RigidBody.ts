@@ -22,11 +22,17 @@ import { Util } from '../util/Util.js';
 
 /** Offsets in the VarsList for a RigidBody's variables. */
 export const enum RB {
+  /** horizontal position */
   X_ = 0,
+  /** horizontal velocity */
   VX_ = 1,
+  /** vertical position */
   Y_ = 2,
+  /** vertical velocity */
   VY_ = 3,
+  /** angle in radians */
   W_ = 4,
+  /** angular velocity in radians/second */
   VW_ = 5,
 };
 
@@ -39,11 +45,12 @@ collisions, as well as energy and momentum calculations.
 ### Non-colliding RigidBodys
 
 There are cases where RigidBodys should not collide with each other. For example, when
-there is a Joint between two RigidBodys. See {@link RigidBody.addNonCollide} and
-{@link RigidBody.doesNotCollide}
+there is a Joint between two RigidBodys. See {@link addNonCollide} and
+{@link doesNotCollide}
 
 The Polygon class has a way of specifying a subset of Edges which do not collide with
-another RigidBody. See {@link lab/engine2D/Polygon.Polygon.setNonCollideEdge}.
+another RigidBody. See
+{@link lab/engine2D/Polygon.Polygon.setNonCollideEdge | Polygon.setNonCollideEdge}.
 
 **TO DO**  how is initialize() method used?  It is not private anymore!!!
 
@@ -59,7 +66,7 @@ export interface RigidBody extends MassObject {
 
 /** Adds to set of RigidBodys that do not collide with this body.
 No collisions or contacts are generated between this body and the given bodies.
-See {@link RigidBody.doesNotCollide}.
+See {@link doesNotCollide}.
 @param bodies array of RigidBodys that should not be collided with
 */
 addNonCollide(bodies: RigidBody[]): void;
@@ -73,14 +80,14 @@ adds a new RigidBodyCollision to the list of collisions.
 checkCollision(c: RigidBodyCollision[], body: RigidBody, time: number): void;
 
 /** Returns true if this body does not collide with the given body. See
-{@link RigidBody.addNonCollide}.
+{@link addNonCollide}.
 @param body the RigidBody of interest
 @return true if this body does not collide with the given body
 */
 doesNotCollide(body: RigidBody): boolean;
 
 /** Erases any recently saved local coordinate system.
-See {@link RigidBody.saveOldCoords}, {@link RigidBody.getOldCoords}.
+See {@link saveOldCoords}, {@link getOldCoords}.
 */
 eraseOldCoords(): void;
 
@@ -113,7 +120,7 @@ uses the lesser elasticity value of the two bodies involved.
 getElasticity(): number;
 
 /** Returns the recently saved local coordinate system. See
-* {@link RigidBody.saveOldCoords}.
+* {@link saveOldCoords}.
 * @return the recently saved local coordinate system.
 */
 getOldCoords(): null|LocalCoords;
@@ -141,8 +148,9 @@ instead of these index numbers.
 */
 getVarName(index: number, localized: boolean): string;
 
-/** Returns the index into the {@link lab/model/VarsList.VarsList} for this RigidBody's
-first variable (the x-position). The VarsList contains 6 variables for each RigidBody,
+/** Returns the index into the {@link lab/model/VarsList.VarsList | VarsList}
+for this RigidBody's first variable (the x-position).
+The VarsList contains 6 variables for each RigidBody,
 ```text
 0. x-position,
 1. x-velocity,
@@ -213,8 +221,8 @@ over the last time step.  For example, a small object moving at high velocity
 can pass through a narrow object in a single time step;  there is then no
 interpenetration of the two objects, but if you use the previous position of
 the small fast object you can see that it has passed through the narrow object.
-See {@link RigidBody.getOldCoords},
-{@link RigidBody.eraseOldCoords}.
+See {@link getOldCoords},
+{@link eraseOldCoords}.
 */
 saveOldCoords(): void;
 
@@ -242,8 +250,9 @@ setDistanceTol(value: number): void;
 */
 setElasticity(value: number): void;
 
-/** Sets the index into the {@link lab/model/VarsList.VarsList} for this RigidBody's
-first variable (the x-position). The VarsList contains 6 variables for each RigidBody,
+/** Sets the index into the {@link lab/model/VarsList.VarsList | VarsList}
+for this RigidBody's first variable (the x-position).
+The VarsList contains 6 variables for each RigidBody,
 ```text
 0. x-position,
 1. x-velocity,
@@ -302,8 +311,8 @@ is to add Vertexes along the curved Edge, and rely on the regular Vertex/Edge co
 checking.
 
 We refer to these as 'mid-point' or 'decorated' Vertexes to distinguish them from the
-'end-point' Vertexes at the end-points of line segments. See {@link Vertex.isEndPoint}. The
-number of decorated Vertexes can be controlled by a spacing parameter when making a
+'end-point' Vertexes at the end-points of line segments. See {@link isEndPoint}.
+The number of decorated Vertexes can be controlled by a spacing parameter when making a
 curved Edge.
 
 What typically happens for a collision involving a curved Edge and another Edge is:
@@ -402,7 +411,7 @@ setEdge2(edge: Edge): void;
 /** An Edge of a RigidBody has a start and finish Vertex and belongs to a particular
 RigidBody. Vertex location is defined in body coordinates of the associated RigidBody.
 An Edge knows which side is outside or inside the RigidBody; the method
-{@link Edge.getNormalBody} returns a normal vector that points to the outside.
+{@link getNormalBody} returns a normal vector that points to the outside.
 
 Edges are ordered in a {@link RigidBody}. For a
 given Edge, the start Vertex must be the same as the finish Vertex of the previous Edge
@@ -423,8 +432,7 @@ export interface Edge extends Printable {
 
 /** Add this Edge to the currently open path of the JavaScript canvas context for
 drawing the Edge. The Edge should be drawn in local body coordinates.
-@param context the JavaScript canvas context to draw this
-    Edge into
+@param context the JavaScript canvas context to draw this Edge into
 */
 addPath(context: CanvasRenderingContext2D): void;
 
@@ -525,8 +533,7 @@ getBottomBody(): number;
 
 /** Returns the center of the circle to use for proximity testing, in body coordinates.
 A circle centered at this centroid with radius `getCentroidRadius()` should encompass
-this Edge. See {@link Edge.getCentroidRadius} and
-{@link Edge.getCentroidWorld}.
+this Edge. See {@link getCentroidRadius} and {@link getCentroidWorld}.
 @return the center of the circle to use for proximity
     testing, in body coordinates
 */
@@ -534,19 +541,15 @@ getCentroidBody(): Vector;
 
 /** Returns the radius of the circle to use for proximity testing. A circle centered at
 `getCentroidWorld()` with this radius should encompass this Edge. See
-{@link Edge.setCentroidRadius},
-{@link Edge.getCentroidRadius} and
-{@link Edge.getCentroidWorld}.
+{@link setCentroidRadius}, {@link getCentroidRadius} and {@link getCentroidWorld}.
 @return the radius of the circle to use for proximity testing
 */
 getCentroidRadius(): number;
 
 /** Returns the center of the circle to use for proximity testing, in world coordinates.
 A circle centered at this point with radius `getCentroidRadius()` should encompass
-this Edge. See {@link Edge.getCentroidRadius} and
-{@link Edge.getCentroidBody}.
-@return the center of the circle to use for proximity
-    testing, in world coordinates
+this Edge. See {@link getCentroidRadius} and {@link getCentroidBody}.
+@return the center of the circle to use for proximity testing, in world coordinates
 */
 getCentroidWorld(): Vector;
 
@@ -557,18 +560,15 @@ Edge. Negative curvature means the Edge is concave at that point.
 For a circle, every point on the circle has the same center and radius of curvature. But
 for any other curve (an oval for instance), each point on the edge can have a different
 center and radius of curvature.
-@param p_body the point on this Edge, in body
-    coordinates
+@param p_body the point on this Edge, in body coordinates
 @return the radius of curvature; negative means concave; returns positive
     infinity if this is a straight edge
 @throws if the point is not close to this Edge
 */
 getCurvature(p_body: Vector): number;
 
-/** Returns the set of 'decorated mid-point Vertexes', if any. See
-{@link Vertex}.
-@return the set of "decorated mid-point
-    Vertexes"
+/** Returns the set of 'decorated mid-point Vertexes', if any. See {@link Vertex}.
+@return the set of "decorated mid-point Vertexes"
 */
 getDecoratedVertexes(): Vertex[];
 
@@ -595,8 +595,7 @@ getNormalBody(p_body: Vector): Vector;
 and the unit normal vector there. Returns `null` if the given point lies beyond the end
 point of this Edge, meaning that there is no perpendicular line to this Edge passing
 thru the given point.
-@param p_body a point near this Edge, in body
-    coordinates
+@param p_body a point near this Edge, in body coordinates
 @return a pair of Vectors: the nearest point
     on this Edge, and the unit normal vector at that point both in body coords; or
     `null` if there is no nearest point on this Edge.
@@ -684,9 +683,7 @@ pointOffset(p_body: Vector, length: number): Vector;
 
 /** Sets the radius of the circle to use for proximity testing. A circle
 centered at `getCentroidWorld()` with this radius should encompass this Edge.
-See {@link Edge.getCentroidRadius},
-{@link Edge.getCentroidBody} and
-{@link Edge.getCentroidWorld}.
+See {@link getCentroidRadius}, {@link getCentroidBody} and {@link getCentroidWorld}.
 @param value the radius of the circle to use for proximity testing
 */
 setCentroidRadius(value: number): void;
@@ -732,8 +729,7 @@ or Scrim; creates collisions and contacts to maintain the connection.
 export interface Connector extends SimObject {
 
 /** Add RigidBodyCollisions for this Connector to the list of collisions as necessary.
-@param collisions  the list to
-    which to add the RigidBodyCollision for this Connector.
+@param collisions the list to which to add the RigidBodyCollision for this Connector.
 @param time  simulation time when this collision is detected
 @param accuracy distance accuracy: how close we must be to the point of
     collision in order to be able to handle it.
@@ -893,14 +889,14 @@ I also have some diagrams from around May 16, 2016 that makes the above very cle
 ## Update State After Backing Up In Time
 
 The collision handling scheme used by
-{@link lab/model/CollisionAdvance.CollisionAdvance}
+{@link lab/model/CollisionAdvance.CollisionAdvance | CollisionAdvance}
 results in backing up in time from the post-collision state to the pre-collision state.
 This is done to avoid having RigidBodys being in an ambiguous illegal interpenetrating
 state.
 
 A consequence of this is that the RigidBodyCollision we are handling will have its data
 from the near-future post-collision state. The method
-{@link RigidBodyCollision.updateCollision} updates
+{@link updateCollision} updates
 the RigidBodyCollision to reflect the current pre-collision state after backing up in
 time.
 
@@ -936,7 +932,7 @@ Neumann for modifications to contact forces when curved edges are involved.
 ## Equivalence of Using R or U Vector For Normal Velocity
 
 Here we show that you get the same result whether using the R or U vector in
-{@link RigidBodyCollision.getNormalVelocity}.
+{@link getNormalVelocity}.
 
 Suppose you have a circular body striking a horizontal infinite mass floor; let the
 circle have an offset center of mass, so that U and R are different.
@@ -997,7 +993,8 @@ export abstract class RigidBodyCollision implements Collision {
   */
   private accuracy_: number;
   /** velocity tolerance used to determine if an object is in contact with another
-  * object. See {@link lab/engine2D/ImpulseSim.ImpulseSim.getVelocityTol}.
+  * object. See
+  * {@link lab/engine2D/ImpulseSim.ImpulseSim.getVelocityTol | ImpulseSim.getVelocityTol}.
   */
   protected velocityTol_: number;
   /** elasticity of this collision, from 0 to 1. */
@@ -1215,7 +1212,7 @@ getImpact1(): Vector {
 
 /** Returns point of impact on normal body, in global coords. For example, this is
 * needed for Rope because the impact points are far apart. Often null when only
-* {@link RigidBodyCollision.getImpact1} is needed.
+* {@link Vertex.isEndPoint} is needed.
 * @return point of impact on normal body, in global coords, or null
 */
 getImpact2(): null|Vector {
@@ -1516,7 +1513,8 @@ hits a wall at an angle would wrongly acquire spin if the collision
 were not updated to the current pre-collision information.
 
 Assumes that the bodies have been updated for their current location,
-by for example {@link lab/engine2D/RigidBodySim.RigidBodySim.modifyObjects}.
+by for example
+{@link lab/engine2D/RigidBodySim.RigidBodySim.modifyObjects | RigidBodySim.modifyObjects}.
 
 @param time  the current simulation time
 */
@@ -1544,7 +1542,8 @@ updateCollision(time: number): void {
   }
 };
 
-/**  Update the estimated time of collision using both pre-backup and post-backup information and a calculus model of constant acceleration.
+/** Update the estimated time of collision using both pre-backup and post-backup
+information and a calculus model of constant acceleration.
 ```text
 Derivation of the estimate:
 t1 = time after backup

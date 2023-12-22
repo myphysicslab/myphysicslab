@@ -32,7 +32,8 @@ const PHI = 4;
 const PHIP = 5;
 const TIME = 6;
 
-/** Simulation of a stick dangling from a spring attached to a fixed point.  The stick is modeled as a massless rod with a point mass at each end.
+/** Simulation of a stick dangling from a spring attached to a fixed point. The stick
+is modeled as a massless rod with a point mass at each end.
 
 Variables and Parameters
 -------------------------

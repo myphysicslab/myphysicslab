@@ -22,13 +22,13 @@ import { Util } from '../../lab/util/Util.js';
 simulation) with a choice of several paths. Defines a ParameterString that has the set
 of available ParametricPaths as choices.
 
-{@link PathSelector.getPathName} returns name of current path.
-{@link PathSelector.setPathName} sets the current path to be the path with the given
+{@link getPathName} returns name of current path.
+{@link setPathName} sets the current path to be the path with the given
 name from among the set of paths that are specified to the constructor.
 
 ### Parameters Created
 
-+ ParameterString named `PATH`, see {@link PathSelector.setPathName}.
++ ParameterString named `PATH`, see {@link setPathName}.
 
 */
 export class PathSelector extends AbstractSubject implements Subject {

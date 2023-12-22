@@ -129,7 +129,7 @@ distanceTo(point: GenericVector): number {
 /** Returns this Vector divided by the given factor.
 @param factor factor by which to divide this Vector
 @return quotient of this vector and given factor
-@throws if factor is less than {@link Vector.TINY_POSITIVE}
+@throws if factor is less than {@link TINY_POSITIVE}
 */
 divide(factor: number): Vector {
   if (factor === 1.0) {
@@ -201,7 +201,7 @@ length(): number {
   return this.length_;
 };
 
-/** Computationally cheap version of {@link Vector.length} which avoids the square root;
+/** Computationally cheap version of {@link length} which avoids the square root;
 returns sum of absolute value of each component `x, y, z`.
 @return sum of absolute value of each component `x, y, z`.
 */
@@ -267,7 +267,7 @@ nearEqual(vector: GenericVector, opt_tolerance?: number): boolean {
 direction.
 @return normalized version of this Vector, having unit length and the same
     direction
-@throws if this Vector has length less than {@link Vector.TINY_POSITIVE}
+@throws if this Vector has length less than {@link TINY_POSITIVE}
 */
 normalize(): Vector {
   return this.divide(this.length());
@@ -305,8 +305,8 @@ subtract(vector: GenericVector): Vector {
       this.y_ - vector.getY(), this.z_ - vector.getZ());
 };
 
-/** Very small number used to detect zero length vectors in {@link Vector.divide}
-* and {@link Vector.normalize}.
+/** Very small number used to detect zero length vectors in {@link divide}
+* and {@link normalize}.
 */
 static readonly TINY_POSITIVE = 1E-10;
 

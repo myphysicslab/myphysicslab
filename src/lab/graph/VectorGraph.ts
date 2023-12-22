@@ -35,7 +35,7 @@ phase space is 3D, 4D, etc. and cannot be adequately represented by these direct
 field vectors.
 
 The screen rectangle that the VectorGraph should occupy within the
-{@link SimView} must be set with {@link VectorGraph.setScreenRect}
+{@link SimView} must be set with {@link setScreenRect}
 before drawing can be done.
 
 Redraws when a parameter changes in the subject, because a parameter change modifies the

@@ -110,7 +110,8 @@ Terminal can execute two types of scripts:
 1. JavaScript. The code is transformed so that short-names can be used.
 
 2. EasyScript: a very simple scripting language for setting Parameter values.
-    See {@link lab/util/EasyScriptParser.EasyScriptParser} for syntax details.
+    See {@link lab/util/EasyScriptParser.EasyScriptParser | EasyScriptParser}
+    for syntax details.
 
 These two types of script can be intermixed in a single script as long as they are
 separated by a semicolon. For example, here are both types of scripts in
@@ -145,8 +146,9 @@ for each class. For example
 ```text
 lab$util$DoubleRect
 ```
-is the global variable for the {@link lab/util/DoubleRect.DoubleRect} class. This
-naming scheme is used to avoid potential conflicts with other global variables.
+is the global variable for the {@link lab/util/DoubleRect.DoubleRect | DoubleRect}
+class. This naming scheme is used to avoid potential conflicts with other global
+variables.
 
 
 <a id="shortnames"></a>
@@ -167,7 +169,7 @@ Applications will typically also make their key objects available with short-nam
 So instead of `app.sim` you can just type `sim`.
 
 You can see this short-name to long-name conversion by using
-{@link Terminal.setVerbose}:
+{@link setVerbose}:
 ```text
 > terminal.setVerbose(true)
 > new Vector(2,3)
@@ -182,14 +184,14 @@ distinguish the expanded version.
 Short-names are implemented by defining a set of regular expression replacement rules
 which are applied to the Terminal input string before it is executed.
 
-Regular expression rules are registered with Terminal using {@link Terminal.addRegex}.
+Regular expression rules are registered with Terminal using {@link addRegex}.
 Then whenever a command is evaluated it is first expanded to the long form
-using {@link Terminal.expand}.
+using {@link expand}.
 
-{@link Terminal.stdRegex} defines a standard set of regular expressions for
+{@link stdRegex} defines a standard set of regular expressions for
 expanding myPhysicsLab class names (like `DoubleRect`) and for expanding a few function
 shortcuts like `methodsOf`, `propertiesOf` and `prettyPrint`. An application can add
-more shortcuts via {@link Terminal.addRegex}.
+more shortcuts via {@link addRegex}.
 
 
 <a id="thezobject"></a>
@@ -215,7 +217,7 @@ It looks something like this:
 This `z` object is itself a property of the application object usually called `app`;
 `z` is initially an object with no properties. We define a [short name](#shortnames)
 regular expression so that referring to `z` is replaced by `app.z` when a script line
-is executed. Using {@link Terminal.setVerbose} you would see the following:
+is executed. Using {@link setVerbose} you would see the following:
 ```text
 > terminal.setVerbose(true)
 > var a=1
@@ -244,7 +246,7 @@ is translated to
 3
 ```
 and thereafter every reference to `foo` will be changed to `app.z.foo` in later
-commands. You can see this at work by using {@link Terminal.setVerbose}:
+commands. You can see this at work by using {@link setVerbose}:
 ```text
 > terminal.setVerbose(true)
 > foo
@@ -313,7 +315,7 @@ an example Terminal session:
 16
 ```
 
-Note that {@link Terminal.eval} has an argument called `output` which if set to `false`
+Note that {@link eval} has an argument called `output` which if set to `false`
 prevents `result` from being updated. When `output==false`, then `result` is is defined
 for commands in the same string, but that version of `result` is temporary and
 independent of the permanent `result` variable.
@@ -324,7 +326,7 @@ The terminal Variable
 Some features (such as the `result` variable) require that the name `terminal` is
 defined and resolves to the Terminal object.
 
-In most applications this is accomplished by using {@link Terminal.addRegex} something
+In most applications this is accomplished by using {@link addRegex} something
 like this:
 ```js
 terminal.addRegex('terminal', 'app');
@@ -376,7 +378,7 @@ https://www.myphysicslab.com/pendulum/pendulum-en.html?DRIVE_AMPLITUDE=0;
 DAMPING=0.1;GRAVITY=9.8;ANGLE=2.5;ANGLE_VELOCITY=0;
 ```
 
-The URL Query Script is executed at startup by calling {@link Terminal.parseURL}.
+The URL Query Script is executed at startup by calling {@link parseURL}.
 Most myPhysicsLab applications do this.
 
 Some websites will only accept user-supplied URLs that follow the strict guidelines of
@@ -392,7 +394,7 @@ we must substitute in the URL:
 See this
 [character encoding chart](https://perishablepress.com/stop-using-unsafe-characters-in-urls/)
 to learn which other characters must be percent-encoded. You can use
-{@link Terminal.encodeURIComponent} which is a more stringent version
+{@link encodeURIComponent} which is a more stringent version
 of doing the character encoding; it percent-encodes other symbols such as:
 
 + `%27` for `'`
@@ -439,7 +441,7 @@ export class Terminal {
   private keyDownFn_: (e:Event)=>void;
   /** change event handler, saved for removing listener. */
   private changeFn_?: (e:Event)=>void = undefined;
-  /** Whether the {@link Terminal.alertOnce} function has happened. */
+  /** Whether the {@link alertOnce} function has happened. */
   private hasAlerted_: boolean = false;
   /**  session history of scripts entered. */
   private history_: string[] = [];
@@ -532,7 +534,7 @@ toString() {
 * @param names set of names separated by `|` symbol
 * @param prefix the string to prepend to each occurence of the names
 * @param opt_addToVars if `true`, then the set of names is added to the
-*     set of defined names returned by {@link Terminal.vars}; default is `true`
+*     set of defined names returned by {@link vars}; default is `true`
 * @param opt_prepend if `true`, then the regex rule is added to the front
 *     of the list of regex's to execute; default is `false`
 * @return whether the regex rule was added (returns `false` if the regex rule
@@ -589,7 +591,7 @@ addRegex2(regex: RegExp, replace: string, opt_prepend?: boolean): boolean {
   return false;
 };
 
-/** Adds to the set of defined names returned by {@link Terminal.vars}
+/** Adds to the set of defined names returned by {@link vars}
 * @param name string to add to white list
 */
 addToVars(name: string): void {
@@ -674,14 +676,14 @@ and session history array are unchanged.
 
 The `output=false` option allows for evaluating scripts that
 define a variable, for example in
-{@link lab/model/FunctionVariable.FunctionVariable}.
+{@link lab/model/FunctionVariable.FunctionVariable | FunctionVariable}.
 The FunctionVariable script can be executed frequently without modifying the `result`
 seen by the user in Terminal.
 
 The script is split into pieces separated by top-level semicolons (top-level means they
 are not enclosed by braces). Each fragment is first offered to the Parser installed
-with {@link Terminal.setParser}. If the Parser does not recognize the fragment, then
-the fragment is expanded {@link Terminal.expand} before being executed
+with {@link setParser}. If the Parser does not recognize the fragment, then
+the fragment is expanded {@link expand} before being executed
 using JavaScript `eval`.
 
 Error handling: when `showAlert` is `false` we avoid throwing an error and only
@@ -695,7 +697,7 @@ with the error text. This can happen for example on start-up if a script in the
 HTML file is being eval'd.
 
 In unit tests, you can pass `showAlert = false` and examine the
-resulting error with {@link Terminal.getError}.
+resulting error with {@link getError}.
 
 @param script a fragment of JavaScript to be executed
 @param output whether to print the result to the output text area and
@@ -817,7 +819,7 @@ eval(script: string, output: boolean = true, showAlert: boolean = true): any {
 };
 
 /** Returns the given Javascript script expanded by the various regular expression
-* rules which were registered with {@link Terminal.addRegex}. The expanded script has
+* rules which were registered with {@link addRegex}. The expanded script has
 * [short names](#shortnames) like `DoubleRect` expanded to have full path name like
 * `lab$util$DoubleRect`. Doesn't expand words inside of quoted strings
 * or regular expressions.
@@ -912,7 +914,7 @@ focus(): void {
   }
 };
 
-/** Returns the error message from the last {@link Terminal.eval} call, or empty
+/** Returns the error message from the last {@link eval} call, or empty
 * string if no error occurred.
 */
 getError(): string {
@@ -1071,8 +1073,8 @@ scrollDown(): void {
 };
 
 /** Sets the function to execute after evaluating the user input. Typically used to
-* update a display such as a {@link lab/view/SimView.SimView} or
-* {@link lab/graph/DisplayGraph.DisplayGraph}.
+* update a display such as a {@link lab/view/SimView.SimView | SimView} or
+* {@link lab/graph/DisplayGraph.DisplayGraph | DisplayGraph}.
 * @param afterEvalFn  function to execute after evaluating
 *     the user input; can be `undefined` to turn off this feature
 */
@@ -1080,7 +1082,7 @@ setAfterEval(afterEvalFn?: ()=>void): void {
   this.afterEvalFn_ = afterEvalFn;
 };
 
-/** Installs the Parser used to parse scripts during {@link Terminal.eval}.
+/** Installs the Parser used to parse scripts during {@link eval}.
 * @param parser the Parser to install.
 */
 setParser(parser: Parser): void {
@@ -1242,7 +1244,7 @@ static stdRegex(terminal: Terminal): void {
 };
 
 /** Returns names of the variables that have been defined using
-* {@link Terminal.addRegex}.
+* {@link addRegex}.
 * This is used as a "help" command for the user to know what variables are available.
 * @return names of defined variables, in alphabetic order
 */

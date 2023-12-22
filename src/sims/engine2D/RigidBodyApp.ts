@@ -34,7 +34,7 @@ import { Vector } from '../../lab/util/Vector.js';
 /**  RigidBodyApp demonstrates using RigidBodySim (instead of the usual ContactSim) with
 a set of simple rectangular objects.
 
-This app has a {@link RigidBodyApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 */
 export class RigidBodyApp extends Engine2DApp<RigidBodySim> implements Subject, SubjectList {

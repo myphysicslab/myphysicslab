@@ -22,14 +22,14 @@ import { Vector } from '../util/Vector.js';
 
 /** Contains a set of thrust forces operating on a particular RigidBody; each thruster
 generates a Force at a specified location on the RigidBody with a specified direction.
-Thrusters can be turned on or off independently. Use {@link ThrusterSet.setMagnitude} to set an overall magnitude which multiplies all of the thrust forces.
+Thrusters can be turned on or off independently. Use {@link setMagnitude} to set an
+overall magnitude which multiplies all of the thrust forces.
 
 Thrusters are set to a default location and direction of the zero vector, see 
-{@link Vector.ORIGIN}. Use {@link ThrusterSet.setThruster} to set the
-actual location and direction.
+{@link Vector.ORIGIN}. Use {@link setThruster} to set the actual location and direction.
 
-See {@link lab/app/RigidBodyEventHandler.RigidBodyEventHandler} for an example of how
-to control thrusters from key events.
+See {@link lab/app/RigidBodyEventHandler.RigidBodyEventHandler | RigidBodyEventHandler}
+for an example of how to control thrusters from key events.
 
 **TO DO** be able to scale or rotate each Force independently?
 */

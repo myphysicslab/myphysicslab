@@ -24,28 +24,28 @@ import { VerticalAlign } from '../view/VerticalAlign.js'
 
 /** Draws linear horizontal and vertical axes within a given simulation coordinates
 rectangle. The simulation rectangle determines where the axes are drawn, and the
-numbering scale shown, see {@link DisplayAxes.setSimRect}.
+numbering scale shown, see {@link setSimRect}.
 
 Axes are drawn with numbered tick marks. Axes are labeled with names which can be
-specified by {@link DisplayAxes.setHorizName} and {@link DisplayAxes.setVerticalName}.
-Axes are drawn using specified font and color, see {@link DisplayAxes.setColor} and
-{@link DisplayAxes.setFont}.
+specified by {@link setHorizName} and {@link setVerticalName}.
+Axes are drawn using specified font and color, see {@link setColor} and
+{@link setFont}.
 
 Options exist for drawing the vertical axis near the left, center, or right, and for
 drawing the horizontal axis near the top, center, or bottom of the screen. See
-{@link DisplayAxes.setXAxisAlignment} and {@link DisplayAxes.setYAxisAlignment}.
+{@link setXAxisAlignment} and {@link setYAxisAlignment}.
 
 You can set the axes alignment to go thru particular points, like the origin:
 ```js
 axes.setXAxisAlignment(VerticalAlign.VALUE, 0);
 axes.setYAxisAlignment(HorizAlign.VALUE, 0);
 ```
-To keep the DisplayAxes in sync with a {@link lab/view/SimView.SimView}, when
+To keep the DisplayAxes in sync with a {@link lab/view/SimView.SimView | SimView}, when
 doing for example pan/zoom of the SimView, you can arrange for
-{@link DisplayAxes.setSimRect} to be called by an Observer. See for example
-{@link sims/common/CommonControls.CommonControls.makeAxes} which makes a
-{@link lab/util/Observe.GenericObserver} that keeps the DisplayAxes in sync with
-the SimView.
+{@link setSimRect} to be called by an Observer. See for example
+{@link sims/common/CommonControls.CommonControls.makeAxes | CommonControls.makeAxes}
+which makes a {@link lab/util/Observe.GenericObserver | GenericObserver} that keeps the
+DisplayAxes in sync with the SimView.
 
 **TO DO**  add option to set the number of tick marks (instead of automatic)?
 
@@ -397,15 +397,15 @@ getVerticalName(): string {
 
 /** Returns the X-axis alignment: whether it should appear at bottom, top or middle of
 the simulation rectangle.
-@return X-axis alignment option from {@link lab/view/VerticalAlign.VerticalAlign}
+@return X-axis alignment option
 */
 getXAxisAlignment(): VerticalAlign {
   return this.horizAxisAlignment_;
 };
 
-/** Returns the Y-axis alignment : whether it should appear at left, right or middle of
+/** Returns the Y-axis alignment: whether it should appear at left, right or middle of
 the simulation rectangle.
-@return Y-axis alignment option from {@link lab/view/HorizAlign.HorizAlign}
+@return Y-axis alignment option
 */
 getYAxisAlignment(): HorizAlign {
   return this.vertAxisAlignment_;
@@ -473,10 +473,9 @@ setVerticalName(name: string): void {
 
 /** Sets the X-axis alignment: whether it should appear at bottom, top or middle of the
 simulation rectangle, or go thru a particular value of the Y-axis.
-@param alignment X-axis alignment option from
-    {@link lab/view/VerticalAlign.VerticalAlign}
+@param alignment X-axis alignment option
 @param value number on vertical axis to align with when using
-     {@link lab/view/VerticalAlign.VerticalAlign.VALUE}
+     {@link VerticalAlign.VALUE}
 @return this object for chaining setters
 */
 setXAxisAlignment(alignment: VerticalAlign, value?: number): DisplayAxes {
@@ -490,9 +489,9 @@ setXAxisAlignment(alignment: VerticalAlign, value?: number): DisplayAxes {
 
 /** Sets the Y-axis alignment: whether it should appear at left, right or middle of the
 simulation rectangle, or go thru a particular value of the X-axis.
-@param alignment Y-axis alignment option from {@link lab/view/HorizAlign.HorizAlign}
+@param alignment Y-axis alignment option
 @param value number on horizontal axis to align with when using
-     {@link lab/view/HorizAlign.HorizAlign.VALUE}
+    {@link HorizAlign.VALUE}
 @return this object for chaining setters
 */
 setYAxisAlignment(alignment: HorizAlign, value?: number): DisplayAxes {

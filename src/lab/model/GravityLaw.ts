@@ -25,7 +25,7 @@ import { Vector } from '../util/Vector.js';
 
 /** Applies constant downward gravitational force to a set of MassObjects.
 
-The set of objects can be specified with the {@link GravityLaw.addBody} method, or the
+The set of objects can be specified with the {@link addBody} method, or the
 GravityLaw can observe a SimList and automatically add all bodies that have mass to the
 set of objects.
 
@@ -33,7 +33,7 @@ Zero Energy Level
 -----------------
 
 GravityLaw has a default zero potential energy level which is used for MassObjects that
-return null from {@link GravityLaw.getZeroEnergyLevel}. This allows adding objects to a
+return null from {@link getZeroEnergyLevel}. This allows adding objects to a
 simulation without needing to set the zero energy level on each object. You can
 override this default zero energy level for an object with
 {@link MassObject.setZeroEnergyLevel}.
@@ -41,9 +41,9 @@ override this default zero energy level for an object with
 Parameters Created
 ------------------
 
-+ ParameterNumber named `GRAVITY`, see {@link GravityLaw.setGravity}
++ ParameterNumber named `GRAVITY`, see {@link setGravity}
 
-+ ParameterNumber named `ZERO_ENERGY`, see {@link GravityLaw.setZeroEnergyLevel}
++ ParameterNumber named `ZERO_ENERGY`, see {@link setZeroEnergyLevel}
 
 */
 export class GravityLaw extends AbstractSubject implements Subject, Observer, ForceLaw {

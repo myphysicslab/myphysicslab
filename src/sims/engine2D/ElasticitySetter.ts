@@ -30,7 +30,7 @@ elasticity of RigidBodys are done thru this class or via
 
 ### Parameters Created
 
-+ ParameterNumber named `ELASTICITY`, see {@link ElasticitySetter.setElasticity}
++ ParameterNumber named `ELASTICITY`, see {@link setElasticity}
 
 */
 export class ElasticitySetter extends AbstractSubject implements Subject, Observer {

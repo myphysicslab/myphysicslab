@@ -47,7 +47,7 @@ x_min = sqrt(4/3) = 2/sqrt(3)
 We subtract the minimum PE from the reported PE so that PE is zero at it's minimum.
 
 To attach one end to a fixed point you can attach to an infinite mass MassObject or a
-{@link lab/engine2D/Scrim.Scrim}.
+{@link lab/engine2D/Scrim.Scrim | Scrim}.
 */
 export class SpringNonLinear1 extends Spring implements SimObject, Line, ForceLaw {
 

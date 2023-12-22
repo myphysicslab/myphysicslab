@@ -43,17 +43,17 @@ export const enum Formation {
 /** Simulation of a table top billiards game with several balls bouncing against each
 other and against the sides of the table.
 
-This app has a {@link BilliardsApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
 
-+ ParameterNumber named `FORMATION`, see {@link BilliardsApp.setFormation}.
++ ParameterNumber named `FORMATION`, see {@link setFormation}.
 
-+ ParameterNumber named `OFFSET`, see {@link BilliardsApp.setOffset}
++ ParameterNumber named `OFFSET`, see {@link setOffset}
 
-+ ParameterNumber named `SPEED`, see {@link BilliardsApp.setSpeed}
++ ParameterNumber named `SPEED`, see {@link setSpeed}
 
 */
 export class BilliardsApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

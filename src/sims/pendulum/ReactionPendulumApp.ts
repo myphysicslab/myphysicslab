@@ -543,7 +543,7 @@ getLength(): number {
 };
 
 /** Set length of ReactionPendulumSim rod, and set length of classic pendulum
-to equivalent length.  See {@link ReactionPendulumApp.classicLength}.
+to equivalent length.  See {@link classicLength}.
 @param value length of ReactionPendulumSim rod
 */
 setLength(value: number) {
@@ -562,7 +562,7 @@ getRadius(): number {
 };
 
 /** Set radius of ReactionPendulumSim bob, and set length of classic pendulum
-to according equivalent length.  See {@link ReactionPendulumApp.classicLength}.
+to according equivalent length.  See {@link classicLength}.
 @param value radius of ReactionPendulumSim bob
 */
 setRadius(value: number) {

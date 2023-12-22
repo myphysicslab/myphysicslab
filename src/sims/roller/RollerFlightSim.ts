@@ -98,13 +98,13 @@ vars[6] = track or free mode (1 or 0 respectively)
 That Variable broadcasts itself whenever it changes.
 
 On the track, the equations are similar to those of
-{@link sims/roller/RollerDoubleSim.RollerDoubleSim}; we have 2 variables:
+{@link sims/roller/RollerDoubleSim.RollerDoubleSim | RollerDoubleSim}; we have 2 variables:
 ```text
 vars[0] = p = distance along track
 vars[1] = v = velocity on track
 ```
 When the ball leaves the track, the equations are similar to those of
-{@link sims/springs/Spring2DSim.Spring2DSim}; we have 4 variables:
+{@link sims/springs/Spring2DSim.Spring2DSim | Spring2DSim}; we have 4 variables:
 ```text
 vars[2] = Ux = x position
 vars[3] = Uy = y position

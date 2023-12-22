@@ -18,7 +18,8 @@ import { PathPoint } from '../../lab/model/PathPoint.js';
 import { PointMass } from '../../lab/model/PointMass.js';
 import { Util } from '../../lab/util/Util.js';
 
-/** Collision used by {@link sims/roller/RollerFlightSim.RollerFlightSim}.
+/** Collision used by
+{@link sims/roller/RollerFlightSim.RollerFlightSim | RollerFlightSim}.
 */
 export class RollerCollision implements Collision {
 

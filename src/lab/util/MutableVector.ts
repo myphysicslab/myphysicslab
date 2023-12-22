@@ -85,9 +85,10 @@ distanceTo(point: GenericVector): number {
 
 /** Divides this MutableVector by the given factor.
 @param factor factor by which to divide this vector, must be greater than
-{@link lab/util/Vector.Vector.TINY_POSITIVE}
+    {@link lab/util/Vector.Vector.TINY_POSITIVE | Vector.TINY_POSITIVE}
 @return this MutableVector for chaining
-@throws if factor is less than {@link lab/util/Vector.Vector.TINY_POSITIVE}
+@throws if factor is less than
+    {@link lab/util/Vector.Vector.TINY_POSITIVE | Vector.TINY_POSITIVE}
 */
 divide(factor: number): MutableVector {
   if (factor === 1.0) {
@@ -138,7 +139,7 @@ length(): number {
   return Math.sqrt(this.lengthSquared());
 };
 
-/** Computationally cheap version of {@link MutableVector.length}
+/** Computationally cheap version of {@link length}
 which avoids the square root; returns sum of absolute value of each component `x, y, z`.
 @return sum of absolute value of each component `x, y, z`.
 */
@@ -196,7 +197,7 @@ and the same direction.
 @return normalized version of this MutableVector,
     having unit length and the same direction
 @throws if this MutableVector has length less than
-{@link lab/util/Vector.Vector.TINY_POSITIVE}
+{@link lab/util/Vector.Vector.TINY_POSITIVE | Vector.TINY_POSITIVE}
 */
 normalize(): Vector {
   const len = this.length();

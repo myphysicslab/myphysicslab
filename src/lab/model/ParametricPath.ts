@@ -15,7 +15,8 @@
 import { DoubleRect } from '../util/DoubleRect.js';
 import { Util } from '../util/Util.js';
 
-/** Defines a 2D path with a parametric function `f(t) = (x(t), y(t))`.  For example, a circle of radius 3 with center at the origin is defined by
+/** Defines a 2D path with a parametric function `f(t) = (x(t), y(t))`.
+For example, a circle of radius 3 with center at the origin is defined by
 ```text
 f(t) = (3*cos(t), 3*sin(t))
 ```
@@ -37,7 +38,7 @@ purposes or the localized name for display to user.
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
 see {@link Util.toName} and
-{@link ParametricPath.nameEquals}.
+{@link nameEquals}.
 
 @param opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.

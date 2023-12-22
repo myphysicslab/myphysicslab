@@ -39,7 +39,7 @@ between two points where a ball will travel fastest (without friction). From gre
 brachistos (shortest) and chronos (time).
 
 The equations of motion are the same as those of
-{@link sims/roller/RollerSingleSim.RollerSingleSim}.
+{@link sims/roller/RollerSingleSim.RollerSingleSim | RollerSingleSim}.
 For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>
 and <https://www.myphysicslab.com/RollerSpring.html>.
 

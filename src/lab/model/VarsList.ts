@@ -24,25 +24,26 @@ Variables.
 VarsList is a {@link Subject} and each Variable is a
 {@link Parameter} of the VarsList.
 This makes the set of Variables available for scripting with
-{@link lab/util/EasyScriptParser.EasyScriptParser}.
+{@link lab/util/EasyScriptParser.EasyScriptParser | EasyScriptParser}.
 
 Unlike other Subject classes, VarsList does not broadcast each Variable whenever the
 Variable changes. And VarsList prohibits adding general Parameters in its
-{@link VarsList.addParameter} method, because it can only contain Variables.
+{@link addParameter} method, because it can only contain Variables.
 
-As a Subject, the VarsList will broadcast the {@link VarsList.VARS_MODIFIED} event to
+As a Subject, the VarsList will broadcast the {@link VARS_MODIFIED} event to
 its Observers whenever Variables are added or removed.
 
 
 ### Continuous vs. Discontinuous Changes
 
 A change to a Variable is either continuous or discontinuous. This affects how a line
-graph of the Variable is drawn: {@link lab/graph/DisplayGraph.DisplayGraph}
+graph of the Variable is drawn:
+{@link lab/graph/DisplayGraph.DisplayGraph | DisplayGraph}
 doesn't draw a line at a point of discontinuity. A discontinuity is
 indicated by incrementing the
 {@link Variable.getSequence | sequence number} of the Variable.
 
-It is important to note that {@link VarsList.setValue} and {@link VarsList.setValues} have an optional
+It is important to note that {@link setValue} and {@link setValues} have an optional
 parameter `continuous` which determines whether the change of variable is continuous or
 discontinuous.
 
@@ -69,7 +70,7 @@ index of other existing variables.
 
 ### Events Broadcast
 
-+ GenericEvent name {@link VarsList.VARS_MODIFIED}
++ GenericEvent name {@link VARS_MODIFIED}
 
 */
 export class VarsList extends AbstractSubject implements Subject {
@@ -86,7 +87,7 @@ export class VarsList extends AbstractSubject implements Subject {
 /**
 * @param varNames  array of language-independent variable names;
 *     these will be underscorized so the English names can be passed in here.
-*     See {@link lab/util/Util.Util.toName}.
+*     See {@link Util.toName}.
 * @param localNames  array of localized variable names
 * @param opt_name name of this VarsList
 * @throws if varNames and localNames are different lengths, or contain
@@ -168,7 +169,7 @@ addVariable(variable: Variable): number {
 /** Add a continguous block of ConcreteVariables.
 @param names language-independent names of variables; these will be
      underscorized so the English name can be passed in here.
-     See {@link lab/util/Util.Util.toName}.
+     See {@link Util.toName}.
 @param localNames localized names of variables
 @return index index of first ConcreteVariable that was added
 @throws if any of the variable names is 'DELETED', or array of names is empty
@@ -205,7 +206,7 @@ private checkIndex_(index: number): void {
 };
 
 /** Delete several variables, but leaves those places in the array as empty spots that
-can be allocated in future with {@link VarsList.addVariables}. Until an empty spot is
+can be allocated in future with {@link addVariables}. Until an empty spot is
 reallocated, the name of the variable at that spot has the reserved name 'DELETED' and
 should not be used.
 @param index index of first variable to delete
@@ -268,7 +269,7 @@ findOpenSlot_(quantity: number): number {
   return startIdx;
 };
 
-/** Whether recent history is being stored, see {@link VarsList.saveHistory}.
+/** Whether recent history is being stored, see {@link saveHistory}.
 @return true if recent history is being stored
 */
 getHistory(): boolean {
@@ -317,7 +318,7 @@ getValue(index: number): number {
 
 /** Returns an array with the current value of each variable.
 @param computed whether to include computed variables,
-    see {@link lab/util/Observe.Parameter.isComputed}; default is false.
+    see {@link Variable.isComputed}; default is false.
 @return an array with the current value of each variable.
     Computed variables have value of NaN unless requested.
 */
@@ -416,7 +417,7 @@ printOneHistory(idx: number): string {
 /** Prints recent 'history' set of variables to console for debugging.
 Prints the `n`-th oldest snapshot, where `n=1` is the most recent snapshot, `n=2` is
 the snapshot previous to the most recent, etc.
-See {@link VarsList.saveHistory}.
+See {@link saveHistory}.
 @param index the index of the snapshot to print, where 1 is most recent;
     if no index is specified, then prints a selected set of recent histories.
 @return the history variables formatted as code to recreate the situation
@@ -434,7 +435,7 @@ printHistory(index?: number): string {
 };
 
 /** Saves the current variables in a 'history' set, for debugging, to be able to
-reproduce an error condition. See {@link VarsList.printHistory}.
+reproduce an error condition. See {@link printHistory}.
 */
 saveHistory(): void {
   if (this.history_) {
@@ -449,7 +450,7 @@ saveHistory(): void {
 };
 
 /** Indicates the specified Variables are being automatically computed.
-See {@link lab/util/Observe.Parameter.isComputed}.
+See {@link Variable.isComputed}.
 @param indexes  the indexes of the variables
 */
 setComputed(...indexes: number[]): void {
@@ -460,7 +461,7 @@ setComputed(...indexes: number[]): void {
   }
 };
 
-/** Sets whether to store recent history, see {@link VarsList.saveHistory}.
+/** Sets whether to store recent history, see {@link saveHistory}.
 @param value true means recent history should be stored
 */
 setHistory(value: boolean): void {
@@ -480,7 +481,7 @@ setTime(time: number): void {
 /** Sets the specified variable to the given value. Variables are numbered starting at
 zero. Assumes this is a discontinous change, so the sequence number is incremented
 unless you specify that this is a continuous change in the variable.
-See {@link VarsList.incrSequence}.
+See {@link incrSequence}.
 @param index  the index of the variable within the array of variables
 @param value  the value to set the variable to
 @param continuous `true` means this new value is continuous with
@@ -509,7 +510,7 @@ setValue(index: number, value: number, continuous?: boolean): void {
 `vars` is less than length of VarsList then the remaining variables are not modified.
 Assumes this is a discontinous change, so the sequence number is incremented
 unless you specify that this is a continuous change in the variable.
-See {@link VarsList.incrSequence}.
+See {@link incrSequence}.
 @param vars array of state variables
 @param continuous `true` means this new value is continuous with
     previous values; `false` (the default) means the new value is discontinuous with
@@ -580,7 +581,7 @@ Util.defineGlobal('lab$model$VarsList', VarsList);
 
 // *************************** ConcreteVariable **************************
 
-/** Represents a Variable; usually stored in a {@link lab/model/VarsList.VarsList}.
+/** Represents a Variable; usually stored in a {@link VarsList}.
 */
 export class ConcreteVariable implements Variable, Parameter, SubjectEvent, Printable {
   /** the VarsList which contains this Variable
@@ -599,7 +600,7 @@ export class ConcreteVariable implements Variable, Parameter, SubjectEvent, Prin
 /**
 @param varsList the VarsList which contains this Variable
 @param name the name of this Variable; this will be underscorized so the
-    English name can be passed in here. See {@link lab/util/Util.Util.toName}.
+    English name can be passed in here. See {@link Util.toName}.
 @param localName the localized name of this Variable
 */
 constructor(varsList: VarsList, name: string, localName: string) {

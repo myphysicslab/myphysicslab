@@ -16,11 +16,11 @@ import { Util } from "../util/Util.js"
 
 /** Horizontal alignment enum, used to specify how to align a SimView's simulation
 rectangle within its screen rectangle.
-See {@link lab/view/CoordMap.CoordMap.make},
-{@link lab/view/SimView.SimView.setHorizAlign}.
+See {@link lab/view/CoordMap.CoordMap.make | CoordMap.make},
+{@link lab/view/SimView.SimView.setHorizAlign | SimView.setHorizAlign}.
 
-Also used for alignment of DisplayAxes,
-see {@link lab/graph/DisplayAxes.DisplayAxes.setYAxisAlignment}.
+Also used for alignment of DisplayAxes, see
+{@link lab/graph/DisplayAxes.DisplayAxes.setYAxisAlignment | DisplayAxes.setYAxisAlignment}.
 */
 export const enum HorizAlign {
   LEFT = "LEFT",

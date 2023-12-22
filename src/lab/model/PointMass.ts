@@ -32,7 +32,8 @@ center of the shape. In body coordinates the center of mass at the origin.
 ### Drawing an Ellipse
 
 The method {@link MassObject.createCanvasPath} is responsible for creating the path
-that is used to draw this object, see {@link lab/view/DisplayShape.DisplayShape}.
+that is used to draw this object,
+see {@link lab/view/DisplayShape.DisplayShape | DisplayShape}.
  When the shape is oval, this will attempt to draw an oval using
 [CanvasRenderingContext2D.ellipse](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/ellipse)
 but not all browsers implement that method as of 2016. A circle is drawn

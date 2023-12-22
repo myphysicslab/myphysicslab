@@ -92,7 +92,9 @@ Here is an example where SimView panning happens when no modifier keys are press
 new SimController(graphCanvas, null, {alt:false, control:false, meta:false, shift:false})
 ```
 
-Here is an example where SimView panning happens when both the meta and alt keys are down:
+Here is an example where SimView panning happens when both the meta and alt keys are
+down:
+
 ```
 new SimController(labCanvas, eventHandler, {alt:true, control:false, meta:true, shift:false})
 ```
@@ -282,7 +284,8 @@ private doMouseDown(modifiers: ModifierKeys, mouseX: number, mouseY: number): vo
   // target can be other HTML elements) so could use evt.offsetX, evt.offsetY.
   // But instead we use the same eventToScreen function for all events.
   const start_screen = this.eventToScreen(mouseX, mouseY);
-  if (this.enablePanning_ && SimController.modifiersEqual(this.panModifiers_, modifiers)) {
+  if (this.enablePanning_ &&
+      SimController.modifiersEqual(this.panModifiers_, modifiers)) {
     // Only pan the simRect, don't send the event to the event handler.
     const view = this.labCanvas_.getFocusView();
     if (view != null) {
@@ -492,7 +495,7 @@ setPanModifiers(panModifiers: null|ModifierKeys): void {
 
 /** Callback for touchStart event. If single touch in canvas, then process as a
 mouse-down event. Multiple touch cancels an ongoing mouse drag by calling
-{@link SimController.finishDrag}.
+{@link finishDrag}.
 @param evt the touch start event that occurred
 */
 private touchStart(evt: TouchEvent): void {
@@ -516,7 +519,7 @@ private touchStart(evt: TouchEvent): void {
 
 /** Callback for touchMove event. If single touch in canvas, then process as a
 mouse-move event.  Multiple touch cancels an ongoing mouse drag by calling
-{@link SimController.finishDrag}.
+{@link finishDrag}.
 @param evt the touch move event that occurred
 */
 private touchMove(evt: TouchEvent) {
@@ -579,8 +582,9 @@ Util.defineGlobal('lab$app$SimController', SimController);
 
 // ***************************** View Panner ****************************
 
-/** Pans (scrolls) a SimView to follow mouse movements.
-See *SimView Panning* in {@link SimController}.
+/** Pans (scrolls) a SimView to follow mouse movements. See
+[SimView Panning](./lab_app_SimController.SimController.html#md:simview-panning)
+in {@link SimController}.
 */
 export class ViewPanner {
   /** the SimView being panned */

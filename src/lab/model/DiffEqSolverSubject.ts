@@ -24,22 +24,21 @@ import { ParameterString, Subject } from '../util/Observe.js';
 import { RungeKutta } from './RungeKutta.js';
 import { Util } from '../util/Util.js';
 
-/** Makes available several {@link lab/model/DiffEqSolver.DiffEqSolver}'s for advancing
+/** Makes available several {@link DiffEqSolver}'s for advancing
 an ODESim simulation. Creates a ParameterString for changing which DiffEqSolver to use.
 The ParameterString can be hooked up to a ChoiceControl to allow the user to change the
 DiffEqSolver. Or you can directly invoke the
-{@link DiffEqSolverSubject.setDiffEqSolver} method.
+{@link setDiffEqSolver} method.
 
-The EnergySystem is only needed for the experimental
-{@link lab/model/AdaptiveStepSolver.AdaptiveStepSolver}. If EnergySystem is not
-provided then all DiffEqSolver options are still available except for
-AdaptiveStepSolver.
+The EnergySystem is only needed for the experimental {@link AdaptiveStepSolver}. If
+EnergySystem is not provided then all DiffEqSolver options are still available except
+for AdaptiveStepSolver.
 
 Parameters Created
 ------------------
 
 + ParameterString named `DIFF_EQ_SOLVER`,
-see {@link DiffEqSolverSubject.setDiffEqSolver}
+see {@link setDiffEqSolver}
 
 */
 export class DiffEqSolverSubject extends AbstractSubject implements Subject {

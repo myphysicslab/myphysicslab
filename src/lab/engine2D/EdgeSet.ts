@@ -78,9 +78,8 @@ toString() {
 Any Edge in the set can be specified to the constructor: the first, the last, or any
 Edge in the middle of the set.
 
-This set of Edges corresponds to the concept of a "path
-of edges" discussed in {@link lab/engine2D/Polygon.Polygon}, see the section about
-'Structure of a Polygon'.
+This set of Edges corresponds to the concept of a "path of edges" discussed in
+[Structure of a Polygon](./lab_engine2D_Polygon.Polygon.html#md:structure-of-a-polygon).
 
 Assumption: Edges in set are contiguous in the RigidBody's list of Edges.
 

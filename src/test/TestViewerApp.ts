@@ -149,9 +149,9 @@ Because GravityLaw and DampingLaw get recreated for each test we search for them
 building each test and connect the respective gravity and damping controls to them.
 
 Another consequence is that we don't provide GravityLaw or DampingLaw to the
-EasyScriptParser, so these aren't as easily scriptable as in other apps. However, there are
-short names defined for them, so it is still relatively easy to add JavaScript to a URL
-script like this:
+EasyScriptParser, so these aren't as easily scriptable as in other apps. However, there
+are short names defined for them, so it is still relatively easy to add JavaScript to a
+URL script like this:
 
     gravityLaw.setGravity(7);
 

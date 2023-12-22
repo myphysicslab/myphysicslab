@@ -60,8 +60,9 @@ Essentially the *display* coordinates can be used to stretch a canvas to fit the
 as desired. Here we ignore *display* coordinates and regard *screen coordinates* to be
 what is called *model coordinates* in the above quote.
 
-See also 'Coordinate System When Drawing An Image' in
-{@link lab/view/DisplayShape.DisplayShape}.
+See also
+[Coordinate System When Drawing An Image](./lab_view_DisplayShape.DisplayShape.html#md:coordinate-system-when-drawing-an-image)
+in {@link lab/view/DisplayShape.DisplayShape | DisplayShape}.
 */
 export class CoordMap {
   private screen_left_: number;

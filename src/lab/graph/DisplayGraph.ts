@@ -28,20 +28,21 @@ import { Vector, GenericVector } from '../util/Vector.js'
 drawn in the simulation coordinates of the containing {@link SimView}.
 
 The screen rectangle that the DisplayGraph should occupy within the SimView must be set
-with {@link DisplayGraph.setScreenRect} before drawing can be done.
+with {@link setScreenRect} before drawing can be done.
 
 Additional GraphLines can be shown in the DisplayGraph,
-see {@link DisplayGraph.addGraphLine}.
+see {@link addGraphLine}.
 
 The GraphLine can be drawn into an offscreen image,
-see {@link DisplayGraph.setUseBuffer}. The default is to use an offscreen image; this
+see {@link setUseBuffer}. The default is to use an offscreen image; this
 saves time by not needing to redraw the entire graph every frame.
 
 ### Discontinuity
 
 A change to a variable is either continuous or discontinuous. DisplayGraph doesn't draw
 a line at a point of discontinuity, but draws a dot instead. A discontinuity is
-indicated by incrementing the sequence number, see {@link lab/model/VarsList.VarsList}.
+indicated by incrementing the sequence number, see
+{@link lab/model/VarsList.VarsList | VarsList}.
 */
 export class DisplayGraph implements DisplayObject {
   /** The GraphLines to draw.*/
@@ -361,7 +362,7 @@ removeGraphLine(graphLine: GraphLine): void {
   this.needRedraw_ = true;
 };
 
-/** Causes entire graph to be redrawn, when {@link DisplayGraph.draw} is next called.
+/** Causes entire graph to be redrawn, when {@link draw} is next called.
 */
 reset(): void {
   this.memDraw_ = Util.repeat(-1, this.graphLines_.length);

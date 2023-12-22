@@ -26,7 +26,8 @@ import { Vector } from '../util/Vector.js';
 
 /** Generates a collision when the attachment point on a RigidBody moves past a certain
 point on a path so that the RigidBody cannot move past that point. The RigidBody would
-typically be connected to the path with a {@link lab/engine2D/PathJoint.PathJoint},
+typically be connected to the path with a
+{@link lab/engine2D/PathJoint.PathJoint | PathJoint},
 and so can move along the path.
 
 ### Implementation Notes

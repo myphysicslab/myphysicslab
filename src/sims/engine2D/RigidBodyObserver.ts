@@ -80,7 +80,7 @@ RigidBodyObserver creates all have their prototypes set to be these objects. Kee
 mind that **all** objects with that prototype will be affected.
 
 Here is an example where we cause Polygons to draw their names. For apps that extend
-{@link sims/engine2D/Engine2DApp.Engine2DApp}, the `rbo` property is an instance of
+{@link sims/engine2D/Engine2DApp.Engine2DApp | Engine2DApp}, the `rbo` property is an instance of
 RigidBodyObserver.
 ```js
 this.rbo.protoPolygon.setNameFont('10pt sans-serif');
@@ -94,7 +94,7 @@ The policy used here is to **only show the first contact Force** when there is a
 of opposing contact Forces. Forces named 'contact_force1' are shown. Forces named
 'contact_force2' are assumed to be the second Force of pair and are not displayed.
 
-See {@link lab/util/Observe.GenericObserver} for example code that sets the
+See {@link lab/util/Observe.GenericObserver | GenericObserver} for example code that sets the
 color of the DisplayLine based on contact gap distance.
 */
 export class RigidBodyObserver implements Observer {
@@ -219,7 +219,7 @@ toStringShort() {
 };
 
 /** Add the DisplayObject to the DisplayList, following the setting of
-* {@link RigidBodyObserver.ordering}.
+* {@link ordering}.
 * @param dispObj the DisplayObject to add
 * @param simObj the SimObject being displayed
 */

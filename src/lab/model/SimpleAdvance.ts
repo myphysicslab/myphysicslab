@@ -23,10 +23,11 @@ import { Util } from '../util/Util.js'
 /** Advances an {@link ODESim} in a single step without doing any
 collision handling.
 
-The {@link SimpleAdvance.advance} method calls
-{@link DiffEqSolver.step} to advance the Simulation state, and
-then {@link lab/model/Simulation.Simulation.modifyObjects} to update the state of the
-{@link lab/model/SimObject.SimObject}s.
+The {@link advance} method calls {@link DiffEqSolver.step}
+to advance the Simulation state, and then
+{@link lab/model/Simulation.Simulation.modifyObjects | Simulation.modifyObjects}
+to update the state of the
+{@link lab/model/SimObject.SimObject | SimObject}s.
 */
 export class SimpleAdvance implements ODEAdvance, AdvanceStrategy {
   private sim_: ODESim;

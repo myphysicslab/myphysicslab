@@ -34,10 +34,10 @@ export type ModifierKeys = {
 }
 
 /** Handles mouse and keyboard events for a
-{@link lab/model/Simulation.Simulation}. Converts mouse or key events on a
+{@link lab/model/Simulation.Simulation | Simulation}. Converts mouse or key events on a
 {@link SimObject} to changes in the Simulation state.
 
-See {@link lab/app/SimController.SimController} which is usually the
+See {@link lab/app/SimController.SimController | SimController} which is usually the
 entity that supplies events to the EventHandler.
 */
 export interface EventHandler extends Printable {
@@ -54,7 +54,7 @@ the SimObject then it should return `false`.
     [focus view](../classes/lab_view_LabCanvas.LabCanvas.html#md:focus-view)
     if `simObject` is `null`.
 @param offset distance from the initial object position (from
-    {@link lab/view/DisplayObject.DisplayObject.getPosition})
+    {@link lab/view/DisplayObject.DisplayObject.getPosition | DisplayObject.getPosition})
     to the mouse location at start of drag
 @param dragBody location of 'drag point' on the
     SimObject in body coordinates of the SimObject; this is where for example a spring
@@ -67,9 +67,9 @@ startDrag(simObject: null|SimObject, location: Vector, offset: Vector,
     dragBody: null|Vector, modifiers: ModifierKeys): boolean;
 
 /** Called at each movement during a mouse drag, performs whatever action is
-appropriate. Only called if {@link EventHandler.startDrag}
-returned `true`. The SimObject being moved is passed in, along with the current mouse
-position, in simulation coordinates, and an offset calculated at the start of the drag.
+appropriate. Only called if {@link startDrag} returned `true`.
+The SimObject being moved is passed in, along with the current mouse position, in
+simulation coordinates, and an offset calculated at the start of the drag.
 
 Setting the SimObject position to `(x - offsetX, y - offsetY)` will move the SimObject
 smoothly along with the mouse movement.
@@ -80,14 +80,13 @@ smoothly along with the mouse movement.
     [focus view](../classes/lab_view_LabCanvas.LabCanvas.html#md:focus-view)
     if `simObject` is `null`.
 @param offset distance from the initial object position (from
-    {@link lab/view/DisplayObject.DisplayObject.getPosition})
+    {@link lab/view/DisplayObject.DisplayObject.getPosition | DisplayObject.getPosition})
     to the mouse location at start of drag.
 */
 mouseDrag(simObject: null|SimObject, location: Vector, offset: Vector): void;
 
 /** Called at the end of a mouse drag operation, performs whatever action is
-appropriate.  Only called if {@link EventHandler.startDrag}
-returned `true`.
+appropriate.  Only called if {@link startDrag} returned `true`.
 
 @param simObject the SimObject being dragged, or `null` if no SimObject was found
 @param location the location of the mouse in

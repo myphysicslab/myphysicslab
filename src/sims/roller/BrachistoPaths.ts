@@ -17,7 +17,7 @@ import { Util } from '../../lab/util/Util.js';
 import { ParametricPath } from '../../lab/model/ParametricPath.js';
 
 /** Contains the various curves used in the Brachistochrone simulation,
-see {@link sims/roller/BrachistoApp.BrachistoApp}.
+see {@link sims/roller/BrachistoApp.BrachistoApp | BrachistoApp}.
 
 The Mathematica notebook [Brachistochrone Curves](../Brachistochrone_Curves.pdf) shows
 how the various curves were chosen. The goal is to find a variety of curves that start

@@ -25,9 +25,9 @@ the potential energy of a system, and still see the same pattern of changes.
 It is often desirable that potential energy be in a specific numerical range. For
 example, we might want an object resting on the ground to have zero potential energy.
 
-The potential energy reported in {@link EnergySystem.getEnergyInfo} is the sum of the
+The potential energy reported in {@link getEnergyInfo} is the sum of the
 calculated potential energy and the constant potential energy offset.
-See {@link EnergySystem.setPEOffset}.
+See {@link setPEOffset}.
 
 */
 export interface EnergySystem extends Printable {
@@ -62,9 +62,9 @@ not defined.
 For simulations where gravity operates in the vertical direction, there are methods
 here to help calculate the potential energy of a MassObject. Potential energy has an
 arbitrary zero level. MassObject has a method
-{@link lab/model/MassObject.MassObject.setZeroEnergyLevel}
-where you can set the zero level used by a ForceLaw like GravityLaw in its method
-{@link lab/model/GravityLaw.GravityLaw.getPotentialEnergy}.
+{@link lab/model/MassObject.MassObject.setZeroEnergyLevel | setZeroEnergyLevel}
+where you can set the zero level which is used by a ForceLaw like GravityLaw, see
+{@link lab/model/GravityLaw.GravityLaw.getPotentialEnergy | GravityLaw.getPotentialEnergy}.
 */
 export class EnergyInfo {
   private potential_: number;

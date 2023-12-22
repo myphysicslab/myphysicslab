@@ -87,7 +87,7 @@ getParameter(): null|Parameter {
 };
 
 /** Returns the state of this control (which should match the target state when
-{@link ToggleControl.observe} is being called).
+{@link observe} is being called).
 @return the state of this control, `true` means 'on'
 */
 getState(): boolean {

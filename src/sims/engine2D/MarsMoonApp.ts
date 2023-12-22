@@ -30,7 +30,7 @@ import { Vector } from '../../lab/util/Vector.js';
 
 /** Simulation of an asteroid orbiting a moon.
 
-This app has a {@link MarsMoonApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 */
 export class MarsMoonApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

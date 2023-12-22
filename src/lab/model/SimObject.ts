@@ -22,27 +22,28 @@ import { Util, Printable } from "../util/Util.js"
 
 2. A SimObject might be used in a Simulation's internal calculations.
 
-A set of SimObjects are stored in a {@link lab/model/SimList.SimList}. The
+A set of SimObjects are stored in a {@link lab/model/SimList.SimList | SimList}. The
 SimObjects represent the current state of the Simulation.
 
-For an {@link lab/model/ODESim.ODESim} the current state is dictated by
-the variables in its {@link lab/model/VarsList.VarsList} and the
+For an {@link lab/model/ODESim.ODESim | ODESim} the current state is dictated by
+the variables in its {@link lab/model/VarsList.VarsList | VarsList} and the
 SimObjects reflect that state in their positions and velocities.
 
 A SimObject can give additional information that is not in the VarsList, such as size,
 shape, and mass of objects. A SimObject can represent forces or anchor objects which
 are not available in the VarsList.
 
-SimObjects are updated to reflect the current state when the
-{@link lab/model/Simulation.Simulation.modifyObjects} method is called.
+SimObjects are updated to reflect the current state when
+{@link lab/model/Simulation.Simulation.modifyObjects | Simulation.modifyObjects}
+is called.
 
-See {@link lab/view/DisplayObject.DisplayObject} for a discussion of how SimObjects are
-made visible to the user.
+See {@link lab/view/DisplayObject.DisplayObject | DisplayObject} for a discussion of
+how SimObjects are made visible to the user.
 
 A SimObject has an *expiration time* so that we can add temporary objects,
 representing things like forces or collision impact, and set the time at which they
 should be removed from the simulation display.  Permanent SimObjects have infinite
-expiration time. See {@link SimObject.getExpireTime}.
+expiration time. See {@link getExpireTime}.
 */
 export interface SimObject extends Printable {
 
@@ -70,7 +71,7 @@ purposes or the localized name for display to user.
 The [language-independent name](../Building.html#languageindependentnames) should be the
 same as the English version but capitalized and with spaces and dashes replaced by
 underscore, see {@link Util.toName},
-{@link SimObject.nameEquals}.
+{@link nameEquals}.
 
 The name should give an idea of the role of the SimObject in the simulation. This
 allows us to to treat an object in a special way depending on its name. For example, we
@@ -82,7 +83,8 @@ SimObject.
 */
 getName(opt_localized?: boolean): string;
 
-/** Whether this implements the {@link lab/model/MassObject.MassObject} interface.
+/** Whether this implements the {@link lab/model/MassObject.MassObject | MassObject}
+interface.
 @return Whether this implements the MassObject interface.
 */
 isMassObject(): boolean;
@@ -111,7 +113,7 @@ setExpireTime(time: number): void;
 /** Returns true if the given SimObject is similar to this SimObject for display
 purposes. SimObjects are similar when they are the same type and nearly the same size
 and location. Mainly used when showing forces - to avoid adding too many objects
-to the display. See {@link lab/model/SimList.SimList.getSimilar}.
+to the display. See {@link lab/model/SimList.SimList.getSimilar | SimList.getSimilar}.
 @param obj the SimObject to compare to
 @param opt_tolerance the amount the object components can differ by
 @return true if this SimObject is similar to `obj` for display purposes

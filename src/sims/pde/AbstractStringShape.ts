@@ -16,7 +16,7 @@ import { StringShape } from './StringShape.js';
 import { Util } from '../../lab/util/Util.js';
 
 /** Defines initial conditions of a string used in the
-{@link sims/pde/StringSim.StringSim} PDE simulation by specifying the initial
+{@link sims/pde/StringSim.StringSim | StringSim} PDE simulation by specifying the initial
 displacement and velocity at each point of the string.
 
 ### How to find the correct velocity for a traveling wave:

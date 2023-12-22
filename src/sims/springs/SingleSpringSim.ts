@@ -96,7 +96,7 @@ Since the damping force is `F = -b v` we have
 dW/dt = -b v^2.
 ```
 
-Note that {@link SingleSpringSim.initWork} method should be called if initial conditions are modified.
+Note that {@link initWork} method should be called if initial conditions are modified.
 
 TO DO: bring back the display of the work from damping in DisplayEnergy, as in Java
 version.

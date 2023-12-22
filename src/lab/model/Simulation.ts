@@ -21,27 +21,26 @@ import { Subject } from '../util/Observe.js'
 To communicate its state to the outside world, a Simulation contains a
 {@link SimList} to which are added {@link SimObject}'s like PointMass, Spring, etc.
 
-An {@link lab/model/AdvanceStrategy.AdvanceStrategy} moves the Simulation forward in
-time, by solving the mathematical model for the next small increment in time. The
-method {@link Simulation.modifyObjects} is called separately to ensure the SimObjects
-match the new Simulation state.
+An {@link lab/model/AdvanceStrategy.AdvanceStrategy | AdvanceStrategy} moves the
+Simulation forward in time, by solving the mathematical model for the next small
+increment in time. The method {@link modifyObjects} is called separately to
+ensure the SimObjects match the new Simulation state.
 
-A Simulation usually keeps track of the current time, see {@link Simulation.getTime}.
+A Simulation usually keeps track of the current time, see {@link getTime}.
 There are no explicit units for the time, so you can regard a time unit as seconds or
 years as desired.
 See [About Units Of Measurement](../Architecture.html#aboutunitsofmeasurement).
 Changing the Simulation time by a large amount can affect synchronization with the
-Clock used to advance the Simulation; see {@link lab/app/SimRunner.SimRunner}
+Clock used to advance the Simulation;
+see {@link lab/app/SimRunner.SimRunner | SimRunner}
 section *How Simulation Advances with Clock*.
 
-A Simulation can store its initial state with {@link Simulation.saveInitialState} and
-return to that initial state with {@link Simulation.reset}. The current time is saved
-with the initial state.
+A Simulation can store its initial state with {@link saveInitialState} and return to
+that initial state with {@link reset}. The current time is saved with the initial state.
 */
 export interface Simulation extends Subject {
 
-/** Returns the list of {@link SimObject}'s that represent this
-Simulation.
+/** Returns the list of {@link SimObject}'s that represent this Simulation.
 @return the list of SimObjects that represent this simulation
 */
 getSimList(): SimList;
@@ -57,14 +56,14 @@ getTime(): number;
 modifyObjects(): void;
 
 /** Sets the Simulation back to its initial conditions, 
-see {@link Simulation.saveInitialState},
-and calls {@link Simulation.modifyObjects}.
+see {@link saveInitialState},
+and calls {@link modifyObjects}.
 Broadcasts event named 'RESET'.
 */
 reset(): void;
 
 /** Saves the current variables and time as the initial state, so that this initial
-state can be restored with {@link Simulation.reset}.
+state can be restored with {@link reset}.
 Broadcasts event named 'INITIAL_STATE_SAVED'.
 */
 saveInitialState(): void;

@@ -47,7 +47,8 @@ given to the setter function to change the target object.
 No Selection State
 --------------------
 A ChoiceControlBase can be in a state of 'no selection', which is indicated by index of
-`–1` in {@link ChoiceControlBase.setChoice} or {@link ChoiceControlBase.getChoice}. In this case, the menu item shown is
+`–1` in {@link setChoice} or {@link getChoice}.
+In this case, the menu item shown is
 blank (no text is shown, just empty space). This happens when the value returned by the
 `getter` function is not among the array of ChoiceControlBase values.
 
@@ -58,7 +59,7 @@ is called as normal.
 Updating The Control
 --------------------
 To keep the control in sync with the target object, call the
-{@link ChoiceControlBase.observe} method whenever a change in the value of the target
+{@link observe} method whenever a change in the value of the target
 object occurs. If the target object is a {@link Subject} then you can
 add this control as an Observer of the Subject.
 
@@ -151,7 +152,7 @@ disconnect(): void {
 };
 
 /** Returns the index of the currently selected choice, or -1 if no item selected. The
-* first item has index zero. See {@link ChoiceControlBase.setChoice}.
+* first item has index zero. See {@link setChoice}.
 * @return the index of the currently selected choice, or -1 if no item selected
 */
 getChoice(): number {
@@ -259,23 +260,21 @@ Util.defineGlobal('lab$controls$ChoiceControlBase', ChoiceControlBase);
 
 // ***************************** ChoiceControl ****************************
 
-/** A pop-up menu which synchronizes its state with the
-{@link Parameter} of a {@link Subject}.
+/** A pop-up menu which synchronizes its state with the {@link Parameter} of a
+{@link Subject}.
 
 When the value of the ChoiceControl is changed, the Parameter's value is changed
 accordingly and therefore the Subject broadcasts the Parameter's value to all its
 Observers.
 
-ChoiceControl extends {@link ChoiceControlBase}, which has
-getter and setter functions that operate on strings. Therefore the getter and setter
-functions used here are {@link Parameter.getAsString} and
-{@link Parameter.setFromString}.
+ChoiceControl extends {@link ChoiceControlBase}, which has getter and setter functions
+that operate on strings. Therefore the getter and setter functions used here are
+{@link Parameter.getAsString} and {@link Parameter.setFromString}.
 
 Choices and Values
 ------------------
 If the choices and values are *not* specified as arguments to the constructor, then the
-choices and values of the Parameter are used, see
-{@link Parameter.getChoices} and
+choices and values of the Parameter are used, see {@link Parameter.getChoices} and
 {@link Parameter.getValues}.
 
 If the choices and values *are* specified as arguments to the constructor, those will
@@ -286,7 +285,7 @@ export class ChoiceControl extends ChoiceControlBase {
   private parameter_: Parameter;
 
 /**
-@param parameter the parameter to modify
+@param parameter the Parameter to modify
 @param opt_label the text label to show besides this choice, or `null` or
     empty string for no label.  If `undefined`, then the Parameter's name is used.
 @param opt_choices an array of localized strings giving the names

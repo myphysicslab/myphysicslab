@@ -164,7 +164,7 @@ getParameter(): null|Parameter {
 };
 
 /** Returns the value of this control (which should match the target value if
-{@link TextControlBase.observe} is being called).
+{@link observe} is being called).
 @return the value of this control
 */
 getValue(): string {

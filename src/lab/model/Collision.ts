@@ -15,13 +15,13 @@
 import { Util } from '../util/Util.js'
 
 /** Represents a collision or contact between objects.
-See {@link lab/model/CollisionSim.CollisionSim}
-and {@link lab/model/CollisionAdvance.CollisionAdvance}.
+See {@link lab/model/CollisionSim.CollisionSim | CollisionSim}
+and {@link lab/model/CollisionAdvance.CollisionAdvance | CollisionAdvance}.
 */
 export interface Collision {
 
 /** Returns true if this represents a bilateral constraint which can both push and
-pull; for example a {@link lab/engine2D/Joint.Joint} between two objects.
+pull; for example a {@link lab/engine2D/Joint.Joint | Joint} between two objects.
 @return true if this is a bilateral constraint
 */
 bilateral(): boolean;
@@ -81,9 +81,9 @@ illegalState(): boolean;
 
 /** Returns true if this represents a collision state, generally when two objects are
 interpenetrating. The collision search mechanism implemented by
-{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance} operates to set the
-simulation at a time very close to but just before any Collision is happening,
-see {@link Collision.getEstimatedTime}.
+{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance | AdvanceStrategy.advance}
+operates to set the simulation at a time very close to but just before any Collision is
+happening, see {@link getEstimatedTime}.
 @return `true` if this represents a collision state
 */
 isColliding(): boolean;
@@ -104,7 +104,7 @@ needsHandling(): boolean;
 /** Mark this Collision as one that *needs handling* because it is has caused the
 collision engine to backup in time in order to resolve this Collision. This is useful
 because after backing up in time, a Collision may no longer report itself as
-{@link Collision.isColliding}.
+{@link isColliding}.
 @param needsHandling true if this Collision needs to be resolved
 */
 setNeedsHandling(needsHandling: boolean): void;
@@ -164,8 +164,8 @@ addImpulses(impulses: number) {
   this.impulses_ += impulses;
 };
 
-/** Adds to number of binary searches completed. A binary search occurs when we don't have
-* an accurate estimate of the time that a collision occurs.
+/** Adds to number of binary searches completed. A binary search occurs when we don't
+* have an accurate estimate of the time that a collision occurs.
 * @param searches additional number of binary searches completed
 */
 addSearches(searches: number) {

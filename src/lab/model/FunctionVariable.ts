@@ -37,7 +37,7 @@ export class FunctionVariable extends ConcreteVariable implements Variable, Para
 /**
 @param varsList the VarsList which contains this Variable
 @param name the name of this Variable; this will be underscorized so the
-    English name can be passed in here. See {@link lab/util/Util.Util.toName}.
+    English name can be passed in here. See {@link Util.toName}.
 @param localName the localized name of this Variable
 @param getter A function with no arguments that returns the value of this Variable
 @param setter An optional function with one argument that sets the value of this

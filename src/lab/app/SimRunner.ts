@@ -24,7 +24,7 @@ import { Timer } from '../util/Timer.js'
 import { Util, ErrorObserver } from '../util/Util.js'
 
 /** Uses an {@link AdvanceStrategy} to advance the
-{@link lab/model/Simulation.Simulation} state; the process is driven by a
+{@link lab/model/Simulation.Simulation | Simulation} state; the process is driven by a
 {@link Timer} and a {@link Clock} to synchronize the
 Simulation with real time; updates the {@link LabCanvas} to show the
 current Simulation state.
@@ -34,7 +34,7 @@ How Simulation Advances with Clock
 SimRunner advances the Simulation state, keeping it in sync with the Clock time, and
 therefore we see the Simulation advancing in real time.  Here are the details:
 
-+ The Timer repeatedly executes the SimRunner's {@link SimRunner.callback}.
++ The Timer repeatedly executes the SimRunner's {@link callback}.
 The callback continues being fired regardless of whether the Clock is paused,
 stepping, or running.
 
@@ -62,11 +62,11 @@ is paused.
 
 + The Timer period (the callback frequency) determines the **frame rate** of the
 simulation display, because a new frame is drawn each time the `callback()`
-callback fires. See {@link SimRunner.setDisplayPeriod}.
+callback fires. See {@link setDisplayPeriod}.
 
 + The Timer period has no effect on how often the Simulation's differential equation is
 calculated; that is determined separately by the **time step** used when calling
-`AdvanceStrategy.advance()`. See {@link SimRunner.setTimeStep}.
+`AdvanceStrategy.advance()`. See {@link setTimeStep}.
 
 Stop Simulation When Window is Not Active
 -----------------------------------------
@@ -78,25 +78,25 @@ user is not viewing the simulation.
 
 There is a "non-stop" Parameter which allows the simulation to run even when the window
 is not active. This is useful if you want to view two simulations running in separate
-browser windows. See {@link SimRunner.setNonStop}.
+browser windows. See {@link setNonStop}.
 
 Parameters Created
 ------------------
-+ ParameterNumber named `TIME_STEP`, see {@link SimRunner.setTimeStep}
++ ParameterNumber named `TIME_STEP`, see {@link setTimeStep}
 
-+ ParameterNumber named `DISPLAY_PERIOD`, see {@link SimRunner.setDisplayPeriod}
++ ParameterNumber named `DISPLAY_PERIOD`, see {@link setDisplayPeriod}
 
-+ ParameterBoolean named `RUNNING`, see {@link SimRunner.setRunning}
++ ParameterBoolean named `RUNNING`, see {@link setRunning}
 
-+ ParameterBoolean named `FIRING`, see {@link SimRunner.setFiring}
++ ParameterBoolean named `FIRING`, see {@link setFiring}
 
-+ ParameterBoolean named `NON_STOP`, see {@link SimRunner.setNonStop}
++ ParameterBoolean named `NON_STOP`, see {@link setNonStop}
 
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
 
-+ GenericEvent named `RESET`, see {@link SimRunner.reset}.
++ GenericEvent named `RESET`, see {@link reset}.
 
 */
 export class SimRunner extends AbstractSubject implements Subject, Memorizable, MemoList, Observer {
@@ -314,7 +314,7 @@ getDisplayPeriod(): number {
   return this.displayPeriod_;
 };
 
-/** Whether the Timer is executing {@link SimRunner.callback}.
+/** Whether the Timer is executing {@link callback}.
 */
 getFiring(): boolean {
   return this.timer_.isFiring();
@@ -359,7 +359,7 @@ getTimeStep(): number {
 };
 
 /** Presents an alert to the user about the exception with instructions about how to
-* get the Simulation running again; calls {@link SimRunner.pause} to stop the
+* get the Simulation running again; calls {@link pause} to stop the
 * Simulation.
 * @param error the error that caused the exception
 */
@@ -447,7 +447,7 @@ removeMemo(memorizable: Memorizable): void {
 /** Sets the Simulation to its initial conditions by calling
 {@link AdvanceStrategy.reset}, sets the Clock to match the
 simulation time (usually zero), and pauses the Clock.
-Broadcasts a {@link SimRunner.RESET} event.
+Broadcasts a {@link RESET} event.
 @return the current time on the Clock after resetting
 */
 reset(): number {
@@ -473,7 +473,7 @@ resume(): number {
   return this.clock_.getTime();
 };
 
-/** Save the initial conditions, which can be returned to with {@link SimRunner.reset}.
+/** Save the initial conditions, which can be returned to with {@link reset}.
 @return the current time on the Clock
 */
 save(): number {
@@ -501,9 +501,9 @@ setDisplayPeriod(displayPeriod: number): void {
   this.broadcastParameter(SimRunner.en.DISPLAY_PERIOD);
 };
 
-/** Sets whether the Timer is executing {@link SimRunner.callback}. However, if
+/** Sets whether the Timer is executing {@link callback}. However, if
 non-stop mode is on, then this will not stop the Timer, see
-{@link SimRunner.setNonStop}.
+{@link setNonStop}.
 @param value `true` causes the Timer to start firing
 */
 setFiring(value: boolean): void {
@@ -568,7 +568,7 @@ step(): number {
 };
 
 /** Stops the Timer from executing `callback()`, but only if the non-stop flag is
-* `false`, see {@link SimRunner.setNonStop}.
+* `false`, see {@link setNonStop}.
 */
 stopFiring(): void {
   if (!this.nonStop_) {
@@ -576,7 +576,7 @@ stopFiring(): void {
   }
 };
 
-/** Name of GenericEvent that is broadcast when {@link SimRunner.reset} method occurs.
+/** Name of GenericEvent that is broadcast when {@link reset} method occurs.
 */
 static readonly RESET = 'RESET';
 

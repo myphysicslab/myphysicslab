@@ -23,7 +23,7 @@ import { MemoList } from '../util/Memo.js';
 /** Handles collisions by backing up in time with binary search algorithm. For better
 performance uses collision time estimates and handles imminent collisions.
 
-When a collision is encountered, {@link CollisionAdvance.advance} backs up to just
+When a collision is encountered, {@link advance} backs up to just
 before the time of collision, handles the collision, then continues to advance to the
 end of the time step. (This process can happen many times during a single call to
 `advance`). Uses a binary search algorithm to get to the time just before the
@@ -38,9 +38,9 @@ WayPoints lets you focus on only the relevant aspects of the process, greatly re
 the volume of debug messages to sort thru.
 
 A {@link WayPoint} is a step of the AdvanceStrategy process
-where debug info can be printed. See the methods {@link CollisionAdvance.addWayPoints},
-{@link CollisionAdvance.setWayPoints}.
-The method {@link CollisionAdvance.setDebugLevel} selects a pre-defined group of
+where debug info can be printed. See the methods {@link addWayPoints},
+{@link setWayPoints}.
+The method {@link setDebugLevel} selects a pre-defined group of
 WayPoints.
 
 Here is an example of how to turn on debugging.
@@ -1092,11 +1092,13 @@ calculated by a {@link DiffEqSolver}. Normally you only see the
 result after the next state is calculated, because the frame is painted after the
 simulation has advanced by a certain time step. By setting the `paintAll` function and
 setting a debugger break point you will be able to see the situation whenever
-`moveObjects()` is called.  See {@link lab/engine2D/RigidBodySim.RigidBodySim} for
+`moveObjects()` is called.
+See {@link lab/engine2D/RigidBodySim.RigidBodySim | RigidBodySim} for
 an example and more information.
 
-Here is example code where `simRun.paintAll` is the SimRunner method
-{@link lab/app/SimRunner.SimRunner.paintAll} which paints all the LabCanvas's.
+Here is example code where `simRun.paintAll` is the method
+{@link lab/app/SimRunner.SimRunner.paintAll | SimRunner.paintAll}
+which paints all the LabCanvas's.
 ```js
 advance.setDebugPaint( () => simRun.paintAll() );
 ```

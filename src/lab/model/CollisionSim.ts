@@ -40,8 +40,8 @@ The simulation state is contained in the `vars` array of state variables from
 {@link ODESim.getVarsList}.
 
 Note that these Collisions will typically be from the very near future;
-{@link lab/model/CollisionAdvance.CollisionAdvance} backs up to just before the moment of
-collision before handling Collisions.
+{@link lab/model/CollisionAdvance.CollisionAdvance | CollisionAdvance}
+backs up to just before the moment of collision before handling Collisions.
 
 @param collisions the list of current collisions
 @param opt_totals CollisionTotals object to update with number of collisions handled

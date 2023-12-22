@@ -26,7 +26,7 @@ import { VarsList } from '../model/VarsList.js';
 {@link GraphLine} to calculate the range rectangle that encloses
 the points on the graphs, and sets accordingly the `simRect` of a
 {@link SimView}. The range rectangle is the smallest rectangle that
-contains all the points, but possibly expanded by the {@link AutoScale.extraMargin}
+contains all the points, but possibly expanded by the {@link extraMargin}
 factor.
 
 Temporarily Deactivate
@@ -45,26 +45,26 @@ other than this AutoScale. This happens when AutoScale observes a SimView event 
 + AutoScale becomes **active** when one of its GraphLines broadcasts a `RESET` event.
 This happens when a graph is cleared, or when the X or Y variable is changed.
 
-You can also directly call {@link AutoScale.setActive} to make the AutoScale active or inactive
+You can also directly call {@link setActive} to make the AutoScale active or inactive
 (but it must also be enabled to actually do anything).
 
-To entirely disable an AutoScale, use {@link AutoScale.setEnabled}.
+To entirely disable an AutoScale, use {@link setEnabled}.
 
 Time Graph
 ----------
 For a *time graph* where one variable is time, the range rectangle in the time dimension
-has a fixed size specified by {@link AutoScale.setTimeWindow}. The default time window is 10
+has a fixed size specified by {@link setTimeWindow}. The default time window is 10
 seconds.
 
 Parameters Created
 ------------------
-+ ParameterBoolean named `ACTIVE`, see {@link AutoScale.setActive}
++ ParameterBoolean named `ACTIVE`, see {@link setActive}
 
-+ ParameterString named `AXIS`, see {@link AutoScale.setAxis}.
++ ParameterString named `AXIS`, see {@link setAxis}.
 
-+ ParameterBoolean named `ENABLED`, see {@link AutoScale.setEnabled}
++ ParameterBoolean named `ENABLED`, see {@link setEnabled}
 
-+ ParameterNumber named `TIME_WINDOW`, see {@link AutoScale.setTimeWindow}.
++ ParameterNumber named `TIME_WINDOW`, see {@link setTimeWindow}.
 
 Events Broadcast
 ----------------
@@ -195,7 +195,7 @@ clearRange(): void {
   this.rangeSetY_ = false;
 };
 
-/** Returns whether is AutoScale is active.  See {@link AutoScale.setActive}.
+/** Returns whether is AutoScale is active.  See {@link setActive}.
 * @return whether is AutoScale is active
 */
 getActive(): boolean {
@@ -210,7 +210,7 @@ getAxis(): string {
   return this.axis_;
 };
 
-/** Returns whether is AutoScale is enabled.  See {@link AutoScale.setEnabled}.
+/** Returns whether is AutoScale is enabled.  See {@link setEnabled}.
 * @return whether is AutoScale is enabled
 */
 getEnabled(): boolean {
@@ -219,7 +219,7 @@ getEnabled(): boolean {
 
 /** Returns the range rectangle that encloses points on the GraphLines, including any
 * extra margin. Note that this rectangle might not correspond to the SimView's
-* simulation rectangle, see {@link AutoScale.setAxis}.
+* simulation rectangle, see {@link setAxis}.
 * @return the range rectangle that encloses points on the GraphLines
 */
 getRangeRect(): DoubleRect {
@@ -336,7 +336,7 @@ removeGraphLine(graphLine: GraphLine): void {
 };
 
 /** Clears the range rectangle, and starts calculating from first entry in HistoryList.
-* Note that you will need to call {@link AutoScale.memorize} to have the range
+* Note that you will need to call {@link memorize} to have the range
 * recalculated.
 */
 reset(): void {
@@ -348,10 +348,9 @@ reset(): void {
 
 /** Sets whether this AutoScale is active.  When not active, the range rectangle
 is not updated and the SimView's simulation rectangle is not modified. When changed
-to be active, this will also call {@link AutoScale.reset}.
+to be active, this will also call {@link reset}.
 
-The AutoScale must be enabled in order to become active, see
-{@link AutoScale.setEnabled}.
+The AutoScale must be enabled in order to become active, see {@link setEnabled}.
 If not enabled, then this method can only make the AutoScale inactive.
 @param value whether this AutoScale should be active
 */
@@ -399,7 +398,7 @@ private setComputed(value: boolean): void {
 };
 
 /** Sets whether this AutoScale is enabled. The AutoScale must be enabled in order
-* to be active.  See {@link AutoScale.setActive}.
+* to be active.  See {@link setActive}.
 * @param value whether this AutoScale should be enabled
 */
 setEnabled(value: boolean): void {
@@ -412,7 +411,7 @@ setEnabled(value: boolean): void {
 };
 
 /** Sets length of time to include in the range rectangle for a *time graph*,
-* and sets the AutoScale to be active. See {@link AutoScale.setActive}.
+* and sets the AutoScale to be active. See {@link setActive}.
 * @param value length of time to include in the range rectangle
 */
 setTimeWindow(value: number): void {
@@ -514,13 +513,13 @@ private updateRange_(line: GraphLine, nowX: number, nowY: number): void {
 */
 static readonly AUTO_SCALE = 'AUTO_SCALE';
 
-/** Specifies both axes option for {@link AutoScale.setAxis}. */
+/** Specifies both axes option for {@link setAxis}. */
 static readonly BOTH_AXES = 'BOTH_AXES';
 
-/** Specifies horizontal axis option for {@link AutoScale.setAxis}. */
+/** Specifies horizontal axis option for {@link setAxis}. */
 static readonly HORIZONTAL = 'HORIZONTAL';
 
-/** Specifies vertical axis option for {@link AutoScale.setAxis}. */
+/** Specifies vertical axis option for {@link setAxis}. */
 static readonly VERTICAL = 'VERTICAL';
 
 static readonly en: i18n_strings = {

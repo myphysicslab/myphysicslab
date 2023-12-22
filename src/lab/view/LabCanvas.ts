@@ -33,8 +33,8 @@ the *screen rectangle* of the canvas. The canvas screen rectangle has `(0, 0)` f
 the top-left corner and `(width, height)` for the bottom-right corner. The vertical
 coordinates increase downwards.
 
-The size can be changed via {@link LabCanvas.setWidth}, {@link LabCanvas.setHeight},
-{@link LabCanvas.setSize} or {@link LabCanvas.setScreenRect}. When the size of the HTML canvas changes,
+The size can be changed via {@link setWidth}, {@link setHeight},
+{@link setSize} or {@link setScreenRect}. When the size of the HTML canvas changes,
 the SimViews are set to have the same screen rectangle as the canvas.
 
 Each SimView has a simulation rectangle and a screen rectangle, and these are aligned
@@ -46,16 +46,17 @@ its CoordMap accordingly).
 <a id="focusview"></a>
 ### Focus View
 
-The {@link LabCanvas#getFocusView focus view} is the SimView that the user expects to modify by
-his/her actions. For example, {@link lab/app/SimController.SimController} will pan the
-focus SimView when a particular set of modifier keys are pressed during a mouse drag.
+The {@link LabCanvas#getFocusView focus view} is the SimView that the user expects to
+modify by his/her actions. For example,
+{@link lab/app/SimController.SimController | SimController} will pan the focus SimView
+when a particular set of modifier keys are pressed during a mouse drag.
 
 The first SimView that is added becomes the initial focus view, but the focus view can
-be changed via {@link LabCanvas.setFocusView}.
+be changed via {@link setFocusView}.
 
 ### Background Color
 
-Whenever {@link LabCanvas.paint} is called to draw a new frame, the first step is to clear the
+Whenever {@link paint} is called to draw a new frame, the first step is to clear the
 old frame from the HTML canvas. What happens depends on the
 {@link LabCanvas#getBackground background color}.
 
@@ -65,14 +66,14 @@ old frame from the HTML canvas. What happens depends on the
 + If a background color is specified, then we use JavaScript `canvas.fillRect()`
     which fills the HTML canvas with that color.
 
-The background color can be set with {@link LabCanvas.setBackground}.
+The background color can be set with {@link setBackground}.
 
 ### Trails Effect
 
 A visual effect where moving objects leave behind a smeared out trail can be done by
-setting the background color and the *alpha transparency*, see {@link LabCanvas.setAlpha}.
+setting the background color and the *alpha transparency*, see {@link setAlpha}.
 Here are example settings, which can be done in a
-{@link lab/util/Terminal.Terminal} session:
+{@link lab/util/Terminal.Terminal | Terminal} session:
 ```
 simCanvas.setBackground('black');
 simCanvas.setAlpha(0.05);
@@ -103,13 +104,13 @@ called on all objects in the display hierarchy, otherwise there may be a leftove
 Parameters Created
 ------------------
 
-+ ParameterNumber named `WIDTH`, see {@link LabCanvas.setWidth}
++ ParameterNumber named `WIDTH`, see {@link setWidth}
 
-+ ParameterNumber named `HEIGHT`, see {@link LabCanvas.setHeight}
++ ParameterNumber named `HEIGHT`, see {@link setHeight}
 
-+ ParameterNumber named `ALPHA`, see {@link LabCanvas.setAlpha}
++ ParameterNumber named `ALPHA`, see {@link setAlpha}
 
-+ ParameterString named `BACKGROUND`, see {@link LabCanvas.setBackground}
++ ParameterString named `BACKGROUND`, see {@link setBackground}
 
 Events Broadcast
 ----------------
@@ -234,9 +235,9 @@ addMemo(memorizable: Memorizable): void {
 /** Adds the SimView to the end of the list of SimViews displayed and memorized by this
 LabCanvas. Makes the SimView the focus view if there isn't currently a focus view.
 Notifies any Observers by broadcasting GenericEvents named
-{@link LabCanvas.VIEW_ADDED} and
-{@link LabCanvas.VIEW_LIST_MODIFIED} and possibly also
-{@link LabCanvas.FOCUS_VIEW_CHANGED}.
+{@link VIEW_ADDED} and
+{@link VIEW_LIST_MODIFIED} and possibly also
+{@link FOCUS_VIEW_CHANGED}.
 @param view the SimView to add
 */
 addView(view: SimView): void {
@@ -374,7 +375,7 @@ private notifySizeChanged(): void {
 };
 
 /** Clears the canvas to the background color; then paints each SimView.
-* See {@link LabCanvas.setBackground} and {@link LabCanvas.setAlpha}.
+* See {@link setBackground} and {@link setAlpha}.
 */
 paint(): void {
   // Avoid painting when the canvas is hidden.
@@ -441,9 +442,9 @@ removeMemo(memorizable: Memorizable): void {
 /** Removes the SimView from the list of SimViews displayed and memorized by this
 LabCanvas. Sets the focus view to be the first view in remaining list of SimViews.
 Notifies any Observers by broadcasting GenericEvents named
-{@link LabCanvas.VIEW_LIST_MODIFIED}
-and {@link LabCanvas.VIEW_REMOVED} and possibly also
-{@link LabCanvas.FOCUS_VIEW_CHANGED}.
+{@link VIEW_LIST_MODIFIED}
+and {@link VIEW_REMOVED} and possibly also
+{@link FOCUS_VIEW_CHANGED}.
 @param view the SimView to remove
 */
 removeView(view: SimView): void {
@@ -500,7 +501,7 @@ setBackground(value: string): void {
 
 /** Sets the focus SimView which is the main focus of the LabCanvas. Notifies any
 observers that the focus has changed by broadcasting the GenericEvent named
-{@link LabCanvas.FOCUS_VIEW_CHANGED}.
+{@link FOCUS_VIEW_CHANGED}.
 @param view the view that should be the focus; can be
     `null` when no SimView has the focus.
 @throws if `view` is not contained by this LabCanvas
@@ -523,7 +524,7 @@ setFocusView(view: null|SimView): void {
 
 /** Sets the height of the HTML canvas, and sets the screen rectangle of all the
 SimViews. Notifies any Observers by broadcasting a GenericEvent named
-{@link LabCanvas.SIZE_CHANGED}.
+{@link SIZE_CHANGED}.
 @param value  the height of the canvas, in screen coords (pixels),
 */
 setHeight(value: number): void {
@@ -534,7 +535,7 @@ setHeight(value: number): void {
   this.broadcastParameter(LabCanvas.en.HEIGHT);
 };
 
-/** Sets the size of this LabCanvas to the given ScreenRect by calling {@link LabCanvas.setSize}.
+/** Sets the size of this LabCanvas to the given ScreenRect by calling {@link setSize}.
 @param sr  specifies the width and height; the top-left must be (0,0).
 @throws if the top-left of the given ScreenRect is not (0,0).
 */
@@ -550,10 +551,9 @@ setScreenRect(sr: ScreenRect): void {
 };
 
 /** Sets the size of the HTML canvas. All SimViews are set to have the
-same screen rectangle as this LabCanvas by calling
-{@link SimView.setScreenRect}.
+same screen rectangle as this LabCanvas by calling {@link SimView.setScreenRect}.
 Notifies any Observers by broadcasting a GenericEvent named
-{@link LabCanvas.SIZE_CHANGED}.
+{@link SIZE_CHANGED}.
 @param width  the width of the canvas, in screen coords (pixels)
 @param height  the height of the canvas, in screen coords (pixels)
 */
@@ -570,7 +570,7 @@ setSize(width: number, height: number): void {
 
 /** Sets the width of the HTML canvas, and sets the screen rectangle of all the
 SimViews. Notifies any Observers by broadcasting a GenericEvent named
-{@link LabCanvas.SIZE_CHANGED}.
+{@link SIZE_CHANGED}.
 @param value  the width of the canvas, in screen coords (pixels),
 */
 setWidth(value: number): void {

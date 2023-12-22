@@ -34,17 +34,18 @@ import { Vector } from '../../lab/util/Vector.js';
 import { Walls } from '../../lab/engine2D/Walls.js';
 
 /** Simulation of a cart moving on a horizontal track with a pendulum suspended from the
-cart.  Intended to be similar to {@link sims/pendulum/CartPendulumSim.CartPendulumSim}.
+cart.  Intended to be similar to
+{@link sims/pendulum/CartPendulumSim.CartPendulumSim | CartPendulumSim}.
 
-This app has a {@link CartPendulum2App.configure} function which looks at a set of options
+This app has a {@link configure} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
 
-+ ParameterNumber named `SPRING_DAMPING`, see {@link CartPendulum2App.setSpringDamping}
++ ParameterNumber named `SPRING_DAMPING`, see {@link setSpringDamping}
 
-+ ParameterNumber named `STIFFNESS`, see {@link CartPendulum2App.setStiffness}
++ ParameterNumber named `STIFFNESS`, see {@link setStiffness}
 
 */
 export class CartPendulum2App extends Engine2DApp<ContactSim> implements Subject, SubjectList {

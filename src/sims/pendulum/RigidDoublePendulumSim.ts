@@ -46,8 +46,9 @@ const TIME = 7;
 
 /** Simulation of a double pendulum as two rigid bodies. This uses {@link RigidBody}'s
 and {@link Joint}'s, but only for geometry and display. This does *not* use the general
-physics engine {@link lab/engine2D/ContactSim.ContactSim}, instead this is a
-specialized simulation like {@link sims/pendulum/DoublePendulumSim.DoublePendulumSim}.
+physics engine {@link lab/engine2D/ContactSim.ContactSim | ContactSim},
+instead this is a specialized simulation like
+{@link sims/pendulum/DoublePendulumSim.DoublePendulumSim | DoublePendulumSim}.
 
 For derivation of equations of motion, see the paper
 [Double Pendulum as Rigid Bodies](../Rigid_Double_Pendulum.pdf)

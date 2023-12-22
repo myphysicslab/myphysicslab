@@ -24,7 +24,7 @@ import { Vector, GenericVector } from '../util/Vector.js'
 
 /** Displays a bar graph of the various forms of energy (potential, kinetic, etc.) in an
 {@link EnergySystem}. The visible area must be set via
-{@link EnergyBarGraph.setVisibleArea} in order for EnergyBarGraph to draw.
+{@link setVisibleArea} in order for EnergyBarGraph to draw.
 
 ### Display Formats
 
@@ -69,14 +69,14 @@ against a black background.
 ### Color and Font
 
 Public properties can be set for changing the color of the bars and the font used.
-See {@link EnergyBarGraph.graphFont}, {@link EnergyBarGraph.potentialColor},
-{@link EnergyBarGraph.translationColor}, and {@link EnergyBarGraph.rotationColor}.
+See {@link graphFont}, {@link potentialColor},
+{@link translationColor}, and {@link rotationColor}.
 
 ### Position and Size
 
 The EnergyBarGraph will only draw after the visible area has been set via
-{@link EnergyBarGraph.setVisibleArea}. Usually this is set to be the entire visible
-area of the {@link lab/view/SimView.SimView} containing the EnergyBarGraph.
+{@link setVisibleArea}. Usually this is set to be the entire visible
+area of the {@link lab/view/SimView.SimView | SimView} containing the EnergyBarGraph.
 Here is an example script to do that:
 
 ```js
@@ -90,7 +90,7 @@ The vertical position of the EnergyBarGraph is initially at the top of the visib
 If the EnergyBarGraph is not moved, then whenever the visible area is changed we
 continue to align the EnergyBarGraph at the top of the visible area.
 
-Once the EnergyBarGraph is moved via {@link EnergyBarGraph.setPosition}, we retain that
+Once the EnergyBarGraph is moved via {@link setPosition}, we retain that
 vertical position when the visible area changes, except that we ensure the
 EnergyBarGraph is entirely within the visible area.
 

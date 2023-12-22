@@ -22,14 +22,14 @@ import { CoordMap } from "./CoordMap.js"
 import { MassObject } from "../model/MassObject.js"
 
 /** Displays a {@link Spring}. Can show either a jagged or straight line,
-see {@link DisplaySpring.setDrawMode}. Can have a different color when compressed or
-expanded, see {@link DisplaySpring.setColorCompressed} and
-{@link DisplaySpring.setColorExpanded}. The width determines how wide back-and-forth the
-jagged lines go, see {@link DisplaySpring.setWidth}.
+see {@link setDrawMode}. Can have a different color when compressed or
+expanded, see {@link setColorCompressed} and
+{@link setColorExpanded}. The width determines how wide back-and-forth the
+jagged lines go, see {@link setWidth}.
 
 The position is reported as the midpoint of the Spring by
-{@link DisplaySpring.getPosition}. The position is determined by the position of the
-Spring, so {@link DisplaySpring.setPosition} has no effect, and the DisplaySpring is
+{@link getPosition}. The position is determined by the position of the
+Spring, so {@link setPosition} has no effect, and the DisplaySpring is
 never dragable.
 */
 export class DisplaySpring implements DisplayObject {
@@ -50,8 +50,8 @@ export class DisplaySpring implements DisplayObject {
   * value of 1 means a 1 pixel thick line.
   */
   private thickness_?: number;
-  /** Whether the Spring is drawn {@link DisplaySpring.JAGGED}
-  * or {@link DisplaySpring.STRAIGHT}.
+  /** Whether the Spring is drawn {@link JAGGED}
+  * or {@link STRAIGHT}.
   */
   private drawMode_?: number;
   private zIndex_?: number;
@@ -193,8 +193,8 @@ getColorExpanded(): string {
   }
 };
 
-/** Whether the Spring is drawn {@link DisplaySpring.JAGGED}
-* or {@link DisplaySpring.STRAIGHT}.
+/** Whether the Spring is drawn {@link JAGGED}
+* or {@link STRAIGHT}.
 */
 getDrawMode(): number {
   if (this.drawMode_ !== undefined) {
@@ -299,8 +299,8 @@ setDragable(_dragable: boolean): void {
   // does nothing
 };
 
-/** Whether the Spring is drawn {@link DisplaySpring.JAGGED}
-* or {@link DisplaySpring.STRAIGHT}.
+/** Whether the Spring is drawn {@link JAGGED}
+* or {@link STRAIGHT}.
 * @param drawMode
 * @return this object for chaining setters
 */

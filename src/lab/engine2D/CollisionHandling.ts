@@ -13,13 +13,13 @@
 // limitations under the License.
 
 /** Enum that specifies which collision handling algorithm to use during
-{@link lab/engine2D/ImpulseSim.ImpulseSim.handleCollisions}.
+{@link lab/engine2D/ImpulseSim.ImpulseSim.handleCollisions | ImpulseSim.handleCollisions}.
 
 More information:
 
-+ {@link lab/engine2D/ImpulseSim.ImpulseSim}
++ {@link lab/engine2D/ImpulseSim.ImpulseSim | ImpulseSim}
 
-+ {@link lab/engine2D/ImpulseSim.ImpulseSim.setCollisionHandling}
++ {@link lab/engine2D/ImpulseSim.ImpulseSim.setCollisionHandling | ImpulseSim.setCollisionHandling}
 
 + [Multiple Simultaneous Collisions](../Engine2D.html#multiplesimultaneouscollisions)
 

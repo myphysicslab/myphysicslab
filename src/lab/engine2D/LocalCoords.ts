@@ -16,7 +16,8 @@ import { Util } from '../util/Util.js';
 import { Vector, GenericVector } from '../util/Vector.js';
 
 /** Remembers the local coordinate system of a
-* {@link lab/model/MassObject.MassObject}. Used during collision checking to
+* {@link lab/model/MassObject.MassObject | MassObject}.
+* Used during collision checking to
 * compare previous and current locations of objects.
 */
 export class LocalCoords {

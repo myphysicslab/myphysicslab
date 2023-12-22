@@ -97,7 +97,7 @@ nameEquals(name: string): boolean {
 };
 
 /** Returns whether to use second order differences for deciding when to reduce the step
-size. See {@link AdaptiveStepSolver.setSecondDiff}.
+size. See {@link setSecondDiff}.
 @return whether to use change in change in energy as the criteria for accuracy
 */
 getSecondDiff(): boolean {

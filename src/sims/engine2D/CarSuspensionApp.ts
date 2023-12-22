@@ -43,17 +43,17 @@ export const enum Formation {
 /** Simulation of a car suspension modelled in two different ways: each wheel has either
 two springs, or a rigid rod and a spring.
 
-This app has a {@link CarSuspensionApp.configure} function which looks at a set of options
+This app has a {@link configure} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
 
-+ ParameterNumber named `FORMATION`, see {@link CarSuspensionApp.setFormation}.
++ ParameterNumber named `FORMATION`, see {@link setFormation}.
 
-+ ParameterNumber named `SPRING_DAMPING`, see {@link CarSuspensionApp.setSpringDamping}
++ ParameterNumber named `SPRING_DAMPING`, see {@link setSpringDamping}
 
-+ ParameterNumber named `STIFFNESS`, see {@link CarSuspensionApp.setStiffness}
++ ParameterNumber named `STIFFNESS`, see {@link setStiffness}
 
 */
 export class CarSuspensionApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

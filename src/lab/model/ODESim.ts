@@ -21,10 +21,10 @@ import { Util } from '../util/Util.js';
 import { VarsList } from './VarsList.js';
 
 /** A Simulation based on ordinary differential equations. Contains an array of
-variables given by {@link ODESim.getVarsList} which holds the simulation state and an
-{@link ODESim.evaluate} method that defines the differential equation. A
-{@link lab/model/DiffEqSolver.DiffEqSolver} can act on the ODESim to advance the
-variables over time.
+variables given by {@link getVarsList} which holds the simulation state and an
+{@link evaluate} method that defines the differential equation. A
+{@link lab/model/DiffEqSolver.DiffEqSolver | DiffEqSolver} can act on the ODESim to
+advance the variables over time.
 
 Note that the {@link VarsList} returned by `getVarsList`
 method is implicitly a significant part of the API of ODESim. For example: initial
@@ -45,9 +45,9 @@ The `timeStep` is the time since the state variables were last fully calculated,
 can be and often is zero. The current time can be regarded as `getTime() + timeStep`.
 The input variables correspond to the Simulation state at that time. Note that
 `timeStep` is different from the time step used to advance the Simulation (as in
-{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance}). The `timeStep` is typically
-used when finding collisions, see for example
-{@link lab/model/CollisionSim.CollisionSim.findCollisions}.
+{@link lab/model/AdvanceStrategy.AdvanceStrategy.advance | AdvanceStrategy.advance}).
+The `timeStep` is typically used when finding collisions, see for example
+{@link lab/model/CollisionSim.CollisionSim.findCollisions | CollisionSim.findCollisions}.
 
 @param vars the current array of state variables (input),
     corresponding to the state at `getTime() + timeStep`
@@ -65,15 +65,15 @@ evaluate(vars: number[], change: number[], timeStep: number): null|object;
 getVarsList(): VarsList;
 
 /** Restores the Simulation state that was saved with
-{@link ODESim.saveState}.
+{@link saveState}.
 */
 restoreState(): void;
 
 /** Saves the current state of the Simulation, so that we can back up to this state
 later on. The state is defined mainly by the set of Simulation variables, see
-{@link ODESim.getVarsList}, but can include other data. This state is
+{@link getVarsList}, but can include other data. This state is
 typically used for collision detection as the *before collision* state, see
-{@link lab/model/CollisionSim.CollisionSim.findCollisions}.
+{@link lab/model/CollisionSim.CollisionSim.findCollisions | CollisionSim.findCollisions}.
 */
 saveState(): void;
 

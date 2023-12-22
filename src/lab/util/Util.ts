@@ -20,8 +20,8 @@
 
 When writing a `toString` method, use `toStringShort` on objects that are Printable.
 This is mainly needed to avoid infinite loops, such as when an object prints a
-{@link lab/util/Observe.Subject} or
-{@link lab/util/Observe.Observer}.
+{@link lab/util/Observe.Subject | Subject} or
+{@link lab/util/Observe.Observer | Observer}.
 
 This can also make printing an *array of Printable objects* more practical because we
 only print minimal identity information, rather than the full `toString` representation
@@ -44,7 +44,7 @@ toStringShort(): string;
 };
 
 /** An object that is notified when an error occurs.
-See {@link lab/app/SimRunner.SimRunner.addErrorObserver}.
+See {@link lab/app/SimRunner.SimRunner.addErrorObserver | SimRunner.addErrorObserver}.
 */
 export interface ErrorObserver extends Printable {
   /** This method is called when an error occurs.
@@ -93,7 +93,7 @@ This value is set during the `esbuild` bundling phase with a `--define` option.
 // @ts-ignore
 static LOCALE: string = MPL_LOCALE;
 
-/** Maximum number of errors to report by {@link Util.setErrorHandler}.
+/** Maximum number of errors to report by {@link setErrorHandler}.
 */
 private static readonly maxErrors = 3;
 
@@ -116,7 +116,7 @@ static readonly MODERN_CLOCK = Util.isObject(performance) &&
 */
 static readonly NOT_IMPLEMENTED = 'not implemented';
 
-/** Number of errors reported by {@link Util.setErrorHandler}.
+/** Number of errors reported by {@link setErrorHandler}.
 */
 private static numErrors = 0;
 
@@ -1003,7 +1003,7 @@ static setErrorHandler(): void {
 };
 
 /** Specifies the relative URL of the directory containing images related to the user
-* interface.  The value is accessible via {@link Util.IMAGES_DIR}.
+* interface.  The value is accessible via {@link IMAGES_DIR}.
 * @param images_dir the relative URL of the images directory;
 *     if undefined `IMAGES_DIR` is not changed.
 */

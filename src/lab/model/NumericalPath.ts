@@ -57,8 +57,8 @@ parametric *t-value* given by
 path distance is zero.
 
 Path distance is abbreviated here as `p`, so you see methods named like
-{@link NumericalPath.map_p_to_slope} which finds the slope at a point specified by the `p` value of the
-point.
+{@link map_p_to_slope} which finds the slope at a point specified by the `p` value of
+the point.
 
 ## Table of Numerical Values
 
@@ -84,7 +84,7 @@ the other values are interpolated accordingly.
 
 Some functions *result in finding* a `p` value from a location in space. For example,
 when the user clicks the mouse somewhere we need to find the nearest point on the path.
-See {@link NumericalPath.findNearestLocal} and {@link NumericalPath.findNearestGlobal}.
+See {@link findNearestLocal} and {@link findNearestGlobal}.
 
 ## Slope of Path
 
@@ -93,7 +93,7 @@ store these derivatives of `x` and `y` with respect to `p` in the
 table, we can interpolate those at a given point and divide them to get the slope
 there.
 
-The method {@link NumericalPath.map_p_to_slope} figures out the slope in this way, and stores it
+The method {@link map_p_to_slope} figures out the slope in this way, and stores it
 in the `slope` property of the PathPoint.
 
 ## Direction of Path
@@ -103,7 +103,7 @@ Sometimes it is important to know the direction of the path: i.e. as
 from the table data as needed. For vertical sections, the question becomes whether as
 `p` increases, does `y` increase or decrease.
 
-The method {@link NumericalPath.map_p_to_slope} figures out the direction in this way, and stores it
+The method {@link map_p_to_slope} figures out the direction in this way, and stores it
 in the `direction` property of the PathPoint.
 
 ## Design Note: How _Not_ To Calculate Slope
@@ -130,10 +130,11 @@ compatible with polynomial interpolation.
 
 **TO DO**  Use a curve to estimate the path distance when making the table.
 
-**TO DO**  PointsIterator should be able to iterate over entire table. That is, parameterize
-it so that you can say how many sample points you want (less for drawing).
+**TO DO** PointsIterator should be able to iterate over entire table. That is,
+parameterize it so that you can say how many sample points you want (less for drawing).
 
-**TO DO**  Provide methods to return copy of the entire table as an array (or the columns).
+**TO DO** Provide methods to return copy of the entire table as an array (or the
+columns).
 
 **TO DO**  ??? Should we always have p increase in the pvals array?  This would
 make the code simpler.  And I can't think of any reason to allow pvals to decrease.
@@ -366,7 +367,7 @@ private distanceSquared2(point: GenericVector, p: number, k: number): number {
 
 /** Finds the closest point in the path table to the given `x,y` position in `point`.
 This is a *global* search for the closest point over the entire path. This **does not
-interpolate between table entries**, see {@link NumericalPath.findNearestLocal} for a
+interpolate between table entries**, see {@link findNearestLocal} for a
 more accurate mapping using interpolation.
 
 @param point  the `x,y` position to search for
@@ -398,7 +399,7 @@ findNearestGlobal(point: GenericVector): PathPoint {
 /** Finds the closest point on the interpolated path to the `target` position, starting
 from a given index into the table. This is a *local* search around the current position
 in the path, NOT a *global* search over the entire path for the very closest point. See
-{@link NumericalPath.findNearestGlobal}. The algorithm used here moves from the starting point in the
+{@link findNearestGlobal}. The algorithm used here moves from the starting point in the
 direction that reduces the distance between `target` and the path, until the distance is
 at a minimum. This behavior is useful so that the current path point does not “hop”
 across to other parts of the path when a path crosses itself.
@@ -611,8 +612,8 @@ getIterator(numPoints: number): PathIterator {
 };
 
 /** Total path length of this NumericalPath; equal to
-* {@link NumericalPath.getFinishPValue} minus
-* {@link NumericalPath.getStartPValue}.
+* {@link getFinishPValue} minus
+* {@link getStartPValue}.
 * @return total path length of this NumericalPath from start to finish
 */
 getLength(): number {
@@ -745,7 +746,7 @@ private static isMonotonic(arr: number[]): boolean {
 /** Returns a `p` value that is in the range of the path. For a path that is not a
 closed loop, this returns start or end of the path when the `p` value is outside of the
 path range. For closed loops this returns path distance `p` modulo the total path
-length, see {@link NumericalPath.mod_p}.
+length, see {@link mod_p}.
 
 @param p distance along the path
 @return the equivalent path distance `p` position, limited to be within the

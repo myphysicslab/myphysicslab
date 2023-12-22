@@ -44,14 +44,14 @@ that are in continuous contact and exerting force on each other.
 
 The overall idea is to calculate the exact amount of force needed to *just barely*
 prevent the objects from penetrating. These contact forces are calculated in the
-{@link ContactSim.evaluate} method, which is called by the
-{@link lab/model/DiffEqSolver.DiffEqSolver} at the request of the
-{@link lab/model/AdvanceStrategy.AdvanceStrategy} to advance the state
-of the simulation.
+{@link evaluate} method, which is called by the
+{@link lab/model/DiffEqSolver.DiffEqSolver | DiffEqSolver} at the request of the
+{@link lab/model/AdvanceStrategy.AdvanceStrategy | AdvanceStrategy} to advance the
+state of the simulation.
 
 # Parameters Created
 
-+ ParameterString named `EXTRA_ACCEL`, see {@link ContactSim.setExtraAccel}
++ ParameterString named `EXTRA_ACCEL`, see {@link setExtraAccel}
 
 See also the super class for additional Parameters.
 
@@ -107,7 +107,7 @@ at the contact point, as specified by `getVelocityTol()`.
 
 The `evaluate()` method optionally finds independent subsets of collisions, because that
 can make the compute_forces algorithm, which is `O(n^4)`, run faster in some cases. See
-the flag {@link ContactSim.SUBSET_COLLISIONS}. Collisions are independent when there is
+the flag {@link SUBSET_COLLISIONS}. Collisions are independent when there is
 no chain of moveable (finite mass) bodies in common between the collisions.
 
 ## The Matrix Equation for Contact Forces
@@ -240,7 +240,7 @@ small positive velocity) we request a little less acceleration.
 
 The extra acceleration is added to the `b` vector in the private method
 `calculate_b_vector`. See {@link ExtraAccel} enum for
-explanations of the various options. See {@link ContactSim.setExtraAccel} for how to
+explanations of the various options. See {@link setExtraAccel} for how to
 specify the desired ExtraAccel option.
 
 ## Intermediate Steps During `evaluate`
@@ -390,7 +390,7 @@ override removeBody(body: RigidBody): void {
 /** Adds a Connector to the list of active Connectors and to the
 {@link SimList}. The RigidBodys of the Connector must already have
 been added to this ContactSim, unless it is a Scrim. Note that the order of the list of
-Connectors is significant, see {@link ContactSim.alignConnectors}.
+Connectors is significant, see {@link alignConnectors}.
 @param connector the Connector to add
 @param follow add new Connector into list after this Connector; if null then add at
     front of list; if undefined, add at end of list

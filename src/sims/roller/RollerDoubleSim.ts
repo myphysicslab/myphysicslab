@@ -36,7 +36,8 @@ const TE = 6;
 const TIME = 7;
 
 /** Simulation of 2 balls along a curved roller coaster track, with a spring connecting
-them. The simulation is not functional until a path has been provided with {@link RollerDoubleSim.setPath}.
+them. The simulation is not functional until a path has been provided with
+{@link setPath}.
 
 For derivation equations of motion see <https://www.myphysicslab.com/RollerSimple.html>,
 <https://www.myphysicslab.com/RollerSpring.html> and

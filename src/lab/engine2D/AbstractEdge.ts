@@ -52,7 +52,7 @@ export abstract class AbstractEdge implements Edge {
   */
   protected centroid_body_: Vector;
   /** The centroid of this edge in world coords. For performance reasons this is
-  * cached. See {@link AbstractEdge.forgetPosition}.
+  * cached. See {@link forgetPosition}.
   */
   private centroid_world_: null|Vector = null;
   /** the maximum distance from centroid to any point on this edge */

@@ -22,10 +22,11 @@ or access that data. The data is stored in a {@link HistoryList}
 with each entry being an array of numbers (a 'data sample') representing the value of
 the variables at a point in time.
 
-The data is stored whenever {@link VarsHistory.memorize} is called. As a
+The data is stored whenever {@link memorize} is called. As a
 {@link Memorizable} the VarsHistory can be connected to a
-{@link lab/util/Memo.MemoList} such as {@link lab/app/SimRunner.SimRunner}. In most
-myPhysicsLab apps the following commands entered in {@link lab/util/Terminal.Terminal}
+{@link lab/util/Memo.MemoList | MemoList} such as
+{@link lab/app/SimRunner.SimRunner | SimRunner}. In most myPhysicsLab apps the
+following commands entered in {@link lab/util/Terminal.Terminal | Terminal}
 will set this up:
 ```js
 var hist = new VarsHistory(sim.getVarsList());
@@ -54,7 +55,7 @@ hist.setSeparator(', ')
 ```
 
 To change which variables are sampled or the order of the variables within each sample
-use {@link VarsHistory.setVariables}. For example:
+use {@link setVariables}. For example:
 ```js
 hist.setVariables([9,0,1,2,3])
 ```
@@ -62,13 +63,14 @@ Note that `setVariables` erases all stored data, so you would need to call `memo
 afterwards to store initial conditions.
 
 The default format for printing numbers gives 5 decimal places, but if the number is
-too small then switches to exponential format. Use {@link VarsHistory.setNumberFormat}
+too small then switches to exponential format. Use {@link setNumberFormat}
 to change the formatting function. For example:
 ```js
 hist.setNumberFormat((n) => n.toFixed(2));
 ```
 
-That example uses an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+That example uses an
+[arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 but you can provide any function that takes one numeric argument and returns a string.
 
 To process the data using Javascript use the `toArray` method
@@ -136,7 +138,7 @@ memorize(): void {
 
 /** Returns string form of the data points. One line for each sample, using the
 * number formatting function and text separator specified by the properties
-* {@link VarsHistory.numberFormat} and {@link VarsHistory.separator}.
+* {@link numberFormat} and {@link separator}.
 * @param opt_localized `true` means print the localized versions of the
 *    variable names; `false` means print the language independent variable names;
 *    default is `true`
@@ -168,7 +170,7 @@ reset(): void {
 };
 
 /** Sets the array of variable index numbers specifying which variables to memorize.
-This calls {@link VarsHistory.reset} which erases all stored data.
+This calls {@link reset} which erases all stored data.
 @param varIndex array of variable index numbers specifying which
     variables to memorize
 */

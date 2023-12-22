@@ -42,10 +42,11 @@ The shape of the roller coaster path is defined by {@link HumpPath}.
 
 The Lagrangian method of finding the equations of motion is very different from the
 methods used in the other roller coaster simulations such as
-{@link sims/roller/RollerSingleSim.RollerSingleSim}. For example, the NumericalPath is
-used here only for finding the initial conditions such as the path length position
-corresponding to the starting X value. Whereas in Roller1Sim the NumericalPath is used
-in the `evaluate()` method to find the rates of change.
+{@link sims/roller/RollerSingleSim.RollerSingleSim | RollerSingleSim}.
+For example, the NumericalPath is used here only for finding the initial conditions
+such as the path length position corresponding to the starting X value. Whereas in
+Roller1Sim the NumericalPath is used in the `evaluate()` method to find the rates of
+change.
 
 Variables and Parameters
 ---------------------------------

@@ -21,7 +21,7 @@ Displays an image if provided, otherwise the text name is displayed. The button 
 assigned classname `icon` for CSS scripting.
 
 Can be configured so the function is executed repeatedly when the button is held down.
-See {@link ButtonControl.repeatDelay} and {@link ButtonControl.repeatFirst}.
+See {@link repeatDelay} and {@link repeatFirst}.
 */
 export class ButtonControl implements LabControl {
   /** the name of the button */

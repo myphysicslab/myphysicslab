@@ -15,7 +15,8 @@
 import { Util } from '../util/Util.js';
 import { Vector, GenericVector } from '../util/Vector.js';
 
-/** Represents a point along a {@link lab/model/NumericalPath.NumericalPath}, used for
+/** Represents a point along a
+{@link lab/model/NumericalPath.NumericalPath | NumericalPath}, used for
 input and output of NumericalPath methods. Instance properties are public to avoid
 having numerous getter and setter methods.
 */
@@ -120,7 +121,7 @@ copyFrom(ppt: PathPoint) {
 /** Returns the distance from the given `point` to the normal line thru this
 PathPoint. The normal line passes thru this PathPoint's
 {@link PathPoint#getPosition location} along the vector given by
-{@link PathPoint.getNormal}.
+{@link getNormal}.
 ```text
 distance d from point (x1, y1) to line A x + B y + C = 0 is
 d = | A x1 + B y1 + C | / sqrt(A^2 + B^2)

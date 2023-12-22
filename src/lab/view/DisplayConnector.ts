@@ -23,10 +23,10 @@ import { MassObject } from "../model/MassObject.js"
 /** Shows the location of a {@link Connector}
 as a small colored circle. The {@link DisplayConnector.setRadius | radius} is specified
 in screen coordinates, so the size of the circle stays the same regardless of the zoom
-level on the {@link lab/view/SimView.SimView}.
+level on the {@link lab/view/SimView.SimView | SimView}.
 
 The position is determined by the position of the Connector, so
-{@link DisplayConnector.setPosition} has no effect, and the DisplayConnector is never
+{@link setPosition} has no effect, and the DisplayConnector is never
 dragable.
 */
 export class DisplayConnector implements DisplayObject {

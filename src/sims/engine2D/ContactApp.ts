@@ -36,16 +36,16 @@ import { Walls } from '../../lab/engine2D/Walls.js';
 
 /**  ContactApp demonstrates ContactSim with a set of simple rectangular objects.
 
-This app has a {@link ContactApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
-+ ParameterNumber named `NUM_BODIES`, see {@link ContactApp.setNumBodies}.
++ ParameterNumber named `NUM_BODIES`, see {@link setNumBodies}.
 
-+ ParameterNumber named `THRUST`, see {@link ContactApp.setThrust}
++ ParameterNumber named `THRUST`, see {@link setThrust}
 
-+ ParameterNumber named `MASS1`, see {@link ContactApp.setMass1}
++ ParameterNumber named `MASS1`, see {@link setMass1}
 
 */
 export class ContactApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

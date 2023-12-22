@@ -24,8 +24,8 @@ import { Vector } from '../util/Vector.js';
 {@link MassObject} at a defined location and with a defined
 direction and magnitude.
 
-The method {@link Impulse.getStartPoint} gives the location in world coordinates where
-the Impulse is applied. The method {@link Impulse.getVector} gives the direction and
+The method {@link getStartPoint} gives the location in world coordinates where
+the Impulse is applied. The method {@link getVector} gives the direction and
 magnitude of the Impulse in world coordinates.
 */
 export class Impulse extends AbstractSimObject implements SimObject, Line {

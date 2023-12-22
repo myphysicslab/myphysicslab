@@ -18,8 +18,6 @@ import { DoubleRect } from '../util/DoubleRect.js';
 import { SimObject, AbstractSimObject } from '../model/SimObject.js';
 import { RigidBody } from './RigidBody.js';
 import { RigidBodyCollision, Connector } from './RigidBody.js';
-import { Scrim } from './Scrim.js';
-import { UtilEngine } from './UtilEngine.js';
 import { Util } from '../util/Util.js';
 import { Vector } from '../util/Vector.js';
 
@@ -27,8 +25,9 @@ import { Vector } from '../util/Vector.js';
 used to find contact forces or collision impulses so that the attachment points on the
 two RigidBodys are kept aligned together.
 
-The {@link Joint.addCollision} method is where the ***collisions are generated***; that
-method is called from {@link lab/engine2D/ContactSim.ContactSim.findCollisions}.
+The {@link addCollision} method is where the ***collisions are generated***; that
+method is called from
+{@link lab/engine2D/ContactSim.ContactSim.findCollisions | ContactSim.findCollisions}.
 The RigidBodyCollision generated for a Joint functions as both a collision and a
 contact.
 
@@ -38,7 +37,7 @@ When two RigidBodys are connected by a Joint,
 the two bodies are set to ***not collide*** with each other
 via {@link RigidBody.addNonCollide}.
 
-The ***order of the bodies*** in the Joint is important because {@link Joint.align}
+The ***order of the bodies*** in the Joint is important because {@link align}
 moves the *second body* to align with first body (unless the second body is immoveable
 because it has infinite mass).
 
@@ -57,10 +56,11 @@ attachment points aligned together.
 
 Over time ***slippage*** of a Joint can occur, especially when there is fast rotation of
 the bodies. The ***tightness*** of a Joint is measured by how close to zero is the
-distance between the two attachment points. See {@link Joint.getNormalDistance}.
+distance between the two attachment points. See {@link getNormalDistance}.
 
-To attach to a ***fixed position in space*** use the {@link Scrim}
-object. Or attach to an immoveable (infinite mass) Polygon.
+To attach to a ***fixed position in space*** use the
+{@link lab/engine2D/Scrim.Scrim | Scrim} object. Or attach to an immoveable (infinite
+mass) Polygon.
 
 The two attachment points can be widely separated in 'single joints',
 see CartPendulum2 for an example.
@@ -84,7 +84,7 @@ RigidBody of the Joint, and rotates along with that body.
 
 ### Aligning Joints
 
-The {@link Joint.align} method aligns the RigidBodys connected by this Joint. Moves the
+The {@link align} method aligns the RigidBodys connected by this Joint. Moves the
 second body to align with the first body (unless the second body has infinite mass, in
 which case the first body is aligned to the second). The second body is moved so that
 its attach point is at same position as the first body's attach point. The angle of the
@@ -240,7 +240,7 @@ getNormalDistance(): number {
 };
 
 /** Whether the normal vector is in body or world coordinates.
-* @return whether the normal returned by {@link Joint.getNormal} is
+* @return whether the normal returned by {@link getNormal} is
 *    in body or world coordinates.
 */
 getNormalType(): CoordType {

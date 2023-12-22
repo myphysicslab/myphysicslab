@@ -36,14 +36,14 @@ import { Walls } from '../../lab/engine2D/Walls.js';
 /**  CurvedTestApp shows some ball and rectangle objects bouncing
 among some fixed ball and rectangle objects.
 
-This app has a {@link CurvedTestApp.config} function which looks at a set of options
+This app has a {@link config} function which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
-+ ParameterNumber named `NUM_BODIES`, see {@link CurvedTestApp.setNumBodies}.
++ ParameterNumber named `NUM_BODIES`, see {@link setNumBodies}.
 
-+ ParameterNumber named `THRUST`, see {@link CurvedTestApp.setThrust}
++ ParameterNumber named `THRUST`, see {@link setThrust}
 
 */
 export class CurvedTestApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

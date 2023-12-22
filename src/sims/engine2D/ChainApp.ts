@@ -33,26 +33,26 @@ import { Walls } from '../../lab/engine2D/Walls.js';
 
 /** Simulation of a chain of rigid bodies.
 
-This app has a {@link ChainApp.config} method which looks at a set of options
+This app has a {@link config} method which looks at a set of options
 and rebuilds the simulation accordingly. UI controls are created to change the options.
 
 Parameters Created
 ------------------
-+ ParameterNumber named `NUM_LINKS`, see {@link ChainApp.setNumLinks}.
++ ParameterNumber named `NUM_LINKS`, see {@link setNumLinks}.
 
-+ ParameterBoolean named `WALLS`, see {@link ChainApp.setWalls}
++ ParameterBoolean named `WALLS`, see {@link setWalls}
 
-+ ParameterBoolean named `EXTRA_BODY`, see {@link ChainApp.setExtraBody}
++ ParameterBoolean named `EXTRA_BODY`, see {@link setExtraBody}
 
-+ ParameterBoolean named `FIXED_LEFT`, see {@link ChainApp.setFixedLeft}
++ ParameterBoolean named `FIXED_LEFT`, see {@link setFixedLeft}
 
-+ ParameterBoolean named `FIXED_RIGHT`, see {@link ChainApp.setFixedRight}
++ ParameterBoolean named `FIXED_RIGHT`, see {@link setFixedRight}
 
-+ ParameterNumber named `FIXED_LEFT_X`, see {@link ChainApp.setFixedLeftX}.
++ ParameterNumber named `FIXED_LEFT_X`, see {@link setFixedLeftX}.
 
-+ ParameterNumber named `BLOCK_LENGTH`, see {@link ChainApp.setBlockLength}.
++ ParameterNumber named `BLOCK_LENGTH`, see {@link setBlockLength}.
 
-+ ParameterNumber named `BLOCK_WIDTH`, see {@link ChainApp.setBlockWidth}.
++ ParameterNumber named `BLOCK_WIDTH`, see {@link setBlockWidth}.
 
 */
 export class ChainApp extends Engine2DApp<ContactSim> implements Subject, SubjectList {

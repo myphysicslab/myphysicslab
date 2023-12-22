@@ -25,13 +25,14 @@ import { VarsList } from '../model/VarsList.js';
 
 /** Collects data from a {@link VarsList}, storing it as a {@link HistoryList} composed
 of {@link GraphPoint}s. The variables that this GraphLine is tracking are selected via
-the methods {@link GraphLine.setXVariable} and {@link GraphLine.setYVariable}. A
-GraphLine is typically shown by a {@link lab/graph/DisplayGraph.DisplayGraph}.
+the methods {@link setXVariable} and {@link setYVariable}. A
+GraphLine is typically shown by a
+{@link lab/graph/DisplayGraph.DisplayGraph | DisplayGraph}.
 
-It is during the {@link GraphLine.memorize} method that the new data is stored into the
+It is during the {@link memorize} method that the new data is stored into the
 HistoryList. For the `memorize` method to be called automatically, the GraphLine can be
 registered with it's SimView by calling
-{@link lab/util/Memo.MemoList.addMemo} on the SimView, for example:
+{@link lab/view/SimView.SimView.addMemo | SimView.addMemo}, for example:
 ```js
 simView.addMemo(graphLine);
 ```
@@ -39,15 +40,15 @@ simView.addMemo(graphLine);
 ### Graph Styles
 
 The color, line thickness, and drawing mode (dots or line) can be changed via methods
-{@link GraphLine.setColor}, {@link GraphLine.setLineWidth},
-and {@link GraphLine.setDrawingMode}.
+{@link setColor}, {@link setLineWidth},
+and {@link setDrawingMode}.
 
 The style used for drawing the graph can be changed at any time, without altering the
 style used for points previously memorized. Changes to style affect only how the next
 memorized points are displayed.
 
 If you *do* want to change the style for the entire line, call
-{@link GraphLine.resetStyle} which will forget about all styles except the current
+{@link resetStyle} which will forget about all styles except the current
 style and apply that to the entire line.
 
 Note: line dash is not a supported feature because the graph is drawn incrementally
@@ -58,8 +59,8 @@ deal with this.
 ### Axes Names
 
 To update the names of the axes shown in a
-{@link lab/graph/DisplayAxes.DisplayAxes}, set up a
-{@link lab/util/Observe.GenericObserver} to watch for changes
+{@link lab/graph/DisplayAxes.DisplayAxes | DisplayAxes}, set up a
+{@link lab/util/Observe.GenericObserver | GenericObserver} to watch for changes
 to the variables tracked by the GraphLine, as in this example:
 ```js
 new GenericObserver(graphLine, evt => {
@@ -90,23 +91,23 @@ Note that the transform functions do not affect how the graph axes are shown.
 Parameters Created
 ------------------
 
-+ ParameterNumber named `X_VARIABLE`, see {@link GraphLine.setXVariable}.
++ ParameterNumber named `X_VARIABLE`, see {@link setXVariable}.
   Has an extra `NONE` choice, which causes the GraphLine to have an empty HistoryList.
 
-+ ParameterNumber named `Y_VARIABLE`, see {@link GraphLine.setYVariable}.
++ ParameterNumber named `Y_VARIABLE`, see {@link setYVariable}.
   Has an extra `NONE` choice, which causes the GraphLine to have an empty HistoryList.
 
-+ ParameterNumber named `LINE_WIDTH`, see {@link GraphLine.setLineWidth}.
++ ParameterNumber named `LINE_WIDTH`, see {@link setLineWidth}.
 
-+ ParameterString named `DRAWING_MODE`, see {@link GraphLine.setDrawingMode}.
++ ParameterString named `DRAWING_MODE`, see {@link setDrawingMode}.
 
-+ ParameterString named `GRAPH_COLOR`, see {@link GraphLine.setColor}.
++ ParameterString named `GRAPH_COLOR`, see {@link setColor}.
 
 Events Broadcast
 ----------------
 All the Parameters are broadcast when their values change.  In addition:
 
-+ GenericEvent named `RESET`, see {@link GraphLine.reset}.
++ GenericEvent named `RESET`, see {@link reset}.
 
 */
 export class GraphLine extends AbstractSubject implements Subject, Observer, Memorizable {
@@ -381,7 +382,7 @@ observe(event: SubjectEvent): void {
 }
 
 /** Forgets any memorized data and styles, starts from scratch. However, it also calls
-{@link GraphLine.memorize} to memorize the current data point, if any.
+{@link memorize} to memorize the current data point, if any.
 */
 reset(): void {
   this.dataPoints_.reset();
@@ -392,7 +393,8 @@ reset(): void {
 
 /** Forgets any memorized styles, records the current color, draw mode, and line width
 * as the single starting style. Note that you may need to call
-* {@link lab/graph/DisplayGraph.DisplayGraph.reset} to see this change take effect.
+* {@link lab/graph/DisplayGraph.DisplayGraph.reset | DisplayGraph.reset}
+* to see this change take effect.
 */
 resetStyle(): void {
   this.styles_ = [];
@@ -494,7 +496,7 @@ setYVariable(yVar: number|string): void {
   }
 };
 
-/** Event broadcast when {@link GraphLine.reset} is called. */
+/** Event broadcast when {@link reset} is called. */
 static RESET = 'RESET' as const;
 
 static readonly en: i18n_strings = {
@@ -613,7 +615,8 @@ Util.defineGlobal('lab$graph$GraphPoint', GraphPoint);
 
 The index number specifies when to use this GraphStyle as follows: Each point stored in
 a {@link HistoryList} has an index number given by
-{@link lab/util/HistoryList.HistoryIterator.getIndex}. The GraphStyle is used for
+{@link lab/util/HistoryList.HistoryIterator.getIndex | HistoryIterator.getIndex}.
+The GraphStyle is used for
 points whose index number is equal or greater than the GraphStyle's index.
 
 Note: line dash is not a supported feature because the graph is drawn incrementally

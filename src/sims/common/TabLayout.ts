@@ -99,7 +99,7 @@ view.
 
 The 'show sim' checkbox is visible in the graph views. Clicking the 'show sim' checkbox
 will change the layout to pick the appropriate version of the current layout, for
-example either 'sim+graph' or 'graph'. The method {@link TabLayout.showSim} can be used
+example either 'sim+graph' or 'graph'. The method {@link showSim} can be used
 from JavaScript to accomplish the same result.
 
 The default state of the 'show sim' checkbox is set inside the application's HTML file
@@ -153,15 +153,15 @@ A 'show terminal' checkbox is added to the controls div in all layouts, unless t
 Parameters Created
 ------------------
 
-+ ParameterNumber named `SIM_WIDTH`, see {@link TabLayout.setSimWidth}
++ ParameterNumber named `SIM_WIDTH`, see {@link setSimWidth}
 
-+ ParameterNumber named `GRAPH_WIDTH`, see {@link TabLayout.setGraphWidth}
++ ParameterNumber named `GRAPH_WIDTH`, see {@link setGraphWidth}
 
-+ ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link TabLayout.setTimeGraphWidth}
++ ParameterNumber named `TIME_GRAPH_WIDTH`, see {@link setTimeGraphWidth}
 
-+ ParameterString named `LAYOUT`, see {@link TabLayout.setLayout}
++ ParameterString named `LAYOUT`, see {@link setLayout}
 
-+ ParameterBoolean named `SHOW_TERMINAL`, see {@link TabLayout.showTerminal}
++ ParameterBoolean named `SHOW_TERMINAL`, see {@link showTerminal}
 
 */
 export class TabLayout extends AbstractSubject implements Subject, Layout, SubjectList {

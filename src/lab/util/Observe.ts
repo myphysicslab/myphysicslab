@@ -22,17 +22,13 @@ export const CHOICES_MODIFIED = 'CHOICES_MODIFIED';
 
 // ******************************* Observer ********************************
 
-/** An Observer is notified whenever something changes in a
-{@link Subject} it is
-observing. The change can be in the value of a Subject's
-{@link Parameter}, or the occurrence of an event such
-as a {@link GenericEvent}. When a change occurs in
-the Subject, the {@link Subject.broadcast}
-method calls the Observer's
-{@link Observer.observe} method.
+/** An Observer is notified whenever something changes in a {@link Subject} it is
+observing. The change can be in the value of a Subject's {@link Parameter}, or the
+occurrence of an event such as a {@link GenericEvent}. When a change occurs in the
+Subject, the {@link Subject.broadcast} method calls the Observer's {@link observe}
+method.
 
-The Observer is connected to the Subject via the
-{@link Subject.addObserver} method.
+The Observer is connected to the Subject via the {@link Subject.addObserver} method.
 This is typically done in the Observer's constructor or by the entity that creates the
 Observer.
 
@@ -42,9 +38,8 @@ See {@link Subject} for more extensive documentation.
 export interface Observer extends Printable {
 
 /** Notifies this Observer that a change has occurred in the Subject.
-@param event  contains information about
-      what has changed in the Subject: typically either a one-time GenericEvent,
-      or a change to the value of a Parameter
+@param event  contains information about what has changed in the Subject:
+    typically either a one-time GenericEvent, or a change to the value of a Parameter
 */
 observe(event: SubjectEvent): void;
 }
@@ -64,8 +59,7 @@ purposes or the localized name for display to user.
 
 The [language-independent name](../Building.html#languageindependentnames) should be the
 same as the English version but capitalized and with spaces and dashes replaced by
-underscore, see {@link Util.toName}
-and {@link SubjectEvent.nameEquals}.
+underscore, see {@link Util.toName} and `nameEquals`.
 
 @param opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -86,8 +80,7 @@ getValue(): any;
 
 /** Whether this SubjectEvent has the given name, adjusting for the transformation to a
 [language-independent form](../Building.html#languageindependentnames)
-of the name, as is
-done by {@link Util.toName}.
+of the name, as is done by {@link Util.toName}.
 
 @param name the English or language-independent version of the name
 @return whether this SubjectEvent has the given name (adjusted to
@@ -106,9 +99,9 @@ See [Subject, Observer, Parameter](../Architecture.html#subjectobserverparameter
 an overview.
 
 It is very easy to connect a Parameter to a user interface control like
-{@link lab/controls/NumericControl.NumericControl},
-{@link lab/controls/ChoiceControl.ChoiceControl}, or
-{@link lab/controls/CheckBoxControl.CheckBoxControl}.
+{@link lab/controls/NumericControl.NumericControl | NumericControl},
+{@link lab/controls/ChoiceControl.ChoiceControl | ChoiceControl}, or
+{@link lab/controls/CheckBoxControl.CheckBoxControl | CheckBoxControl}.
 
 Parameter helps to minimize the knowledge that classes have about each other. For
 example, a NumericControl can display and modify the ParameterNumber of
@@ -123,11 +116,8 @@ Getter and Setter Methods
 -------------------------
 A Parameter operates by calling *getter* and *setter* methods on its Subject. These
 methods are specified to the Parameter's constructor, and used in the Parameter's
-{@link Parameter.getValue}
-and `setValue` methods.
-We assume that the Subject's *setter*
-method will perform notification of changes via
-{@link Subject.broadcastParameter}.
+{@link getValue} and `setValue` methods. We assume that the Subject's *setter* method
+will perform notification of changes via {@link Subject.broadcastParameter}.
 
 Here are examples of *getter* and *setter* methods showing how the Parameter is
 broadcast in the *setter* method of the Subject.
@@ -143,7 +133,7 @@ setMass(value: number) {
 ```
 Here is an example showing how the *getter* and *setter* methods are specified when
 creating a ParameterNumber. This is from
-{@link sims/springs/SingleSpringSim.SingleSpringSim}:
+{@link sims/springs/SingleSpringSim.SingleSpringSim | SingleSpringSim}:
 ```
 this.addParameter(new ParameterNumber(this, SingleSpringSim.en.MASS,
     SingleSpringSim.i18n.MASS,
@@ -156,18 +146,16 @@ A Parameter can have a set of choices and values. If they
 are specified, then the Parameter value is only allowed to be set to one of those
 values.
 
-+ {@link Parameter.getValues} returns a list of *values*
-    that the Parameter can be set to.
++ {@link getValues} returns a list of *values* that the Parameter can be set to.
 
-+ {@link Parameter.getChoices} returns a corresponding list of
-    localized (translated) strings
++ {@link getChoices} returns a corresponding list of localized (translated) strings
     which are shown to the user as the *choices* for this Parameter, typically in a
-    user interface menu such as {@link lab/controls/ChoiceControl.ChoiceControl}.
+    user interface menu such as
+    {@link lab/controls/ChoiceControl.ChoiceControl | ChoiceControl}.
 
 When the set of Parameter choices is changed, a GenericEvent should be broadcast with
-the name {@link CHOICES_MODIFIED}.
-Then any control that is displaying the
-available choices can update its display.
+the name {@link CHOICES_MODIFIED}. Then any control that is displaying the available
+choices can update its display.
 */
 export interface Parameter extends SubjectEvent {
 
@@ -177,15 +165,15 @@ export interface Parameter extends SubjectEvent {
 getAsString(): string;
 
 /** Returns the localized strings corresponding to the possible values from
-{@link Parameter.getValues}.
+{@link getValues}.
 See [Internationalization](../Building.html#internationalizationi18n).
 @return the localized strings corresponding to the
     possible values
 */
 getChoices(): string[];
 
-/** Returns the set of values corresponding to
-{@link Parameter.getChoices} that this Parameter can be set to.
+/** Returns the set of values corresponding to {@link getChoices} that this Parameter
+can be set to.
 @return set of values that this Parameter can be set to, in string form.
 */
 getValues(): string[];
@@ -195,13 +183,12 @@ getValues(): string[];
 *
 * Examples of automatically computed Parameters: the variables that give the
 * current energy of a simulation. Another example is when the size of a graph's
-* SimView is under control of an {@link lab/graph/AutoScale.AutoScale}.
+* SimView is under control of an {@link lab/graph/AutoScale.AutoScale | AutoScale}.
 * @return whether the value is being automatically computed
 */
 isComputed(): boolean;
 
-/** Sets whether the value is being automatically computed.
-See {@link Parameter.isComputed}.
+/** Sets whether the value is being automatically computed. See {@link isComputed}.
 @param value whether the value is being automatically computed.
 */
 setComputed(value: boolean): void;
@@ -216,24 +203,20 @@ setFromString(value: string): void;
 
 // ******************************* Subject ********************************
 
-/** A Subject notifies its {@link Observer} when
-something changes in the Subject. This can be a change in the value of a
-{@link Parameter}, or the occurrence of a
-{@link GenericEvent}. The Subject maintains a list
-of its Observers. An Observer is connected to the Subject via the
-{@link Subject.addObserver}
-method, which is typically called by the Observer's constructor or the entity that
-creates the Observer.
+/** A Subject notifies its {@link Observer} when something changes in the Subject. This
+can be a change in the value of a {@link Parameter}, or the occurrence of a
+{@link GenericEvent}. The Subject maintains a list of its Observers. An Observer is
+connected to the Subject via the {@link addObserver} method, which is typically
+called by the Observer's constructor or the entity that creates the Observer.
 
 See [Subject, Observer, Parameter](../Architecture.html#subjectobserverparameter) for an
 overview. The Subject and Observer interfaces are an implementation of the
 [Observer design pattern](http://en.wikipedia.org/wiki/Observer_pattern).
 
-When a change occurs in the Subject,
-the {@link Subject.broadcast} method should be called to
-inform all Observers of the change. For a Parameter, the "setter" method of the Subject
-should call {@link Subject.broadcastParameter}
-at the end of the setter method.
+When a change occurs in the Subject, the {@link broadcast} method should be
+called to inform all Observers of the change. For a Parameter, the "setter" method of
+the Subject should call {@link broadcastParameter} at the end of the setter
+method.
 
 
 Language-Independent Names
@@ -245,9 +228,9 @@ To enable scripting, we need Parameters and SubjectEvents to have
 which is derived from the English localized name by converting the English name to
 uppercase and replacing spaces and dashes by underscore.
 
-You can use the function {@link Util.toName} to convert an
-English name to the language-independent name. Or use `SubjectEvent.nameEquals()` which
-handles the conversion to language independent name.
+You can use the function {@link Util.toName} to convert an English name to the
+language-independent name. Or use `SubjectEvent.nameEquals()` which handles the
+conversion to language independent name.
 
 See [Internationalization](../Building.html#internationalizationi18n) for more
 about localized and language-independent strings.
@@ -262,20 +245,18 @@ and user interface controls.
 <img src="../Subject_Observer_Parameters.svg"
   alt="Subject/Observer Relationships with Parameters" />
 
-The diagram shows a {@link lab/engine2D/ContactSim.ContactSim} as the
+The diagram shows a {@link lab/engine2D/ContactSim.ContactSim | ContactSim} as the
 Subject. It has a list of Parameters, including a Parameter representing the distance
 tolerance which determines when objects are in contact. The Subject also has a list of
-Observers, including a {@link lab/controls/NumericControl.NumericControl}
-which is connected to the distance tolerance
-{@link ParameterNumber}. In its constructor, the
-NumericControl adds itself to the list of Observers by calling
-{@link Subject.addObserver} on
-the Subject of the ParameterNumber.
+Observers, including a
+{@link lab/controls/NumericControl.NumericControl | NumericControl}
+which is connected to the distance tolerance {@link ParameterNumber}. In its
+constructor, the NumericControl adds itself to the list of Observers by calling
+{@link addObserver} on the Subject of the ParameterNumber.
 
 Whenever the distance tolerance is changed, the Subject should notify each Observer by
-calling {@link Subject.broadcast}.
-The Observer can then get the current value by calling
-`ParameterNumber.getValue`.
+calling {@link broadcast}. The Observer can then get the current value by
+calling `ParameterNumber.getValue`.
 
 This design is very decoupled. The Subject knows nothing about the NumericControl
 except that it is an Observer. The Parameter is unaware of the NumericControl. The
@@ -292,16 +273,16 @@ during its `observe` method.
 addObserver(observer: Observer): void;
 
 /** Notifies all Observers that the Subject has changed by calling
-{@link Observer.observe} on each Observer.
+{@link Observer.observe | observe} on each Observer.
 
-An Observer may call {@link Subject.addObserver} or
-{@link Subject.removeObserver} during its `observe` method.
+An Observer may call {@link addObserver} or {@link removeObserver} during its `observe`
+method.
 @param evt a SubjectEvent with information relating to the change
 */
 broadcast(evt: SubjectEvent): void;
 
 /** Notifies all Observers that the Parameter with the given `name` has changed by
-calling {@link Observer.observe} on each Observer.
+calling {@link Observer.observe | observe} on each Observer.
 @param name the language-independent or English name of the Parameter
     that has changed
 @throws if there is no Parameter with the given name
@@ -354,18 +335,16 @@ getParameterNumber(name: string): ParameterNumber;
 getParameterString(name: string): ParameterString;
 
 /** Removes the Observer from the Subject's list of Observers. An Observer may
-call `Subject.removeObserver` during its `observe` method.
-@param observer the Observer to
-        detach from list of Observers
+call `removeObserver` during its `observe` method.
+@param observer the Observer to detach from list of Observers
 */
 removeObserver(observer: Observer): void;
 }
 
 // ******************************* SubjectList ********************************
 
-/** Provides a list of {@link Subject} contained
-in this object. Used when creating an
-{@link lab/util/EasyScriptParser.EasyScriptParser}.
+/** Provides a list of {@link Subject}s contained in this object. Used when creating an
+{@link lab/util/EasyScriptParser.EasyScriptParser | EasyScriptParser}.
 */
 export interface SubjectList extends Printable {
 
@@ -454,7 +433,7 @@ specified function.
 Example 1
 ---------
 Here is an example of a GenericObserver that prints any event broadcast by a
-{@link lab/util/Clock.Clock}:
+{@link lab/util/Clock.Clock | Clock}:
 ```js
 var obs = new GenericObserver(clock, evt => println('event='+evt));
 ```
@@ -489,7 +468,7 @@ Example 3
 ---------
 This sets color of a contact force line according to gap distance: red = zero distance,
 green = max distance. This is useful to study the effects of using different settings
-for {@link lab/engine2D/ExtraAccel.ExtraAccel}.
+for {@link lab/engine2D/ExtraAccel.ExtraAccel | ExtraAccel}.
 ```js
 new GenericObserver(displayList, evt => {
   if (evt.nameEquals(DisplayList.OBJECT_ADDED)) {
@@ -507,7 +486,7 @@ new GenericObserver(displayList, evt => {
 ```
 The above script can be entered into the Terminal command line of most
 [applications](https://www.myphysicslab.com/develop/build/index-en.html)
-which use  {@link lab/engine2D/ContactSim.ContactSim}.
+which use  {@link lab/engine2D/ContactSim.ContactSim | ContactSim}.
 Or [try this link](<https://www.myphysicslab.com/develop/build/sims/engine2D/ContactApp-en.html?NUMBER_OF_OBJECTS%3D1%3BEXTRA_ACCEL%3Dnone%3BELASTICITY%3D0.6%3BSIM_CANVAS.ALPHA%3D1%3BSIM_CANVAS.BACKGROUND%3D%22%22%3Bnew%20GenericObserver%28displayList%2Cfunction%28evt%29%7Bif%28evt.nameEquals%28DisplayList.OBJECT_ADDED%29%29%7Bvar%20obj%3Devt.getValue%28%29%3Bif%28obj%20instanceof%20DisplayLine%29%7Bvar%20f%3Dobj.getSimObjects%28%29%5B0%5D%3Bif%28f.getName%28%29.match%28%2F%5ECONTACT_FORCE1%2F%29%29%7Bvar%20pct%3DMath.max%280%2CMath.min%281%2Cf.contactDistance%2Ff.contactTolerance%29%29%3Bobj.setColor%28Util.colorString3%281-pct%2Cpct%2C0%29%29%3B%7D%7D%7D%7D%29%3B>)
 which contains the above code running in ContactApp. That link also
 sets `EXTRA_ACCEL=none` so you will see the gap distance color vary periodically.
@@ -584,7 +563,7 @@ export class ParameterBoolean implements Parameter, SubjectEvent {
 @param name the
     [language-independent name](../Building.html#languageindependentnames) of this
     Parameter; the English name can be passed in here because it will be run thru
-    {@link lab/util/Util.Util.toName}.
+    {@link Util.toName}.
 @param localName the localized name of this Parameter
 @param getter A function with no arguments that returns
     the value of this Parameter
@@ -714,8 +693,7 @@ setValue(value: boolean): void {
 Util.defineGlobal('lab$util$ParameterBoolean', ParameterBoolean);
 
 // ******************************* ParameterNumber ********************************
-/** Provides access to a numeric value of a {@link Subject}.
-Has options for setting
+/** Provides access to a numeric value of a {@link Subject}. Has options for setting
 number of significant digits to show, and upper/lower limit on value. Default is 3
 significant digits, lower limit of zero, and upper limit is infinity.
 See {@link Parameter} for more information.
@@ -750,7 +728,7 @@ export class ParameterNumber implements Parameter, SubjectEvent {
 @param name the
     [language-independent name](../Building.html#languageindependentnames) of this
     Parameter; the English name can be passed in here because it will be run thru
-    {@link lab/util/Util.Util.toName}.
+    {@link Util.toName}.
 @param localName the localized name of this Parameter
 @param getter A function with no arguments that returns
     the value of this Parameter
@@ -817,7 +795,7 @@ getDecimalPlaces(): number {
 };
 
 /** Returns the lower limit; the Parameter value is not allowed to be less than this,
-{@link ParameterNumber.setValue} will throw an Error in that case.
+{@link setValue} will throw an Error in that case.
 @return the lower limit of the Parameter value
 */
 getLowerLimit(): number {
@@ -830,7 +808,7 @@ getName(opt_localized?: boolean): string {
 };
 
 /** Returns the suggested number of significant digits to show, see
-{@link ParameterNumber.setSignifDigits}.
+{@link setSignifDigits}.
 @return suggested number of significant digits to show
 */
 getSignifDigits(): number {
@@ -851,7 +829,7 @@ getUnits(): string {
 };
 
 /** Returns the upper limit; the Parameter value is not allowed to be greater than
-this, {@link ParameterNumber.setValue} will throw an Error in that case.
+this, {@link setValue} will throw an Error in that case.
 @return the upper limit of the Parameter value
 */
 getUpperLimit(): number {
@@ -924,7 +902,7 @@ setFromString(value: string): void {
 };
 
 /** Sets the lower limit; the Parameter value is not allowed to be less than this,
-{@link ParameterNumber.setValue} will throw an Error in that case.
+{@link setValue} will throw an Error in that case.
 @param lowerLimit the lower limit of the Parameter value
 @return this ParameterNumber for chaining setters
 @throws if the value is currently less than the lower limit, or the lower limit
@@ -960,7 +938,7 @@ setUnits(value: string): ParameterNumber {
 };
 
 /** Sets the upper limit; the Parameter value is not allowed to be more than this,
-{@link ParameterNumber.setValue} will throw an Error in that case.
+{@link setValue} will throw an Error in that case.
 
 @param upperLimit the upper limit of the Parameter value
 @return this ParameterNumber for chaining setters
@@ -1029,7 +1007,7 @@ export class ParameterString implements Parameter, SubjectEvent {
 @param name the
     [language-independent name](../Building.html#languageindependentnames) of this
     Parameter; the English name can be passed in here because it will be run thru
-    {@link lab/util/Util.Util.toName}.
+    {@link Util.toName}.
 @param localName the localized name of this Parameter
 @param getter A function with no arguments that returns
     the value of this Parameter
@@ -1085,8 +1063,7 @@ getChoices(): string[] {
   return Array.from(this.choices_);
 };
 
-/** Returns the maximum length of the string.
-{@link ParameterString.setValue} will throw an Error if
+/** Returns the maximum length of the string. {@link setValue} will throw an Error if
 trying to set a string longer than this.
 @return the maximum length of the string
 */
@@ -1163,11 +1140,9 @@ setFromString(value: string): void {
   this.setValue(value);
 };
 
-/** Sets a function which transforms the input string passed to
-{@link ParameterString.setValue}.
+/** Sets a function which transforms the input string passed to {@link setValue}.
 For example, a function to transform strings to uppercase.
-@param fn function to be used to transform input passed to
-    {@link ParameterString.setValue}
+@param fn function to be used to transform input passed to {@link setValue}
     or `null` for no transformation
 @return this ParameterString for chaining setters
 */
@@ -1176,13 +1151,11 @@ setInputFunction(fn: ((s:string)=>string)|null): ParameterString {
   return this;
 };
 
-/** Sets the maximum length of the string.
-{@link ParameterString.setValue} will throw an Error if
+/** Sets the maximum length of the string. {@link setValue} will throw an Error if
 trying to set a string longer than this.
 @param len the maximum length of the string
 @return this ParameterString for chaining setters
-@throws if the max length is less than length of current value of this
-    Parameter.
+@throws if the max length is less than length of current value of this Parameter.
 */
 setMaxLength(len: number): ParameterString {
   if (len < this.getValue().length)

@@ -15,10 +15,9 @@
 import { Util, Printable } from '../util/Util.js'
 
 /** Solves an ordinary differential equation expressed as an
-{@link lab/model/ODESim.ODESim} by advancing it in small time increments.
+{@link lab/model/ODESim.ODESim | ODESim} by advancing it in small time increments.
 The differential equation is specified by the ODESim's
-{@link lab/model/ODESim.ODESim.evaluate} method.
-
+{@link lab/model/ODESim.ODESim.evaluate | ODESim.evaluate} method.
 */
 export interface DiffEqSolver extends Printable {
 
@@ -28,7 +27,7 @@ purposes or the localized name for display to user.
 The language-independent name should be the same as the English version but
 capitalized and with spaces and dashes replaced by underscore,
 see {@link Util.toName}
-and {@link DiffEqSolver.nameEquals}.
+and {@link nameEquals}.
 
 @param opt_localized `true` means return the localized version of the name;
     default is `false` which means return the language independent name.
@@ -47,8 +46,9 @@ nameEquals(name: string): boolean;
 
 /** Advances the associated ODESim by the given small time increment, which results in
 modifiying the state variables of the ODESim. Modifies the variables array obtained from
-{@link lab/model/ODESim.ODESim.getVarsList} by using the change rates obtained
-from {@link lab/model/ODESim.ODESim.evaluate}.
+{@link lab/model/ODESim.ODESim.getVarsList | ODESim.getVarsList}
+by using the change rates obtained from
+{@link lab/model/ODESim.ODESim.evaluate | ODESim.evaluate}.
 @param stepSize  the amount of time to advance the differential equation
 @return null if the step succeeds, otherwise an object
 relating to the error that occurred

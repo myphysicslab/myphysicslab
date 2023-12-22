@@ -24,8 +24,8 @@ import { MassObject } from "../model/MassObject.js"
 /** Displays a {@link Line} as a colored line.
 
 The position is determined by the position of the Line, so
-{@link DisplayLine.setPosition} has no effect, and the DisplayLine is never dragable.
-The position is reported as the midpoint of the Line by {@link DisplayLine.getPosition}.
+{@link setPosition} has no effect, and the DisplayLine is never dragable.
+The position is reported as the midpoint of the Line by {@link getPosition}.
 */
 export class DisplayLine implements DisplayObject {
   private line_: Line;

@@ -25,12 +25,12 @@ potentially be dragged by the user.
 
 See also the 2D Physics Engine Overview section about
 [Body Coordinates](../Engine2D.html#bodycoordinates), and
-{@link lab/model/CoordType.CoordType}.
+{@link lab/model/CoordType.CoordType | CoordType}.
 
 Each MassObject has its own local coordinate system called *body coordinates*, distinct
 from *world coordinates* (also called *simulation coordinates*). There are methods for
-converting between body and world coordinates, see {@link MassObject.bodyToWorld} and
-{@link MassObject.worldToBody}.
+converting between body and world coordinates, see {@link bodyToWorld} and
+{@link worldToBody}.
 
 When the MassObject is positioned in world coordinates, we specify the location of the
 center of mass and the rotation around the center of mass. The rotation is with respect
@@ -41,20 +41,19 @@ clockwise from its starting position.
 
 A MassObject can have one or more *drag points* specified to which we typically attach
 a Spring for the user to be able to move the object.
-See {@link MassObject.setDragPoints}.
+See {@link setDragPoints}.
 
-See {@link lab/app/EventHandler.EventHandler} and
-{@link lab/app/SimController.SimController} for information about how MassObjects are used
-for user interface interactions like dragging an object.
+See {@link lab/app/EventHandler.EventHandler | EventHandler} and
+{@link lab/app/SimController.SimController | SimController} for information about how
+MassObjects are used for user interface interactions like dragging an object.
 
 ## Potential Energy
 
 For simulations where gravity operates in the vertical direction, there are methods here
 to help calculate the potential energy of a MassObject.
-See {@link MassObject.setZeroEnergyLevel},
-{@link MassObject.getZeroEnergyLevel}, {@link MassObject.getMinHeight},
-and {@link lab/model/EnergySystem.EnergyInfo}.
-
+See {@link setZeroEnergyLevel},
+{@link getZeroEnergyLevel}, {@link getMinHeight},
+and {@link lab/model/EnergySystem.EnergyInfo | EnergyInfo}.
 */
 export interface MassObject extends SimObject {
 
@@ -136,8 +135,8 @@ getCenterOfMass(): Vector;
 
 /** Returns the center of the circle to use for proximity testing, in body coords. A
 circle centered at this location with radius `getCentroidRadius()` should enclose this
-MassObject. See {@link MassObject.getCentroidRadius},
-{@link MassObject.getCentroidWorld}.
+MassObject. See {@link getCentroidRadius},
+{@link getCentroidWorld}.
 
 @return the center of the circle to use for proximity
     testing, in body coords
@@ -146,7 +145,7 @@ getCentroidBody(): Vector;
 
 /** Returns the radius of the circle to use for proximity testing. A circle
 centered at `getCentroidBody()` with this radius should enclose this MassObject.
-See {@link MassObject.getCentroidBody}, {@link MassObject.getCentroidWorld}.
+See {@link getCentroidBody}, {@link getCentroidWorld}.
 
 @return the radius of the circle to use for proximity testing.
 */
@@ -154,8 +153,8 @@ getCentroidRadius(): number;
 
 /** Returns the center of the circle to use for proximity testing, in world coords. A
 circle centered at this location with radius `getCentroidRadius()` should enclose this
-MassObject. See {@link MassObject.getCentroidBody},
-{@link MassObject.getCentroidRadius}.
+MassObject. See {@link getCentroidBody},
+{@link getCentroidRadius}.
 
 @return the center of the circle to use for proximity
 testing, in world coords
@@ -273,7 +272,7 @@ getZeroEnergyLevel(): number|null;
 
 /** Returns moment of inertia about center of mass. This measures how much force is
 needed to rotate the body about the center of mass.  **Note that this is the number set
-via {@link MassObject.setMomentAboutCM}
+via {@link setMomentAboutCM}
 multiplied by the mass of the body.**
 @return moment of inertia about center of mass
 */
@@ -322,7 +321,7 @@ is rotated about the origin by the current angle of this body.
 rotateBodyToWorld(v_body: GenericVector): Vector;
 
 /** Rotates a world coordinates vector to its orientation in body coordinates, the
-inverse of {@link MassObject.rotateBodyToWorld} method.
+inverse of {@link rotateBodyToWorld} method.
 The vector goes from the origin `(0, 0)`, to the given point in world coordinates. The
 vector is rotated about the origin by the opposite of the current angle of this body.
 @param v_world the the vector to be rotated, in world coordinates
@@ -361,7 +360,7 @@ setDragPoints(dragPts: Vector[]): void;
 
 Note that when setting the mass on a MassObject you should also set accordingly the
 moment of inertia about center of mass,
-see {@link MassObject.setMomentAboutCM}.
+see {@link setMomentAboutCM}.
 
 @param mass the mass of this MassObject
 */
@@ -385,7 +384,7 @@ For a thin circular plate:
 ```text
 Icm = mass * radius^2 / 2
 ```
-Note that {@link MassObject.momentAboutCM} returns the number
+Note that {@link momentAboutCM} returns the number
 specified here multiplied by the mass of the body.
 @param moment the moment of inertia about the center of mass for this body
     **divided by the mass of this body**

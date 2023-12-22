@@ -14,7 +14,8 @@
 
 import { Util } from "../util/Util.js"
 
-/** Specifies the calculation done by {@link lab/engine2D/ContactSim.ContactSim} to
+/** Specifies the calculation done by
+{@link lab/engine2D/ContactSim.ContactSim | ContactSim} to
 determine the extra acceleration added to eliminate small amount of residual velocity
 at a contact. This is part of the process of finding the force needed at the contact.
 
@@ -24,15 +25,17 @@ points, not velocity. The objects keep moving because of the slight residual vel
 that exists when the contact is first detected. Eventually this residual velocity
 results in a low-velocity collision or a loss of contact.
 
-See {@link lab/util/Observe.GenericObserver} for a way to observe the effects
-of the various ExtraAccel settings by coloring the display of contact forces
+See {@link lab/util/Observe.GenericObserver | GenericObserver} for a way to observe the
+effects of the various ExtraAccel settings by coloring the display of contact forces
 based on the gap distance at each contact.
 
 More information:
 
-+ 'Extra Acceleration' in {@link lab/engine2D/ContactSim.ContactSim}
++ [Extra Acceleration](../classes/lab_engine2D_ContactSim.ContactSim.html#md:extra-acceleration)
+    in ContactSim
 + [How to Stop Jitter](../Engine2D.html#howtostopjitter) in the 2D Physics Engine Overview
-+ 'Distance and Target Gap' in {@link lab/engine2D/RigidBody.RigidBodyCollision}.
++ [Target Gap](../classes/lab_engine2D_RigidBody.RigidBodyCollision.html#md:target-gap)
+    in {@link lab/engine2D/RigidBody.RigidBodyCollision | RigidBodyCollision}.
 */
 export const enum ExtraAccel {
     /** No extra acceleration.
@@ -49,11 +52,11 @@ export const enum ExtraAccel {
     and also to to bring the contact distance to be at the *target gap* distance.
     */
   VELOCITY_AND_DISTANCE = 'velocity_and_distance',
-    /** Same as {@link ExtraAccel.VELOCITY} but also applies the extra acceleration
+    /** Same as {@link VELOCITY} but also applies the extra acceleration
     to Joints
     */
   VELOCITY_JOINTS = 'velocity_joints',
-    /** Same as {@link ExtraAccel.VELOCITY_AND_DISTANCE} but also applies the extra
+    /** Same as {@link VELOCITY_AND_DISTANCE} but also applies the extra
     acceleration to Joints
     */
   VELOCITY_AND_DISTANCE_JOINTS = 'velocity_and_distance_joints',

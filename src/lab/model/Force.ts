@@ -20,21 +20,20 @@ import { MassObject } from "./MassObject.js"
 import { Vector } from "../util/Vector.js"
 import { Util } from "../util/Util.js"
 
-/** A Force acts on a given {@link MassObject}
-at a defined location and with a defined
+/** A Force acts on a given {@link MassObject} at a defined location and with a defined
 direction and magnitude.
 
-The method {@link Force.getStartPoint} gives the location in world coordinates where the
-Force is applied. The method {@link Force.getVector} gives the direction and magnitude of
-the Force in world coordinates.
+The method {@link getStartPoint} gives the location in world coordinates where the
+Force is applied. The method {@link getVector} gives the direction and magnitude of the
+Force in world coordinates.
 
 The location and direction can be passed to the constructor either in fixed world
 coordinates, or in relative body coordinates. When given in body coordinates, the
 location and/or direction are calculated relative to the body's current position. See
 {@link CoordType}.
 
-In {@link lab/engine2D/RigidBodySim.RigidBodySim} the torque affects the angular
-acceleration like this:
+In {@link lab/engine2D/RigidBodySim.RigidBodySim | RigidBodySim} the torque affects
+the angular acceleration like this:
 ```
 angular_acceleration += torque / RigidBody.momentAboutCM()
 ```
