@@ -17,7 +17,7 @@ import { UtilEngine } from './UtilEngine.js';
 import { Util } from '../util/Util.js';
 import { Vector } from '../util/Vector.js';
 
-/** Concrete implementation of Vertex interface.
+/** Concrete implementation of {@link Vertex} interface.
 */
 export class ConcreteVertex implements Vertex {
   /** location in body coordinates of the RigidBody that this Vertex belongs to */

@@ -18,7 +18,7 @@ import { UtilEngine } from './UtilEngine.js';
 import { Util } from '../util/Util.js';
 import { Vector } from '../util/Vector.js';
 
-/** A RigidBodyCollision between two Edges.
+/** A {@link RigidBodyCollision} between two {@link Edge}s.
 */
 export class EdgeEdgeCollision extends RigidBodyCollision {
   /** edge of primary object */

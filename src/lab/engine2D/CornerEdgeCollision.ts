@@ -18,7 +18,8 @@ import { UtilEngine } from './UtilEngine.js';
 import { Util } from '../util/Util.js';
 import { Vector } from '../util/Vector.js';
 
-/** A RigidBodyCollision between a corner Vertex and an Edge.
+/** A {@link RigidBodyCollision} between a corner {@link Vertex}
+* and an {@link Edge}.
 */
 export class CornerEdgeCollision extends RigidBodyCollision {
   /** vertex of primary body, between primaryEdge and primaryEdge2 */

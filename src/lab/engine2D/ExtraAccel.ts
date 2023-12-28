@@ -62,7 +62,7 @@ export const enum ExtraAccel {
   VELOCITY_AND_DISTANCE_JOINTS = 'velocity_and_distance_joints',
 };
 
-/** returns array of all ExtraAccel values */
+/** returns array of all {@link ExtraAccel} values */
 export function ExtraAccelValues(): ExtraAccel[] {
   return   [
     ExtraAccel.NONE,
@@ -73,7 +73,7 @@ export function ExtraAccelValues(): ExtraAccel[] {
   ];
 };
 
-/** returns array of all ExtraAccel enums translated to localized strings. */
+/** returns array of all {@link ExtraAccel} enums translated to localized strings. */
 export function ExtraAccelChoices(): string[] {
   return [
     i18n.NONE,

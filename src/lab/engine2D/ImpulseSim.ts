@@ -82,7 +82,7 @@ see {@link setCollisionAccuracy}
 
 + ParameterNumber named `RANDOM_SEED`, see {@link setRandomSeed}
 
-See also the super class for additional Parameters.
+See also the {@link RigidBodySim} super class for additional Parameters.
 
 ### Collision Handling Options
 
@@ -138,8 +138,10 @@ this corresponds to the equation in {@link ComputeForces}
 ```
 so we put the `(1+e) v_i` factor into the `b` vector when passing to ComputeForces.
 
-If you look at the web page <https://www.myphysicslab.com/collision.html> you will see a
-derivation of the following equation giving the value of `j` for a single collision.
+On the myPhysicsLab
+[Rigid Body Collisions](https://www.myphysicslab.com/collision.html) web page is a
+derivation of the following equation which gives the value of `j` for a single
+collision.
 ```text
 ma = mass of body A
 n = normal vector pointing out from body A (length 1 here)
@@ -1439,8 +1441,9 @@ static readonly DEBUG_IMPULSE = false;
 */
 static readonly TINY_IMPULSE = 1E-12;
 
-/** Impulse smaller than this is not marked as a discontinuous change in the
-* velocity variables of the objects colliding.
+/** Impulse smaller than this is not marked as a
+* {@link lab/model/Variable.Variable.incrSequence | discontinuous change}
+* in the velocity variables of the objects colliding.
 */
 static readonly SMALL_IMPULSE = 1E-4;
 

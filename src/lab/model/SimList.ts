@@ -22,7 +22,7 @@ import { SimObject } from './SimObject.js'
 import { Spring } from './Spring.js'
 import { Util } from '../util/Util.js'
 
-/** The list of SimObjects that represent the current state of a
+/** The list of {@link SimObject}s that represent the current state of a
 Simulation. For an ODESim the current state is dictated by its VarsList and the
 SimObjects reflect that state in their positions. The SimObjects give additional
 information that is not in the VarsList, such as size, shape, and mass of objects,

@@ -20,7 +20,9 @@ import { SimObject } from '../model/SimObject.js';
 import { Vector } from '../util/Vector.js';
 import { Util } from '../util/Util.js';
 
-/** Offsets in the VarsList for a RigidBody's variables. */
+/** Offsets in the {@link lab/model/VarsList.VarsList | VarsList}
+* for a {@link RigidBody}'s variables.
+*/
 export const enum RB {
   /** horizontal position */
   X_ = 0,
@@ -723,13 +725,16 @@ getCenterBody(p_body?: Vector): Vector;
 
 // *****************************  Connector  ************************************
 
-/** Connects RigidBody objects together or to some other object like a NumericalPath
-or Scrim; creates collisions and contacts to maintain the connection.
+/** Connects {@link RigidBody} objects together or to some other object like a
+{@link lab/model/NumericalPath.NumericalPath | NumericalPath}
+or {@link lab/engine2D/Scrim.Scrim | Scrim};
+creates collisions and contacts to maintain the connection.
 */
 export interface Connector extends SimObject {
 
-/** Add RigidBodyCollisions for this Connector to the list of collisions as necessary.
-@param collisions the list to which to add the RigidBodyCollision for this Connector.
+/** Adds RigidBodyCollisions for this Connector to an array of collisions.
+@param collisions the array of collisions to which to add the RigidBodyCollision for
+    this Connector.
 @param time  simulation time when this collision is detected
 @param accuracy distance accuracy: how close we must be to the point of
     collision in order to be able to handle it.

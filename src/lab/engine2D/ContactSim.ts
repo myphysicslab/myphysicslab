@@ -53,7 +53,7 @@ state of the simulation.
 
 + ParameterString named `EXTRA_ACCEL`, see {@link setExtraAccel}
 
-See also the super class for additional Parameters.
+See also the {@link ImpulseSim} super class for additional Parameters.
 
 # Background and References
 
@@ -71,10 +71,10 @@ See explanations at:
 
 The algorithm used here is based on these papers:
 
-+ David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies(../Baraff_Fast_Contact_Force_94.pdf).
++ David Baraff, [Fast Contact Force Computation for Nonpenetrating Rigid Bodies](../Baraff_Fast_Contact_Force_94.pdf).
 Computer Graphics Proceedings, Annual Conference Series, 1994; pages 23-34.
 
-+ David Baraff, [An Introduction to Physically Based Modeling: Rigid Body Simulation II—Nonpenetration Constraints.(../Baraff_Siggraph_97_Course_Notes.pdf)
++ David Baraff, [An Introduction to Physically Based Modeling: Rigid Body Simulation II—Nonpenetration Constraints](../Baraff_Siggraph_97_Course_Notes.pdf)
 Siggraph '97 Course Notes.
 
 See also the [list of David Baraff's papers](http://www-2.cs.cmu.edu/~baraff/papers/index.html).
@@ -243,7 +243,7 @@ The extra acceleration is added to the `b` vector in the private method
 explanations of the various options. See {@link setExtraAccel} for how to
 specify the desired ExtraAccel option.
 
-## Intermediate Steps During `evaluate`
+## Intermediate Steps During evaluate()
 
 A DiffEqSolver works by 'averaging' several calculated states for each time step; for
 example ModifiedEuler averages 2 states, and RungeKutta averages 4 states. The collision
@@ -1140,8 +1140,9 @@ to finding the subsets, so this can lose time when there is just a big single pi
 */
 static SUBSET_COLLISIONS = true;
 
-/** write to debug console detail on all contacts found */
+/** When `true`, write to debug console detail on all contacts found */
 static readonly SHOW_CONTACTS = false;
+/** When `true`, write to debug console number of contacts found */
 static readonly SHOW_NUM_CONTACTS = false;
 
 } // end class

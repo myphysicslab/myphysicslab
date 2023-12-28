@@ -46,7 +46,7 @@ can be and often is zero. The current time can be regarded as `getTime() + timeS
 The input variables correspond to the Simulation state at that time. Note that
 `timeStep` is different from the time step used to advance the Simulation (as in
 {@link lab/model/AdvanceStrategy.AdvanceStrategy.advance | AdvanceStrategy.advance}).
-The `timeStep` is typically used when finding collisions, see for example
+The `timeStep` is typically used when finding collisions in
 {@link lab/model/CollisionSim.CollisionSim.findCollisions | CollisionSim.findCollisions}.
 
 @param vars the current array of state variables (input),

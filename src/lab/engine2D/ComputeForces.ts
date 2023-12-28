@@ -16,7 +16,8 @@ import { Random } from '../util/Random.js';
 import { UtilEngine } from './UtilEngine.js';
 import { Util } from '../util/Util.js';
 
-/** Specifies the contact ordering policy: the order in which contacts are handled.
+/** Specifies the contact ordering policy: the order in which contacts are handled
+by {@link ComputeForces}.
 */
 export const enum NextContactPolicy {
   /** chooses the contact with the most negative acceleration, treating Joints first. 

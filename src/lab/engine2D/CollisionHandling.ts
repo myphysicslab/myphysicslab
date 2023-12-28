@@ -99,7 +99,7 @@ export const enum CollisionHandling {
   SERIAL_SEPARATE_LASTPASS = 'serial separate lastpass'
 };
 
-/** returns array of all CollisionHandling values */
+/** returns array of all {@link CollisionHandling} values */
 export function CollisionHandlingValues(): CollisionHandling[] {
   return [ 
       CollisionHandling.SIMULTANEOUS,
@@ -111,7 +111,8 @@ export function CollisionHandlingValues(): CollisionHandling[] {
     ];
 };
 
-/** returns array of all CollisionHandling enums translated to localized strings. */
+/** returns array of all {@link CollisionHandling} enums translated to localized
+strings. */
 export function CollisionHandlingChoices(): string[] {
   return [
       String(CollisionHandling.SIMULTANEOUS),

@@ -20,9 +20,9 @@ import { Simulation } from './Simulation.js'
 export interface CollisionSim<T extends Collision> extends ODESim, Simulation {
 
 /** Finds collisions based on the passed in state variables. Can rely on
-{@link ODESim.modifyObjects} having been called prior, with this
+{@link modifyObjects} having been called prior, with this
 set of state variables. Uses the state saved by
-{@link ODESim.saveState} as the 'before' state for comparison.
+{@link saveState} as the 'before' state for comparison.
 
 The list of collisions that are passed in can potentially have collisions from the
 near future that were found previously. The CollisionSim should avoid adding collisions
@@ -37,7 +37,7 @@ findCollisions(collisions: T[], vars: number[], stepSize: number): void;
 /** Adjusts the simulation state based on the given Collisions.
 For example, this might reverse the velocities of objects colliding against a wall.
 The simulation state is contained in the `vars` array of state variables from
-{@link ODESim.getVarsList}.
+{@link getVarsList}.
 
 Note that these Collisions will typically be from the very near future;
 {@link lab/model/CollisionAdvance.CollisionAdvance | CollisionAdvance}

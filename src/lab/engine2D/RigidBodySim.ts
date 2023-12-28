@@ -108,7 +108,7 @@ example, to find the angular velocity of a RigidBody:
 const idx = body.getVarsIndex();
 return vars[idx + RB.VW_];
 ```
-Variables at the beginning of the VariablesList:
+Variables at the beginning of the VarsList:
 
 + time
 + kinetic energy
@@ -139,8 +139,9 @@ export class RigidBodySim extends AbstractSubject implements Subject, Simulation
   protected simRect_: null|DoubleRect = null;
   /** The SimList holds SimObjects so they can be made visible. */
   protected simList_: SimList = new SimList();
-  /** The variables that determine the state of the simulation; there are six
-  * variables for each RigidBody, plus some others for time, energy, etc.
+  /** The [variables](./lab_engine2D_RigidBodySim.RigidBodySim.html#md:variables)
+  * that determine the state of the simulation; there are six variables
+  * for each RigidBody, plus some others for time, energy, etc.
   */
   protected varsList_: VarsList;
   private initialState_: number[]|null = null;
@@ -287,8 +288,8 @@ saveInitialState(): void {
 
 /** Removes all RigidBodys, ForceLaws, most Variables, and clears the SimList. This is
 used in applications to build a new configuration of RigidBodys. This should give
-essentially the same state that you would get from making a new RigidBodySim, except for
-parameters that have been changed.
+essentially the same state that you would get from making a new RigidBodySim, except
+for parameters (like gravity) that may have been changed.
 
 The alternative is to create a new RigidBodySim; that would be 'cleaner' but then you
 must unhook the old RigidBodySim from all the various user controls and graph and such,
@@ -568,8 +569,8 @@ evaluate(vars: number[], change: number[], _timeStep: number): null|object {
 
 /** Applies the Force by modifying the array representing rate of change of each
 * variable.  The Force specifies which RigidBody it works on so we can figure out
-* which variable rates to modify.  Adds the Force to the SimList with an immediate
-* expiration time.
+* which variable rates to modify.  If {@link showForces_} is `true`, adds the Force
+* to the SimList with an immediate expiration time.
 * @param change vector of rigid body accelerations
 * @param force the Force to be applied
 */

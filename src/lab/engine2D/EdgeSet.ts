@@ -31,7 +31,7 @@ contains(edge: Edge): boolean;
 
 // *****************************  EdgeRange  ************************************
 
-/** Specifies a set of Edges in a {@link RigidBody}. The Edges
+/** Specifies a set of {@link Edge}s in a {@link RigidBody}. The Edges
 must be contiguous in the list of Edges in the RigidBody. Edges are specified by their
 index in the list of Edges of the RigidBody.
 */
@@ -127,7 +127,7 @@ Util.defineGlobal('lab$engine2D$EdgeRange', EdgeRange);
 
 // *****************************  EdgeGroup  ************************************
 
-/** Specifies a set of {@link Edge}s in multiple RigidBodys.
+/** Specifies a set of {@link Edge}s in multiple {@link RigidBody}s.
 Edges are specified by {@link EdgeRange}s.
 */
 export class EdgeGroup implements EdgeSet {

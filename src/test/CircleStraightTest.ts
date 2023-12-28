@@ -388,9 +388,9 @@ is not being called for each collision.
 Another interesting variant of this is to have the block move at higher velocity,
 and use a small time step (like 0.0025) and set time rate to be slow (0.1) to watch it
 occur.
-<pre>
-  body1.setVelocity(new Vector(-3,  0),  6);
-</pre>
+
+    body1.setVelocity(new Vector(-3,  0),  6);
+
 @param sim
 @param advance
 */

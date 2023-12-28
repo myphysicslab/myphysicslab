@@ -16,7 +16,7 @@ import { RigidBodyCollision } from './RigidBody.js';
 import { Util } from '../util/Util.js';
 import { Edge, Vertex } from './RigidBody.js';
 
-/** A RigidBodyCollision between two corners.
+/** A {@link RigidBodyCollision} between two corner {@link Vertex}'s.
 */
 export class CornerCornerCollision extends RigidBodyCollision {
   /** the vertex of the primary object */

@@ -265,14 +265,14 @@ will provide notification of changes.
 */
 export interface Subject extends Printable {
 
-/** Adds the given Observer to the Subject's list of Observers, so that the Observer
+/** Adds the given Observer to this Subject's list of Observers, so that the Observer
 will be notified of changes in this Subject. An Observer may call `Subject.addObserver`
 during its `observe` method.
 @param observer the Observer to add
 */
 addObserver(observer: Observer): void;
 
-/** Notifies all Observers that the Subject has changed by calling
+/** Notifies all Observers that this Subject has changed by calling
 {@link Observer.observe | observe} on each Observer.
 
 An Observer may call {@link addObserver} or {@link removeObserver} during its `observe`
@@ -281,7 +281,7 @@ method.
 */
 broadcast(evt: SubjectEvent): void;
 
-/** Notifies all Observers that the Parameter with the given `name` has changed by
+/** Notifies all Observers that the Parameter with the given name has changed by
 calling {@link Observer.observe | observe} on each Observer.
 @param name the language-independent or English name of the Parameter
     that has changed
@@ -308,8 +308,7 @@ getObservers(): Observer[];
 getParameter(name: string): Parameter;
 
 /** Returns a copy of the list of this Subject's available Parameters.
-@return a copy of the list of
-        available Parameters for this Subject
+@return a copy of the list of available Parameters for this Subject
 */
 getParameters(): Parameter[];
 
@@ -334,7 +333,7 @@ getParameterNumber(name: string): ParameterNumber;
 */
 getParameterString(name: string): ParameterString;
 
-/** Removes the Observer from the Subject's list of Observers. An Observer may
+/** Removes the Observer from this Subject's list of Observers. An Observer may
 call `removeObserver` during its `observe` method.
 @param observer the Observer to detach from list of Observers
 */
