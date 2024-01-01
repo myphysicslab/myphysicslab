@@ -53,7 +53,7 @@ export class Timer {
 /**
 * @param opt_legacy turns on legacy mode, which uses the browser method
 *    `setTimeout` instead of `requestAnimationFrame`; default is `false`
-* @param opt_sysClock: a SystemClock to use for this Clock (optional)
+* @param opt_sysClock a SystemClock to use for this Clock (optional)
 */
 constructor(opt_legacy?: boolean,  opt_sysClock?: SystemClock) {
   this.sysClock_ = opt_sysClock || new StdSystemClock();

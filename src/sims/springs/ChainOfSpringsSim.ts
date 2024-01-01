@@ -143,7 +143,6 @@ private static makeVarNames(numAtoms: number, localized: boolean): string[] {
 
 /**
 * @param idx
-* @param numAtoms
 * @param loc
 */
 private static getVariableName(idx: number, loc: boolean): string {

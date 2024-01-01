@@ -74,7 +74,7 @@ export class TimeGraph2 implements Graph, SubjectList, Printable {
 * @param graphCanvas the LabCanvas where the graph
 *   should appear
 * @param div_controls the HTML div where controls should be added
-* @param div_graph the HTML div where the graphCanvas is located
+* @param _div_graph the HTML div where the graphCanvas is located
 * @param simRun the SimRunner controlling the
 *   overall app
 */

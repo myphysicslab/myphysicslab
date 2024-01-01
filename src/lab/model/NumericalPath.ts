@@ -677,7 +677,7 @@ a4 = (y4 - y1 - a2(x4-x1) - a3(x4-x1)(x4-x2))/((x4-x1)(x4-x2)(x4-x3))
 @param yy array of y-values
 @param x the x value for which we want to find the corresponding y-value
 @param k the index into the arrays where to get the 4 array values
-@param closedLoop true when the array wraps around at the end points
+@param _closedLoop true when the array wraps around at the end points
 @return the interpolated y-value corresponding to the requested x-value
 */
 private static interp4(xx: number[], yy: number[], x: number, k: number,

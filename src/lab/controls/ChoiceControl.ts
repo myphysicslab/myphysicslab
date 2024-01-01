@@ -177,7 +177,7 @@ getParameter(): null|Parameter {
 };
 
 /**
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private itemStateChanged(_event: Event) {
   if (this.selectMenu_.selectedIndex !== this.currentIndex_) {

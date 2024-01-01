@@ -95,7 +95,7 @@ getState(): boolean {
 };
 
 /** This callback fires when the button is clicked.
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private handleClick(_event: Event): void {
   this.setState(!this.state_);

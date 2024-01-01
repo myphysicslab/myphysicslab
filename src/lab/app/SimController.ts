@@ -376,7 +376,7 @@ private doMouseMove(mouseX: number, mouseY: number): void {
 };
 
 /** Callback for mouseUp event.
-@param evt the mouse up event that occurred
+@param _evt the mouse up event that occurred
 */
 private mouseUp(_evt: MouseEvent): void {
   const cvs = this.labCanvas_.getCanvas();
@@ -431,8 +431,7 @@ target is the LabCanvas, or when there is no specific target (`document.body` is
 event target in that case).
 @param evt the key down event that occurred
 */
-private keyPressed(e: KeyboardEvent): void {
-  const evt = e as KeyboardEvent;
+private keyPressed(evt: KeyboardEvent): void {
   if (evt.target == this.labCanvas_.getCanvas() || evt.target == document.body) {
     if (this.eventHandler_!=null) {
       if (Util.DEBUG && this.debug_) {
@@ -535,7 +534,7 @@ private touchMove(evt: TouchEvent) {
 
 /** Callback for touchEnd event. If a mouseDrag is happening, then process as a
 mouse-up event.
-@param evt the touch end event that occurred
+@param _evt the touch end event that occurred
 */
 private touchEnd(_evt: TouchEvent): void {
   if (this.mouseDrag_) {

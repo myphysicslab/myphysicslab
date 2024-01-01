@@ -1151,9 +1151,9 @@ private static largestVelocity(joint: boolean[], b: number[]): number {
 When we reach a point where there are no more collisions, then `focus = -1`.
 Part of the `handleCollisionsSerial` process.
 
-@param debugHCS turns on debug messages
+@param _debugHCS turns on debug messages
 @param small_velocity only handle collisions bigger than this
-@param loopCtr loop counter, number of times this method has been called
+@param _loopCtr loop counter, number of times this method has been called
 @param joint which contacts are joints
 @param b normal velocity at each contact
 @return index of focus collision, or -1 when all collisions are small

@@ -985,7 +985,7 @@ private hasRegex(q: regexPair): boolean {
 };
 
 /** This callback fires when the textbox 'changes' (usually from focus lost).
-* @param evt the event that caused this callback to fire
+* @param _evt the event that caused this callback to fire
 */
 private inputCallback(_evt: Event): void {
   if (this.term_input_) {

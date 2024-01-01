@@ -312,7 +312,7 @@ disconnect(): void {
 };
 
 /**
-* @param evt the event that caused this callback to fire
+* @param _evt the event that caused this callback to fire
 */
 private clickText(_evt: Event): void {
   if (this.firstClick_) {
@@ -323,7 +323,7 @@ private clickText(_evt: Event): void {
 };
 
 /**
-* @param evt the event that caused this callback to fire
+* @param _evt the event that caused this callback to fire
 */
 private clickSlider(_evt: Event): void {
   this.slider_.focus();
@@ -346,7 +346,7 @@ private formatTextField(): void {
 };
 
 /**
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private focusText(_event: Event): void {
   this.firstClick_ = true;
@@ -493,7 +493,7 @@ setValue(value: number): void {
 };
 
 /** Called when slider changes value.
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private changeSlider(_event: Event): void {
   const newValue = this.incrementToValue(Number(this.slider_.value));
@@ -504,7 +504,7 @@ private changeSlider(_event: Event): void {
 
 /** Checks that an entered number is a valid number, updates the double value
 * if valid, otherwise restores the old value.
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private validateText(_event: Event): void {
   // trim whitespace from start and end of string

@@ -213,7 +213,7 @@ export class Clock extends AbstractSubject implements Subject {
 
 /**
 * @param opt_name name of this Clock (optional)
-* @param opt_sysClock: a SystemClock to use for this Clock (optional)
+* @param opt_sysClock a SystemClock to use for this Clock (optional)
 */
 constructor(opt_name?: string, opt_sysClock?: SystemClock) {
   super(opt_name || 'CLOCK');
@@ -591,7 +591,7 @@ export class ClockTask {
 /**
 * @param time the clock time in seconds when the callBack should start
 * @param callBack the function to execute at the given clock time
-* @param opt_sysClock: a SystemClock to use for this Clock (optional)
+* @param opt_sysClock a SystemClock to use for this Clock (optional)
 */
 constructor(time: number, callBack: (()=>void) | null, opt_sysClock?: SystemClock) {
   this.sysClock_ = opt_sysClock || new StdSystemClock();

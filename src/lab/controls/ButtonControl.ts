@@ -104,14 +104,14 @@ getParameter(): null|Parameter {
 };
 
 /** This callback fires when the button is clicked.
-* @param evt the event that caused this callback to fire
+* @param _evt the event that caused this callback to fire
 */
 private handleClick(_evt: Event) {
   this.holdClick();
 };
 
 /** This callback fires when a mouseUp or dragLeave occurs on the button.
-* @param evt the event that caused this callback to fire
+* @param _evt the event that caused this callback to fire
 */
 private handleMouseUp(_evt: Event) {
   if (this.timeoutID_ !== undefined) {

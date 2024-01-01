@@ -956,7 +956,7 @@ private printJointDistance(): void {
 because they cannot participate in the chain of impulses that are passed between
 objects during serial collision handling. The removed collisions are added to the
 removed collisions array.
-@param allowTiny regard as close enough collisions that have smaller distance
+@param _allowTiny regard as close enough collisions that have smaller distance
     than distance accuracy would normally allow
 @return true if any collisions were removed
 */

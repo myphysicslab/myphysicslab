@@ -641,13 +641,12 @@ myPrint(message: string, ...colors: string[]): void {
   console.log.apply(console, args);
 };
 
-/** Sets the elasticity of all RigidBodys to this value. Elasticity is used when
-calculating collisions; a value of 1.0 means perfectly elastic where the kinetic energy
-after collision is the same as before (extremely bouncy), while a value of 0 means no
-elasticity (no bounce).
+/** Sets the {@link RigidBody.setElasticity | elasticity of all RigidBodys} to this
+value. Elasticity is used when calculating collisions; a value of 1.0 means perfectly
+elastic where the kinetic energy after collision is the same as before (extremely
+bouncy), while a value of 0 means no elasticity (no bounce).
 
-Broadcasts a 'ELASTICITY_SET' event.
-See {@link RigidBody.setElasticity}.
+Broadcasts an 'ELASTICITY_SET' event.
 @param value elasticity to set on all RigidBodys, a number from 0 to 1.
 @throws if there are no RigidBodys
 */

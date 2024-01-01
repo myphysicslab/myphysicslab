@@ -114,7 +114,7 @@ disconnect() {
 };
 
 /**
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private doClick(_event: Event): void {
   if (this.firstClick_) {
@@ -133,7 +133,7 @@ private formatTextField(): void {
 };
 
 /**
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private gainFocus(_event: Event): void {
   this.firstClick_ = true;
@@ -222,7 +222,7 @@ setValue(value: string): void {
 
 /** Checks that an entered number is a valid number, updates the target value
 * if valid; if an exception occurs then shows an alert and restores the old value.
-* @param event the event that caused this callback to fire
+* @param _event the event that caused this callback to fire
 */
 private validate(_event: Event): void {
   // trim whitespace from start and end of string
