@@ -19,7 +19,7 @@ import { GenericEvent, ParameterNumber, Subject } from "./Observe.js";
 // *************************** SystemClock **************************
 
 /** Defines interface for a system clock. This enables us to instead use
-* a {@link test/MockClock.MockClock} for testing.
+* a {@link test/MockClock.MockClock | MockClock} for testing.
 */
 export interface SystemClock {
   /** Returns the current time as given by the system clock, in seconds.
@@ -54,7 +54,7 @@ export interface SystemClock {
 // *************************** StdSystemClock **************************
 
 /** The SystemClock that gives real time and schedules callbacks.  As opposed to the
-{@link test/MockClock.MockClock} that is used for testing.
+{@link test/MockClock.MockClock | MockClock} that is used for testing.
 */
 export class StdSystemClock implements SystemClock {
   constructor() {};
